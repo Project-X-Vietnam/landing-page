@@ -8,10 +8,10 @@ export default function Form() {
     <form>
         {/* Section 1 - General Information */}
         <div 
-            className="space-y-6 my-8 p-12 rounded-3xl bg-[linear-gradient(to_bottom_right,rgba(78,217,254,0.04),rgba(15,87,250,0.04))]"
+            className="space-y-6 my-8 p-12 rounded-3xl bg-[linear-gradient(to_bottom_right,rgba(78,217,254,0.05),rgba(15,87,250,0.05))]"
         >
             <div className="flex justify-center items-center w-full">
-                <h2 className="text-2xl  font-bold text-primary">Section 1 - General Information</h2>
+                <h2 className="text-2xl font-bold text-primary">Section 1 - General Information</h2>
             </div>
             
             {/* Full Name */}
@@ -157,7 +157,7 @@ export default function Form() {
         </div>
 
         {/* Section 2 - Personal Goals */}
-        <div className="space-y-6 my-8 p-12 rounded-3xl bg-[linear-gradient(to_bottom_right,rgba(78,217,254,0.04),rgba(15,87,250,0.04))]" >
+        <div className="space-y-6 my-8 p-12 rounded-3xl bg-[linear-gradient(to_bottom_right,rgba(78,217,254,0.05),rgba(15,87,250,0.05))]" >
             <div className="flex justify-center items-center w-full">
                 <h2 className="text-2xl  font-bold text-primary text-center w-full">Section 2 - Personal Goals</h2>
             </div>
