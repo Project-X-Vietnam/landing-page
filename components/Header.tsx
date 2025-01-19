@@ -89,6 +89,7 @@ export default function Header() {
                     rel="noopener noreferrer"
                   >
                     <Button 
+                      asChild
                       variant="outline" 
                       className="text-white border-white px-6 py-3 sm:px-10 sm:py-6 text-sm sm:text-lg font-bold rounded-lg border-2 hover:text-primary hover:bg-white"
                     >
@@ -119,6 +120,7 @@ export default function Header() {
                     rel="noopener noreferrer"
                   >
                     <Button 
+                      asChild
                       variant="outline" 
                       className="text-white border-white px-6 py-3 sm:px-10 sm:py-6 text-sm sm:text-lg font-bold rounded-lg border-2 hover:text-primary hover:bg-white"
                     >
