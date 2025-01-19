@@ -5,17 +5,21 @@ import { Toaster } from "sonner";
 export const metadata: Metadata = {
   title: "Project X",
   description: "Summer Fellowship Program",
-  images: [
-    {
-      url: 'https://yourwebsite.com/images/og-image.png',
+  openGraph: {
+    title: 'Project X Vietnam',
+    description: 'Join the Summer Fellowship Program 2025 with Project X Vietnam.',
+    images: [
+      {
+      url: '/preview_icon.png',
       width: 1131,
       height: 500,
       alt: 'Project X Vietnam',
-    },
-  ],
+      },
+    ],
+    url: 'https://projectxvietnam.com',
+    type: 'website'
+  },
   icons: { icon: "/favicon.svg" },
-  url: 'https://projectxvietnam.com',
-  type: 'website'
 };
 
 export default function RootLayout({
