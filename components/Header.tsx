@@ -82,9 +82,19 @@ export default function Header() {
           <div className="mt-6 flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
             {isMobile ? (
               <>
-                <Button variant="outline" className="text-white border-white px-6 py-3 sm:px-10 sm:py-6 text-sm sm:text-lg font-bold rounded-lg border-2 hover:text-primary hover:bg-white">
-                  Learn More
-                </Button>
+                <a 
+                  href="https://bit.ly/pjxvn-sfp2025" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-block flex flex-col"
+                >
+                  <Button 
+                    variant="outline" 
+                    className="text-white border-white px-6 py-3 sm:px-10 sm:py-6 text-sm sm:text-lg font-bold rounded-lg border-2 hover:text-primary hover:bg-white"
+                  >
+                    Learn More
+                  </Button>
+                </a>
                 <div className="flex flex-col">
                   <Button className="bg-white text-primary px-6 py-3 sm:px-10 sm:py-6 text-sm sm:text-lg font-bold rounded-lg border-2 border-white hover:text-primary hover:bg-white">
                     Apply Below
@@ -100,9 +110,19 @@ export default function Header() {
                   </Button>
                   <ArrowIcons />
                 </div>
-                <Button variant="outline" className="text-white border-white px-6 py-3 sm:px-10 sm:py-6 text-sm sm:text-lg font-bold rounded-lg border-2 hover:text-primary hover:bg-white">
-                  Learn More
-                </Button>
+                <a 
+                  href="https://bit.ly/pjxvn-sfp2025" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-block"
+                >
+                  <Button 
+                    variant="outline" 
+                    className="text-white border-white px-6 py-3 sm:px-10 sm:py-6 text-sm sm:text-lg font-bold rounded-lg border-2 hover:text-primary hover:bg-white"
+                  >
+                    Learn More
+                  </Button>
+                </a>
               </>
             )}
           </div>
