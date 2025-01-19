@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 export const metadata: Metadata = {
   title: "Project X",
   description: "Summer Fellowship Program",
+  icons: { icon: "/favicon.svg" }
 };
 
 export default function RootLayout({
