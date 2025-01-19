@@ -355,7 +355,7 @@ export default function Form() {
             required
           />
           <p className="text-xs md:text-sm text-subtitle mt-1">
-            Please upload your CV/Resume in PDF format
+            Please upload your CV/Resume in PDF format. Make sure the file size is under 20MB.
           </p>
         </div>
 

@@ -83,7 +83,7 @@ export default function Header() {
             {isMobile ? (
               <>
                 <a 
-                  href="https://bit.ly/pjxvn-sfp2025" 
+                  href="https://bit.ly/pjx-sfp2025-brochure" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-block flex flex-col"
@@ -111,7 +111,7 @@ export default function Header() {
                   <ArrowIcons />
                 </div>
                 <a 
-                  href="https://bit.ly/pjxvn-sfp2025" 
+                  href="https://bit.ly/pjx-sfp2025-brochure" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-block"
