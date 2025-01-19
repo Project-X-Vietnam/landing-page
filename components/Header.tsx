@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-
+//
 export default function Header() {
   const [timeRemaining, setTimeRemaining] = useState("");
   const [isMobile, setIsMobile] = useState(false);
