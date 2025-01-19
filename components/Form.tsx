@@ -6,6 +6,26 @@ import { uploadFile, submitFormData } from '@/lib/form-submission';
 import { toast } from "sonner";
 import { useState } from "react";
 
+// Định nghĩa kiểu dữ liệu cho formData
+interface ApplicationFormData {
+    name: string;
+    email: string;
+    phone: string;
+    location: string;
+    university: string;
+    grad_year: string;
+    major: string;
+    minor: string;
+    gpa: string;
+    open_q1: string;
+    open_q2: string;
+    open_q3: string;
+    note: string;
+    referral: string;
+    career_interest: string[];
+    intern_location: string[];
+  }
+
 export default function Form() {
   // State for selected areas of interest & locations
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
@@ -14,7 +34,7 @@ export default function Form() {
   const [resumeFile, setResumeFile] = useState<File | null>(null);
 
   // Form data state
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ApplicationFormData>({
     name: '',
     email: '',
     phone: '',
@@ -29,7 +49,10 @@ export default function Form() {
     open_q3: '',
     note: '',
     referral: '',
+    career_interest: [],
+    intern_location: [],
   });
+
 
   const options = [
     { id: "swe", label: "Software Engineering (SWE)" },
@@ -104,24 +127,35 @@ export default function Form() {
       // Upload file first
       const fileToken = await uploadFile(resumeFile, formData.name);
 
+    // Tạo ApplicationFormData object
+    const applicationData: ApplicationFormData = {
+      ...formData,
+      career_interest: selectedOptions.map(id =>
+        options.find(opt => opt.id === id)?.label || ''
+      ),
+      intern_location: selectedLocations.map(id =>
+        locations.find(loc => loc.id === id)?.label || ''
+      ),
+    };
+
+    const formDataToSubmit = new FormData();
+    Object.entries(applicationData).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        // Xử lý các trường array
+        value.forEach((item) => {
+          formDataToSubmit.append(`${key}[]`, item);
+        });
+      } else {
+        formDataToSubmit.append(key, value);
+      }
+    });
+
       // Then submit form data
-      const success = await submitFormData(
-        {
-          ...formData,
-          career_interest: selectedOptions.map(id =>
-            options.find(opt => opt.id === id)?.label || ''
-          ),
-          intern_location: selectedLocations.map(id =>
-            locations.find(loc => loc.id === id)?.label || ''
-          ),
-          resume: resumeFile,
-        },
-        fileToken
-      );
+      const success = await submitFormData(formDataToSubmit, fileToken);
 
       if (success) {
         toast.success("Application submitted successfully!");
-        // Optional: Reset form
+        // Reset form
         setFormData({
           name: '',
           email: '',
@@ -137,6 +171,8 @@ export default function Form() {
           open_q3: '',
           note: '',
           referral: '',
+          career_interest: [],
+          intern_location: [],
         });
         setSelectedOptions([]);
         setSelectedLocations([]);

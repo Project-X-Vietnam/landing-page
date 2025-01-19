@@ -31,33 +31,32 @@ export async function uploadFile(file: File, fullName: string): Promise<string> 
   export async function submitFormData(formData: FormData, fileToken: string): Promise<boolean> {
     try {
       const payload = {
-        fields: {
-          "Submitted on": Date.now(),
-          "career_interest": formData.career_interest || [],
-          "email": formData.email,
-          "gpa": formData.gpa,
-          "grad_year": formData.grad_year,
-          "intern_location": formData.intern_location || [],
-          "location": formData.location,
-          "major": formData.major,
-          "minor": formData.minor,
-          "name": formData.name,
-          "note": formData.note || "",
-          "open_q1": formData.open_q1,
-          "open_q2": formData.open_q2,
-          "open_q3": formData.open_q3,
-          "phone": formData.phone,
-          "referral": formData.referral || "",
-          "resume": [
-            {
-              "file_token": fileToken,
-              "name": `${formData.name}_${Math.floor(Date.now() / 1000)}.pdf`
+            fields: {
+              "career_interest": formData.getAll('career_interest[]') || [],
+              "intern_location": formData.getAll('intern_location[]') || [],
+              "email": formData.get('email') || "",
+              "gpa": formData.get('gpa') || "",
+              "grad_year": formData.get('grad_year') || "",
+              "location": formData.get('location') || "",
+              "major": formData.get('major') || "",
+              "minor": formData.get('minor') || "",
+              "name": formData.get('name') || "",
+              "note": formData.get('note') || "",
+              "open_q1": formData.get('open_q1') || "",
+              "open_q2": formData.get('open_q2') || "",
+              "open_q3": formData.get('open_q3') || "",
+              "phone": formData.get('phone') || "",
+              "referral": formData.get('referral') || "",
+              "resume": [
+                {
+                  "file_token": fileToken,
+                  "name": `${formData.get('name')}_${Math.floor(Date.now() / 1000)}.pdf`
+                }
+              ],
+              "source": formData.get('referral') ? ["Referral"] : ["Other"],
+              "university": formData.get('university') || "",
             }
-          ],
-          "source": formData.referral ? ["Referral"] : ["Other"],
-          "university": formData.university,
-        }
-      };
+          };
 
       const response = await fetch('/api/lark/submit', {
         method: 'POST',
