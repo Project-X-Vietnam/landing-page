@@ -53,7 +53,7 @@ export async function uploadFile(file: File, fullName: string): Promise<string> 
                   "name": `${formData.get('name')}_${Math.floor(Date.now() / 1000)}.pdf`
                 }
               ],
-              "source": formData.get('referral') ? ["Referral"] : ["Other"],
+              "source": formData.getAll('source[]') || [],
               "university": formData.get('university') || "",
             }
           };

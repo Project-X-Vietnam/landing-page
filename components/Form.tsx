@@ -24,12 +24,14 @@ interface ApplicationFormData {
     referral: string;
     career_interest: string[];
     intern_location: string[];
+    source: string[];
   }
 
 export default function Form() {
   // State for selected areas of interest & locations
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
+  const [selectedSources, setSelectedSources] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
 
@@ -51,6 +53,7 @@ export default function Form() {
     referral: '',
     career_interest: [],
     intern_location: [],
+    source: [],
   });
 
 
@@ -77,6 +80,16 @@ export default function Form() {
     { id: "remote", label: "Remote" },
   ];
 
+  const sources = [
+    "Social Media",
+    "Email Marketing",
+    "Media Support & Partnership",
+    "KOL/KOC",
+    "Ambassador",
+    "Community",
+    "Referral",
+  ];
+
   const handleToggle = (id: string, type: string) => {
     if (type === "interest") {
       setSelectedOptions((prev) =>
@@ -85,6 +98,10 @@ export default function Form() {
     } else if (type === "location") {
       setSelectedLocations((prev) =>
         prev.includes(id) ? prev.filter((location) => location !== id) : [...prev, id]
+      );
+    } else if (type === "source") {
+      setSelectedSources((prev) =>
+        prev.includes(id) ? prev.filter((source) => source !== id) : [...prev, id]
       );
     }
   };
@@ -121,11 +138,16 @@ export default function Form() {
       return;
     }
 
+    if (selectedSources.length === 0) {
+      toast.error("Please select at least one source");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
       // Upload file first
-      const fileToken = await uploadFile(resumeFile, formData.name);
+    const fileToken = await uploadFile(resumeFile, formData.name);
 
     // Tạo ApplicationFormData object
     const applicationData: ApplicationFormData = {
@@ -136,18 +158,18 @@ export default function Form() {
       intern_location: selectedLocations.map(id =>
         locations.find(loc => loc.id === id)?.label || ''
       ),
+      source: selectedSources,
     };
 
     const formDataToSubmit = new FormData();
     Object.entries(applicationData).forEach(([key, value]) => {
-      if (Array.isArray(value)) {
-        // Xử lý các trường array
-        value.forEach((item) => {
-          formDataToSubmit.append(`${key}[]`, item);
-        });
-      } else {
-        formDataToSubmit.append(key, value);
-      }
+        if (Array.isArray(value)) {
+          value.forEach((item) => {
+            formDataToSubmit.append(`${key}[]`, item);
+          });
+        } else {
+          formDataToSubmit.append(key, value);
+        }
     });
 
       // Then submit form data
@@ -155,7 +177,6 @@ export default function Form() {
 
       if (success) {
         toast.success("Application submitted successfully!");
-        // Reset form
         setFormData({
           name: '',
           email: '',
@@ -173,9 +194,11 @@ export default function Form() {
           referral: '',
           career_interest: [],
           intern_location: [],
+          source: [],
         });
         setSelectedOptions([]);
         setSelectedLocations([]);
+        setSelectedSources([]);
         setResumeFile(null);
       } else {
         throw new Error("Form submission failed");
@@ -497,6 +520,33 @@ export default function Form() {
             className="text-sm"
           />
         </div>
+
+        {/* Source */}
+        <div>
+          <Label htmlFor="source">
+            Where have you heard about Project X Summer Fellowship Program from? <span className="text-red-500">*</span>
+          </Label>
+          <p className="text-xs md:text-sm text-subtitle mt-1">
+            Please select the source(s) that best apply to you.
+          </p>
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            {sources.map((source, index) => (
+              <button
+                key={index}
+                type="button"
+                className={`flex items-center justify-center border rounded-lg px-4 py-2 text-left text-xs md:text-sm transition-all ${
+                  selectedSources.includes(source)
+                    ? "bg-primary opacity-80 text-white border-primary"
+                    : "bg-white text-subtitle border-gray-400"
+                }`}
+                onClick={() => handleToggle(source, "source")}
+              >
+                {source}
+              </button>
+            ))}
+          </div>
+        </div>
+
       </div>
 
       {/* Submit Button */}
