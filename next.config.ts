@@ -4,13 +4,8 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: '/sfp2025',
-        destination: '/sfp2025/form',
-        permanent: true,
-      },
-      {
         source: '/',
-        destination: '/sfp2025/form',
+        destination: '/sfp2025',
         permanent: true,
       },
     ];
@@ -19,7 +14,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/sfp2025/form',
-        destination: '/',
+        destination: '/form',
       },
     ];
   },
