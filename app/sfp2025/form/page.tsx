@@ -10,7 +10,7 @@ export default function HomePage() {
       style={{ backgroundColor: 'rgba(78, 217, 254, 0.05)' }}
     >
       <Header />
-      <main className="py-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <main id="applicationForm" className="py-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-center items-center w-full my-4 pb-4 space-x-4">
           <img
             src="/images/asset1_primary.svg"

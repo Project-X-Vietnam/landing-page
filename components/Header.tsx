@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 //
 export default function Header() {
   const [timeRemaining, setTimeRemaining] = useState("");
   const [isMobile, setIsMobile] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleResize = () => {
@@ -96,19 +98,29 @@ export default function Header() {
                   </Button>
                 </a>
                 <div className="flex flex-col">
-                  <Button className="bg-white text-primary px-6 py-3 sm:px-10 sm:py-6 text-sm sm:text-lg font-bold rounded-lg border-2 border-white hover:text-primary hover:bg-white">
-                    Apply Below
+                  <Button  
+                    className="bg-white text-primary py-3 sm:px-10 sm:py-6 text-sm sm:text-lg font-bold rounded-lg border-2 border-white hover:text-primary hover:bg-white"
+                    href={pathname === "/sfp2025" ? "/sfp2025/form" : undefined}
+                    targetId={pathname === "/sfp2025" ? "applicationForm" : undefined}
+                    size = "lg"
+                  >
+                    {pathname === "/sfp2025" ? "Apply Now" : "Apply Below"}
                   </Button>
-                  <ArrowIcons />
+                  {pathname === "/sfp2025/form" && <ArrowIcons />}
                 </div>
               </>
             ) : (
               <>
                 <div>
-                  <Button className="bg-white text-primary px-6 py-3 sm:px-10 sm:py-6 text-sm sm:text-lg font-bold rounded-lg border-2 border-white hover:text-primary hover:bg-white">
-                    Apply Below
+                  <Button  
+                    className="bg-white text-primary px-6 py-3 sm:px-10 sm:py-6 text-sm sm:text-lg font-bold rounded-lg border-2 border-white hover:text-primary hover:bg-white"
+                    href={pathname === "/sfp2025" ? "/sfp2025/form" : undefined}
+                    targetId={pathname === "/sfp2025/form" ? "applicationForm" : undefined}
+                    size="lg"
+                  >                    
+                  {pathname === "/sfp2025" ? "Apply Now" : "Apply Below"}
                   </Button>
-                  <ArrowIcons />
+                  {pathname === "/sfp2025/form" && <ArrowIcons />}
                 </div>
                 <a
                   href="https://bit.ly/pjx-sfp2025-brochure"
