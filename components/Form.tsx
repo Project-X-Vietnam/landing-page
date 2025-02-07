@@ -72,6 +72,7 @@ export default function Form() {
     { id: "game", label: "Game Development" },
     { id: "hardware", label: "Hardware Engineering" },
     { id: "product-growth", label: "Product Growth (Business in Tech)" },
+    { id: "project-management", label: "Project Management" }
   ];
 
   const locations = [
