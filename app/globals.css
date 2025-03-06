@@ -152,3 +152,20 @@ body {
   animation: gradient-y 3s ease infinite;
 }
 
+/* Infinite scroll bar */
+.scroll-container {
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
+}
+.scroll-container::-webkit-scrollbar {
+  display: none; 
+}
+
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  width: 2px; /* Adjust width as needed */
+  background-color: #007bff; /* Primary color */
+  height: 0; /* Start with height 0 */
+  transition: height 0.5s ease; /* Smooth transition */
+}
