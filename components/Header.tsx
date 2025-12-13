@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 export default function Header() {
 	const [timeRemaining, setTimeRemaining] = useState("");
@@ -105,18 +106,22 @@ export default function Header() {
 									</Button>
 								</a>
 								<div className="flex flex-col">
-									<Button className="bg-white text-primary px-6 py-3 sm:px-10 sm:py-6 text-sm sm:text-lg font-bold rounded-lg border-2 border-white hover:text-primary hover:bg-white">
-										Apply Below
-									</Button>
+									<Link href="/recruitment2026">
+										<Button className="bg-white text-primary px-6 py-3 sm:px-10 sm:py-6 text-sm sm:text-lg font-bold rounded-lg border-2 border-white hover:text-primary hover:bg-white">
+											Apply Now
+										</Button>
+									</Link>
 									<ArrowIcons />
 								</div>
 							</>
 						) : (
 							<>
 								<div>
-									<Button className="bg-white text-primary px-6 py-3 sm:px-10 sm:py-6 text-sm sm:text-lg font-bold rounded-lg border-2 border-white hover:text-primary hover:bg-white">
-										Apply Below
-									</Button>
+									<Link href="/recruitment2026">
+										<Button className="bg-white text-primary px-6 py-3 sm:px-10 sm:py-6 text-sm sm:text-lg font-bold rounded-lg border-2 border-white hover:text-primary hover:bg-white">
+											Apply Now
+										</Button>
+									</Link>
 									<ArrowIcons />
 								</div>
 								<a
