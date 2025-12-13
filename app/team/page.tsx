@@ -173,6 +173,13 @@ export default function TeamPage() {
       image: "/images/team/tran-lam-minh-thu.jpg",
       cohort: "2025-2026",
     },
+    {
+      name: "Giang Le",
+      role: "Deputy Head of Operations",
+      linkedin: "https://www.linkedin.com/in/giang-l%C3%AA-79aa11151/",
+      image: "/images/team/giangle.jpg",
+      cohort: "2025-2026",
+    },
     // 2024-2025 Leadership
     {
       name: "Kelly Tran",
@@ -327,14 +334,19 @@ export default function TeamPage() {
   ];
 
   // Filter team members based on active filter
+  // When "all" is selected, deduplicate by name (keep first/most recent occurrence)
   const filteredMembers = activeFilter === "all"
-    ? teamMembers
+    ? teamMembers.filter((member, index, self) => 
+        self.findIndex(m => m.name === member.name) === index
+      )
     : teamMembers.filter((member) => member.cohort === activeFilter);
 
   // Filter leadership based on active filter
-  // When "all" is selected, show ALL leadership from ALL years
+  // When "all" is selected, deduplicate by name (keep first/most recent occurrence)
   const filteredLeadership = activeFilter === "all"
-    ? leadership
+    ? leadership.filter((member, index, self) => 
+        self.findIndex(m => m.name === member.name) === index
+      )
     : leadership.filter((member) => member.cohort === activeFilter);
 
   // Departments - different structure based on cohort
@@ -593,7 +605,7 @@ export default function TeamPage() {
 
               <div className="grid md:grid-cols-3 gap-6">
                 {filteredLeadership.map((member, i) => (
-                  <TeamMemberCard key={member.name} member={member} index={i} isDark={isDark} />
+                  <TeamMemberCard key={`${member.name}-${member.cohort}`} member={member} index={i} isDark={isDark} />
                 ))}
               </div>
             </div>
@@ -709,7 +721,7 @@ export default function TeamPage() {
               className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
             >
               {filteredMembers.map((member, i) => (
-                <TeamMemberCard key={member.name} member={member} index={i} isDark={isDark} />
+                <TeamMemberCard key={`${member.name}-${member.cohort}`} member={member} index={i} isDark={isDark} />
               ))}
             </motion.div>
           </AnimatePresence>
