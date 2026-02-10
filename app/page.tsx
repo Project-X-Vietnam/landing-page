@@ -1316,7 +1316,7 @@ export default function HomePage() {
                 role: "Fellow '23",
                 company: "Shopee",
                 type: "fellow",
-                image: "/images/team/giahung.jpg",
+                image: "/images/team/nguyenvugiahung.jpeg",
               },
               {
                 quote: "The quality of candidates from Project X is exceptional. Unlike typical interns, they come prepared with real project experience, strong mentorship backgrounds, and a genuine motivation to contribute from day one. We've hired multiple fellows and they consistently outperform expectations.",
