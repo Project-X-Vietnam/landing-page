@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://projectxvietnam.com"),
+  metadataBase: new URL("https://projectxvietnam.org"),
   title: "Project X Vietnam | Nurturing Vietnam's Next-Gen Tech Talent",
   description:
     "A high-impact tech fellowship bridging academic learning and real-world careers. Join 100+ industry mentors and become part of Vietnam's largest student-to-professional tech pipeline.",
@@ -31,7 +34,7 @@ export const metadata: Metadata = {
         alt: "Project X Vietnam - Summer Fellowship Program 2025",
       },
     ],
-    url: "https://projectxvietnam.com",
+    url: "https://projectxvietnam.org",
     type: "website",
     locale: "en_US",
     siteName: "Project X Vietnam",
@@ -64,6 +67,7 @@ export default function RootLayout({
       <body className="bg-white text-foreground antialiased font-primary">
         {children}
         <Toaster position="top-center" richColors />
+        {GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
       </body>
     </html>
   );

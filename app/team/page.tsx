@@ -180,6 +180,14 @@ export default function TeamPage() {
       image: "/images/team/giangle.jpg",
       cohort: "2025-2026",
     },
+    {
+      name: "Nguyen Vu Gia Hung",
+      role: "Head of Partnership",
+      linkedin: "http://linkedin.com/in/hungnguyenvg",
+      email: "hungnvg1.pjxvietnam@gmail.com",
+      image: "/images/team/nguyenvugiahung.jpeg",
+      cohort: "2025-2026",
+    },
     // 2024-2025 Leadership
     {
       name: "Kelly Tran",
@@ -243,7 +251,8 @@ export default function TeamPage() {
     {
       name: "Nguyen Gia Hung",
       role: "Deputy Head of Product & Tech",
-      image: "/images/team/giahung.jpg",
+      linkedin: "http://linkedin.com/in/hungnguyenvg",
+      image: "/images/team/nguyenvugiahung.jpeg",
       cohort: "2024-2025",
     },
     // 2023-2024 Leadership
