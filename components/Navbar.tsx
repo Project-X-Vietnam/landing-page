@@ -89,6 +89,7 @@ export default function Navbar({ isDark }: NavbarProps) {
             {[
               { label: "About", href: "/about" },
               { label: "Summer Fellowship", href: "/sfp" },
+              { label: "SFP 2026", href: "/sfp2026" },
               { label: "Mentors", href: "/mentors" },
               { label: "Partners", href: "/partners" },
               { label: "Our Team", href: "/team" },
