@@ -20,20 +20,16 @@ function trackSFP2026Event(eventName: string, params?: Record<string, unknown>) 
 }
 
 const COUNTDOWN_TARGET = new Date("2026-02-20T00:00:00Z");
-const ABOUT_TYPING_VARIANTS = ["Project X Vietnam", "Summer Fellowship Program"];
 
-const SECTION_IDS = ["impact", "about", "mission", "what-is-sfp", "partners", "roles", "journey", "testimonials", "faq", "cta"] as const;
+const SECTION_IDS = ["impact", "about", "partners", "roles", "journey", "testimonials", "faq"] as const;
 const SECTION_LABELS: Record<(typeof SECTION_IDS)[number], string> = {
-  impact: "Our Impact",
+  impact: "Impact",
   about: "About",
-  mission: "Our Mission",
-  "what-is-sfp": "What is SFP 2026?",
   partners: "Partners",
-  roles: "Roles & Domains",
-  journey: "Journey 2026",
-  testimonials: "How SFP Shapes Fellows",
-  faq: "FAQ",
-  cta: "Join Now",
+  roles: "Opportunities",
+  journey: "Timeline",
+  testimonials: "Testimonials",
+  faq: "FAQs",
 };
 
 function useDarkMode() {
@@ -106,20 +102,27 @@ function Countdown({ isDark }: { isDark: boolean }) {
     return () => clearInterval(id);
   }, []);
   return (
-    <div className="flex justify-center gap-3 sm:gap-6 mt-10">
-      {[
-        [d, "Days"],
-        [h, "Hours"],
-        [m, "Minutes"],
-        [s, "Seconds"],
-      ].map(([val, label]) => (
-        <div key={String(label)} className="text-center">
-          <div className="text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums min-w-[2.5rem] md:min-w-[3rem]">
-            {String(val).padStart(2, "0")}
-          </div>
-          <div className={`text-xs sm:text-sm font-medium mt-1 ${isDark ? "text-white/60" : "text-slate-500"}`}>{label}</div>
+    <div className="mt-10">
+      <p className={`text-center text-sm md:text-base font-medium mb-4 ${isDark ? "text-white/70" : "text-slate-600"}`}>
+        Application closes in
+      </p>
+      <div className={`p-6 md:p-8 rounded-3xl border backdrop-blur-xl max-w-lg mx-auto ${isDark ? "bg-white/10 border-white/20" : "bg-white/80 border-white shadow-lg"}`}>
+        <div className="flex justify-center gap-4 sm:gap-6 md:gap-8">
+          {[
+            [d, "Days"],
+            [h, "Hours"],
+            [m, "Minutes"],
+            [s, "Seconds"],
+          ].map(([val, label]) => (
+            <div key={String(label)} className="text-center">
+              <div className={`text-3xl sm:text-4xl md:text-5xl font-bold tabular-nums min-w-[3rem] md:min-w-[4rem] ${isDark ? "text-primary" : "text-primary"}`}>
+                {String(val).padStart(2, "0")}
+              </div>
+              <div className={`text-xs sm:text-sm font-medium mt-2 ${isDark ? "text-white/60" : "text-slate-600"}`}>{label}</div>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   );
 }
@@ -155,6 +158,8 @@ function AnimatedCounter({ value, suffix = "", duration = 2000 }: { value: numbe
 
 function StickySectionNav({ isDark }: { isDark: boolean }) {
   const [visible, setVisible] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([e]) => setVisible(e.boundingClientRect.top < 80),
@@ -164,13 +169,36 @@ function StickySectionNav({ isDark }: { isDark: boolean }) {
     if (el) observer.observe(el);
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = SECTION_IDS.map(id => {
+        const el = document.getElementById(id);
+        if (!el) return null;
+        const rect = el.getBoundingClientRect();
+        return { id, top: rect.top };
+      }).filter(Boolean);
+
+      const current = sections.find(s => s && s.top >= 0);
+      if (current) {
+        setActiveSection(current.id);
+      } else if (sections.length > 0) {
+        const last = sections[sections.length - 1];
+        if (last) setActiveSection(last.id);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   if (!visible) return null;
   return (
     <motion.nav
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className={`sticky top-0 z-40 py-3 px-4 md:px-8 backdrop-blur-xl border-b transition-colors ${
-        isDark ? "bg-[#020818]/70 border-white/10" : "bg-white/70 border-slate-200/50"
+      className={`fixed top-0 left-0 right-0 z-40 py-3 px-4 md:px-8 backdrop-blur-xl border-b transition-colors ${
+        isDark ? "bg-[#020818]/90 border-white/10" : "bg-white/90 border-slate-200/50"
       }`}
     >
       <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-center gap-2 md:gap-4">
@@ -178,10 +206,14 @@ function StickySectionNav({ isDark }: { isDark: boolean }) {
           <a
             key={id}
             href={`#${id}`}
-            className={`text-xs md:text-sm font-medium px-3 py-1.5 rounded-full transition-colors ${
-              isDark
-                ? "text-white/70 hover:text-primary hover:bg-white/10"
-                : "text-slate-600 hover:text-primary hover:bg-slate-100"
+            className={`text-xs md:text-sm font-medium px-3 py-1.5 rounded-full transition-all ${
+              activeSection === id
+                ? isDark
+                  ? "bg-primary/20 text-primary border border-primary/30"
+                  : "bg-primary/10 text-primary border border-primary/30"
+                : isDark
+                ? "text-white/50 hover:text-primary hover:bg-white/10"
+                : "text-slate-500 hover:text-primary hover:bg-slate-100"
             }`}
           >
             {SECTION_LABELS[id]}
@@ -210,32 +242,81 @@ export default function SFP2026Page() {
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [aboutTyped, setAboutTyped] = useState("");
+  const [showSFP, setShowSFP] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [missionCardIndex, setMissionCardIndex] = useState(0);
   const aboutRef = useRef<HTMLDivElement>(null);
-  const aboutInView = useInView(aboutRef, { once: true });
-  const aboutVariantIndex = useRef(0);
-  const aboutStarted = useRef(false);
+  const aboutInView = useInView(aboutRef, { once: false });
+  const missionRef = useRef<HTMLDivElement>(null);
+  const missionInView = useInView(missionRef, { once: true });
 
   useEffect(() => {
-    if (!aboutInView || aboutStarted.current) return;
-    aboutStarted.current = true;
-    const typeNext = () => {
-      const target = ABOUT_TYPING_VARIANTS[aboutVariantIndex.current % 2];
-      let i = 0;
-      const id = setInterval(() => {
-        if (i <= target.length) {
-          setAboutTyped(target.slice(0, i));
-          i++;
-        } else {
-          clearInterval(id);
-          aboutVariantIndex.current += 1;
-          setTimeout(() => {
-            setAboutTyped("");
-            if (aboutVariantIndex.current < 2) typeNext();
-          }, 3000);
-        }
-      }, 80);
+    // Initial typing effect
+    const targetText = "Project X Vietnam";
+    let i = 0;
+    const typeInterval = setInterval(() => {
+      if (i <= targetText.length) {
+        setAboutTyped(targetText.slice(0, i));
+        i++;
+      } else {
+        clearInterval(typeInterval);
+      }
+    }, 30);
+    return () => clearInterval(typeInterval);
+  }, []);
+
+  useEffect(() => {
+    let typeInterval: NodeJS.Timeout | null = null;
+    
+    const handleScroll = () => {
+      const aboutSection = document.getElementById("about");
+      if (!aboutSection) return;
+      const scrollY = window.scrollY;
+      const sectionTop = aboutSection.offsetTop;
+      const sectionHeight = aboutSection.offsetHeight;
+      const isInMiddle = scrollY > sectionTop + sectionHeight * 0.3;
+      
+      if (isInMiddle !== showSFP) {
+        setShowSFP(isInMiddle);
+        // Trigger re-typing when content changes
+        const targetText = isInMiddle ? "Summer Fellowship Program 2026" : "Project X Vietnam";
+        setAboutTyped("");
+        
+        if (typeInterval) clearInterval(typeInterval);
+        
+        let i = 0;
+        typeInterval = setInterval(() => {
+          if (i <= targetText.length) {
+            setAboutTyped(targetText.slice(0, i));
+            i++;
+          } else {
+            if (typeInterval) clearInterval(typeInterval);
+          }
+        }, 30);
+      }
     };
-    typeNext();
+    
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (typeInterval) clearInterval(typeInterval);
+    };
+  }, [showSFP]);
+
+  useEffect(() => {
+    if (!missionInView) return;
+    const interval = setInterval(() => {
+      setMissionCardIndex((prev) => (prev + 1) % 3);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [missionInView]);
+
+  useEffect(() => {
+    if (!aboutInView) return;
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % 4);
+    }, 3500);
+    return () => clearInterval(interval);
   }, [aboutInView]);
 
   const testimonials = [
@@ -256,10 +337,10 @@ export default function SFP2026Page() {
   ];
 
   const journeySteps = [
-    { date: "—", title: "Round 1", desc: "Selection and screening." },
-    { date: "—", title: "Round 2", desc: "Evaluation and interviews." },
-    { date: "—", title: "Internship Application", desc: "Matching with partner companies." },
-    { date: "—", title: "SFP 2026", desc: "Summer Fellowship Program and professional development." },
+    { date: "20/02 - 13/03", title: "Official Application", desc: "Application period opens for Project X Summer Fellowship Program 2026." },
+    { date: "16/03 - 28/03", title: "Round 1", desc: "Selection and screening of all applications." },
+    { date: "30/03 - 25/04", title: "Round 2", desc: "Final evaluation and interviews." },
+    { date: "09/07 - 22/08", title: "SFP 2026", desc: "Summer Fellowship Program with internships and professional development." },
   ];
 
   const impactStats = [
@@ -282,13 +363,6 @@ export default function SFP2026Page() {
     { title: "Future-ready talent", desc: "Supporting the development of future-ready tech talent.", count: "" },
   ];
 
-  const mentorPlaceholders = [
-    { name: "Mentor A", title: "Senior Engineer, Google" },
-    { name: "Mentor B", title: "PM, Meta" },
-    { name: "Mentor C", title: "Data Scientist, VNG" },
-    { name: "Mentor D", title: "Designer, MoMo" },
-  ];
-
   const rolesList = [
     "Software Engineering",
     "Data Analytics & Data Science",
@@ -303,12 +377,12 @@ export default function SFP2026Page() {
   ];
 
   return (
-    <main className={`min-h-screen overflow-x-hidden transition-colors duration-500 ${isDark ? "bg-[#020818]" : "bg-white"}`}>
+    <main className={`overflow-x-hidden transition-colors duration-500 scroll-smooth snap-y snap-mandatory h-screen overflow-y-scroll ${isDark ? "bg-[#020818]" : "bg-white"}`}>
       <DarkModeToggle isDark={isDark} toggle={toggle} />
       <Navbar isDark={isDark} />
 
       {/* Hero */}
-      <section className="relative min-h-[85vh] flex flex-col justify-center overflow-hidden pt-24 pb-16">
+      <section className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-24 pb-16 snap-start">
         <div className="absolute inset-0 overflow-hidden transition-all duration-500">
           {isDark ? (
             <>
@@ -376,170 +450,294 @@ export default function SFP2026Page() {
       <StickySectionNav isDark={isDark} />
 
       {/* Our Impact So Far */}
-      <section id="impact" className={`py-24 transition-colors duration-500 ${isDark ? "bg-[#0a0f1a]" : "bg-slate-50"}`}>
+      <section id="impact" className={`min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start ${isDark ? "bg-[#0a0f1a]" : "bg-slate-50"}`}>
         <div className="max-w-6xl mx-auto px-6 md:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
             <h2 className={`text-3xl md:text-4xl font-bold ${isDark ? "text-white" : "text-pxv-dark"}`}>Our Impact So Far</h2>
             <p className={`mt-4 max-w-2xl mx-auto ${isDark ? "text-white/60" : "text-slate-600"}`}>
-              Project X Summer Fellowship Program has grown into one of Vietnam&apos;s most impactful student-led tech initiatives—more than a summer program, it is a talent development ecosystem shaping the next generation of tech leaders.
+              Project X Summer Fellowship Program has grown into one of Vietnam&apos;s most impactful student-led tech initiatives - an integrated talent development ecosystem shaping the next generation of tech leaders.
             </p>
           </motion.div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
-            {impactStats.map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-                className={`p-6 rounded-2xl border text-center ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-100 shadow-sm"}`}
-              >
-                <div className={`text-2xl md:text-3xl font-bold ${isDark ? "text-white" : "text-pxv-dark"}`}>
-                  {stat.suffix === "%" ? `~${stat.value}${stat.suffix}` : <><AnimatedCounter value={stat.value} suffix={stat.suffix} /></>}
-                </div>
-                <p className={`text-sm font-medium mt-1 ${isDark ? "text-white/50" : "text-slate-500"}`}>{stat.label}</p>
-              </motion.div>
-            ))}
+          <div className="grid grid-cols-3 gap-6 w-fit">
+            {impactStats.map((stat, i) => {
+              const labelParts = stat.label.split(" in ");
+              return (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className={`px-8 py-8 rounded-2xl border flex flex-col justify-between items-start h-full ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-100 shadow-lg"}`}
+                >
+                  <div className="space-y-1 flex-1">
+                    {labelParts.map((part, idx) => (
+                      <p key={idx} className={`text-sm font-sm  ${isDark ? "text-white/70" : "text-slate-600"}`}>
+                        {part}
+                      </p>
+                    ))}
+                  </div>
+                  <div className={`text-6xl md:text-7xl font-bold mt-auto ${isDark ? "text-primary" : "text-primary"}`}>
+                    {stat.suffix === "%" ? `~${stat.value}${stat.suffix}` : <><AnimatedCounter value={stat.value} suffix={stat.suffix} /></>}
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* About Project X Vietnam */}
-      <section id="about" ref={aboutRef} className={`py-24 transition-colors duration-500 ${isDark ? "bg-[#020818]" : "bg-white"}`}>
+      <section id="about" ref={aboutRef} className={`min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start ${isDark ? "bg-[#020818]" : "bg-white"}`}>
         <div className="max-w-6xl mx-auto px-6 md:px-8">
+          <motion.h2 initial={{ opacity: 0, y: -10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className={`text-3xl md:text-4xl font-bold mb-12 text-center ${isDark ? "text-white" : "text-pxv-dark"}`}>
+            About {aboutTyped}<span className="inline-block w-0.5 h-8 bg-primary animate-pulse align-middle ml-1" />
+          </motion.h2>
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative aspect-[4/3] rounded-2xl bg-gradient-to-br from-primary/20 to-cyan-500/20 flex items-center justify-center overflow-hidden">
-              <Image src="/preview_icon.png" alt="Project X Vietnam" fill className="object-contain p-8" sizes="(max-width: 1024px) 100vw, 50vw" />
+            {/* Stacked Images */}
+            <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative h-96 md:h-[500px]">
+              {[0, 1, 2, 3].map((idx) => {
+                const isTop = idx === currentImageIndex;
+                const position = isTop ? 0 : (idx - currentImageIndex + 4) % 4;
+                const zIndex = isTop ? 30 : 20 - position;
+                const scale = isTop ? 1 : 1 - position * 0.15;
+                const offsetY = isTop ? 0 : position * 32;
+                const offsetX = isTop ? 0 : position * 24;
+                
+                return (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: isTop ? 1 : 0.85 }}
+                    transition={{ duration: 0.8, ease: "easeInOut" }}
+                    style={{
+                      position: "absolute",
+                      zIndex,
+                      transform: `translate(${offsetX}px, ${offsetY}px) scale(${scale})`,
+                    }}
+                    className={`w-full h-full rounded-2xl overflow-hidden border-2 ${
+                      isDark ? "border-white/20" : "border-slate-200"
+                    } ${isTop ? "" : isDark ? "grayscale brightness-75" : "grayscale brightness-85"}`}
+                  >
+                    <Image
+                      src="/preview_icon.png"
+                      alt="Project X Vietnam"
+                      fill
+                      className={`object-cover p-8 ${isTop ? "" : "blur-sm"}`}
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                  </motion.div>
+                );
+              })}
             </motion.div>
-            <div>
-              <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isDark ? "text-white" : "text-pxv-dark"}`}>
-                About {aboutTyped || " "}
-                <span className="inline-block w-0.5 h-8 bg-primary animate-pulse align-middle" />
-              </h2>
-              <p className={`${isDark ? "text-white/70" : "text-slate-600"} leading-relaxed`}>
-                Founded in 2022, Project X Vietnam is a non-profit organization dedicated to connecting young talents with companies across the Vietnamese tech ecosystem through our flagship initiative: <strong>Project X Summer Fellowship Program</strong>.
-              </p>
+
+            {/* Text Content */}
+            <div className="space-y-6">
+              <AnimatePresence mode="wait">
+                {!showSFP ? (
+                  <motion.div
+                    key="project-x"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                  >
+                    <p className={`text-base md:text-lg leading-relaxed ${isDark ? "text-white/70" : "text-slate-600"}`}>
+                      Founded in 2022, Project X Vietnam is a non-profit organization dedicated to connecting young talents with companies across the Vietnamese tech ecosystem through our flagship initiative: <strong>Project X Summer Fellowship Program</strong>.
+                    </p>
+                    <p className={`text-base md:text-lg leading-relaxed ${isDark ? "text-white/70" : "text-slate-600"}`}>
+                      We believe in empowering the next generation of tech professionals by providing them with mentorship, hands-on experience, and access to real-world opportunities that shape their careers.
+                    </p>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="sfp-2026"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                    className="space-y-4"
+                  >
+                    <p className={`text-base md:text-lg leading-relaxed ${isDark ? "text-white/70" : "text-slate-600"}`}>
+                      The Project X Summer Fellowship Program 2026 is a structured, summer-long journey designed to support students at different stages of their tech careers - not just through skills training, but through long-term growth.
+                    </p>
+                    <p className={`text-base md:text-lg leading-relaxed ${isDark ? "text-white/70" : "text-slate-600"}`}>
+                      More than a bridge between tech talents and companies, Project X is a career enabler - a place where you are empowered with the knowledge, mindset, and confidence to navigate the tech industry - even as it continues to evolve.
+                    </p>
+                    <p className={`text-base md:text-lg leading-relaxed ${isDark ? "text-white/70" : "text-slate-600"}`}>
+                      Through mentorship, hands-on learning, and a strong community, Project X helps you:
+                    </p>
+                    <ul className={`text-base md:text-lg leading-relaxed space-y-2 ${isDark ? "text-white/70" : "text-slate-600"}`}>
+                      <li>• Build a clear understanding of your role and direction within the tech ecosystem</li>
+                      <li>• Develop industry-ready skills, professional mindset, and personal brand</li>
+                      <li>• Grow alongside peers and mentors in a community where learning compounds</li>
+                      <li>• Form meaningful relationships that last beyond the program</li>
+                      <li>• Access real opportunities while continuing to grow</li>
+                    </ul>
+                    <p className={`text-base md:text-lg leading-relaxed font-medium ${isDark ? "text-white/90" : "text-slate-700"}`}>
+                      Project X is not just a summer experience—it is where careers begin to take shape.
+                    </p>
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="pt-4">
+                      <label htmlFor="sfp2026-updates" className={`block text-sm font-medium mb-2 ${isDark ? "text-white/70" : "text-slate-600"}`}>
+                        Get updates about SFP 2026
+                    </label>
+                    <div className="flex gap-2">
+                      <input
+                        id="sfp2026-updates"
+                        type="email"
+                        placeholder="Your email"
+                        onFocus={fireIntentEngagedOnce}
+                        onClick={fireIntentEngagedOnce}
+                        className={`flex-1 px-4 py-3 rounded-xl border text-sm ${isDark ? "bg-white/5 border-white/20 text-white placeholder:text-white/40" : "bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400"}`}
+                      />
+                      <Button className="bg-primary text-white rounded-xl px-6">Subscribe</Button>
+                    </div>
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </div>
       </section>
 
       {/* Our Mission */}
-      <section id="mission" className={`py-24 transition-colors duration-500 ${isDark ? "bg-[#0a0f1a]" : "bg-slate-50"}`}>
+      <section id="mission" ref={missionRef} className={`min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start ${isDark ? "bg-[#0a0f1a]" : "bg-slate-50"}`}>
         <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <h2 className={`text-3xl md:text-4xl font-bold mb-16 text-center ${isDark ? "text-white" : "text-pxv-dark"}`}>
+            Our Mission
+          </h2>
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
+            {/* Orbital Motion Graphics */}
             <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} className="flex justify-center">
-              <div className="relative w-64 h-64 md:w-80 md:h-80">
-                <div className="absolute inset-0 rounded-full border-2 border-primary/30" />
-                <motion.div className="absolute inset-4 rounded-full border-2 border-primary/50" animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} />
-                <motion.div className="absolute inset-8 rounded-full border-2 border-cyan-500/50" animate={{ rotate: -360 }} transition={{ duration: 15, repeat: Infinity, ease: "linear" }} />
+              <div className="relative w-72 h-72 md:w-96 md:h-96">
+                {/* Orbital rings with soft gray gradients */}
+                <motion.div
+                  className={`absolute inset-0 rounded-full border-2 ${isDark ? "border-gray-500/40" : "border-gray-400/40"}`}
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+                />
+                <motion.div
+                  className={`absolute inset-12 rounded-full border-2 ${isDark ? "border-gray-500/50" : "border-gray-400/50"}`}
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+                />
+                <motion.div
+                  className={`absolute inset-24 rounded-full border-2 ${isDark ? "border-gray-500/40" : "border-gray-400/40"}`}
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 42, repeat: Infinity, ease: "linear" }}
+                />
+                
+                {/* Center white starburst */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <Image src="/favicon.svg" alt="" width={80} height={80} />
+                  <div className={`w-20 h-20 rounded-full flex items-center justify-center ${isDark ? "bg-white/90 shadow-lg shadow-white/20" : "bg-white shadow-lg shadow-slate-400/30"}`}>
+                    <svg className={`w-12 h-12 ${isDark ? "text-slate-800" : "text-slate-600"}`} viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2L15.09 8.26H22L17.55 12.74L19.64 19L12 15.27L4.36 19L6.45 12.74L2 8.26H8.91L12 2Z" />
+                    </svg>
+                  </div>
                 </div>
-                {["Empower", "Nurture", "Support"].map((label, i) => {
-                  const angle = (i * 120 - 90) * (Math.PI / 180);
-                  const r = 110;
+
+                {/* Orbital icons and labels */}
+                {[
+                  { label: "Support", angle: -90, ring: 1, duration: 35 },
+                  { label: "Empower", angle: 30, ring: 2, duration: 28 },
+                  { label: "Nurture", angle: 150, ring: 3, duration: 42 },
+                ].map((item) => {
+                  const angleRad = (item.angle) * (Math.PI / 180);
+                  const radius = 70 + item.ring * 30;
+                  const x = radius * Math.cos(angleRad);
+                  const y = radius * Math.sin(angleRad);
                   return (
-                    <div
-                      key={label}
-                      className="absolute text-sm font-semibold text-primary"
-                      style={{ left: "50%", top: "50%", transform: `translate(calc(-50% + ${r * Math.cos(angle)}px), calc(-50% + ${r * Math.sin(angle)}px))` }}
+                    <motion.div
+                      key={item.label}
+                      className="absolute text-center"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: item.duration, repeat: Infinity, ease: "linear" }}
+                      style={{
+                        left: "50%",
+                        top: "50%",
+                        transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
+                      }}
                     >
-                      {label}
-                    </div>
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-2 ${isDark ? "bg-gray-600/40 border border-gray-500/60" : "bg-gray-300/40 border border-gray-400/60"}`}>
+                        <svg className={`w-6 h-6 ${isDark ? "text-gray-300" : "text-gray-600"}`} fill="currentColor" viewBox="0 0 20 20">
+                          <circle cx="10" cy="10" r="3" />
+                        </svg>
+                      </div>
+                      <div className={`text-xs font-semibold ${isDark ? "text-gray-300" : "text-gray-700"}`}>{item.label}</div>
+                    </motion.div>
                   );
                 })}
               </div>
             </motion.div>
-            <div className="space-y-6">
-              <h2 className={`text-3xl md:text-4xl font-bold ${isDark ? "text-white" : "text-pxv-dark"}`}>Our mission</h2>
-              {missionPillars.map((p, i) => (
-                <motion.div
-                  key={p.num}
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className={`p-6 rounded-2xl border ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-100 shadow-sm"}`}
-                >
-                  <span className="text-sm font-mono text-primary">{p.num}</span>
-                  <h3 className={`text-lg font-bold mt-1 ${isDark ? "text-white" : "text-pxv-dark"}`}>{p.title}</h3>
-                  <p className={`text-sm mt-2 ${isDark ? "text-white/60" : "text-slate-600"}`}>{p.text}</p>
-                </motion.div>
-              ))}
+            
+            {/* Stacked Mission Cards */}
+            <div className="relative space-y-0 h-fit">
+              <AnimatePresence mode="wait">
+                {missionPillars.map((p, idx) => {
+                  const isActive = idx === missionCardIndex;
+                  const position = isActive ? 0 : (idx - missionCardIndex + 3) % 3;
+                  const zIndex = isActive ? 30 : 20 - position;
+                  const scale = isActive ? 1 : 1 - position * 0.08;
+                  const offsetY = isActive ? 0 : position * 16;
+                  
+                  return (
+                    <motion.div
+                      key={p.num}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: isActive ? 1 : 0.8 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.5 }}
+                      style={{
+                        position: isActive ? "relative" : "absolute",
+                        zIndex,
+                        transform: isActive ? "scale(1)" : `translateY(${offsetY}px) scale(${scale})`,
+                      }}
+                      className={`w-full p-6 rounded-2xl border ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-100 shadow-sm"}`}
+                    >
+                      {/* Number behind card */}
+                      <div className={`absolute top-2 right-2 text-5xl md:text-6xl font-bold opacity-[0.15] ${isDark ? "text-white" : "text-slate-900"}`}>
+                        {p.num}
+                      </div>
+                      <div className="relative z-10">
+                        <h3 className={`text-xl md:text-2xl font-bold mb-2 ${isDark ? "text-white" : "text-pxv-dark"}`}>{p.title}</h3>
+                        <p className={`text-sm leading-relaxed ${isDark ? "text-white/70" : "text-slate-600"}`}>{p.text}</p>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
             </div>
           </div>
         </div>
       </section>
 
-      {/* What is the Project X Summer Fellowship Program 2026? */}
-      <section id="what-is-sfp" className={`py-24 transition-colors duration-500 ${isDark ? "bg-[#020818]" : "bg-white"}`}>
-        <div className="max-w-3xl mx-auto px-6 md:px-8">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className={`text-2xl md:text-3xl font-bold mb-6 ${isDark ? "text-white" : "text-pxv-dark"}`}
-          >
-            What is the Project X Summer Fellowship Program 2026?
-          </motion.h2>
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className={`space-y-4 text-base leading-relaxed ${isDark ? "text-white/80" : "text-slate-600"}`}
-          >
-            <p>
-              The Project X Summer Fellowship Program 2026 is a structured, summer-long journey designed to support students at different stages of their tech careers—not just through skills training, but through long-term growth.
-            </p>
-            <p>
-              More than a bridge between tech talents and companies, Project X is a career enabler—a place where you are empowered with the knowledge, mindset, and confidence to navigate the tech industry even as it continues to evolve.
-            </p>
-            <p>Through mentorship, hands-on learning, and a strong community, Project X helps you:</p>
-            <ul className="list-disc list-inside space-y-2 ml-2">
-              <li>Build a clear understanding of your role and direction within the tech ecosystem</li>
-              <li>Develop industry-ready skills, professional mindset, and personal brand</li>
-              <li>Grow alongside peers and mentors in a community where learning compounds</li>
-              <li>Form meaningful relationships that last beyond the program</li>
-              <li>Access real opportunities while continuing to grow even when no one is watching</li>
-            </ul>
-            <p>
-              Project X is not just a summer experience—it is where careers begin to take shape, and growth continues long after the program ends.
-            </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mt-8"
-          >
-            <label htmlFor="sfp2026-updates" className={`block text-sm font-medium mb-2 ${isDark ? "text-white/70" : "text-slate-600"}`}>
-              Get updates about SFP 2026
-            </label>
-            <input
-              id="sfp2026-updates"
-              type="email"
-              placeholder="Your email"
-              onFocus={fireIntentEngagedOnce}
-              onClick={fireIntentEngagedOnce}
-              className={`w-full max-w-md px-4 py-3 rounded-xl border text-sm ${isDark ? "bg-white/5 border-white/20 text-white placeholder:text-white/40" : "bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400"}`}
-            />
-          </motion.div>
-        </div>
-      </section>
-
       {/* Our Partners */}
-      <section id="partners" className={`py-24 transition-colors duration-500 ${isDark ? "bg-[#020818]" : "bg-white"}`}>
+      <section id="partners" className={`min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start ${isDark ? "bg-[#020818]" : "bg-white"}`}>
         <div className="max-w-6xl mx-auto px-6 md:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-            <h2 className={`text-3xl md:text-4xl font-bold ${isDark ? "text-white" : "text-pxv-dark"}`}>Our Partners</h2>
-            <p className={`mt-4 max-w-2xl mx-auto ${isDark ? "text-white/60" : "text-slate-600"}`}>
+            <h2 className={`text-3xl md:text-4xl font-bold mb-6 ${isDark ? "text-white" : "text-pxv-dark"}`}>Trusted by Multiple Partners</h2>
+            <p className={`text-base md:text-lg max-w-2xl mx-auto ${isDark ? "text-white/60" : "text-slate-600"}`}>
               Project X collaborates with a growing network of leading technology companies, startups, and innovation-driven organizations across Vietnam and globally.
             </p>
-            <p className={`mt-3 max-w-2xl mx-auto text-sm ${isDark ? "text-white/50" : "text-slate-500"}`}>
-              Our partners play a critical role in shaping the Fellowship experience by providing exclusive internship opportunities, participating in mentorship and workshops and company tours, and supporting the development of future-ready tech talent.
-            </p>
           </motion.div>
+
+          {/* Partner logos carousel */}
+          <div className="overflow-hidden mb-12">
+            <motion.div className="flex gap-8 py-6" animate={{ x: [0, -1200] }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }}>
+              {[...Array(3)].map((_, set) => (
+                <div key={set} className="flex gap-8 flex-shrink-0">
+                  {["PwC", "Partner", "Logo", "Tech Co", "Startup"].map((name, i) => (
+                    <div key={`${set}-${i}`} className={`w-28 h-16 rounded-lg flex items-center justify-center text-xs font-medium transition-all ${isDark ? "bg-white/10 text-white/70 hover:bg-white/20" : "bg-slate-100 text-slate-500 hover:bg-slate-200"}`}>
+                      {name}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Partner roles */}
           <div className="grid lg:grid-cols-3 gap-6 mb-12">
             {partnerRoles.map((card, i) => (
               <motion.div
@@ -550,74 +748,123 @@ export default function SFP2026Page() {
                 transition={{ delay: i * 0.1 }}
                 className={`p-6 rounded-2xl border ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-100 shadow-sm"}`}
               >
-                {card.count ? <div className="text-2xl font-bold text-primary">{card.count}</div> : null}
-                <h3 className={`font-bold ${card.count ? "mt-2" : ""} ${isDark ? "text-white" : "text-pxv-dark"}`}>{card.title}</h3>
-                <p className={`text-sm mt-1 ${isDark ? "text-white/60" : "text-slate-600"}`}>{card.desc}</p>
+                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-lg mb-4 ${isDark ? "bg-primary/20" : "bg-primary/10"}`}>
+                  {i === 0 && (
+                    <svg className="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M13 7H7v6h6V7z" />
+                    </svg>
+                  )}
+                  {i === 1 && (
+                    <svg className="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                  {i === 2 && (
+                    <svg className="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v1h8v-1zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-1a6 6 0 00-9-5.5A6 6 0 004 18v1h12z" />
+                    </svg>
+                  )}
+                </div>
+                <h3 className={`font-bold text-lg mb-2 ${isDark ? "text-white" : "text-pxv-dark"}`}>{card.title}</h3>
+                <p className={`text-sm ${isDark ? "text-white/60" : "text-slate-600"}`}>{card.desc}</p>
               </motion.div>
             ))}
           </div>
-          <div className="overflow-hidden">
-            <motion.div className="flex gap-8 py-4" animate={{ x: [0, -1200] }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }}>
-              {[...Array(3)].map((_, set) => (
-                <div key={set} className="flex gap-8 flex-shrink-0">
-                  {["PwC", "Partner", "Logo", "Tech Co", "Startup"].map((name, i) => (
-                    <div key={`${set}-${i}`} className={`w-24 h-12 rounded-lg flex items-center justify-center text-xs font-medium ${isDark ? "bg-white/10 text-white/70" : "bg-slate-100 text-slate-500"}`}>
-                      {name}
-                    </div>
-                  ))}
-                </div>
+
+          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className={`text-center mb-12 ${isDark ? "text-white/60" : "text-slate-600"}`}>
+            Our partners play a critical role in shaping the Fellowship experience by providing exclusive internship opportunities, participating in mentorship and workshops, and supporting the development of future-ready tech talent.
+          </motion.p>
+
+          {/* Mentors section */}
+          <div>
+            <h3 className={`text-2xl font-bold mb-8 text-center ${isDark ? "text-white" : "text-pxv-dark"}`}>Meet Our Top Mentors</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-4">
+              {[...Array(7)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="flex flex-col items-center text-center"
+                >
+                  <div className={`w-16 h-16 rounded-full mb-3 flex items-center justify-center text-sm font-semibold ${isDark ? "bg-white/10 text-white/70" : "bg-slate-200 text-slate-600"}`}>
+                    M{i + 1}
+                  </div>
+                  <p className={`text-xs font-semibold ${isDark ? "text-white/80" : "text-slate-700"}`}>Mentor {i + 1}</p>
+                  <p className={`text-xs ${isDark ? "text-white/50" : "text-slate-500"}`}>Engineer</p>
+                </motion.div>
               ))}
-            </motion.div>
-            <motion.div className="flex gap-8 py-4 mt-4" animate={{ x: [-1200, 0] }} transition={{ duration: 28, repeat: Infinity, ease: "linear" }}>
-              {[...Array(2)].map((_, set) => (
-                <div key={set} className="flex gap-8 flex-shrink-0">
-                  {mentorPlaceholders.map((m) => (
-                    <div key={`${m.name}-${set}`} className={`flex items-center gap-3 min-w-[200px] ${isDark ? "text-white/80" : "text-slate-700"}`}>
-                      <div className={`w-12 h-12 rounded-full flex-shrink-0 ${isDark ? "bg-white/20" : "bg-slate-200"}`} />
-                      <div>
-                        <div className="font-semibold text-sm">{m.name}</div>
-                        <div className="text-xs opacity-70">{m.title}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </motion.div>
+            </div>
+            <p className={`text-center text-sm ${isDark ? "text-white/50" : "text-slate-500"}`}>and many more mentors across diverse tech domains</p>
           </div>
-          <p className={`text-center mt-6 text-sm ${isDark ? "text-white/50" : "text-slate-500"}`}>
-            Through these partnerships, Project X ensures that every opportunity offered to fellows is industry-relevant, practical, and impactful.
-          </p>
         </div>
       </section>
 
       {/* Targeted Roles & Domains */}
-      <section id="roles" className={`py-24 transition-colors duration-500 ${isDark ? "bg-[#0a0f1a]" : "bg-slate-50"}`}>
+      <section id="roles" className={`min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start ${isDark ? "bg-[#0a0f1a]" : "bg-slate-50"}`}>
         <div className="max-w-6xl mx-auto px-6 md:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
-            <h2 className={`text-3xl md:text-4xl font-bold ${isDark ? "text-white" : "text-pxv-dark"}`}>Targeted Roles & Domains</h2>
-            <p className={`mt-4 max-w-2xl mx-auto ${isDark ? "text-white/60" : "text-slate-600"}`}>
-              We prepare fellows for roles across these tech domains. Major or background does NOT restrict eligibility. Whether you pursue deep technical expertise or business-driven tech roles, Project X offers a pathway tailored to your ambitions.
+            <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isDark ? "text-white" : "text-pxv-dark"}`}>Targeted Roles & Domains</h2>
+            <p className={`mt-4 max-w-2xl mx-auto text-base md:text-lg ${isDark ? "text-white/60" : "text-slate-600"}`}>
+              Project X Summer Fellowship Program 2026 supports a comprehensive range of tech and tech-related positions, including:
             </p>
           </motion.div>
-          <div className="flex flex-wrap justify-center gap-3">
-            {rolesList.map((role, i) => (
-              <motion.span
-                key={role}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-                className={`inline-flex px-5 py-2.5 rounded-full text-sm font-medium border ${isDark ? "bg-white/5 border-white/20 text-white/90" : "bg-white border-slate-200 text-slate-700"}`}
+
+          {/* Scrolling roles - Multi-line with alternating directions */}
+          <div className="space-y-6">
+            {/* Line 1 - Left to Right */}
+            <div className={`py-6 overflow-hidden rounded-2xl ${isDark ? "bg-white/5" : "bg-white/50"}`}>
+              <motion.div
+                className="flex gap-8 px-4"
+                animate={{ x: [0, -2400] }}
+                transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
               >
-                {role}
-              </motion.span>
-            ))}
+                {[...Array(3)].map((_, set) => (
+                  <div key={set} className="flex gap-8 flex-shrink-0">
+                    {rolesList.slice(0, Math.ceil(rolesList.length / 2)).map((role, i) => (
+                      <div key={`${set}-${i}`} className={`text-lg md:text-2xl font-semibold whitespace-nowrap transition-all ${isDark ? "text-white/80 hover:text-primary" : "text-slate-700 hover:text-primary"}`}>
+                        • {role}
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* Line 2 - Right to Left */}
+            <div className={`py-6 overflow-hidden rounded-2xl ${isDark ? "bg-white/5" : "bg-white/50"}`}>
+              <motion.div
+                className="flex gap-8 px-4"
+                animate={{ x: [-2400, 0] }}
+                transition={{ duration: 55, repeat: Infinity, ease: "linear" }}
+              >
+{[...Array(3)].map((_, set) => (
+                  <div key={set} className="flex gap-8 flex-shrink-0">
+                    {rolesList.slice(0, Math.ceil(rolesList.length / 2)).map((role, i) => (
+                      <div key={`${set}-${i}`} className={`text-lg md:text-2xl font-semibold whitespace-nowrap transition-all ${isDark ? "text-white/80 hover:text-primary" : "text-slate-700 hover:text-primary"}`}>
+                        • {role}
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </motion.div>
+            </div>
           </div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className={`text-center text-base md:text-lg ${isDark ? "text-white/70" : "text-slate-600"}`}
+          >
+            Whether you pursue deep technical expertise or business-driven tech roles, Project X Summer Fellowship Program 2026 offers a pathway tailored to your ambitions.
+          </motion.p>
         </div>
       </section>
 
       {/* The Fellowship Journey 2026 */}
-      <section id="journey" className={`py-24 transition-colors duration-500 ${isDark ? "bg-[#020818]" : "bg-white"}`}>
+      <section id="journey" className={`min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start ${isDark ? "bg-[#020818]" : "bg-white"}`}>
         <div className="max-w-4xl mx-auto px-6 md:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
             <h2 className={`text-3xl md:text-4xl font-bold ${isDark ? "text-white" : "text-pxv-dark"}`}>The Fellowship Journey 2026</h2>
@@ -650,74 +897,109 @@ export default function SFP2026Page() {
       </section>
 
       {/* How SFP Shapes Our Fellows */}
-      <section id="testimonials" className={`py-24 transition-colors duration-500 ${isDark ? "bg-[#0a0f1a]" : "bg-slate-50"}`}>
-        <div className="max-w-4xl mx-auto px-6 md:px-8">
+      <section id="testimonials" className={`min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start ${isDark ? "bg-[#0a0f1a]" : "bg-slate-50"}`}>
+        <div className="max-w-5xl mx-auto px-6 md:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-4"
+          >
+            <p className={`text-sm md:text-base font-medium ${isDark ? "text-white/60" : "text-slate-600"}`}>
+              HOW PROJECT X SUMMER FELLOWSHIP PROGRAM SHAPES OUR FELLOWS
+            </p>
+          </motion.div>
+
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className={`text-3xl md:text-4xl font-bold text-center ${isDark ? "text-white" : "text-pxv-dark"}`}
+            className={`text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4 ${isDark ? "text-white" : "text-pxv-dark"}`}
           >
-            How SFP Shapes Our Fellows
+            Not just skills, but a shift in how they see their future.
           </motion.h2>
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className={`mt-4 text-lg md:text-xl font-medium text-center ${isDark ? "text-white/80" : "text-slate-600"}`}
+            className={`text-center text-sm md:text-base mb-12 ${isDark ? "text-white/60" : "text-slate-600"}`}
           >
-            SFP is not about short-term training; it is about long-term transformation.
+            —Voices from our Fellows (Class of 2025)
           </motion.p>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className={`mt-6 text-xl md:text-2xl font-bold text-center italic ${isDark ? "text-white/90" : "text-pxv-dark"}`}
-          >
-            &ldquo;Not just work, but a world where they see their future.&rdquo;
-          </motion.p>
-          <div className="mt-12 relative">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={testimonialIndex}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-                className={`p-8 rounded-2xl border mx-auto max-w-lg ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-100 shadow-sm"}`}
-              >
-                <div className="flex items-center gap-4">
-                  <div className={`w-14 h-14 rounded-full flex-shrink-0 ${isDark ? "bg-white/20" : "bg-slate-200"}`} />
-                  <div>
-                    <div className={`font-bold ${isDark ? "text-white" : "text-pxv-dark"}`}>{testimonials[testimonialIndex].name}</div>
-                    <div className={`text-sm ${isDark ? "text-white/60" : "text-slate-500"}`}>{testimonials[testimonialIndex].role}</div>
-                  </div>
-                </div>
-                <p className={`mt-4 ${isDark ? "text-white/80" : "text-slate-600"}`}>{testimonials[testimonialIndex].quote}</p>
-              </motion.div>
-            </AnimatePresence>
-            <div className="flex justify-center gap-4 mt-6">
+
+          <div className="relative">
+            <div className="flex items-center justify-between gap-4">
               <button
                 onClick={() => setTestimonialIndex((i) => (i - 1 + testimonials.length) % testimonials.length)}
-                className={`p-2 rounded-full border ${isDark ? "border-white/20 hover:bg-white/10" : "border-slate-200 hover:bg-slate-100"}`}
+                className={`p-3 rounded-full border flex-shrink-0 z-10 ${isDark ? "border-white/20 hover:bg-white/10" : "border-slate-200 hover:bg-slate-100"}`}
                 aria-label="Previous"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
               </button>
+
+              <div className="flex-1 overflow-hidden">
+                <div className="flex items-center justify-center gap-4 md:gap-6">
+                  {[-1, 0, 1].map((offset) => {
+                    const idx = (testimonialIndex + offset + testimonials.length) % testimonials.length;
+                    const isCenter = offset === 0;
+                    return (
+                      <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                        animate={{ opacity: isCenter ? 1 : 0.4, scale: isCenter ? 1 : 0.8, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.9, y: -10 }}
+                        transition={{ duration: 0.6, ease: "easeInOut" }}
+                        className={`flex-shrink-0 transition-all ${isCenter ? "w-full max-w-md" : "hidden md:block md:max-w-sm"}`}
+                      >
+                        <div className={`p-8 rounded-2xl border h-full ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-100 shadow-sm"}`}>
+                          <div className="relative mb-6">
+                            <div className={`text-6xl font-bold ${isDark ? "text-white/10" : "text-slate-200"}`}>&ldquo;</div>
+                            <p className={`text-lg md:text-xl leading-relaxed -mt-4 ${isDark ? "text-white/90" : "text-slate-700"}`}>
+                              {testimonials[idx].quote}
+                            </p>
+                            <div className={`text-6xl font-bold text-right ${isDark ? "text-white/10" : "text-slate-200"}`}>&rdquo;</div>
+                          </div>
+                          <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor: isDark ? "rgba(255,255,255,0.1)" : "#e2e8f0" }}>
+                            <div className={`w-12 h-12 rounded-full flex-shrink-0 ${isDark ? "bg-white/20" : "bg-slate-200"}`} />
+                            <div>
+                              <div className={`font-bold text-sm ${isDark ? "text-white" : "text-pxv-dark"}`}>{testimonials[idx].name}</div>
+                              <div className={`text-xs ${isDark ? "text-white/60" : "text-slate-500"}`}>{testimonials[idx].role}</div>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </div>
+
               <button
                 onClick={() => setTestimonialIndex((i) => (i + 1) % testimonials.length)}
-                className={`p-2 rounded-full border ${isDark ? "border-white/20 hover:bg-white/10" : "border-slate-200 hover:bg-slate-100"}`}
+                className={`p-3 rounded-full border flex-shrink-0 z-10 ${isDark ? "border-white/20 hover:bg-white/10" : "border-slate-200 hover:bg-slate-100"}`}
                 aria-label="Next"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
               </button>
+            </div>
+
+            {/* Dots indicator */}
+            <div className="flex justify-center gap-2 mt-8">
+              {testimonials.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setTestimonialIndex(i)}
+                  className={`w-2 h-2 rounded-full transition-all ${i === testimonialIndex ? "bg-primary w-8" : isDark ? "bg-white/20" : "bg-slate-300"}`}
+                  aria-label={`Go to testimonial ${i + 1}`}
+                />
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section id="faq" className={`py-24 transition-colors duration-500 ${isDark ? "bg-[#020818]" : "bg-white"}`}>
+      <section id="faq" className={`min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start ${isDark ? "bg-[#020818]" : "bg-white"}`}>
         <div className="max-w-3xl mx-auto px-6 md:px-8">
           <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className={`text-3xl md:text-4xl font-bold text-center mb-12 ${isDark ? "text-white" : "text-pxv-dark"}`}>
             Frequently Asked Questions
