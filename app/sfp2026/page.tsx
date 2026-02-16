@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, useInView, AnimatePresence, animate, useMotionValue, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
@@ -21,16 +21,36 @@ function trackSFP2026Event(eventName: string, params?: Record<string, unknown>) 
 
 const COUNTDOWN_TARGET = new Date("2026-02-20T00:00:00Z");
 
-const SECTION_IDS = ["impact", "about", "partners", "roles", "journey", "testimonials", "faq"] as const;
+const SECTION_IDS = ["impact", "about-pjx", "about-sfp", "mission", "partners", "roles", "journey", "testimonials", "faq"] as const;
 const SECTION_LABELS: Record<(typeof SECTION_IDS)[number], string> = {
   impact: "Impact",
-  about: "About",
+  "about-pjx": "About PJX",
+  "about-sfp": "About SFP",
+  mission: "Mission",
   partners: "Partners",
   roles: "Opportunities",
   journey: "Timeline",
   testimonials: "Testimonials",
   faq: "FAQs",
 };
+
+function useTypingText(text: string, speed = 30) {
+  const [typed, setTyped] = useState("");
+  useEffect(() => {
+    let i = 0;
+    setTyped("");
+    const id = setInterval(() => {
+      if (i <= text.length) {
+        setTyped(text.slice(0, i));
+        i++;
+      } else {
+        clearInterval(id);
+      }
+    }, speed);
+    return () => clearInterval(id);
+  }, [text, speed]);
+  return typed;
+}
 
 function useDarkMode() {
   const [isDark, setIsDark] = useState(false);
@@ -58,9 +78,8 @@ function DarkModeToggle({ isDark, toggle }: { isDark: boolean; toggle: () => voi
       className="fixed bottom-6 right-6 z-50"
     >
       <div
-        className={`flex items-center gap-3 px-4 py-3 rounded-full backdrop-blur-xl shadow-lg border transition-all duration-300 ${
-          isDark ? "bg-white/10 border-white/20" : "bg-white border-slate-200 shadow-slate-200/50"
-        }`}
+        className={`flex items-center gap-3 px-4 py-3 rounded-full backdrop-blur-xl shadow-lg border transition-all duration-300 ${isDark ? "bg-white/10 border-white/20" : "bg-white border-slate-200 shadow-slate-200/50"
+          }`}
       >
         <svg className={`w-4 h-4 ${isDark ? "text-white/40" : "text-amber-500"}`} fill="currentColor" viewBox="0 0 20 20">
           <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
@@ -197,24 +216,22 @@ function StickySectionNav({ isDark }: { isDark: boolean }) {
     <motion.nav
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className={`fixed top-0 left-0 right-0 z-40 py-3 px-4 md:px-8 backdrop-blur-xl border-b transition-colors ${
-        isDark ? "bg-[#020818]/90 border-white/10" : "bg-white/90 border-slate-200/50"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-40 py-3 px-4 md:px-8 backdrop-blur-xl border-b transition-colors ${isDark ? "bg-[#020818]/90 border-white/10" : "bg-white/90 border-slate-200/50"
+        }`}
     >
       <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-center gap-2 md:gap-4">
         {SECTION_IDS.map((id) => (
           <a
             key={id}
             href={`#${id}`}
-            className={`text-xs md:text-sm font-medium px-3 py-1.5 rounded-full transition-all ${
-              activeSection === id
-                ? isDark
-                  ? "bg-primary/20 text-primary border border-primary/30"
-                  : "bg-primary/10 text-primary border border-primary/30"
-                : isDark
+            className={`text-xs md:text-sm font-medium px-3 py-1.5 rounded-full transition-all ${activeSection === id
+              ? isDark
+                ? "bg-primary/20 text-primary border border-primary/30"
+                : "bg-primary/10 text-primary border border-primary/30"
+              : isDark
                 ? "text-white/50 hover:text-primary hover:bg-white/10"
                 : "text-slate-500 hover:text-primary hover:bg-slate-100"
-            }`}
+              }`}
           >
             {SECTION_LABELS[id]}
           </a>
@@ -224,84 +241,40 @@ function StickySectionNav({ isDark }: { isDark: boolean }) {
   );
 }
 
-const INTENT_EVENT_KEY = "sfp2026_intent_engaged_sent";
-
-function fireIntentEngagedOnce() {
-  if (typeof window === "undefined") return;
-  try {
-    if (sessionStorage.getItem(INTENT_EVENT_KEY)) return;
-    sessionStorage.setItem(INTENT_EVENT_KEY, "1");
-    trackSFP2026Event("sfp2026_intent_engaged");
-  } catch {
-    // ignore
-  }
-}
-
 export default function SFP2026Page() {
   const { isDark, toggle } = useDarkMode();
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [aboutTyped, setAboutTyped] = useState("");
-  const [showSFP, setShowSFP] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const aboutPJXTyped = useTypingText("Project X Vietnam");
+  const aboutSFPTyped = useTypingText("Summer Fellowship Program 2026");
   const [missionCardIndex, setMissionCardIndex] = useState(0);
+  const [isOrbitalPaused, setIsOrbitalPaused] = useState(false);
+  const [hoveredPillar, setHoveredPillar] = useState<string | null>(null);
+  const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number } | null>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
-  const aboutInView = useInView(aboutRef, { once: false });
+  const orbitalRef = useRef<HTMLDivElement>(null);
   const missionRef = useRef<HTMLDivElement>(null);
   const missionInView = useInView(missionRef, { once: true });
+  const outerRotate = useMotionValue(0);
+  const middleRotate = useMotionValue(0);
+  const outerCounterRotate = useTransform(outerRotate, (v) => -v);
+  const middleCounterRotate = useTransform(middleRotate, (v) => -v);
+  const outerControls = useRef<ReturnType<typeof animate> | null>(null);
+  const middleControls = useRef<ReturnType<typeof animate> | null>(null);
 
   useEffect(() => {
-    // Initial typing effect
-    const targetText = "Project X Vietnam";
-    let i = 0;
-    const typeInterval = setInterval(() => {
-      if (i <= targetText.length) {
-        setAboutTyped(targetText.slice(0, i));
-        i++;
-      } else {
-        clearInterval(typeInterval);
-      }
-    }, 30);
-    return () => clearInterval(typeInterval);
-  }, []);
-
-  useEffect(() => {
-    let typeInterval: NodeJS.Timeout | null = null;
-    
-    const handleScroll = () => {
-      const aboutSection = document.getElementById("about");
-      if (!aboutSection) return;
-      const scrollY = window.scrollY;
-      const sectionTop = aboutSection.offsetTop;
-      const sectionHeight = aboutSection.offsetHeight;
-      const isInMiddle = scrollY > sectionTop + sectionHeight * 0.3;
-      
-      if (isInMiddle !== showSFP) {
-        setShowSFP(isInMiddle);
-        // Trigger re-typing when content changes
-        const targetText = isInMiddle ? "Summer Fellowship Program 2026" : "Project X Vietnam";
-        setAboutTyped("");
-        
-        if (typeInterval) clearInterval(typeInterval);
-        
-        let i = 0;
-        typeInterval = setInterval(() => {
-          if (i <= targetText.length) {
-            setAboutTyped(targetText.slice(0, i));
-            i++;
-          } else {
-            if (typeInterval) clearInterval(typeInterval);
-          }
-        }, 30);
-      }
-    };
-    
-    window.addEventListener("scroll", handleScroll);
+    if (isOrbitalPaused) {
+      outerControls.current?.stop();
+      middleControls.current?.stop();
+      return;
+    }
+    outerControls.current = animate(outerRotate, 360, { duration: 20, repeat: Infinity, ease: "linear" });
+    middleControls.current = animate(middleRotate, 360, { duration: 15, repeat: Infinity, ease: "linear" });
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (typeInterval) clearInterval(typeInterval);
+      outerControls.current?.stop();
+      middleControls.current?.stop();
     };
-  }, [showSFP]);
+  }, [isOrbitalPaused, outerRotate, middleRotate]);
 
   useEffect(() => {
     if (!missionInView) return;
@@ -310,14 +283,6 @@ export default function SFP2026Page() {
     }, 4000);
     return () => clearInterval(interval);
   }, [missionInView]);
-
-  useEffect(() => {
-    if (!aboutInView) return;
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % 4);
-    }, 3500);
-    return () => clearInterval(interval);
-  }, [aboutInView]);
 
   const testimonials = [
     { name: "Fellow 2024", role: "Product", quote: "Not just work, but a world where they see their future. That's what PJX gave me.", avatar: null },
@@ -375,6 +340,67 @@ export default function SFP2026Page() {
     "Game Development",
     "Adjacent tech-business roles",
   ];
+
+  {/* Stacked cards animation */ }
+  const rotatingCards = [
+    "Build a clear understanding of your role and direction within the tech ecosystem",
+    "Develop industry-ready skills, professional mindset, and personal brand",
+    "Grow alongside peers and mentors in a community where learning compounds",
+    "Form meaningful relationships that last beyond the program",
+    "Access real opportunities while continuing to grow even when no one is watching",
+  ];
+
+  const [activeCard, setActiveCard] = useState(0);
+  const [isRotating, setIsRotating] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  const rotatingRef = useRef<HTMLDivElement>(null);
+  const rotatingInView = useInView(rotatingRef, {
+    once: true,
+    amount: 0.3,
+  });
+
+  const rotationTimer = useRef<NodeJS.Timeout | null>(null);
+
+  const getStackPosition = (index: number) => {
+    return (index - activeCard + rotatingCards.length) % rotatingCards.length;
+  };
+
+  const rotateCards = () => {
+    if (isRotating) return;
+
+    setIsRotating(true);
+    setActiveCard((prev) => (prev + 1) % rotatingCards.length);
+
+    setTimeout(() => setIsRotating(false), 800);
+  };
+
+  const pauseRotation = () => {
+    if (rotationTimer.current) clearInterval(rotationTimer.current);
+  };
+
+  const resumeRotation = () => {
+    if (rotatingInView) {
+      rotationTimer.current = setInterval(rotateCards, 4000);
+    }
+  };
+
+  useEffect(() => {
+    if (!rotatingInView) return;
+
+    setHasAnimated(true);
+
+    const startDelay = setTimeout(() => {
+      rotateCards();
+      rotationTimer.current = setInterval(rotateCards, 4000);
+    }, 1500);
+
+    return () => {
+      clearTimeout(startDelay);
+      if (rotationTimer.current) clearInterval(rotationTimer.current);
+    };
+  }, [rotatingInView]);
+
 
   return (
     <main className={`overflow-x-hidden transition-colors duration-500 scroll-smooth snap-y snap-mandatory h-screen overflow-y-scroll ${isDark ? "bg-[#020818]" : "bg-white"}`}>
@@ -458,7 +484,7 @@ export default function SFP2026Page() {
               Project X Summer Fellowship Program has grown into one of Vietnam&apos;s most impactful student-led tech initiatives - an integrated talent development ecosystem shaping the next generation of tech leaders.
             </p>
           </motion.div>
-          <div className="grid grid-cols-3 gap-6 w-fit">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
             {impactStats.map((stat, i) => {
               const labelParts = stat.label.split(" in ");
               return (
@@ -468,7 +494,7 @@ export default function SFP2026Page() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
-                  className={`px-8 py-8 rounded-2xl border flex flex-col justify-between items-start h-full ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-100 shadow-lg"}`}
+                  className={`w-full max-w-[260px] px-8 py-8 rounded-2xl border flex flex-col justify-between items-start h-full ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-100 shadow-lg"}`}
                 >
                   <div className="space-y-1 flex-1">
                     {labelParts.map((part, idx) => (
@@ -488,119 +514,133 @@ export default function SFP2026Page() {
       </section>
 
       {/* About Project X Vietnam */}
-      <section id="about" ref={aboutRef} className={`min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start ${isDark ? "bg-[#020818]" : "bg-white"}`}>
+      <section id="about-pjx" ref={aboutRef} className={`min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start ${isDark ? "bg-[#020818]" : "bg-white"}`}>
         <div className="max-w-6xl mx-auto px-6 md:px-8">
-          <motion.h2 initial={{ opacity: 0, y: -10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className={`text-3xl md:text-4xl font-bold mb-12 text-center ${isDark ? "text-white" : "text-pxv-dark"}`}>
-            About {aboutTyped}<span className="inline-block w-0.5 h-8 bg-primary animate-pulse align-middle ml-1" />
+          <motion.h2
+            initial={{ opacity: 0, y: -10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className={`text-3xl md:text-4xl font-bold mb-16 text-left ${isDark ? "text-white" : "text-pxv-dark"}`}
+          >
+            <span>About</span>
+            <span className="mx-2 text-primary">|</span>
+            <span className="text-primary">{aboutPJXTyped}</span>
+            <span className="inline-block w-0.5 h-8 bg-primary animate-pulse align-middle ml-1" />
           </motion.h2>
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Stacked Images */}
-            <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative h-96 md:h-[500px]">
-              {[0, 1, 2, 3].map((idx) => {
-                const isTop = idx === currentImageIndex;
-                const position = isTop ? 0 : (idx - currentImageIndex + 4) % 4;
-                const zIndex = isTop ? 30 : 20 - position;
-                const scale = isTop ? 1 : 1 - position * 0.15;
-                const offsetY = isTop ? 0 : position * 32;
-                const offsetX = isTop ? 0 : position * 24;
-                
-                return (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: isTop ? 1 : 0.85 }}
-                    transition={{ duration: 0.8, ease: "easeInOut" }}
-                    style={{
-                      position: "absolute",
-                      zIndex,
-                      transform: `translate(${offsetX}px, ${offsetY}px) scale(${scale})`,
-                    }}
-                    className={`w-full h-full rounded-2xl overflow-hidden border-2 ${
-                      isDark ? "border-white/20" : "border-slate-200"
-                    } ${isTop ? "" : isDark ? "grayscale brightness-75" : "grayscale brightness-85"}`}
-                  >
-                    <Image
-                      src="/preview_icon.png"
-                      alt="Project X Vietnam"
-                      fill
-                      className={`object-cover p-8 ${isTop ? "" : "blur-sm"}`}
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                    />
-                  </motion.div>
-                );
-              })}
-            </motion.div>
-
-            {/* Text Content */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+            className="grid lg:grid-cols-2 gap-12 items-start"
+          >
             <div className="space-y-6">
-              <AnimatePresence mode="wait">
-                {!showSFP ? (
-                  <motion.div
-                    key="project-x"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.6, ease: "easeInOut" }}
-                  >
-                    <p className={`text-base md:text-lg leading-relaxed ${isDark ? "text-white/70" : "text-slate-600"}`}>
-                      Founded in 2022, Project X Vietnam is a non-profit organization dedicated to connecting young talents with companies across the Vietnamese tech ecosystem through our flagship initiative: <strong>Project X Summer Fellowship Program</strong>.
-                    </p>
-                    <p className={`text-base md:text-lg leading-relaxed ${isDark ? "text-white/70" : "text-slate-600"}`}>
-                      We believe in empowering the next generation of tech professionals by providing them with mentorship, hands-on experience, and access to real-world opportunities that shape their careers.
-                    </p>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="sfp-2026"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.6, ease: "easeInOut" }}
-                    className="space-y-4"
-                  >
-                    <p className={`text-base md:text-lg leading-relaxed ${isDark ? "text-white/70" : "text-slate-600"}`}>
-                      The Project X Summer Fellowship Program 2026 is a structured, summer-long journey designed to support students at different stages of their tech careers - not just through skills training, but through long-term growth.
-                    </p>
-                    <p className={`text-base md:text-lg leading-relaxed ${isDark ? "text-white/70" : "text-slate-600"}`}>
-                      More than a bridge between tech talents and companies, Project X is a career enabler - a place where you are empowered with the knowledge, mindset, and confidence to navigate the tech industry - even as it continues to evolve.
-                    </p>
-                    <p className={`text-base md:text-lg leading-relaxed ${isDark ? "text-white/70" : "text-slate-600"}`}>
-                      Through mentorship, hands-on learning, and a strong community, Project X helps you:
-                    </p>
-                    <ul className={`text-base md:text-lg leading-relaxed space-y-2 ${isDark ? "text-white/70" : "text-slate-600"}`}>
-                      <li>• Build a clear understanding of your role and direction within the tech ecosystem</li>
-                      <li>• Develop industry-ready skills, professional mindset, and personal brand</li>
-                      <li>• Grow alongside peers and mentors in a community where learning compounds</li>
-                      <li>• Form meaningful relationships that last beyond the program</li>
-                      <li>• Access real opportunities while continuing to grow</li>
-                    </ul>
-                    <p className={`text-base md:text-lg leading-relaxed font-medium ${isDark ? "text-white/90" : "text-slate-700"}`}>
-                      Project X is not just a summer experience—it is where careers begin to take shape.
-                    </p>
-                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="pt-4">
-                      <label htmlFor="sfp2026-updates" className={`block text-sm font-medium mb-2 ${isDark ? "text-white/70" : "text-slate-600"}`}>
-                        Get updates about SFP 2026
-                    </label>
-                    <div className="flex gap-2">
-                      <input
-                        id="sfp2026-updates"
-                        type="email"
-                        placeholder="Your email"
-                        onFocus={fireIntentEngagedOnce}
-                        onClick={fireIntentEngagedOnce}
-                        className={`flex-1 px-4 py-3 rounded-xl border text-sm ${isDark ? "bg-white/5 border-white/20 text-white placeholder:text-white/40" : "bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400"}`}
-                      />
-                      <Button className="bg-primary text-white rounded-xl px-6">Subscribe</Button>
-                    </div>
-                    </motion.div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <div>
+                <p className={`text-base md:text-lg leading-relaxed ${isDark ? "text-white/70" : "text-slate-600"}`}>
+                  Founded in 2022, Project X Vietnam is a NGO with the mission to bridge the gap between young talents and companies in the Vietnam’s tech ecosystem via our annual flagship, called Project X Summer Fellowship Program.                </p>
+                <br />
+                <p className={`text-base md:text-lg leading-relaxed ${isDark ? "text-white/70" : "text-slate-600"}`}>
+                  Our mission is built on three core pillars: <strong>Empower, Nurture & Support.</strong>
+                </p>
+              </div>
             </div>
-          </div>
+            <div className={`p-8 rounded-2xl border ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-100 shadow-lg"}`}>
+              <div className={`background-gradient'`}></div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
+      {/* About SFP2026 */ }
+      <section id="about-sfp" className={`min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start ${isDark ? "bg-[#0a0f1a]" : "bg-slate-50"}`}>
+        <div className="max-w-6xl mx-auto px-6 md:px-8">
+          <motion.h2
+            initial={{ opacity: 0, y: -10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className={`text-3xl md:text-4xl font-bold mb-16 text-left ${isDark ? "text-white" : "text-pxv-dark"}`}
+          >
+            <span>About</span>
+            <span className="mx-2 text-primary">|</span>
+            <span className="text-primary">{aboutSFPTyped}</span>
+            <span className="inline-block w-0.5 h-8 bg-primary animate-pulse align-middle ml-1" />
+          </motion.h2>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
+            <div className="space-y-6">
+              <div>
+                <p className={`text-md md:text-base font-medium ${isDark ? "text-white" : "text-pxv-dark"}`}>
+                  Through mentorship, hands-on learning, and a strong community, Project X helps you:
+                </p>
+              </div>
+                <div
+                  ref={rotatingRef}
+                  className="relative h-[420px] w-full"
+                  onMouseEnter={pauseRotation}
+                  onMouseLeave={resumeRotation}
+                >
+                  {rotatingCards.map((item, index) => {
+                    const position = getStackPosition(index);
+
+                    if (position > 4) return null;
+
+                    const offsetY = position * 12;
+                    const zIndex = rotatingCards.length - position;
+
+                    return (
+                      <motion.div
+                        key={item}
+                        initial={!hasAnimated ? { opacity: 0, y: 80 } : false}
+                        animate={{
+                          opacity: position === 0 ? 1 : 0.7,
+                          y: offsetY,
+                        }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 220,
+                          damping: 22,
+                          mass: 0.8,
+                          delay: hasAnimated ? 0 : position * 0.12,
+                        }}
+                        style={{
+                          position: "absolute",
+                          zIndex,
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          cursor: position === 0 ? "pointer" : "default",
+                        }}
+                        className={`h-24 md:h-28 p-6 rounded-2xl backdrop-blur-sm ${isDark ? "bg-white/5" : "bg-white shadow-lg"} ${
+                          position === 0 ? "shadow-xl ring-1 ring-primary/30" : ""
+                        }`}
+                        onClick={() => position === 0 && rotateCards()}
+                      >
+                        <div className="flex items-start gap-4">
+                          <span
+                            className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-sm font-semibold ${
+                              isDark
+                                ? position === 0
+                                  ? "bg-primary text-white"
+                                  : "bg-white/10 text-white"
+                                : position === 0
+                                  ? "bg-primary text-white"
+                                  : "bg-pxv-light/10 text-pxv-dark"
+                            }`}
+                          >
+                            {position + 1}
+                          </span>
+                          <div className={`text-md md:text-lg font-semibold leading-relaxed ${isDark ? "text-white" : "text-pxv-dark"}`}>
+                            {item}
+                          </div>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
       {/* Our Mission */}
       <section id="mission" ref={missionRef} className={`min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start ${isDark ? "bg-[#0a0f1a]" : "bg-slate-50"}`}>
         <div className="max-w-6xl mx-auto px-6 md:px-8">
@@ -609,68 +649,106 @@ export default function SFP2026Page() {
           </h2>
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* Orbital Motion Graphics */}
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} className="flex justify-center">
-              <div className="relative w-72 h-72 md:w-96 md:h-96">
-                {/* Orbital rings with soft gray gradients */}
-                <motion.div
-                  className={`absolute inset-0 rounded-full border-2 ${isDark ? "border-gray-500/40" : "border-gray-400/40"}`}
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-                />
-                <motion.div
-                  className={`absolute inset-12 rounded-full border-2 ${isDark ? "border-gray-500/50" : "border-gray-400/50"}`}
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-                />
-                <motion.div
-                  className={`absolute inset-24 rounded-full border-2 ${isDark ? "border-gray-500/40" : "border-gray-400/40"}`}
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 42, repeat: Infinity, ease: "linear" }}
-                />
-                
-                {/* Center white starburst */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className={`w-20 h-20 rounded-full flex items-center justify-center ${isDark ? "bg-white/90 shadow-lg shadow-white/20" : "bg-white shadow-lg shadow-slate-400/30"}`}>
-                    <svg className={`w-12 h-12 ${isDark ? "text-slate-800" : "text-slate-600"}`} viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2L15.09 8.26H22L17.55 12.74L19.64 19L12 15.27L4.36 19L6.45 12.74L2 8.26H8.91L12 2Z" />
-                    </svg>
-                  </div>
-                </div>
-
-                {/* Orbital icons and labels */}
-                {[
-                  { label: "Support", angle: -90, ring: 1, duration: 35 },
-                  { label: "Empower", angle: 30, ring: 2, duration: 28 },
-                  { label: "Nurture", angle: 150, ring: 3, duration: 42 },
-                ].map((item) => {
-                  const angleRad = (item.angle) * (Math.PI / 180);
-                  const radius = 70 + item.ring * 30;
-                  const x = radius * Math.cos(angleRad);
-                  const y = radius * Math.sin(angleRad);
-                  return (
-                    <motion.div
-                      key={item.label}
-                      className="absolute text-center"
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: item.duration, repeat: Infinity, ease: "linear" }}
-                      style={{
-                        left: "50%",
-                        top: "50%",
-                        transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
+            <motion.div ref={orbitalRef} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative w-full aspect-square flex items-center justify-center">
+              <svg className="w-full h-full" viewBox="0 0 400 400" style={{ maxWidth: "500px" }}>
+                {/* Outer Ring (20s rotation) */}
+                <motion.g style={{ rotate: outerRotate, transformOrigin: "200px 200px" }}>
+                  <circle cx="200" cy="200" r="150" fill="none" stroke={isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"} strokeWidth="2" />
+                  {/* Outer Ring Icon - Support */}
+                  <motion.g style={{ rotate: outerCounterRotate, transformOrigin: "200px 50px" }}>
+                    <g
+                      transform="translate(200, 50)"
+                      className="cursor-pointer"
+                      onMouseEnter={(event) => {
+                        setIsOrbitalPaused(true);
+                        setHoveredPillar("support");
+                        const rect = orbitalRef.current?.getBoundingClientRect();
+                        if (rect) setTooltipPos({ x: event.clientX - rect.left, y: event.clientY - rect.top });
+                      }}
+                      onMouseMove={(event) => {
+                        const rect = orbitalRef.current?.getBoundingClientRect();
+                        if (rect) setTooltipPos({ x: event.clientX - rect.left, y: event.clientY - rect.top });
+                      }}
+                      onMouseLeave={() => {
+                        setIsOrbitalPaused(false);
+                        setHoveredPillar(null);
+                        setTooltipPos(null);
                       }}
                     >
-                      <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-2 ${isDark ? "bg-gray-600/40 border border-gray-500/60" : "bg-gray-300/40 border border-gray-400/60"}`}>
-                        <svg className={`w-6 h-6 ${isDark ? "text-gray-300" : "text-gray-600"}`} fill="currentColor" viewBox="0 0 20 20">
-                          <circle cx="10" cy="10" r="3" />
-                        </svg>
-                      </div>
-                      <div className={`text-xs font-semibold ${isDark ? "text-gray-300" : "text-gray-700"}`}>{item.label}</div>
-                    </motion.div>
-                  );
-                })}
-              </div>
+                      <circle cx="0" cy="0" r="24" className={`transition-all ${hoveredPillar === "support" ? "fill-primary/60" : isDark ? "fill-white/20" : "fill-slate-200"}`} />
+                      <circle cx="0" cy="-6" r="5" fill="white" />
+                      <path d="M-10 12c0-6 20-6 20 0" stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" />
+                      <rect x="-32" y="22" width="64" height="18" rx="9" fill="#1f2937" />
+                      <text x="0" y="35" textAnchor="middle" fontSize="9" fill="white" fontWeight="600">Support</text>
+                    </g>
+                  </motion.g>
+                </motion.g>
+
+                {/* Middle Ring (15s rotation) */}
+                <motion.g style={{ rotate: middleRotate, transformOrigin: "200px 200px" }}>
+                  <circle cx="200" cy="200" r="100" fill="none" stroke={isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)"} strokeWidth="2" />
+                  {/* Middle Ring Icons */}
+                  {[{ angle: -90, label: "⚡", title: "Empower" }, { angle: 30, label: "🌱", title: "Nurture" }].map((item) => {
+                    const rad = (item.angle * Math.PI) / 180;
+                    const x = 200 + 100 * Math.cos(rad);
+                    const y = 200 + 100 * Math.sin(rad);
+                    return (
+                      <motion.g key={item.angle} style={{ rotate: middleCounterRotate, transformOrigin: `${x}px ${y}px` }}>
+                        <g
+                          transform={`translate(${x}, ${y})`}
+                          className="cursor-pointer"
+                          onMouseEnter={(event) => {
+                            setIsOrbitalPaused(true);
+                            setHoveredPillar(item.title.toLowerCase());
+                            const rect = orbitalRef.current?.getBoundingClientRect();
+                            if (rect) setTooltipPos({ x: event.clientX - rect.left, y: event.clientY - rect.top });
+                          }}
+                          onMouseMove={(event) => {
+                            const rect = orbitalRef.current?.getBoundingClientRect();
+                            if (rect) setTooltipPos({ x: event.clientX - rect.left, y: event.clientY - rect.top });
+                          }}
+                          onMouseLeave={() => {
+                            setIsOrbitalPaused(false);
+                            setHoveredPillar(null);
+                            setTooltipPos(null);
+                          }}
+                        >
+                          <circle cx="0" cy="0" r="20" className={`transition-all ${hoveredPillar === item.title.toLowerCase() ? "fill-primary/60" : isDark ? "fill-white/30" : "fill-slate-300"}`} />
+                          <circle cx="0" cy="-6" r="4" fill="white" />
+                          <path d="M-8 10c0-5 16-5 16 0" stroke="white" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+                          <rect x="-30" y="20" width="60" height="16" rx="8" fill="#1f2937" />
+                          <text x="0" y="32" textAnchor="middle" fontSize="8" fill="white" fontWeight="600">{item.title}</text>
+                        </g>
+                      </motion.g>
+                    );
+                  })}
+                </motion.g>
+
+                {/* Inner Ring - Static */}
+                <circle cx="200" cy="200" r="50" fill="none" stroke={isDark ? "rgba(14,86,250,0.3)" : "rgba(14,86,250,0.2)"} strokeWidth="2" />
+                <circle cx="200" cy="200" r="30" className={isDark ? "fill-white/10" : "fill-slate-100"} />
+                <text x="200" y="208" textAnchor="middle" className="text-xs font-bold" fill={isDark ? "white" : "black"}>2022</text>
+              </svg>
+
+              {/* Tooltip for hovered pillar */}
+              <AnimatePresence>
+                {hoveredPillar && tooltipPos && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    style={{ left: tooltipPos.x, top: tooltipPos.y }}
+                    className={`pointer-events-none absolute -translate-x-1/2 -translate-y-full mb-4 px-4 py-3 rounded-lg text-sm font-medium border max-w-xs ${isDark ? "bg-white/10 border-white/20 text-white" : "bg-slate-900 text-white border-slate-800"}`}
+                  >
+                    {hoveredPillar === "support" && "Contribute to tech ecosystem growth through young talent development."}
+                    {hoveredPillar === "empower" && "Equip students with early career direction and essential foundations."}
+                    {hoveredPillar === "nurture" && "Develop a high-quality pool of future tech professionals."}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
-            
+
             {/* Stacked Mission Cards */}
             <div className="relative space-y-0 h-fit">
               <AnimatePresence mode="wait">
@@ -680,7 +758,7 @@ export default function SFP2026Page() {
                   const zIndex = isActive ? 30 : 20 - position;
                   const scale = isActive ? 1 : 1 - position * 0.08;
                   const offsetY = isActive ? 0 : position * 16;
-                  
+
                   return (
                     <motion.div
                       key={p.num}
@@ -839,7 +917,7 @@ export default function SFP2026Page() {
                 animate={{ x: [-2400, 0] }}
                 transition={{ duration: 55, repeat: Infinity, ease: "linear" }}
               >
-{[...Array(3)].map((_, set) => (
+                {[...Array(3)].map((_, set) => (
                   <div key={set} className="flex gap-8 flex-shrink-0">
                     {rolesList.slice(0, Math.ceil(rolesList.length / 2)).map((role, i) => (
                       <div key={`${set}-${i}`} className={`text-lg md:text-2xl font-semibold whitespace-nowrap transition-all ${isDark ? "text-white/80 hover:text-primary" : "text-slate-700 hover:text-primary"}`}>
