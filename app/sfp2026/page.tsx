@@ -34,7 +34,7 @@ const SECTION_LABELS: Record<(typeof SECTION_IDS)[number], string> = {
   faq: "FAQs",
 };
 
-function useTypingText(text: string, speed = 30) {
+function useTypingText(text: string, speed = 60) {
   const [typed, setTyped] = useState("");
   useEffect(() => {
     let i = 0;
@@ -341,7 +341,6 @@ export default function SFP2026Page() {
     "Adjacent tech-business roles",
   ];
 
-  {/* Stacked cards animation */ }
   const rotatingCards = [
     "Build a clear understanding of your role and direction within the tech ecosystem",
     "Develop industry-ready skills, professional mindset, and personal brand",
@@ -351,38 +350,19 @@ export default function SFP2026Page() {
   ];
 
   const [activeCard, setActiveCard] = useState(0);
-  const [isRotating, setIsRotating] = useState(false);
+  const [exitingCard, setExitingCard] = useState<number | null>(null);
   const [hasAnimated, setHasAnimated] = useState(false);
 
   const rotatingRef = useRef<HTMLDivElement>(null);
+  const rotationTimer = useRef<NodeJS.Timeout | null>(null);
+
   const rotatingInView = useInView(rotatingRef, {
     once: true,
-    amount: 0.3,
+    amount: 0.2,
   });
-
-  const rotationTimer = useRef<NodeJS.Timeout | null>(null);
 
   const getStackPosition = (index: number) => {
     return (index - activeCard + rotatingCards.length) % rotatingCards.length;
-  };
-
-  const rotateCards = () => {
-    if (isRotating) return;
-
-    setIsRotating(true);
-    setActiveCard((prev) => (prev + 1) % rotatingCards.length);
-
-    setTimeout(() => setIsRotating(false), 800);
-  };
-
-  const pauseRotation = () => {
-    if (rotationTimer.current) clearInterval(rotationTimer.current);
-  };
-
-  const resumeRotation = () => {
-    if (rotatingInView) {
-      rotationTimer.current = setInterval(rotateCards, 4000);
-    }
   };
 
   useEffect(() => {
@@ -391,15 +371,24 @@ export default function SFP2026Page() {
     setHasAnimated(true);
 
     const startDelay = setTimeout(() => {
-      rotateCards();
-      rotationTimer.current = setInterval(rotateCards, 4000);
-    }, 1500);
+      rotationTimer.current = setInterval(() => {
+
+        // mark current top as exiting
+        setExitingCard(activeCard);
+
+        setActiveCard((prev) => (prev + 1) % rotatingCards.length);
+
+        // remove exiting state after animation
+        setTimeout(() => setExitingCard(null), 650);
+
+      }, 1800);
+    }, 100);
 
     return () => {
       clearTimeout(startDelay);
       if (rotationTimer.current) clearInterval(rotationTimer.current);
     };
-  }, [rotatingInView]);
+  }, [rotatingInView, activeCard]);
 
 
   return (
@@ -550,8 +539,12 @@ export default function SFP2026Page() {
         </div>
       </section>
 
-      {/* About SFP2026 */ }
-      <section id="about-sfp" className={`min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start ${isDark ? "bg-[#0a0f1a]" : "bg-slate-50"}`}>
+      {/* About SFP2026 */}
+      <section
+        id="about-sfp"
+        className={`min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start ${isDark ? "bg-[#0a0f1a]" : "bg-slate-50"
+          }`}
+      >
         <div className="max-w-6xl mx-auto px-6 md:px-8">
           <motion.h2
             initial={{ opacity: 0, y: -10 }}
@@ -560,87 +553,94 @@ export default function SFP2026Page() {
             className={`text-3xl md:text-4xl font-bold mb-16 text-left ${isDark ? "text-white" : "text-pxv-dark"}`}
           >
             <span>About</span>
-            <span className="mx-2 text-primary">|</span>
+            <span className="mx-2 text-primary"></span>
             <span className="text-primary">{aboutSFPTyped}</span>
             <span className="inline-block w-0.5 h-8 bg-primary animate-pulse align-middle ml-1" />
           </motion.h2>
-
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <div className="space-y-6">
-              <div>
-                <p className={`text-md md:text-base font-medium ${isDark ? "text-white" : "text-pxv-dark"}`}>
-                  Through mentorship, hands-on learning, and a strong community, Project X helps you:
-                </p>
-              </div>
-                <div
-                  ref={rotatingRef}
-                  className="relative h-[420px] w-full"
-                  onMouseEnter={pauseRotation}
-                  onMouseLeave={resumeRotation}
-                >
-                  {rotatingCards.map((item, index) => {
-                    const position = getStackPosition(index);
+              <p
+                className={`text-md md:text-base font-medium ${isDark ? "text-white" : "text-pxv-dark"
+                  }`}
+              >
+                Through mentorship, hands-on learning, and a strong community,
+                Project X helps you:
+              </p>
+              <div ref={rotatingRef} className="relative h-[420px] w-full">
+                {rotatingCards.map((item, index) => {
 
-                    if (position > 4) return null;
+                  const position = getStackPosition(index);
+                  if (position > 4) return null;
 
-                    const offsetY = position * 12;
-                    const zIndex = rotatingCards.length - position;
+                  const stackStyles = [
+                    { scale: 1, offset: 0 },
+                    { scale: 0.95, offset: 22 },
+                    { scale: 0.90, offset: 44 },
+                    { scale: 0.85, offset: 66 },
+                    { scale: 0.80, offset: 88 },
+                  ];
 
-                    return (
-                      <motion.div
-                        key={item}
-                        initial={!hasAnimated ? { opacity: 0, y: 80 } : false}
-                        animate={{
-                          opacity: position === 0 ? 1 : 0.7,
-                          y: offsetY,
-                        }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 220,
-                          damping: 22,
-                          mass: 0.8,
-                          delay: hasAnimated ? 0 : position * 0.12,
-                        }}
-                        style={{
-                          position: "absolute",
-                          zIndex,
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          cursor: position === 0 ? "pointer" : "default",
-                        }}
-                        className={`h-24 md:h-28 p-6 rounded-2xl backdrop-blur-sm ${isDark ? "bg-white/5" : "bg-white shadow-lg"} ${
-                          position === 0 ? "shadow-xl ring-1 ring-primary/30" : ""
+                  const stack = stackStyles[position];
+
+                  return (
+                    <motion.div
+                      key={item}
+                      layout
+                      initial={{ opacity: 0, y: 80 }}
+                      animate={{
+                        y: stack.offset,
+                        scale: stack.scale,
+                        opacity: 1 - position * 0.12,
+                        filter: `blur(${position * 0.6}px)`,
+                      }}
+                      transition={{
+                        layout: {
+                          duration: 3.0,
+                          ease: [0.4, 0.4, 0.2, 1],
+                        },
+                        duration: 0.7,
+                      }}
+                      style={{
+                        position: "absolute",
+                        zIndex: 100 - position,
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                      }}
+                      className={`h-24 md:h-28 p-6 rounded-2xl ${isDark
+                          ? "bg-[#111827] shadow-lg"
+                          : "bg-white shadow-lg"
                         }`}
-                        onClick={() => position === 0 && rotateCards()}
-                      >
-                        <div className="flex items-start gap-4">
-                          <span
-                            className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-sm font-semibold ${
-                              isDark
-                                ? position === 0
-                                  ? "bg-primary text-white"
-                                  : "bg-white/10 text-white"
-                                : position === 0
-                                  ? "bg-primary text-white"
-                                  : "bg-pxv-light/10 text-pxv-dark"
+                    >
+                      <div className="flex items-start gap-4">
+                        <span
+                          className={`text-3xl md:text-4xl font-bold ${isDark ? "text-primary/90" : "text-primary"
                             }`}
-                          >
-                            {position + 1}
-                          </span>
-                          <div className={`text-md md:text-lg font-semibold leading-relaxed ${isDark ? "text-white" : "text-pxv-dark"}`}>
-                            {item}
-                          </div>
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-            </div>
+                        >
+                          {index + 1}
+                        </span>
 
+                        <div
+                          className={`text-md md:text-lg font-semibold leading-relaxed ${isDark ? "text-white" : "text-pxv-dark"
+                            }`}
+                        >
+                          {item}
+                        </div>
+
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className={`p-8 rounded-2xl border ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-100 shadow-lg"}`}>
+              <div className={`background-gradient'`}></div>
+            </div>
           </div>
         </div>
       </section>
+
+
       {/* Our Mission */}
       <section id="mission" ref={missionRef} className={`min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start ${isDark ? "bg-[#0a0f1a]" : "bg-slate-50"}`}>
         <div className="max-w-6xl mx-auto px-6 md:px-8">
