@@ -92,6 +92,37 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 30s linear infinite;
+  will-change: transform;
+}
+
+.marquee__group {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.marquee--reverse .marquee__track {
+  animation-direction: reverse;
+}
+
 /* Primary Font: Plus Jakarta Sans */
 @font-face {
   font-family: 'Plus Jakarta Sans';
