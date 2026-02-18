@@ -34,7 +34,7 @@ const SECTION_LABELS: Record<(typeof SECTION_IDS)[number], string> = {
   faq: "FAQs",
 };
 
-function useTypingText(text: string, speed = 60) {
+function useTypingText(text: string, speed = 30) {
   const [typed, setTyped] = useState("");
   useEffect(() => {
     let i = 0;
@@ -353,8 +353,19 @@ export default function SFP2026Page() {
   const [exitingCard, setExitingCard] = useState<number | null>(null);
   const [hasAnimated, setHasAnimated] = useState(false);
 
+  // Image carousel state
+  const [activeImage, setActiveImage] = useState(0);
+  const [images, setImages] = useState<string[]>([
+    "IMG_6482.jpg",
+    "IMG_6513.jpg",
+    "IMG_6645.jpg",
+    "IMG_6661.jpg",
+    "IMG_6745.jpg",
+  ]);
+
   const rotatingRef = useRef<HTMLDivElement>(null);
   const rotationTimer = useRef<NodeJS.Timeout | null>(null);
+  const imageTimer = useRef<NodeJS.Timeout | null>(null);
 
   const rotatingInView = useInView(rotatingRef, {
     once: true,
@@ -363,6 +374,10 @@ export default function SFP2026Page() {
 
   const getStackPosition = (index: number) => {
     return (index - activeCard + rotatingCards.length) % rotatingCards.length;
+  };
+
+  const getImageStackPosition = (index: number) => {
+    return (index - activeImage + images.length) % images.length;
   };
 
   useEffect(() => {
@@ -382,13 +397,19 @@ export default function SFP2026Page() {
         setTimeout(() => setExitingCard(null), 650);
 
       }, 1800);
+
+      // Image rotation - 3 seconds per image
+      imageTimer.current = setInterval(() => {
+        setActiveImage((prev) => (prev + 1) % images.length);
+      }, 3000);
     }, 100);
 
     return () => {
       clearTimeout(startDelay);
       if (rotationTimer.current) clearInterval(rotationTimer.current);
+      if (imageTimer.current) clearInterval(imageTimer.current);
     };
-  }, [rotatingInView, activeCard]);
+  }, [rotatingInView, rotatingCards.length, images.length]);
 
 
   return (
@@ -511,10 +532,9 @@ export default function SFP2026Page() {
             viewport={{ once: true }}
             className={`text-3xl md:text-4xl font-bold mb-16 text-left ${isDark ? "text-white" : "text-pxv-dark"}`}
           >
-            <span>About</span>
-            <span className="mx-2 text-primary">|</span>
+            <span>About </span>
             <span className="text-primary">{aboutPJXTyped}</span>
-            <span className="inline-block w-0.5 h-8 bg-primary animate-pulse align-middle ml-1" />
+            <span className="inline-block w-0.5 h-8 bg-primary animate-cursor-blink align-middle ml-1" />
           </motion.h2>
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -552,10 +572,9 @@ export default function SFP2026Page() {
             viewport={{ once: true }}
             className={`text-3xl md:text-4xl font-bold mb-16 text-left ${isDark ? "text-white" : "text-pxv-dark"}`}
           >
-            <span>About</span>
-            <span className="mx-2 text-primary"></span>
+            <span>About </span>
             <span className="text-primary">{aboutSFPTyped}</span>
-            <span className="inline-block w-0.5 h-8 bg-primary animate-pulse align-middle ml-1" />
+            <span className="inline-block w-0.5 h-8 bg-primary animate-cursor-blink align-middle ml-1" />
           </motion.h2>
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <div className="space-y-6">
@@ -607,34 +626,44 @@ export default function SFP2026Page() {
                         left: 0,
                         right: 0,
                       }}
-                      className={`h-24 md:h-28 p-6 rounded-2xl ${isDark
+                      className={`h-24 md:h-28 p-6 rounded-2xl relative ${isDark
                           ? "bg-[#111827] shadow-lg"
                           : "bg-white shadow-lg"
                         }`}
                     >
-                      <div className="flex items-start gap-4">
-                        <span
-                          className={`text-3xl md:text-4xl font-bold ${isDark ? "text-primary/90" : "text-primary"
-                            }`}
-                        >
-                          {index + 1}
-                        </span>
-
-                        <div
-                          className={`text-md md:text-lg font-semibold leading-relaxed ${isDark ? "text-white" : "text-pxv-dark"
-                            }`}
-                        >
-                          {item}
+                      {/* Number badge overflowing in top right corner - only show on top card */}
+                      {position === 0 && (
+                        <div className="absolute -top-6 -right-6 md:-top-8 md:-right-8 z-[-1]">
+                          <span
+                            className={`text-7xl md:text-8xl font-bold ${isDark ? "text-primary" : "text-primary"
+                              }`}
+                          >
+                            {index + 1}
+                          </span>
                         </div>
-
+                      )}
+                      
+                      <div
+                        className={`text-md md:text-lg font-semibold leading-relaxed ${isDark ? "text-white" : "text-pxv-dark"
+                          }`}
+                      >
+                        {item}
                       </div>
                     </motion.div>
                   );
                 })}
               </div>
             </div>
-            <div className={`p-8 rounded-2xl border ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-100 shadow-lg"}`}>
-              <div className={`background-gradient'`}></div>
+            <div className={`rounded-2xl border relative overflow-hidden ${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-100 shadow-lg"}`}>
+              <div className="relative h-[420px]">
+                <Image
+                  src="/images/IMG_6661.jpg"
+                  alt="Summer Fellowship Program"
+                  fill
+                  className="object-cover w-full h-full rounded-2xl"
+                  priority
+                />
+              </div>
             </div>
           </div>
         </div>
