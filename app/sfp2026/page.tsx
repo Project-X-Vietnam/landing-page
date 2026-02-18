@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { motion, useInView, AnimatePresence,  useAnimationFrame } from "framer-motion";
+import { motion, useInView, useAnimationFrame, useScroll, useSpring } from "framer-motion";
+import { Calendar, Search, Users, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
@@ -301,11 +302,12 @@ export default function SFP2026Page() {
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number } | null>(null);
-  const scrollRef = useRef<HTMLDivElement | null>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
   const aboutSfpRef = useRef<HTMLDivElement>(null);
-  const aboutPJXInView = useInView(aboutRef, { once: true, amount: 0.3, root: scrollRef });
-  const aboutSfpInView = useInView(aboutSfpRef, { once: true, amount: 0.3, root: scrollRef });
+  const aboutPJXInView = useInView(aboutRef, { once: true, amount: 0.3 });
+  const aboutSfpInView = useInView(aboutSfpRef, { once: true, amount: 0.3 });
+  const aboutPJXActive = useInView(aboutRef, { amount: 0.2 });
+  const aboutSfpActive = useInView(aboutSfpRef, { amount: 0.2 });
   const aboutPJXTyped = useTypingText("Project X Vietnam", 30, aboutPJXInView);
   const aboutSFPTyped = useTypingText("Summer Fellowship Program 2026", 30, aboutSfpInView);
 
@@ -319,18 +321,18 @@ export default function SFP2026Page() {
 
   const faqItems = [
     { q: "Who can apply to the Project X Summer Fellowship Program 2026?", a: "The program is open to students and early-career individuals who are passionate about technology-related fields, regardless of academic background or university, as long as they demonstrate strong motivation and commitment." },
-    { q: "Do I need prior work or internship experience?", a: "No. Project X is designed to support students at different stages. What matters most is your potential, mindset, and willingness to learn." },
-    { q: "Is this a paid program?", a: "Project X is a non-profit initiative. Any program-related fees (if applicable) are transparently communicated and reinvested to maintain program quality, operations, and community impact." },
+    { q: "Do I need prior work or internship experience?", a: "No. The Project X Summer Fellowship Program is designed to support students at different stages. What matters most is your potential, mindset, and willingness to learn." },
+    { q: "Is this a paid program?", a: "Project X Summer Fellowship Program is a non-profit initiative. Any program-related fees (if applicable) are transparently communicated and reinvested to maintain program quality, operations, and community impact." },
     { q: "Is an internship guaranteed?", a: "Internship opportunities are provided through our partner network. While placements depend on performance and partner requirements, Project X offers exclusive access, preparation, and matching support to maximize your chances." },
-    { q: "How competitive is the selection process?", a: "Project X receives thousands of applications each year. Our selection process focuses on potential, motivation, and alignment, not just academic achievements." },
-    { q: "What makes SFP2026 different from other programs?", a: "SFP2026 combines career orientation, practical training, mentorship, and real industry access into one cohesive journey supported by a strong, long-term community rather than a one-off experience." },
+    { q: "How competitive is the selection process?", a: "The Project X Summer Fellowship Program receives thousands of applications each year. Our selection process focuses on potential, motivation, and alignment, not just academic achievements." },
+    { q: "What makes SFP2026 different from other programs?", a: "Summer Fellowship Program 2026 combines career orientation, practical training, mentorship, and real industry access into one cohesive journey supported by a strong, long-term community rather than a one-off experience." },
   ];
 
   const journeySteps = [
     { date: "20/02 - 13/03", title: "Official Application", desc: "Application period opens for Project X Summer Fellowship Program 2026." },
     { date: "16/03 - 28/03", title: "Round 1", desc: "Selection and screening of all applications." },
     { date: "30/03 - 25/04", title: "Round 2", desc: "Final evaluation and interviews." },
-    { date: "09/07 - 22/08", title: "SFP 2026", desc: "Summer Fellowship Program with internships and professional development." },
+    { date: "09/07 - 22/08", title: "Summer Fellowship Program 2026", desc: "Summer Fellowship Program with internships and professional development." },
   ];
 
   const impactStats = [
@@ -464,10 +466,18 @@ export default function SFP2026Page() {
   const rotationTimer = useRef<NodeJS.Timeout | null>(null);
   const imageTimer = useRef<NodeJS.Timeout | null>(null);
 
-  const rotatingInView = useInView(rotatingRef, {
-    once: true,
-    amount: 0.2,
+  const journeyRef = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: journeyRef,
+    offset: ["start end", "end start"],
   });
+  const journeyProgress = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 24,
+    mass: 0.2,
+  });
+
+  const rotatingInView = aboutSfpActive;
 
   const getStackPosition = (index: number) => {
     return (index - activeCard + rotatingCards.length) % rotatingCards.length;
@@ -478,13 +488,15 @@ export default function SFP2026Page() {
   };
 
   useEffect(() => {
+    if (rotationTimer.current) clearInterval(rotationTimer.current);
+    if (imageTimer.current) clearInterval(imageTimer.current);
+
     if (!rotatingInView) return;
 
     setHasAnimated(true);
 
     const startDelay = setTimeout(() => {
       rotationTimer.current = setInterval(() => {
-
         // mark current top as exiting
         setExitingCard(activeCard);
 
@@ -492,7 +504,6 @@ export default function SFP2026Page() {
 
         // remove exiting state after animation
         setTimeout(() => setExitingCard(null), 650);
-
       }, 1800);
 
       // Image rotation - 3 seconds per image
@@ -506,18 +517,18 @@ export default function SFP2026Page() {
       if (rotationTimer.current) clearInterval(rotationTimer.current);
       if (imageTimer.current) clearInterval(imageTimer.current);
     };
-  }, [rotatingInView, rotatingCards.length, images.length]);
+  }, [rotatingInView, rotatingCards.length, images.length, activeCard]);
 
 
   const [orbitAngle, setOrbitAngle] = useState(0)
   const [isOrbitalPaused, setIsOrbitalPaused] = useState(false)
   const [hoveredPillar, setHoveredPillar] = useState<string | null>(null)
   const orbitalRef = useRef<HTMLDivElement | null>(null)
+  const orbitalInView = aboutPJXActive
 
   useAnimationFrame((t, delta) => {
-    if (!isOrbitalPaused) {
-      setOrbitAngle(prev => (prev + delta * 0.02) % 360)
-    }
+    if (!orbitalInView || isOrbitalPaused) return
+    setOrbitAngle(prev => (prev + delta * 0.02) % 360)
   })
 
   const getOrbitPosition = (radius: number, angleDeg: number) => {
@@ -530,7 +541,6 @@ export default function SFP2026Page() {
 
   return (
     <main
-      ref={scrollRef}
       className="transition-colors duration-200 scroll-smooth bg-white"
     >
       <Navbar isDark={false} />
@@ -578,27 +588,6 @@ export default function SFP2026Page() {
           </motion.div>
           <div className="text-pxv-dark">
             <Countdown />
-          </div>
-        </div>
-      </section>
-
-      {/* Mission */}
-      <section id="mission" className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-pxv-dark">Our Mission</h2>
-            <p className="mt-4 max-w-2xl mx-auto text-slate-600">
-              Three pillars guide everything we build in Project X Summer Fellowship Program.
-            </p>
-          </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {missionPillars.map((pillar) => (
-              <div key={pillar.title} className="p-6 rounded-2xl border bg-slate-50 border-slate-100 shadow-sm">
-                <p className="text-xs font-bold text-primary mb-2">{pillar.num}</p>
-                <h3 className="text-lg font-bold text-pxv-dark">{pillar.title}</h3>
-                <p className="text-sm text-slate-600 mt-2">{pillar.text}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -738,10 +727,12 @@ export default function SFP2026Page() {
                       />
 
                       {/* ===== CENTER STAR ===== */}
-                      <motion.path
-                        d="M 200 170 L 205 195 L 230 200 L 205 205 L 200 230 L 195 205 L 170 200 L 195 195 Z"
-                        fill={primary}
-                        style={{ transformOrigin: "200px 200px" }}
+                      <image
+                        href="/images/pjxstar-primary.svg"
+                        x="175"
+                        y="175"
+                        width="50"
+                        height="50"
                       />
                       {(() => {
 
@@ -1096,57 +1087,66 @@ export default function SFP2026Page() {
 
       {/* The Fellowship Journey 2026 */}
       <section id="journey" className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-14"
+          >
             <h2 className="text-3xl md:text-4xl font-bold text-pxv-dark">The Fellowship Journey 2026</h2>
+            <p className="mt-3 text-sm md:text-base text-slate-600">
+              A high-contrast, tech-forward roadmap from application to launch.
+            </p>
           </motion.div>
-          <div className="relative">
+
+          <div ref={journeyRef} className="relative">
+            <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-slate-200" />
             <motion.div
-              initial={{ scaleY: 0, opacity: 0 }}
-              whileInView={{ scaleY: 1, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.0, ease: "easeOut" }}
-              className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-slate-300 to-transparent origin-top"
+              style={{ scaleY: journeyProgress, transformOrigin: "top" }}
+              className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 bg-primary"
             />
-            {journeySteps.map((step, i) => (
-              <motion.div
-                key={step.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.12 }}
-                className={`relative flex items-center gap-6 mb-8 ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}
-              >
-                <div className="absolute left-8 md:left-1/2 -translate-x-1/2">
-                  <div className={`w-3.5 h-3.5 rounded-full ${i === journeySteps.length - 1 ? "bg-gradient-to-br from-primary to-cyan-500" : "bg-primary"}`} />
-                  <div className="absolute inset-0 rounded-full bg-primary/20 animate-pulse" />
-                </div>
-                <motion.div
-                  initial={{ scaleX: 0, opacity: 0 }}
-                  whileInView={{ scaleX: 1, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: i * 0.12 + 0.1 }}
-                  className={`absolute left-8 md:left-1/2 h-px bg-gradient-to-r from-primary/30 via-slate-300 to-transparent translate-x-0 ${i % 2 === 0 ? "origin-right md:-translate-x-full md:w-16 w-10" : "origin-left md:w-16 w-10"}`}
-                />
-                <div className={`ml-16 md:ml-0 md:w-[calc(50%-2rem)] ${i % 2 === 0 ? "md:pr-8 md:text-right" : "md:pl-8"}`}>
+
+            <div className="space-y-10">
+              {journeySteps.map((step, i) => {
+                const Icon = i < 3 ? Calendar : Rocket;
+                return (
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: i * 0.12 + 0.15 }}
-                    className="inline-flex items-center gap-4 p-5 rounded-2xl border bg-white/90 border-slate-100 shadow-sm"
+                    key={step.title}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.5, delay: i * 0.08 }}
+                    className={`relative flex items-center ${i % 2 === 0 ? "md:justify-start" : "md:justify-end"}`}
                   >
-                    <div className="flex flex-col">
-                      <span className="text-xs uppercase tracking-widest text-primary/80 font-semibold">{step.date}</span>
-                      <h3 className="text-base md:text-lg font-bold text-pxv-dark whitespace-nowrap truncate max-w-[220px] md:max-w-[260px]">
-                        {step.title}
-                      </h3>
-                    </div>
+                    <motion.div
+                      whileHover={{ scale: 1.02 }}
+                      className={`ml-28 md:ml-0 ${i % 2 === 0 ? "md:pr-72" : "md:pl-72 "}`}
+                    >
+                      <motion.div
+                        whileInView={{ opacity: 1, y: 0 }} 
+                        initial={{ opacity: 0, y: 12 }}
+                        viewport={{ once: true, amount: 0.4 }}
+                        transition={{ duration: 0.4, delay: i * 0.08 + 0.1 }}
+                        className="group relative w-[320px] md:w-[380px] rounded-2xl border border-slate-200/70 bg-white/70 backdrop-blur-xl text-pxv-dark shadow-lg"
+                      >
+                        <div className="absolute inset-0 rounded-2xl border border-slate-200/60 group-hover:border-primary/40 transition-colors" />
+                        <div className="relative px-6 py-5 space-y-2">
+                          <div className="flex items-center gap-3 text-primary">
+                            <Icon className="w-4 h-4" />
+                            <span className="text-xs uppercase tracking-[0.18em] font-semibold text-primary bg-primary/10 border border-primary/20 rounded-full px-2.5 py-1">
+                              {step.date}
+                            </span>
+                          </div>
+                          <h3 className="text-base md:text-lg font-bold text-pxv-dark">{step.title}</h3>
+                          <p className="text-xs text-slate-600 leading-relaxed">{step.desc}</p>
+                        </div>
+                      </motion.div>
+                    </motion.div>
                   </motion.div>
-                </div>
-                <div className="hidden md:block md:w-[calc(50%-2rem)]" />
-              </motion.div>
-            ))}
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
@@ -1161,7 +1161,7 @@ export default function SFP2026Page() {
             className="text-center mb-4"
           >
             <p className="text-sm md:text-base font-medium text-slate-600">
-              HOW PROJECT X SUMMER FELLOWSHIP PROGRAM SHAPES OUR FELLOWS
+              How Project X Summer Fellowship Program shapes our fellows
             </p>
           </motion.div>
 
@@ -1180,7 +1180,7 @@ export default function SFP2026Page() {
             viewport={{ once: true }}
             className="text-center text-sm md:text-base mb-12 text-slate-600"
           >
-            —Voices from our Fellows (Class of 2025)
+            — Voices from our Fellows (Class of 2025)
           </motion.p>
 
           <div className="relative">
@@ -1261,11 +1261,8 @@ export default function SFP2026Page() {
           </motion.h2>
           <div className="space-y-3">
             {faqItems.map((item, i) => (
-              <motion.div
+              <div
                 key={i}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
                 className="rounded-xl border overflow-hidden bg-white border-slate-100 shadow-sm"
               >
                 <button
@@ -1275,20 +1272,16 @@ export default function SFP2026Page() {
                   {item.q}
                   <span className={`flex-shrink-0 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
                 </button>
-                <AnimatePresence>
-                  {openFaq === i && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="overflow-hidden"
-                    >
-                      <p className="px-6 pb-4 pt-0 text-slate-600 text-sm">{item.a}</p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
+                <div
+                  className={`grid transition-[grid-template-rows,opacity] duration-200 ease-out ${openFaq === i ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+                >
+                  <div className="overflow-hidden">
+                    <div className="px-6 pb-4 pt-0 text-slate-600 text-sm">
+                      {item.a}
+                    </div>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>
