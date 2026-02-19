@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
@@ -10,15 +10,13 @@ import {
   Send,
   Loader2,
   RotateCcw,
-  Mail,
-  Search,
-  MessageSquare,
-  PartyPopper,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { GlassCard } from "@/components/ui/glass-card";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import SuccessScreen from "./SuccessScreen";
 
 // ═══════════════════════════════════════════════════════════════
 // TYPES & CONSTANTS
@@ -562,7 +560,7 @@ function Step2({ data, update, phase }: StepProps & { phase: FormPhase }) {
         {isEB && (
           <>
             <div className="border-t border-slate-200 pt-6">
-              <span className="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">Early Bird Extras</span>
+              <h2 className="text-lg font-bold text-slate-900">Interests & Motivation</h2>
             </div>
             <FormField label="How long have you been following Project X Vietnam activities?" required>
               <OptionGrid options={FOLLOWING_DURATION_OPTIONS} selected={data.followingDuration ? [data.followingDuration] : []} onChange={(v) => update("followingDuration", v[0] || "")} multiple={false} columns={2} />
@@ -667,18 +665,16 @@ function Step4({ data, update }: StepProps) {
 const STEP_CONTEXT: { title: string; tip: string }[] = [
   { title: "Getting to know you", tip: "Be accurate with your contact details — we'll use them for all program communication." },
   { title: "Show us your path", tip: "There are no wrong answers. We want to understand your genuine interests and motivations." },
-  { title: "Where you stand", tip: "Honest self-assessment helps us match you with the right mentors and resources." },
+  { title: "Where you stand", tip: "Honest self-assessment helps us provide you with the best resources & support." },
   { title: "Almost there!", tip: "Speak from the heart — we value authenticity and original thinking over polished answers." },
 ];
 
-// Apple-style glass card base
-const glass = "rounded-2xl bg-white/[0.08] backdrop-blur-2xl border border-white/[0.12] shadow-[0_2px_24px_-4px_rgba(0,0,0,0.3),inset_0_1px_0_0_rgba(255,255,255,0.06)]";
 
-function CountdownUnit({ value, label }: { value: number; label: string }) {
+function CountdownTile({ value, label }: { value: number; label: string }) {
   return (
-    <div className="flex flex-col items-center min-w-[44px]">
-      <span className="text-3xl xl:text-4xl font-extrabold text-white tabular-nums leading-none tracking-tight">{String(value).padStart(2, "0")}</span>
-      <span className="text-[9px] uppercase tracking-[0.15em] text-white/50 mt-2 font-semibold">{label}</span>
+    <div className="flex flex-col items-center font-medium">
+      <span className="text-[40px] xl:text-[52px] 2xl:text-[56px] font-medium text-white tabular-nums leading-none tracking-tight">{String(value).padStart(2, "0")}</span>
+      <span className="text-[11px] text-white/50 font-medium mt-1.5">{label}</span>
     </div>
   );
 }
@@ -698,345 +694,104 @@ function RightPanel({ phase, deadline, currentStep, data }: {
   }, [deadline]);
 
   const ctx = STEP_CONTEXT[currentStep] || STEP_CONTEXT[0];
-  const completedSteps = STEP_LABELS.filter((_, i) => i < currentStep).length;
-  const progressPct = Math.round((completedSteps / STEP_LABELS.length) * 100);
+  const visibleInterests = data.areasOfInterest.slice(0, 4);
+  const overflowCount = data.areasOfInterest.length - 4;
 
   return (
-    <div className="relative z-10 h-full flex flex-col p-8 xl:p-12">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-10">
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <img src="/images/logo_notext_white.svg" alt="PXV" className="h-7 opacity-90 group-hover:opacity-100 transition-opacity" />
-          <span className="text-white/70 text-sm font-medium hidden xl:inline group-hover:text-white transition-colors">Project X Vietnam</span>
-        </Link>
-        <Link href="/sfp2026" className="text-xs text-white/50 hover:text-white transition-colors flex items-center gap-1.5 font-medium">
+    <div className="relative z-10 h-full flex flex-col p-6 xl:p-8 2xl:p-10">
+      {/* Header: back link — pinned top */}
+      <div className="shrink-0">
+        <Link href="/sfp2026" className="text-xs text-white/50 hover:text-white transition-colors inline-flex items-center gap-1.5 font-medium">
           <ArrowLeft className="w-3.5 h-3.5" /> SFP 2026
         </Link>
       </div>
 
-      {/* Phase badge */}
-      <div className={cn(
-        "inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold mb-6 self-start backdrop-blur-md",
-        phase === "early-bird"
-          ? "bg-amber-400/20 text-amber-200 border border-amber-300/25 shadow-[0_0_12px_rgba(251,191,36,0.15)]"
-          : "bg-cyan-400/20 text-cyan-200 border border-cyan-300/25 shadow-[0_0_12px_rgba(34,211,238,0.15)]"
-      )}>
-        <span className={cn("w-1.5 h-1.5 rounded-full animate-pulse", phase === "early-bird" ? "bg-amber-300" : "bg-cyan-300")} />
-        {phase === "early-bird" ? "Early Bird Open" : "Applications Open"}
-      </div>
-
-      {/* Program title */}
-      <h2 className="text-2xl xl:text-[28px] font-bold text-white mb-2.5 leading-[1.2] tracking-tight">
-        Summer Fellowship<br />Program 2026
-      </h2>
-      <p className="text-white/60 text-sm leading-relaxed mb-8 max-w-xs">
-        Mentorship, training, and internship pathways with Vietnam&apos;s top tech companies.
-      </p>
-
-      {/* Countdown — glass card */}
-      <div className={cn(glass, "p-6 mb-6")}>
-        <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-white/50 mb-4">Deadline countdown</p>
-        <div className="flex items-center justify-between">
-          <CountdownUnit value={d} label="Days" />
-          <span className="text-white/25 text-2xl font-extralight -mt-3">:</span>
-          <CountdownUnit value={h} label="Hours" />
-          <span className="text-white/25 text-2xl font-extralight -mt-3">:</span>
-          <CountdownUnit value={m} label="Mins" />
-          <span className="text-white/25 text-2xl font-extralight -mt-3">:</span>
-          <CountdownUnit value={s} label="Secs" />
-        </div>
-      </div>
-
-      {/* Progress — glass card */}
-      <div className={cn(glass, "p-5 mb-6")}>
-        <div className="flex items-center justify-between mb-3">
-          <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-white/50">Your progress</p>
-          <span className="text-sm text-white font-bold">{progressPct}%</span>
-        </div>
-        <div className="h-2 rounded-full bg-white/[0.08] overflow-hidden">
-          <motion.div
-            className="h-full rounded-full bg-gradient-to-r from-primary via-[#5b8cfa] to-cyan-400"
-            initial={{ width: 0 }}
-            animate={{ width: `${progressPct}%` }}
-            transition={{ duration: 0.5, ease: "easeOut" as const }}
-          />
-        </div>
-        <div className="flex justify-between mt-2.5">
-          {STEP_LABELS.map((label, i) => (
-            <span key={label} className={cn(
-              "text-[10px] font-medium transition-colors",
-              i < currentStep ? "text-cyan-300/80" : i === currentStep ? "text-white/90" : "text-white/25"
-            )}>{label}</span>
-          ))}
-        </div>
-      </div>
-
-      {/* Contextual tip — glass card, changes per step */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentStep}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.25 }}
-          className={cn(glass, "p-5 mb-6")}
-        >
-          <p className="text-white font-semibold text-sm mb-1.5">{ctx.title}</p>
-          <p className="text-white/55 text-xs leading-relaxed">{ctx.tip}</p>
-        </motion.div>
-      </AnimatePresence>
-
-      {/* Dynamic interests — glass card */}
-      {data.areasOfInterest.length > 0 && (
-        <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className={cn(glass, "p-5 mb-6")}>
-          <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-white/50 mb-3">Your interests</p>
-          <div className="flex flex-wrap gap-1.5">
-            {data.areasOfInterest.slice(0, 6).map((interest) => (
-              <span key={interest} className="px-3 py-1 rounded-full bg-primary/20 text-primary text-[11px] font-semibold border border-primary/25 shadow-[0_0_8px_rgba(14,86,250,0.1)]">
-                {interest}
-              </span>
-            ))}
-            {data.areasOfInterest.length > 6 && (
-              <span className="px-3 py-1 rounded-full text-[11px] text-white/40 bg-white/[0.06] border border-white/[0.08] font-medium">+{data.areasOfInterest.length - 6}</span>
-            )}
-          </div>
-        </motion.div>
-      )}
-
-      {/* Footer stats */}
-      <div className="mt-auto pt-6 border-t border-white/[0.08]">
-        <div className="flex items-center gap-8">
-          {[
-            { n: "6,000+", l: "Applicants" },
-            { n: "85+", l: "Mentors" },
-            { n: "35+", l: "Partners" },
-          ].map((s) => (
-            <div key={s.l}>
-              <p className="text-white font-bold text-base tracking-tight">{s.n}</p>
-              <p className="text-white/40 text-[10px] font-medium">{s.l}</p>
+      {/* Centered content — fills remaining space */}
+      <div className="flex-1 flex flex-col items-center justify-center min-h-0 mb-24">
+        {/* Program hero */}
+        <div className="text-center mb-6">
+          {phase === "early-bird" ? (
+            <div className="flex justify-center mb-5">
+              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-medium tracking-wide backdrop-blur-md bg-secondary/20 text-secondary border border-secondary/30 shadow-[0_0_20px_rgba(23,202,250,0.25)]">
+                <span className="w-2 h-2 rounded-full animate-pulse bg-secondary" />
+                Early Bird Open
+              </div>
             </div>
-          ))}
+          ) : (
+            <p className="text-secondary italic text-base xl:text-lg font-medium mb-2">Project X Vietnam</p>
+          )}
+          <h2 className="uppercase font-bold text-white tracking-wide mb-4 flex flex-col gap-2 xl:gap-3" style={{ fontFamily: "Plus Jakarta Sans, -apple-system, sans-serif" }}>
+            <span className="text-2xl xl:text-3xl 2xl:text-[2.5rem] leading-none">Summer Fellowship</span>
+            <span className="text-2xl xl:text-3xl 2xl:text-[2.5rem] leading-none">Program 2026</span>
+          </h2>
+          <p className="text-white/70 text-[13px] leading-relaxed max-w-lg mx-auto">
+            {phase === "early-bird"
+              ? "Apply early for an extra internship slot privilege during company matching, plus exclusive resources package \u2014 top practical courses, eBooks, and other job application materials to strengthen your application."
+              : "Final application window. Complete your application to secure your spot in SFP 2026 with Project X Vietnam."}
+          </p>
+        </div>
+
+        {/* Cards */}
+        <div className="flex flex-col gap-3 w-full">
+        {/* Countdown */}
+        <GlassCard className="shrink-0">
+          <div className="px-12 py-4">
+            <p className="text-[13px] font-medium text-white/60 text-center mb-3">
+              {phase === "early-bird" ? "Early Bird Application closes in" : "Application closes in"}
+            </p>
+            <div className="flex items-start justify-between">
+              <CountdownTile value={d} label="days" />
+              <span className="text-[32px] xl:text-[42px] 2xl:text-[46px] font-light text-white leading-none mt-[2px]">:</span>
+              <CountdownTile value={h} label="hours" />
+              <span className="text-[32px] xl:text-[42px] 2xl:text-[46px] font-light text-white leading-none mt-[2px]">:</span>
+              <CountdownTile value={m} label="minutes" />
+              <span className="text-[32px] xl:text-[42px] 2xl:text-[46px] font-light text-white leading-none mt-[2px]">:</span>
+              <CountdownTile value={s} label="seconds" />
+            </div>
+          </div>
+        </GlassCard>
+
+        {/* Contextual tip */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentStep}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.2 }}
+          >
+            <GlassCard className="shrink-0">
+              <div className="px-5 py-4">
+                <p className="text-white font-semibold text-sm mb-1">{ctx.title}</p>
+                <p className="text-white/55 text-xs leading-relaxed">{ctx.tip}</p>
+              </div>
+            </GlassCard>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Dynamic interests */}
+        {data.areasOfInterest.length > 0 && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            <GlassCard className="shrink-0">
+              <div className="px-5 py-4">
+                <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-white/60 mb-2.5">Your interests</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {visibleInterests.map((interest) => (
+                    <span key={interest} className="px-2.5 py-1 rounded-full bg-white/[0.08] text-white text-[11px] font-medium border border-white/[0.12] truncate max-w-[200px]">
+                      {interest}
+                    </span>
+                  ))}
+                  {overflowCount > 0 && (
+                    <span className="px-2.5 py-1 rounded-full text-[11px] text-white/50 bg-white/[0.04] border border-white/[0.08] font-medium">+{overflowCount}</span>
+                  )}
+                </div>
+              </div>
+            </GlassCard>
+          </motion.div>
+        )}
         </div>
       </div>
     </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════════
-// CONFETTI
-// ═══════════════════════════════════════════════════════════════
-
-function useConfetti(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const dpr = window.devicePixelRatio || 1;
-    const resize = () => {
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      ctx.scale(dpr, dpr);
-      canvas.style.width = `${window.innerWidth}px`;
-      canvas.style.height = `${window.innerHeight}px`;
-    };
-    resize();
-    window.addEventListener("resize", resize);
-
-    const colors = ["#0E56FA", "#17CAFA", "#6366f1", "#f59e0b", "#10b981", "#ec4899", "#ffffff"];
-
-    interface Particle {
-      x: number; y: number; w: number; h: number;
-      color: string; rotation: number; rotationSpeed: number;
-      vx: number; vy: number; gravity: number; opacity: number;
-      decay: number; shape: "rect" | "circle";
-    }
-
-    const particles: Particle[] = [];
-
-    const burst = (cx: number, cy: number, count: number) => {
-      for (let i = 0; i < count; i++) {
-        const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
-        const speed = 4 + Math.random() * 8;
-        particles.push({
-          x: cx, y: cy,
-          w: 4 + Math.random() * 6, h: 2 + Math.random() * 4,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          rotation: Math.random() * Math.PI * 2,
-          rotationSpeed: (Math.random() - 0.5) * 0.3,
-          vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed - 3,
-          gravity: 0.12 + Math.random() * 0.05,
-          opacity: 1, decay: 0.005 + Math.random() * 0.005,
-          shape: Math.random() > 0.5 ? "rect" : "circle",
-        });
-      }
-    };
-
-    // Initial bursts from top-center with spread
-    setTimeout(() => burst(window.innerWidth * 0.35, -10, 60), 200);
-    setTimeout(() => burst(window.innerWidth * 0.65, -10, 60), 400);
-    setTimeout(() => burst(window.innerWidth * 0.5, -10, 40), 600);
-
-    let animId: number;
-    const animate = () => {
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.vy += p.gravity;
-        p.y += p.vy;
-        p.vx *= 0.99;
-        p.rotation += p.rotationSpeed;
-        p.opacity -= p.decay;
-        if (p.opacity <= 0 || p.y > window.innerHeight + 20) { particles.splice(i, 1); continue; }
-        ctx.save();
-        ctx.globalAlpha = p.opacity;
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.rotation);
-        ctx.fillStyle = p.color;
-        if (p.shape === "rect") {
-          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
-        } else {
-          ctx.beginPath(); ctx.arc(0, 0, p.w / 2, 0, Math.PI * 2); ctx.fill();
-        }
-        ctx.restore();
-      }
-      if (particles.length > 0) animId = requestAnimationFrame(animate);
-    };
-    animId = requestAnimationFrame(animate);
-
-    return () => { cancelAnimationFrame(animId); window.removeEventListener("resize", resize); };
-  }, [canvasRef]);
-}
-
-// ═══════════════════════════════════════════════════════════════
-// SUCCESS SCREEN
-// ═══════════════════════════════════════════════════════════════
-
-const fade = (delay: number) => ({
-  initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0 },
-  transition: { delay, duration: 0.5, ease: "easeOut" as const },
-});
-
-const TIMELINE_STEPS = [
-  {
-    icon: <Search className="w-4 h-4" />,
-    title: "Application Review",
-    desc: "Our team carefully reviews every application.",
-    time: "1 – 2 weeks",
-  },
-  {
-    icon: <MessageSquare className="w-4 h-4" />,
-    title: "Interview / Next Rounds",
-    desc: "Shortlisted candidates are invited for interviews.",
-    time: "March 2026",
-  },
-  {
-    icon: <PartyPopper className="w-4 h-4" />,
-    title: "Fellowship Begins",
-    desc: "Selected fellows kick off the program.",
-    time: "July 2026",
-  },
-];
-
-function SuccessScreen({ firstName, email, phase }: { firstName: string; email: string; phase: FormPhase }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  useConfetti(canvasRef);
-
-  return (
-    <main className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden" style={{ background: "linear-gradient(to bottom, #060085 0%, #01001F 25%)" }}>
-      <img src="/images/sfp2026/radiant_top_right.png" alt="" className="absolute top-0 right-0 w-1/2 max-w-[600px] h-auto pointer-events-none select-none" />
-      <img src="/images/sfp2026/radiant_bottom_left.png" alt="" className="absolute bottom-0 left-0 w-1/2 max-w-[600px] h-auto pointer-events-none select-none" />
-
-      {/* Confetti canvas */}
-      <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none z-20" />
-
-      <div className="relative z-10 max-w-md w-full">
-        {/* Animated checkmark */}
-        <motion.div
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ delay: 0.3, type: "spring", stiffness: 180, damping: 14 }}
-          className="w-[88px] h-[88px] mx-auto mb-8 relative"
-        >
-          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary via-primary to-cyan-400 blur-xl opacity-50" />
-          <div className="relative w-full h-full rounded-full bg-gradient-to-br from-primary to-cyan-400 flex items-center justify-center shadow-2xl shadow-primary/40">
-            <motion.div initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: 0.6, duration: 0.4 }}>
-              <Check className="w-10 h-10 text-white" strokeWidth={3} />
-            </motion.div>
-          </div>
-        </motion.div>
-
-        {/* Headline — personalized */}
-        <motion.div {...fade(0.5)} className="text-center mb-3">
-          <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
-            Thank you, {firstName}!
-          </h1>
-        </motion.div>
-
-        <motion.p {...fade(0.65)} className="text-center text-white/50 text-[15px] leading-relaxed mb-10 max-w-sm mx-auto">
-          Your <span className="text-primary font-medium">{phase === "early-bird" ? "Early Bird" : "Official"}</span> application
-          for SFP 2026 has been received. We&apos;ll be in touch soon.
-        </motion.p>
-
-        {/* Email notice */}
-        <motion.div {...fade(0.8)} className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/[0.06] border border-white/[0.08] mb-8">
-          <div className="w-9 h-9 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
-            <Mail className="w-4 h-4 text-primary" />
-          </div>
-          <div className="min-w-0">
-            <p className="text-white/40 text-xs">Confirmation will be sent to</p>
-            <p className="text-white text-sm font-medium truncate">{email}</p>
-          </div>
-        </motion.div>
-
-        {/* Timeline */}
-        <motion.div {...fade(0.95)} className="rounded-2xl bg-white/[0.06] border border-white/[0.08] p-5 mb-8">
-          <p className="text-[11px] font-bold uppercase tracking-widest text-white/30 mb-5">What happens next</p>
-          <div className="space-y-0">
-            {TIMELINE_STEPS.map((step, i) => (
-              <div key={step.title} className="flex gap-3.5">
-                {/* Vertical line + dot */}
-                <div className="flex flex-col items-center">
-                  <div className="w-8 h-8 rounded-lg bg-primary/15 flex items-center justify-center text-primary shrink-0">
-                    {step.icon}
-                  </div>
-                  {i < TIMELINE_STEPS.length - 1 && (
-                    <div className="w-px flex-1 bg-gradient-to-b from-primary/30 to-transparent my-1" />
-                  )}
-                </div>
-                <div className={cn("pb-5", i === TIMELINE_STEPS.length - 1 && "pb-0")}>
-                  <p className="text-white font-medium text-sm leading-tight">{step.title}</p>
-                  <p className="text-white/40 text-xs mt-0.5">{step.desc}</p>
-                  <span className="inline-block mt-1.5 text-[10px] font-semibold text-primary/70 bg-primary/10 px-2 py-0.5 rounded-full">{step.time}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Social proof */}
-        <motion.p {...fade(1.1)} className="text-center text-white/25 text-xs mb-6">
-          Joining <span className="text-white/50 font-medium">6,000+</span> applicants who believe in Project X Vietnam
-        </motion.p>
-
-        {/* CTAs */}
-        <motion.div {...fade(1.2)} className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <Link href="/sfp2026">
-            <Button className="bg-white text-[#020818] hover:bg-white/90 rounded-full px-8 h-11 font-semibold text-sm shadow-lg shadow-white/10">
-              Back to SFP 2026
-            </Button>
-          </Link>
-          <a href="https://www.facebook.com/projectxvietnam" target="_blank" rel="noopener noreferrer">
-            <Button variant="outline" className="border-white/15 text-white/70 hover:text-white hover:bg-white/10 rounded-full px-8 h-11 font-semibold text-sm">
-              Follow Us
-            </Button>
-          </a>
-        </motion.div>
-      </div>
-    </main>
   );
 }
 
@@ -1237,7 +992,7 @@ export default function ApplyPage() {
       </div>
 
       {/* RIGHT: Context Panel (50%) - Fixed */}
-      <div className="hidden lg:block fixed top-0 right-0 w-1/2 h-screen overflow-y-auto" style={{ background: "linear-gradient(to bottom, #060085 0%, #01001F 25%)" }}>
+      <div className="hidden lg:block fixed top-0 right-0 w-1/2 h-screen overflow-hidden" style={{ background: "linear-gradient(to bottom, #060085 0%, #01001F 25%)" }}>
         <img src="/images/sfp2026/radiant_top_right.png" alt="" className="absolute top-0 right-0 w-3/4 h-auto pointer-events-none select-none" />
         <img src="/images/sfp2026/radiant_bottom_left.png" alt="" className="absolute bottom-0 left-0 w-3/4 h-auto pointer-events-none select-none" />
         <RightPanel phase={phase} deadline={deadline} currentStep={currentStep} data={formData} />

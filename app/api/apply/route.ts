@@ -21,28 +21,32 @@ export async function POST(request: NextRequest) {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: payload,
-      redirect: "manual",
+      redirect: "follow",
       signal: controller.signal,
     })
-      .then((res) => ({ status: res.status, error: false }))
-      .catch(() => ({ status: 0, error: true }));
+      .then((res) => ({ status: res.status, error: false, detail: "" }))
+      .catch((err: unknown) => {
+        const detail = err instanceof Error ? err.message : String(err);
+        console.error("Google Script fetch error:", detail);
+        return { status: 0, error: true, detail };
+      });
 
-    const timerPromise = new Promise<{ status: number; error: boolean }>(
+    const timerPromise = new Promise<{ status: number; error: boolean; detail: string }>(
       (resolve) =>
-        setTimeout(() => resolve({ status: -1, error: false }), ASSUME_SUCCESS_MS)
+        setTimeout(() => resolve({ status: -1, error: false, detail: "timer" }), ASSUME_SUCCESS_MS)
     );
 
     const result = await Promise.race([fetchPromise, timerPromise]);
     clearTimeout(hardTimer);
 
-    // 302 = Google processed doPost and is redirecting (normal success)
-    // 200 = direct response
+    // 200 = direct response / followed redirect successfully
     // -1  = timer won the race — data is already in flight to Google
-    if (result.status === 302 || result.status === 200 || result.status === -1) {
+    if (result.status === 200 || result.status === -1) {
       return NextResponse.json({ success: true });
     }
 
     if (result.error) {
+      console.error("Submission failed — fetch error:", result.detail);
       return NextResponse.json(
         { success: false, error: "Could not reach submission server. Please check your connection and try again." },
         { status: 502 }
