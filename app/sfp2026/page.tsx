@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion, useInView, useScroll, useSpring } from "framer-motion";
-import { Calendar, Search, Users, Rocket } from "lucide-react";
+import { Calendar, Search, Users, Rocket, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
@@ -21,7 +21,7 @@ function trackSFP2026Event(eventName: string, params?: Record<string, unknown>) 
   }
 }
 
-const COUNTDOWN_TARGET = new Date("2026-03-13T23:59:59+07:00");
+const COUNTDOWN_TARGET = new Date("2026-03-11T23:59:59+07:00");
 
 const SECTION_IDS = ["impact", "about-pjx", "partners", "roles", "journey", "testimonials", "faq"] as const;
 const SECTION_LABELS: Record<(typeof SECTION_IDS)[number], string> = {
@@ -79,8 +79,15 @@ function Countdown() {
       <p className="text-center text-sm md:text-base font-medium mb-4 text-slate-300">
         Application closes in
       </p>
-      <div className="p-6 md:p-8 rounded-3xl border backdrop-blur-lg max-w-lg mx-auto bg-white/5 border-white/10">
-        <div className="flex justify-center gap-4 sm:gap-6 md:gap-8">
+      <div className="p-6 md:p-8 rounded-3xl border backdrop-blur-lg max-w-lg mx-auto bg-white/5 border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden">
+        {/* Top-Left Corner Glow - Cyan */}
+        <div className="pointer-events-none absolute top-0 left-0 w-64 h-64 rounded-full bg-[#17CAFA] opacity-15 blur-3xl -translate-x-1/3 -translate-y-1/3" />
+        
+        {/* Bottom-Right Corner Glow - Blue */}
+        <div className="pointer-events-none absolute bottom-0 right-0 w-72 h-72 rounded-full bg-[#0E56FA] opacity-20 blur-3xl translate-x-1/3 translate-y-1/3" />
+        
+        {/* Content Layer */}
+        <div className="relative z-10 flex justify-center gap-4 sm:gap-6 md:gap-8">
           {[
             [d, "Days"],
             [h, "Hours"],
@@ -179,7 +186,7 @@ function StickySectionNav() {
             href={`#${id}`}
             className={`text-xs md:text-sm font-medium px-3 py-1.5 rounded-full transition-all ${activeSection === id
               ? "bg-primary/10 text-primary border border-primary/30"
-                : "text-slate-300 hover:text-primary hover:bg-white/5"
+              : "text-slate-300 hover:text-primary hover:bg-white/5"
               }`}
           >
             {SECTION_LABELS[id]}
@@ -206,7 +213,7 @@ const createOrbitNode = ({
 
   const pos = getOrbitPosition(radius, orbitAngle + angleOffset)
   const isActive = hoveredPillar === pillar
-  const iconColor = "#111111"
+  const iconColor = isActive ? "#17CAFA" : "#0E56FA"
   const labelColor = "#0E56FA"
 
   const renderIcon = () => {
@@ -231,9 +238,9 @@ const createOrbitNode = ({
       )
     }
     return (
-      <g fill={iconColor}>
+      <g stroke={iconColor} strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="0" cy="-4" r="4" />
-        <path d="M -8 10 Q 0 2 8 10 Z" />
+        <path d="M -8 10 Q 0 2 8 10 Z" stroke={iconColor} fill="none" strokeWidth="2" />
       </g>
     )
   }
@@ -261,12 +268,12 @@ const createOrbitNode = ({
         setTooltipPos?.(null)
       }}
     >
-      {/* Icon Circle */}
+      {/* Icon Circle - now transparent/outline only */}
       <circle
         r="18"
-        fill="white"
-        stroke={isActive ? labelColor : "rgba(14,86,250,0.6)"}
-        strokeWidth={isActive ? 2 : 1.2}
+        fill="rgba(14, 86, 250, 0.1)"
+        stroke={isActive ? "#17CAFA" : "#0E56FA"}
+        strokeWidth={isActive ? 2.5 : 2}
         style={{ transition: "all 0.3s ease" }}
       />
       {renderIcon()}
@@ -343,7 +350,7 @@ export default function SFP2026Page() {
   ];
 
   const journeySteps = [
-    { date: "20/02 - 13/03", title: "Official Application", desc: "Application period opens for Project X Summer Fellowship Program 2026." },
+    { date: "20/02 - 11/03", title: "Official Application", desc: "Application period opens for Project X Summer Fellowship Program 2026." },
     { date: "16/03 - 28/03", title: "Round 1", desc: "Develop a strong, cohesive profile including CV/Resume and Portfolio." },
     { date: "30/03 - 25/04", title: "Round 2", desc: "Enhance interview readiness before and during job application." },
     { date: "09/07 - 22/08", title: "Summer Fellowship Program 2026", desc: "Summer Fellowship Program with internships, professional, and personal development." },
@@ -418,18 +425,11 @@ export default function SFP2026Page() {
 
   const partnerLogosAll = [
     { src: "/images/partners/appota-logo.png", alt: "Appota" },
-    { src: "/images/partners/asilla-logo.jpg", alt: "Asilla" },
     { src: "/images/partners/chotot-logo.png", alt: "Chotot" },
-    { src: "/images/partners/edtronaut.png", alt: "Edtronaut" },
     { src: "/images/partners/geek-up-logo.png", alt: "Geek Up" },
-    { src: "/images/partners/gitiho-logo.png", alt: "Gitiho" },
     { src: "/images/partners/got-it-logo.png", alt: "Got It" },
     { src: "/images/partners/grab_logo.png", alt: "Grab" },
     { src: "/images/partners/holistics-logo.svg", alt: "Holistics" },
-    { src: "/images/partners/homebase-logo.png", alt: "Homebase" },
-    { src: "/images/partners/lg-logo.png", alt: "LG" },
-    { src: "/images/partners/one-mount-logo.png", alt: "One Mount" },
-    { src: "/images/partners/savvycom-logo.png", alt: "Savvycom" },
     { src: "/images/partners/shopee-logo.png", alt: "Shopee" },
     { src: "/images/partners/tiki_logo.png", alt: "Tiki" },
     { src: "/images/partners/vng_logo.png", alt: "VNG" },
@@ -591,65 +591,81 @@ export default function SFP2026Page() {
       />
 
       {/* Hero */}
-      <section className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-24 pb-16 snap-start">
-<div className="absolute top-0 right-0 z-0 pointer-events-none translate-x-1/4  -translate-y-1/4 rotate-[45deg] blur-2xl">
-  <Image
-    src="/images/sfp2026/light.svg"
-    alt=""
-    width={2400}
-    height={1200}
-    className="w-[200vw] md:w-[150vw] opacity-70"
-    priority
-  />
-</div>
-        <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 rotate-[-90deg]">
+      <section className="relative min-h-screen flex flex-col justify-between overflow-hidden pt-24 pb-8 snap-start">
+        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2  w-[100vw] md:w-[75vw] h-[45vh] overflow-hidden">
           <Image
-            src="/images/sfp2026/moonlight.svg"
+            src="/images/sfp2026/light.svg"
             alt=""
-            width={1920}
-            height={1600}
-            className="w-[150%] md:w-[80%]"
+            width={3600}
+            height={1200}
+            priority
+            className="w-full h-full object-cover opacity-80 [mask-image:linear-gradient(to_bottom,black_40%,transparent)]"
           />
         </div>
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 text-center">
+
+
+        {/* Main Content Container */}
+        <div className="relative z-10 flex-1 flex flex-col justify-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 text-center">
+          {/* Main Headline with Gradient */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight text-white"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
             style={{ fontFamily: "Plus Jakarta Sans" }}
           >
-            Illuminate your tech career path
+            <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">
+              Illuminate
+            </span>
+            <span className="text-white"> your tech <br /> career path</span>
           </motion.h1>
+
+          {/* Sub-headline */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.25 }}
-            className="mt-2 text-base md:text-lg max-w-2xl mx-auto text-slate-300"
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mt-6 text-base md:text-lg lg:text-xl max-w-3xl mx-auto text-slate-300 leading-relaxed"
+            style={{ fontFamily: "SF Pro Display, -apple-system, sans-serif" }}
           >
-            Project X Summer Fellowship Program 2026 connects learning with real-world impact.
-          </motion.p>
+            Project X Summer Fellowship Program 2026 is the guiding light <br /> that turns potential into clear direction in tech          </motion.p>
+
+          {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
+            transition={{ duration: 0.5, delay: 0.35 }}
+            className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Link href="/recruitment2026" onClick={() => trackSFP2026Event("sfp2026_cta_apply_click")}>
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg shadow-primary/25 hover:shadow-xl transition-all hover:scale-[1.02]">
-                Apply Now
-                <svg className="ml-2 w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] hover:from-[#0E56FA]/90 hover:to-[#17CAFA]/90 text-white rounded-full px-10 py-6 text-base md:text-lg font-semibold shadow-lg shadow-primary/25 hover:shadow-xl transition-all hover:scale-[1.02] w-full sm:w-auto"
+              >
+                Register now
               </Button>
             </Link>
             <a href="#impact">
-              <Button size="lg" variant="outline" className="rounded-full px-8 py-6 text-base font-semibold border-white/20 text-white hover:bg-white/5">
-                Learn More
+              <Button
+                size="lg"
+                variant="outline"
+                className="group rounded-full px-10 py-6 text-base md:text-lg font-semibold border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-all w-full sm:w-auto"
+              >
+                Learn more
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </a>
           </motion.div>
-          <div className="text-white">
+
+          {/* Countdown Timer */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="text-white"
+          >
             <Countdown />
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -673,14 +689,14 @@ export default function SFP2026Page() {
                 i === 0
                   ? "lg:col-span-2"
                   : i === 1
-                  ? "lg:col-span-2"
-                  : i === 2
-                  ? "lg:col-span-2"
-                  : i === 3
-                  ? "lg:col-span-2 lg:col-start-2"
-                  : i === 4
-                  ? "lg:col-span-2 lg:col-start-4"
-                  : "";
+                    ? "lg:col-span-2"
+                    : i === 2
+                      ? "lg:col-span-2"
+                      : i === 3
+                        ? "lg:col-span-2 lg:col-start-2"
+                        : i === 4
+                          ? "lg:col-span-2 lg:col-start-4"
+                          : "";
               return (
                 <motion.div
                   key={stat.label}
@@ -1012,7 +1028,7 @@ export default function SFP2026Page() {
               {partnerLogosSmall.map((logo) => (
                 <div key={logo.alt} className="flex items-center justify-center">
                   <div className="relative w-24 h-12 sm:w-28 sm:h-14">
-                    <Image src={logo.src} alt={logo.alt} fill className="object-contain" />
+                    <Image src={logo.src} alt={logo.alt} fill className="object-contain brightness-0 invert" />
                   </div>
                 </div>
               ))}
@@ -1023,17 +1039,17 @@ export default function SFP2026Page() {
           <div className="mb-12 hidden lg:block overflow-hidden">
             <div className="marquee">
               <div className="marquee__track gap-6 py-6">
-              {[...Array(2)].map((_, set) => (
-                <div key={set} className="marquee__group gap-6 pr-6">
-                  {partnerLogosAll.map((logo) => (
-                    <div key={`${set}-${logo.alt}`} className="flex items-center justify-center">
-                      <div className="relative w-28 h-14 xl:w-32 xl:h-16">
-                        <Image src={logo.src} alt={logo.alt} fill className="object-contain" />
+                {[...Array(2)].map((_, set) => (
+                  <div key={set} className="marquee__group gap-6 pr-6">
+                    {partnerLogosAll.map((logo) => (
+                      <div key={`${set}-${logo.alt}`} className="flex items-center justify-center">
+                        <div className="relative w-28 h-14 xl:w-32 xl:h-16">
+                          <Image src={logo.src} alt={logo.alt} fill className="object-contain brightness-0 invert" />
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              ))}
+                    ))}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -1111,7 +1127,7 @@ export default function SFP2026Page() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Targeted Roles & Domains</h2>
             <p className="mt-4 max-w-2xl mx-auto text-base md:text-lg text-slate-300">
-            Whether you pursue deep technical expertise or business-driven tech roles, Project X Summer Fellowship Program 2026 offers a pathway tailored to your ambitions.
+              Whether you pursue deep technical expertise or business-driven tech roles, Project X Summer Fellowship Program 2026 offers a pathway tailored to your ambitions.
             </p>
           </motion.div>
 
@@ -1120,34 +1136,34 @@ export default function SFP2026Page() {
             <div className="py-5 sm:py-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-lg overflow-hidden">
               <div className="marquee">
                 <div className="marquee__track gap-4 sm:gap-6 lg:gap-8 px-4">
-                {[...Array(2)].map((_, set) => (
-                  <div key={set} className="marquee__group gap-4 sm:gap-6 lg:gap-8 pr-4 sm:pr-6 lg:pr-8">
-                    {rolesList.slice(0, Math.ceil(rolesList.length / 2)).map((role, i) => (
-                      <div key={`${set}-${i}`} className="text-base sm:text-lg md:text-2xl font-semibold whitespace-nowrap transition-all text-slate-200 hover:text-primary">
-                        • {role}
-                      </div>
-                    ))}
-                  </div>
-                ))}
+                  {[...Array(2)].map((_, set) => (
+                    <div key={set} className="marquee__group gap-4 sm:gap-6 lg:gap-8 pr-4 sm:pr-6 lg:pr-8">
+                      {rolesList.slice(0, Math.ceil(rolesList.length / 2)).map((role, i) => (
+                        <div key={`${set}-${i}`} className="text-base sm:text-lg md:text-2xl font-semibold whitespace-nowrap transition-all text-slate-200 hover:text-primary">
+                          • {role}
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
 
             <div className="py-5 sm:py-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-lg overflow-hidden">
               <div className="marquee marquee--reverse">
                 <div className="marquee__track gap-4 sm:gap-6 lg:gap-8 px-4" style={{ animationDuration: "34s" }}>
-                {[...Array(2)].map((_, set) => (
-                  <div key={set} className="marquee__group gap-4 sm:gap-6 lg:gap-8 pr-4 sm:pr-6 lg:pr-8">
-                    {rolesList.slice(Math.ceil(rolesList.length / 2)).map((role, i) => (
-                      <div key={`${set}-${i}`} className="text-base sm:text-lg md:text-2xl font-semibold whitespace-nowrap transition-all text-slate-200 hover:text-primary">
-                        • {role}
-                      </div>
-                    ))}
-                  </div>
-                ))}
+                  {[...Array(2)].map((_, set) => (
+                    <div key={set} className="marquee__group gap-4 sm:gap-6 lg:gap-8 pr-4 sm:pr-6 lg:pr-8">
+                      {rolesList.slice(Math.ceil(rolesList.length / 2)).map((role, i) => (
+                        <div key={`${set}-${i}`} className="text-base sm:text-lg md:text-2xl font-semibold whitespace-nowrap transition-all text-slate-200 hover:text-primary">
+                          • {role}
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -1168,10 +1184,10 @@ export default function SFP2026Page() {
           </motion.div>
 
           <div ref={journeyRef} className="relative">
-            <div className="absolute right-6 md:right-16 top-0 bottom-0 w-px bg-white/10" />
+            <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px -translate-x-1/2 bg-white/10" />
             <motion.div
               style={{ scaleY: journeyProgress, transformOrigin: "top" }}
-              className="absolute right-6 md:right-16 top-0 bottom-0 w-[2px] bg-primary"
+              className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 bg-primary"
             />
 
             <div className="space-y-10">
@@ -1184,14 +1200,14 @@ export default function SFP2026Page() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: 0.5, delay: i * 0.08 }}
-                    className="relative flex items-center justify-end"
+                    className={`relative flex items-center ${i % 2 === 0 ? "md:justify-start" : "md:justify-end"}`}
                   >
                     <motion.div
                       whileHover={{ scale: 1.02 }}
-                      className="ml-12 md:ml-0 md:pr-32"
+                      className={`ml-12 md:ml-0 ${i % 2 === 0 ? "md:pr-24" : "md:pl-24"}`}
                     >
                       <motion.div
-                        whileInView={{ opacity: 1, y: 0 }} 
+                        whileInView={{ opacity: 1, y: 0 }}
                         initial={{ opacity: 0, y: 12 }}
                         viewport={{ once: true, amount: 0.4 }}
                         transition={{ duration: 0.4, delay: i * 0.08 + 0.1 }}
@@ -1241,7 +1257,7 @@ export default function SFP2026Page() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4 text-white"
           >
-            Not just skills, but a shift in <br/> how they see their future
+            Not just skills, but a shift in <br /> how they see their future
           </motion.h2>
 
           <motion.p
