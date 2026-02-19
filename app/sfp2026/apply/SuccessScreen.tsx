@@ -8,6 +8,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { trackSuccessAction } from "@/lib/analytics/sfp2026";
 
 // ─────────────────────────────────────────────────────────────
 // Types
@@ -259,12 +260,12 @@ export default function SuccessScreen({ firstName, email, phase }: SuccessScreen
 
         {/* CTAs */}
         <motion.div {...fade(1.2)} className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <a href="https://www.facebook.com/techXVn" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.facebook.com/techXVn" target="_blank" rel="noopener noreferrer" onClick={() => trackSuccessAction("follow_facebook")}>
             <Button className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white rounded-full px-8 h-11 font-semibold text-sm shadow-lg shadow-primary/20 transition-all">
               Follow Us
             </Button>
           </a>
-          <Link href="/sfp2026">
+          <Link href="/sfp2026" onClick={() => trackSuccessAction("back_to_landing")}>
             <Button variant="outline" className="border-white/[0.12] text-white/50 hover:text-white hover:bg-white/[0.06] hover:border-white/20 rounded-full px-8 h-11 font-semibold text-sm transition-all">
               Back to SFP 2026
             </Button>

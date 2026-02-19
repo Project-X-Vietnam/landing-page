@@ -1,26 +1,21 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { motion, useInView, useScroll, useSpring } from "framer-motion";
-import { Calendar, Search, Users, Rocket, ArrowRight } from "lucide-react";
+import { Calendar, Users, Rocket, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import Image from "next/image";
-import { User, Package, TrendingUp} from "lucide-react";
-
-
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-  }
-}
-
-function trackSFP2026Event(eventName: string, params?: Record<string, unknown>) {
-  if (typeof window !== "undefined" && window.gtag) {
-    window.gtag("event", eventName, params);
-  }
-}
+import { Package, TrendingUp } from "lucide-react";
+import {
+  trackClickApplyCta,
+  trackScrollDepth,
+  trackSectionView,
+  trackFaqExpand,
+  type SectionName,
+  type ScrollPercent,
+} from "@/lib/analytics/sfp2026";
 
 const COUNTDOWN_TARGET = new Date("2026-03-11T23:59:59+07:00");
 
@@ -140,6 +135,20 @@ function AnimatedCounter({ value, suffix = "", duration = 2000 }: { value: numbe
   );
 }
 
+interface OrbitNodeProps {
+  radius: number;
+  angleOffset: number;
+  label: string;
+  pillar: string;
+  orbitAngle: number;
+  hoveredPillar: string | null;
+  setHoveredPillar: (v: string | null) => void;
+  setIsOrbitalPaused: (v: boolean) => void;
+  setTooltipPos: (v: { x: number; y: number } | null) => void;
+  orbitalRef: React.RefObject<HTMLDivElement | null>;
+  getOrbitPosition: (r: number, a: number) => { x: number; y: number };
+}
+
 const createOrbitNode = ({
   radius,
   angleOffset,
@@ -152,7 +161,7 @@ const createOrbitNode = ({
   setTooltipPos,
   orbitalRef,
   getOrbitPosition
-}: any) => {
+}: OrbitNodeProps) => {
 
   const pos = getOrbitPosition(radius, orbitAngle + angleOffset)
   const isActive = hoveredPillar === pillar
@@ -261,6 +270,92 @@ export default function SFP2026Page() {
   const aboutSfpActive = useInView(aboutSfpRef, { amount: 0.2 });
   const aboutPJXTyped = useTypingText("Project X Vietnam", 30, aboutPJXInView);
   const aboutSFPTyped = useTypingText("Summer Fellowship Program 2026", 30, aboutSfpInView);
+
+  // ── GA4: Scroll depth tracking (25%, 50%, 75%) ──
+  const scrollFiredRef = useRef<Set<ScrollPercent>>(new Set());
+  useEffect(() => {
+    const handler = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (docHeight <= 0) return;
+      const pct = (scrollTop / docHeight) * 100;
+      const thresholds: ScrollPercent[] = [25, 50, 75];
+      for (const t of thresholds) {
+        if (pct >= t && !scrollFiredRef.current.has(t)) {
+          scrollFiredRef.current.add(t);
+          trackScrollDepth(t);
+        }
+      }
+    };
+    window.addEventListener("scroll", handler, { passive: true });
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
+
+  // ── GA4: Section view tracking (IntersectionObserver, >=3s visible) ──
+  const TRACKED_SECTIONS: { id: string; name: SectionName }[] = [
+    { id: "impact", name: "impact" },
+    { id: "about-pjx", name: "about_pjx" },
+    { id: "about-sfp", name: "about_sfp" },
+    { id: "partners", name: "partners" },
+    { id: "roles", name: "roles" },
+    { id: "journey", name: "journey" },
+    { id: "testimonials", name: "testimonials" },
+    { id: "faq", name: "faq" },
+    { id: "cta", name: "final_cta" },
+  ];
+
+  const sectionViewedRef = useRef<Set<string>>(new Set());
+  useEffect(() => {
+    const timers = new Map<string, NodeJS.Timeout>();
+    const sectionMap = new Map(TRACKED_SECTIONS.map((s) => [s.id, s.name]));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const id = entry.target.id;
+          if (entry.isIntersecting && !sectionViewedRef.current.has(id)) {
+            timers.set(
+              id,
+              setTimeout(() => {
+                if (!sectionViewedRef.current.has(id)) {
+                  sectionViewedRef.current.add(id);
+                  const name = sectionMap.get(id);
+                  if (name) trackSectionView(name);
+                }
+              }, 3000),
+            );
+          } else {
+            const timer = timers.get(id);
+            if (timer) {
+              clearTimeout(timer);
+              timers.delete(id);
+            }
+          }
+        }
+      },
+      { threshold: 0.3 },
+    );
+
+    for (const { id } of TRACKED_SECTIONS) {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    }
+
+    return () => {
+      observer.disconnect();
+      timers.forEach((t) => clearTimeout(t));
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ── GA4: FAQ expand handler ──
+  const handleFaqToggle = useCallback((index: number, question: string) => {
+    setOpenFaq((prev) => {
+      const opening = prev !== index;
+      if (opening) trackFaqExpand(question, index);
+      return opening ? index : null;
+    });
+  }, []);
 
   const testimonials = [
     {
@@ -400,12 +495,12 @@ export default function SFP2026Page() {
   ];
 
   const [activeCard, setActiveCard] = useState(0);
-  const [exitingCard, setExitingCard] = useState<number | null>(null);
-  const [hasAnimated, setHasAnimated] = useState(false);
+  const [, setExitingCard] = useState<number | null>(null);
+  const [, setHasAnimated] = useState(false);
 
   // Image carousel state
-  const [activeImage, setActiveImage] = useState(0);
-  const [images, setImages] = useState<string[]>([
+  const [, setActiveImage] = useState(0);
+  const [images] = useState<string[]>([
     "IMG_6482.jpg",
     "IMG_6513.jpg",
     "IMG_6645.jpg",
@@ -576,7 +671,7 @@ export default function SFP2026Page() {
             transition={{ duration: 0.5, delay: 0.35 }}
             className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <Link href="/recruitment2026" onClick={() => trackSFP2026Event("sfp2026_cta_apply_click")}>
+            <Link href="/sfp2026/apply" onClick={() => trackClickApplyCta("hero", "hero")}>
               <Button
                 size="lg"
                 className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] hover:from-[#0E56FA]/90 hover:to-[#17CAFA]/90 text-white rounded-full px-10 py-6 text-base md:text-lg font-semibold shadow-lg shadow-primary/25 hover:shadow-xl transition-all hover:scale-[1.02] w-full sm:w-auto"
@@ -714,7 +809,7 @@ export default function SFP2026Page() {
                 <span className="inline-block w-0.5 h-8 bg-primary animate-cursor-blink align-middle ml-1" />
               </motion.h2>
               <p className="text-base md:text-lg leading-relaxed text-slate-300">
-                Founded in 2022, Project X Vietnam is a NGO with the mission to bridge the gap between young talents and companies in the Vietnam's tech ecosystem via our annual flagship, called Project X Summer Fellowship Program.
+                Founded in 2022, Project X Vietnam is a NGO with the mission to bridge the gap between young talents and companies in the Vietnam&apos;s tech ecosystem via our annual flagship, called Project X Summer Fellowship Program.
               </p>
               <p className="text-base md:text-lg leading-relaxed text-slate-300">
                 Our mission is built on three core pillars: <strong className="text-primary">Empower, Nurture & Support.</strong>
@@ -737,9 +832,6 @@ export default function SFP2026Page() {
 
                 {(() => {
                   const ringColor = "rgba(255,255,255,0.15)";
-
-                  const nodeFill = "white";
-                  const primary = "#0E56FA";
 
                   return (
                     <>
@@ -781,10 +873,6 @@ export default function SFP2026Page() {
                         height="50"
                       />
                       {(() => {
-
-                        const support = getOrbitPosition(140, orbitAngle + 30)
-                        const empower = getOrbitPosition(90, orbitAngle + 150)
-                        const nurture = getOrbitPosition(140, orbitAngle + 270)
 
                         return (
                           <>
@@ -1278,7 +1366,7 @@ export default function SFP2026Page() {
                 className="rounded-xl border overflow-hidden bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 border-white/10 backdrop-blur-lg"
               >
                 <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  onClick={() => handleFaqToggle(i, item.q)}
                   className="w-full flex items-center justify-between gap-4 px-6 py-4 text-left font-medium text-white"
                 >
                   {item.q}
@@ -1312,7 +1400,7 @@ export default function SFP2026Page() {
             Project X Summer Fellowship Program 2026 is your next step.
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="mt-10">
-            <Link href="/recruitment2026" onClick={() => trackSFP2026Event("sfp2026_cta_apply_click")}>
+            <Link href="/sfp2026/apply" onClick={() => trackClickApplyCta("bottom_cta", "cta")}>
               <Button size="lg" className="bg-white text-primary hover:bg-white/90 rounded-full px-8 py-6 text-base font-semibold hover:scale-[1.02] transition-all shadow-lg">
                 Apply now and shape your future in tech
                 <svg className="ml-2 w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>

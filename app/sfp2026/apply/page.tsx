@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
@@ -17,6 +17,20 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import SuccessScreen from "./SuccessScreen";
+import {
+  trackApplicationFormStart,
+  trackApplicationPageView,
+  trackFormStepComplete,
+  trackFormValidationError,
+  trackApplicationSubmitted,
+  trackFormSessionRestored,
+  trackFormExit,
+  setSfpUserProperties,
+  deriveInterestTrack,
+  STEP_NAMES,
+  type FormPhase as AnalyticsFormPhase,
+  type FormExitElement,
+} from "@/lib/analytics/sfp2026";
 
 // ═══════════════════════════════════════════════════════════════
 // TYPES & CONSTANTS
@@ -679,8 +693,9 @@ function CountdownTile({ value, label }: { value: number; label: string }) {
   );
 }
 
-function RightPanel({ phase, deadline, currentStep, data }: {
+function RightPanel({ phase, deadline, currentStep, data, onExit }: {
   phase: FormPhase; deadline: Date; currentStep: number; data: ApplicationFormData;
+  onExit?: (element: FormExitElement) => void;
 }) {
   const [[d, h, m, s], setTime] = useState([0, 0, 0, 0]);
   useEffect(() => {
@@ -701,7 +716,7 @@ function RightPanel({ phase, deadline, currentStep, data }: {
     <div className="relative z-10 h-full flex flex-col p-6 xl:p-8 2xl:p-10">
       {/* Header: back link — pinned top */}
       <div className="shrink-0">
-        <Link href="/sfp2026" className="text-xs text-white/50 hover:text-white transition-colors inline-flex items-center gap-1.5 font-medium">
+        <Link href="/sfp2026" onClick={() => onExit?.("back_link")} className="text-xs text-white/50 hover:text-white transition-colors inline-flex items-center gap-1.5 font-medium">
           <ArrowLeft className="w-3.5 h-3.5" /> SFP 2026
         </Link>
       </div>
@@ -809,26 +824,58 @@ export default function ApplyPage() {
   const [errors, setErrors] = useState<string[]>([]);
   const [isHydrated, setIsHydrated] = useState(false);
 
+  // ── GA4 tracking refs ──
+  const hasTrackedFormStart = useRef(false);
+  const formStartTimeRef = useRef<number>(0);
+  const analyticsPhase = phase as AnalyticsFormPhase;
+
   useEffect(() => {
     try {
       const saved = localStorage.getItem("sfp2026-apply");
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed.formData) setFormData(parsed.formData);
-        if (typeof parsed.step === "number" && parsed.step >= 0 && parsed.step < STEP_LABELS.length) setCurrentStep(parsed.step);
+        if (typeof parsed.step === "number" && parsed.step >= 0 && parsed.step < STEP_LABELS.length) {
+          setCurrentStep(parsed.step);
+          // GA4: only track restored session if user had meaningful progress
+          const hasProgress = parsed.step > 0
+            || (parsed.formData?.fullName && parsed.formData.fullName.trim() !== "");
+          if (hasProgress) {
+            trackFormSessionRestored(parsed.step, (getFormPhase() === "closed" ? "official" : getFormPhase()) as AnalyticsFormPhase);
+          }
+        }
       }
     } catch { /* ignore */ }
     setIsHydrated(true);
   }, []);
+
+  // GA4: set user property + track page view on mount
+  useEffect(() => {
+    if (phase !== "closed") {
+      setSfpUserProperties({ sfp_form_phase: analyticsPhase });
+      trackApplicationPageView(analyticsPhase);
+    }
+  }, [phase, analyticsPhase]);
 
   useEffect(() => {
     if (!isHydrated) return;
     localStorage.setItem("sfp2026-apply", JSON.stringify({ formData, step: currentStep }));
   }, [formData, currentStep, isHydrated]);
 
+  // GA4: track first form interaction
+  const trackFormStartOnce = useCallback(() => {
+    if (!hasTrackedFormStart.current && phase !== "closed") {
+      hasTrackedFormStart.current = true;
+      formStartTimeRef.current = Date.now();
+      trackApplicationFormStart(analyticsPhase);
+      setSfpUserProperties({ sfp_application_status: "started" });
+    }
+  }, [phase, analyticsPhase]);
+
   const update: UpdateFn = useCallback((key, value) => {
+    trackFormStartOnce();
     setFormData((prev) => ({ ...prev, [key]: value }));
-  }, []);
+  }, [trackFormStartOnce]);
 
   const goToStep = (step: number) => {
     setErrors([]);
@@ -838,15 +885,32 @@ export default function ApplyPage() {
 
   const handleNext = () => {
     const stepErrors = validateStep(currentStep, formData, phase);
-    if (stepErrors.length > 0) { setErrors(stepErrors); toast.error(stepErrors[0]); return; }
+    if (stepErrors.length > 0) {
+      setErrors(stepErrors);
+      toast.error(stepErrors[0]);
+      trackFormValidationError(currentStep, STEP_NAMES[currentStep], stepErrors.length, stepErrors[0]);
+      return;
+    }
     setErrors([]);
+    trackFormStepComplete(currentStep, STEP_NAMES[currentStep], analyticsPhase);
+
+    // GA4: set interest track user property after step 1 (profile & interests)
+    if (currentStep === 1 && formData.areasOfInterest.length > 0) {
+      setSfpUserProperties({ sfp_interest_track: deriveInterestTrack(formData.areasOfInterest) });
+    }
+
     setCurrentStep((p) => p + 1);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSubmit = async () => {
     const stepErrors = validateStep(currentStep, formData, phase);
-    if (stepErrors.length > 0) { setErrors(stepErrors); toast.error(stepErrors[0]); return; }
+    if (stepErrors.length > 0) {
+      setErrors(stepErrors);
+      toast.error(stepErrors[0]);
+      trackFormValidationError(currentStep, STEP_NAMES[currentStep], stepErrors.length, stepErrors[0]);
+      return;
+    }
     if (getFormPhase() === "closed") { toast.error("The application period has ended."); return; }
     setIsSubmitting(true);
     setSubmitLabel("Submitting...");
@@ -865,6 +929,15 @@ export default function ApplyPage() {
         const msg = json?.error || "Submission failed. Please try again.";
         throw new Error(msg);
       }
+
+      // GA4: track final step complete + submission
+      trackFormStepComplete(currentStep, STEP_NAMES[currentStep], analyticsPhase);
+      const completionSeconds = formStartTimeRef.current
+        ? (Date.now() - formStartTimeRef.current) / 1000
+        : 0;
+      trackApplicationSubmitted(analyticsPhase, completionSeconds);
+      setSfpUserProperties({ sfp_application_status: "submitted" });
+
       setIsSubmitted(true);
       localStorage.removeItem("sfp2026-apply");
       toast.success("Application submitted successfully!");
@@ -921,7 +994,7 @@ export default function ApplyPage() {
       <div className="w-full lg:w-1/2 min-h-screen">
         <div className="max-w-2xl mx-auto px-6 lg:px-12 py-10 lg:py-12">
           {/* Logo */}
-          <Link href="/sfp2026" className="inline-block mb-8">
+          <Link href="/sfp2026" onClick={() => trackFormExit("logo", currentStep, analyticsPhase)} className="inline-block mb-8">
             <img src="/preview_icon.png" alt="Project X Vietnam" className="h-10" />
           </Link>
 
@@ -995,7 +1068,7 @@ export default function ApplyPage() {
       <div className="hidden lg:block fixed top-0 right-0 w-1/2 h-screen overflow-hidden" style={{ background: "linear-gradient(to bottom, #060085 0%, #01001F 25%)" }}>
         <img src="/images/sfp2026/radiant_top_right.png" alt="" className="absolute top-0 right-0 w-3/4 h-auto pointer-events-none select-none" />
         <img src="/images/sfp2026/radiant_bottom_left.png" alt="" className="absolute bottom-0 left-0 w-3/4 h-auto pointer-events-none select-none" />
-        <RightPanel phase={phase} deadline={deadline} currentStep={currentStep} data={formData} />
+        <RightPanel phase={phase} deadline={deadline} currentStep={currentStep} data={formData} onExit={(el) => trackFormExit(el, currentStep, analyticsPhase)} />
       </div>
     </main>
   );

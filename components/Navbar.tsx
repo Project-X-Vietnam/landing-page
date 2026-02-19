@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { trackClickApplyCta } from "@/lib/analytics/sfp2026";
 
 // ============================================
 // CURSOR TOOLTIP - Shows text near cursor on hover
@@ -168,7 +169,7 @@ export default function Navbar({
             {showCta && (
               <div className="flex items-center gap-3">
                 <CursorTooltip text="Apply">
-                  <Link href="/sfp2026">
+                  <Link href="/sfp2026/apply" onClick={() => trackClickApplyCta("navbar")}>
                     <Button
                       size="sm"
                       className="bg-primary hover:bg-primary/90 text-white rounded-full px-5"
@@ -248,7 +249,7 @@ export default function Navbar({
             {showCta && (
               <div className="flex items-center gap-3">
                 <CursorTooltip text="Apply">
-                  <Link href="/sfp2026">
+                  <Link href="/sfp2026/apply" onClick={() => trackClickApplyCta("navbar")}>
                     <Button
                       size="sm"
                       className="bg-primary hover:bg-primary/90 text-white rounded-full px-5"

@@ -17,5 +17,5 @@ export default function SFP2026Layout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return <div className="min-h-screen bg-[#01001F]">{children}</div>;
 }
