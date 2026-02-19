@@ -168,7 +168,7 @@ export default function Navbar({
             {showCta && (
               <div className="flex items-center gap-3">
                 <CursorTooltip text="Apply">
-                  <Link href="/recruitment2026">
+                  <Link href="/sfp2026">
                     <Button
                       size="sm"
                       className="bg-primary hover:bg-primary/90 text-white rounded-full px-5"
@@ -248,7 +248,7 @@ export default function Navbar({
             {showCta && (
               <div className="flex items-center gap-3">
                 <CursorTooltip text="Apply">
-                  <Link href="/recruitment2026">
+                  <Link href="/sfp2026">
                     <Button
                       size="sm"
                       className="bg-primary hover:bg-primary/90 text-white rounded-full px-5"

@@ -347,7 +347,7 @@ export default function SummerFellowshipPage() {
             transition={{ duration: 0.5, delay: 0.7 }}
             className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <Link href="/recruitment2026">
+            <Link href="/sfp2026">
               <Button
                 size="lg"
                 className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg shadow-primary/25 hover:shadow-xl transition-all hover:scale-[1.02]"
