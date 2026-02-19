@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import Image from "next/image";
+import { User, Package, TrendingUp} from "lucide-react";
 
 
 declare global {
@@ -79,28 +80,31 @@ function Countdown() {
       <p className="text-center text-sm md:text-base font-medium mb-4 text-slate-300">
         Application closes in
       </p>
-      <div className="p-6 md:p-8 rounded-3xl border backdrop-blur-lg max-w-lg mx-auto bg-white/5 border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden">
-        {/* Top-Left Corner Glow - Cyan */}
-        <div className="pointer-events-none absolute top-0 left-0 w-64 h-64 rounded-full bg-[#17CAFA] opacity-15 blur-3xl -translate-x-1/3 -translate-y-1/3" />
-        
-        {/* Bottom-Right Corner Glow - Blue */}
-        <div className="pointer-events-none absolute bottom-0 right-0 w-72 h-72 rounded-full bg-[#0E56FA] opacity-20 blur-3xl translate-x-1/3 translate-y-1/3" />
-        
-        {/* Content Layer */}
-        <div className="relative z-10 flex justify-center gap-4 sm:gap-6 md:gap-8">
-          {[
-            [d, "Days"],
-            [h, "Hours"],
-            [m, "Minutes"],
-            [s, "Seconds"],
-          ].map(([val, label]) => (
-            <div key={String(label)} className="text-center">
-              <div className="text-3xl sm:text-4xl md:text-5xl font-bold tabular-nums min-w-[3rem] md:min-w-[4rem] text-primary">
-                {String(val).padStart(2, "0")}
+      <div className="mx-auto p-[1px] rounded-3xl bg-gradient-to-br from-[#0E56FA]/60 via-white/5 to-[#17CAFA]/60">
+        <div className="relative p-8 md:p-10 lg:p-12 rounded-3xl backdrop-blur-lg">
+          <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-[#0E56FA]/10 via-transparent to-[#17CAFA]/10 blur-xl opacity-60" />
+
+          {/* Content Layer */}
+          <div className="relative z-10 flex justify-center items-center gap-3 sm:gap-5 md:gap-7">
+            {[
+              [d, "Days"],
+              [h, "Hours"],
+              [m, "Minutes"],
+              [s, "Seconds"],
+            ].map(([val, label], idx) => (
+              <div key={String(label)} className="flex flex-col items-center">
+                <div className="flex items-center">
+                  <div className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tabular-nums min-w-[4rem] md:min-w-[5rem] text-white text-center">
+                    {String(val).padStart(2, "0")}
+                  </div>
+                  {idx < 3 && (
+                    <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white/40 ml-2 sm:ml-3 md:ml-4 font-light">:</div>
+                  )}
+                </div>
+                <div className="text-xs sm:text-sm font-medium mt-2 text-slate-300">{label}</div>
               </div>
-              <div className="text-xs sm:text-sm font-medium mt-2 text-slate-300">{label}</div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -133,67 +137,6 @@ function AnimatedCounter({ value, suffix = "", duration = 2000 }: { value: numbe
       {displayValue}
       {suffix}
     </span>
-  );
-}
-
-function StickySectionNav() {
-  const [visible, setVisible] = useState(false);
-  const [activeSection, setActiveSection] = useState<string | null>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([e]) => setVisible(e.boundingClientRect.top < 80),
-      { threshold: 0, rootMargin: "-80px 0px 0px 0px" }
-    );
-    const el = document.getElementById("impact");
-    if (el) observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = SECTION_IDS.map(id => {
-        const el = document.getElementById(id);
-        if (!el) return null;
-        const rect = el.getBoundingClientRect();
-        return { id, top: rect.top };
-      }).filter(Boolean);
-
-      const current = sections.find(s => s && s.top >= 0);
-      if (current) {
-        setActiveSection(current.id);
-      } else if (sections.length > 0) {
-        const last = sections[sections.length - 1];
-        if (last) setActiveSection(last.id);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  if (!visible) return null;
-  return (
-    <motion.nav
-      initial={{ y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      className="fixed top-0 left-0 right-0 z-40 py-3 px-4 md:px-8 backdrop-blur-xl border-b transition-colors bg-[#01001F]/90 border-white/10"
-    >
-      <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-center gap-2 md:gap-4">
-        {SECTION_IDS.map((id) => (
-          <a
-            key={id}
-            href={`#${id}`}
-            className={`text-xs md:text-sm font-medium px-3 py-1.5 rounded-full transition-all ${activeSection === id
-              ? "bg-primary/10 text-primary border border-primary/30"
-              : "text-slate-300 hover:text-primary hover:bg-white/5"
-              }`}
-          >
-            {SECTION_LABELS[id]}
-          </a>
-        ))}
-      </div>
-    </motion.nav>
   );
 }
 
@@ -491,10 +434,6 @@ export default function SFP2026Page() {
     return (index - activeCard + rotatingCards.length) % rotatingCards.length;
   };
 
-  const getImageStackPosition = (index: number) => {
-    return (index - activeImage + images.length) % images.length;
-  };
-
   useEffect(() => {
     if (rotationTimer.current) clearInterval(rotationTimer.current);
     if (imageTimer.current) clearInterval(imageTimer.current);
@@ -670,14 +609,14 @@ export default function SFP2026Page() {
       </section>
 
       {/* Our Impact So Far */}
-      <section id="impact" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-          <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 w-[140%] -translate-x-1/2 -translate-y-1/2 opacity-30 blur-2xl animate-pulse [animation-duration:8s]">
-            <Image src="/images/sfp2026/cloud.svg" alt="" width={1600} height={900} className="w-full" />
-          </div>
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white">Our Impact So Far</h2>
-            <p className="mt-4 max-w-2xl mx-auto text-slate-300">
+      <section id="impact" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="relative text-center mb-12">
+            <div className="pointer-events-none absolute left-1/2 top-4 -z-10 h-40 w-40 -translate-x-1/2 rounded-full bg-primary/40 blur-3xl" />
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+              Our <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">impact</span> so far
+            </h2>
+            <p className="text-base md:text-lg max-w-2xl mx-auto text-slate-300">
               Project X Summer Fellowship Program has grown into one of Vietnam&apos;s most impactful tech initiatives - an integrated talent development ecosystem shaping the next generation of tech leaders.
             </p>
           </motion.div>
@@ -704,20 +643,45 @@ export default function SFP2026Page() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
-                  className={`relative w-full max-w-[260px] px-8 py-8 rounded-2xl border flex flex-col justify-between items-start h-[220px] bg-white/5 border-white/10 backdrop-blur-lg overflow-hidden ${positionClass}`}
+                  className={`relative w-full max-w-[260px] p-[1px] rounded-2xl bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40  ${positionClass}`}
                 >
-                  <div className="pointer-events-none absolute right-[-20%] top-[-20%] h-24 w-24 rounded-full bg-[#17CAFA]/30 blur-3xl" />
-                  <div className="space-y-1">
-                    {lines.map((part, idx) => (
-                      <p key={idx} className="text-sm font-sm text-slate-300">
-                        {part}
-                      </p>
-                    ))}
-                  </div>
-                  <div className="text-5xl md:text-6xl font-bold mt-auto text-primary leading-none tracking-tight">
-                    {stat.suffix === "%" ? `~${stat.value}${stat.suffix}` : <><AnimatedCounter value={stat.value} suffix={stat.suffix} /></>}
+                  {/* Inner Glass Container */}
+                  <div
+                    className="relative px-8 py-8 rounded-2xl 
+    bg-white/[0.04] backdrop-blur-lg 
+    shadow-[0_15px_50px_rgba(0,0,0,0.25)] 
+    overflow-hidden flex flex-col justify-between items-start"
+                  >
+                    {/* Inner Gradient Blur Light */}
+                    <div className="pointer-events-none absolute inset-0 rounded-2xl 
+      bg-gradient-to-br from-[#0E56FA]/10 via-transparent to-[#17CAFA]/10 
+      blur-xl opacity-60"
+                    />
+
+                    {/* Content */}
+                    <div className="relative z-10 space-y-1 pb-2">
+                      {lines.map((part, idx) => (
+                        <p
+                          key={idx}
+                          className="text-sm font-medium text-white/75"
+                          style={{ fontFamily: "SF Pro Display, -apple-system, sans-serif" }}
+                        >
+                          {part}
+                        </p>
+                      ))}
+                    </div>
+
+                    <div
+                      className="relative z-10 text-5xl md:text-6xl font-bold mt-auto text-white leading-none tracking-tight"
+                      style={{ fontFamily: "Plus Jakarta Sans, -apple-system, sans-serif" }}
+                    >
+                      {stat.suffix === "%"
+                        ? `~${stat.value}${stat.suffix}`
+                        : <><AnimatedCounter value={stat.value} suffix={stat.suffix} /></>}
+                    </div>
                   </div>
                 </motion.div>
+
               );
             })}
           </div>
@@ -725,8 +689,11 @@ export default function SFP2026Page() {
       </section>
 
       {/* About Project X Vietnam */}
-      <section id="about-pjx" ref={aboutRef} className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+      <section id="about-pjx" ref={aboutRef} className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
+        <div className="pointer-events-none absolute bottom-0 right-0 translate-x-1/4 translate-y-1/4 z-0 w-[80vw]">
+          <Image src="/images/sfp2026/cloud.svg" alt="" width={1200} height={800} className="w-full" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
           <div className="grid lg:grid-cols-[1.5fr_1fr] gap-10 items-start overflow-visible">
             {/* Left Column - Text Content (60%) */}
             <motion.div
@@ -743,7 +710,7 @@ export default function SFP2026Page() {
                 className="text-3xl md:text-4xl font-bold text-left text-white"
               >
                 <span>About </span>
-                <span className="text-primary">{aboutPJXTyped}</span>
+                <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">{aboutPJXTyped}</span>
                 <span className="inline-block w-0.5 h-8 bg-primary animate-cursor-blink align-middle ml-1" />
               </motion.h2>
               <p className="text-base md:text-lg leading-relaxed text-slate-300">
@@ -908,9 +875,12 @@ export default function SFP2026Page() {
       <section
         id="about-sfp"
         ref={aboutSfpRef}
-        className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F]"
+        className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="pointer-events-none absolute top-0 right-0 z-0 translate-x-1/4 -translate-y-1/4 w-[80vw]  scale-y-[-1]">
+          <Image src="/images/sfp2026/cloud.svg" alt="" width={1200} height={800} className="w-full" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
           <motion.h2
             initial={{ opacity: 0, y: -10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -918,7 +888,7 @@ export default function SFP2026Page() {
             className="text-3xl md:text-4xl font-bold mb-16 text-left text-white"
           >
             <span>About </span>
-            <span className="text-primary">{aboutSFPTyped}</span>
+            <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">{aboutSFPTyped}</span>
             <span className="inline-block w-0.5 h-8 bg-primary animate-cursor-blink align-middle ml-1" />
           </motion.h2>
           <div className="grid lg:grid-cols-2 gap-12 items-start">
@@ -971,13 +941,13 @@ export default function SFP2026Page() {
                         left: 0,
                         right: 0,
                       }}
-                      className="h-24 md:h-28 p-6 rounded-2xl relative bg-white/5 border border-white/10 backdrop-blur-lg"
+                      className="h-24 md:h-28 p-6 rounded-2xl relative bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 border border-white/10 backdrop-blur-lg"
                     >
                       {/* Number badge overflowing in top right corner - only show on top card */}
                       {position === 0 && (
                         <div className="absolute -top-6 -right-6 md:-top-8 md:-right-8 z-[-1]">
                           <span
-                            className="text-7xl md:text-8xl font-bold text-primary"
+                            className="text-7xl md:text-8xl font-bold text-white"
                           >
                             {index + 1}
                           </span>
@@ -994,7 +964,7 @@ export default function SFP2026Page() {
                 })}
               </div>
             </div>
-            <div className="rounded-2xl border relative overflow-hidden bg-white/5 border-white/10 backdrop-blur-lg">
+            <div className="rounded-2xl border relative overflow-hidden bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 border-white/10 backdrop-blur-lg">
               <div className="relative h-[420px]">
                 <Image
                   src="/images/IMG_6661.jpg"
@@ -1013,7 +983,7 @@ export default function SFP2026Page() {
       <section id="partners" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
           <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 w-[140%] -translate-x-1/2 -translate-y-1/2 opacity-25 blur-2xl animate-pulse [animation-duration:8s]">
-            <Image src="/cloud.svg" alt="" width={1600} height={900} className="w-full" />
+            <Image src="/images/sfp2026/cloud.svg" alt="" width={1600} height={900} className="w-full" />
           </div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Trusted by Multiple Partners</h2>
@@ -1063,27 +1033,21 @@ export default function SFP2026Page() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="p-6 rounded-2xl border bg-white/5 border-white/10 backdrop-blur-lg"
+                className="relative w-full p-[1px] rounded-2xl bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40"
               >
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg mb-4 bg-primary/10">
-                  {i === 0 && (
-                    <svg className="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M7 6V5a3 3 0 0 1 6 0v1h2.5A1.5 1.5 0 0 1 17 7.5v7A1.5 1.5 0 0 1 15.5 16h-11A1.5 1.5 0 0 1 3 14.5v-7A1.5 1.5 0 0 1 4.5 6H7zm1.5 0h3V5a1.5 1.5 0 0 0-3 0v1z" />
-                    </svg>
-                  )}
-                  {i === 1 && (
-                    <svg className="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M10 2.5a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm0 7.5c-3 0-5.5 1.6-5.5 3.5V16h11v-2.5c0-1.9-2.5-3.5-5.5-3.5z" />
-                    </svg>
-                  )}
-                  {i === 2 && (
-                    <svg className="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M3 14h2.5l4-4 3 3 4.5-4.5V11H19V4h-7v1.5h2.9L12.5 7.9 9.5 4.9 4 10.4V14z" />
-                    </svg>
-                  )}
+                <div
+                  className="relative px-6 py-6 rounded-2xl
+                  overflow-hidden flex flex-col justify-between items-start"
+                >
+
+                  <div className="relative z-10 inline-flex items-center justify-center w-12 h-12 rounded-lg mb-4 bg-primary">
+                    {i === 0 && <Package className="w-6 h-6 text-white" />}
+                    {i === 1 && <Users className="w-6 h-6 text-white" />}
+                    {i === 2 && <TrendingUp className="w-6 h-6 text-white" />}
+                  </div>
+                  <h3 className="relative z-10 font-bold text-lg mb-2 text-white">{card.title}</h3>
+                  <p className="relative z-10 text-sm text-slate-300">{card.desc}</p>
                 </div>
-                <h3 className="font-bold text-lg mb-2 text-white">{card.title}</h3>
-                <p className="text-sm text-slate-300">{card.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -1101,7 +1065,7 @@ export default function SFP2026Page() {
                   transition={{ delay: i * 0.05 }}
                   className="flex flex-col items-center text-center"
                 >
-                  <div className="w-16 h-16 md:w-18 md:h-18 rounded-full mb-3 overflow-hidden border border-white/10 bg-white/5 backdrop-blur-lg">
+                  <div className="w-16 h-16 md:w-18 md:h-18 rounded-full mb-3 overflow-hidden border border-white/10 bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 backdrop-blur-lg">
                     <Image
                       src={mentor.image}
                       alt={mentor.name}
@@ -1133,7 +1097,7 @@ export default function SFP2026Page() {
 
           {/* Scrolling roles - Multi-line with alternating directions */}
           <div className="space-y-6 overflow-hidden">
-            <div className="py-5 sm:py-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-lg overflow-hidden">
+            <div className="py-5 sm:py-6 rounded-2xl bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 border border-white/10 backdrop-blur-lg overflow-hidden">
               <div className="marquee">
                 <div className="marquee__track gap-4 sm:gap-6 lg:gap-8 px-4">
                   {[...Array(2)].map((_, set) => (
@@ -1149,7 +1113,7 @@ export default function SFP2026Page() {
               </div>
             </div>
 
-            <div className="py-5 sm:py-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-lg overflow-hidden">
+            <div className="py-5 sm:py-6 rounded-2xl bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 border border-white/10 backdrop-blur-lg overflow-hidden">
               <div className="marquee marquee--reverse">
                 <div className="marquee__track gap-4 sm:gap-6 lg:gap-8 px-4" style={{ animationDuration: "34s" }}>
                   {[...Array(2)].map((_, set) => (
@@ -1211,7 +1175,7 @@ export default function SFP2026Page() {
                         initial={{ opacity: 0, y: 12 }}
                         viewport={{ once: true, amount: 0.4 }}
                         transition={{ duration: 0.4, delay: i * 0.08 + 0.1 }}
-                        className="group relative w-[320px] md:w-[380px] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-lg text-white"
+                        className="group relative w-[320px] md:w-[380px] rounded-2xl border border-white/10 bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 backdrop-blur-lg text-white"
                       >
                         <div className="absolute inset-0 rounded-2xl border border-white/10 group-hover:border-primary/40 transition-colors" />
                         <div className="relative px-6 py-5 space-y-2">
@@ -1238,7 +1202,7 @@ export default function SFP2026Page() {
       <section id="testimonials" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
           <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 w-[140%] -translate-x-1/2 -translate-y-1/2 opacity-25 blur-2xl animate-pulse [animation-duration:8s]">
-            <Image src="/cloud.svg" alt="" width={1600} height={900} className="w-full" />
+            <Image src="/images/sfp2026/cloud.svg" alt="" width={1600} height={900} className="w-full" />
           </div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1277,7 +1241,7 @@ export default function SFP2026Page() {
                   key={testimonial.name}
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="relative h-full overflow-hidden rounded-[24px] border border-white/10 bg-white/5 backdrop-blur-lg p-8"
+                  className="relative h-full overflow-hidden rounded-[24px] border border-white/10 bg-gradient-to-br from-[#0E56FA]/10 via-white/5 to-[#17CAFA]/10 backdrop-blur-lg p-8"
                 >
                   <div className="pointer-events-none absolute right-[-20%] top-[-20%] h-48 w-48 rounded-full bg-blue-500/30 blur-3xl" />
                   <div className="pointer-events-none absolute inset-0 rounded-[24px] border border-white/10 backdrop-blur-lg" />
@@ -1311,7 +1275,7 @@ export default function SFP2026Page() {
             {faqItems.map((item, i) => (
               <div
                 key={i}
-                className="rounded-xl border overflow-hidden bg-white/5 border-white/10 backdrop-blur-lg"
+                className="rounded-xl border overflow-hidden bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 border-white/10 backdrop-blur-lg"
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
