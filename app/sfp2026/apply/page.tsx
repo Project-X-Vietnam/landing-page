@@ -25,6 +25,7 @@ import {
   trackApplicationSubmitted,
   trackFormSessionRestored,
   trackFormExit,
+  trackFormReset,
   setSfpUserProperties,
   deriveInterestTrack,
   STEP_NAMES,
@@ -955,6 +956,7 @@ export default function ApplyPage() {
 
   const handleReset = () => {
     if (window.confirm("Clear all form data? This cannot be undone.")) {
+      trackFormReset(currentStep, analyticsPhase);
       setFormData(INITIAL_FORM);
       setCurrentStep(0);
       setErrors([]);

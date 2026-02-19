@@ -194,6 +194,14 @@ export function trackSuccessAction(action: SuccessActionType) {
   });
 }
 
+/** User intentionally cleared all form data via the reset button. */
+export function trackFormReset(stepAtReset: number, formPhase: FormPhase) {
+  sendEvent("form_reset", {
+    step_at_reset: stepAtReset,
+    form_phase: formPhase,
+  });
+}
+
 // ─────────────────────────────────────────────────────────────
 // User Properties
 // ─────────────────────────────────────────────────────────────
