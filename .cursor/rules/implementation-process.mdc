@@ -1,0 +1,47 @@
+---
+description: Step-by-step implementation process for features
+globs:
+alwaysApply: false
+---
+
+# Implementation Process
+
+## STEP 1: Task Analysis
+
+- Understand the full scope of the feature/change
+- Identify which pages, components, and utilities are affected
+- Check for existing patterns in reference files (see AGENTS.md)
+- List any new dependencies needed
+
+## STEP 2: Confirm Current Context
+
+- Read existing code in the affected files
+- Understand how similar features are currently implemented
+- Check for reusable components in `components/ui/` and `components/`
+- Review the design system tokens in `globals.css` and `tailwind.config.ts`
+
+## STEP 3: Implementation
+
+Follow this order:
+
+1. **Types/Interfaces** — define data shapes in the component or a shared types file
+2. **Utilities** — create helper functions in `lib/` if needed
+3. **UI Components** — build from shadcn primitives up
+4. **Page Integration** — assemble components into the page
+5. **API Routes** — create route handlers if backend integration is needed
+6. **Animation** — add Framer Motion or Tailwind animations last
+
+## STEP 4: Quality Checks
+
+- Run `npm run lint` and fix all errors
+- Run `npm run build` to verify no build errors
+- Test responsive behavior (mobile, tablet, desktop)
+- Verify animations are smooth and don't cause layout shifts
+- Check that all links and CTAs work correctly
+
+## STEP 5: Review
+
+- Ensure consistent styling with the PXV design system
+- Verify component reusability (could this be extracted?)
+- Check accessibility (alt text, keyboard navigation, contrast)
+- Confirm TypeScript types are complete (no `any`)
