@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxKf5c0LmUgaDxJrVISxAc6mKNOaa9MxvNFWJj2Kp_W6NhqxuzQQhCBNVUWukF88ebdaA/exec";
-
 // Google Apps Script cold starts are slow (10–80s+), but data is stored
 // synchronously on their end. We race the fetch against a generous timer —
 // if no response within ASSUME_SUCCESS_MS we still treat it as success.
@@ -10,6 +7,15 @@ const ASSUME_SUCCESS_MS = 12_000;
 const HARD_TIMEOUT_MS = 60_000;
 
 export async function POST(request: NextRequest) {
+  const googleScriptUrl = process.env.NEXT_GOOGLE_SCRIPT_URL;
+  if (!googleScriptUrl) {
+    console.error("NEXT_GOOGLE_SCRIPT_URL is not configured");
+    return NextResponse.json(
+      { success: false, error: "Server misconfiguration. Please contact support." },
+      { status: 500 },
+    );
+  }
+
   try {
     const body = await request.json();
     const payload = JSON.stringify(body);
@@ -17,7 +23,7 @@ export async function POST(request: NextRequest) {
     const controller = new AbortController();
     const hardTimer = setTimeout(() => controller.abort(), HARD_TIMEOUT_MS);
 
-    const fetchPromise = fetch(GOOGLE_SCRIPT_URL, {
+    const fetchPromise = fetch(googleScriptUrl, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: payload,
