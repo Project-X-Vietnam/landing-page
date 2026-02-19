@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { motion, useInView, useAnimationFrame, useScroll, useSpring } from "framer-motion";
+import { motion, useInView, useScroll, useSpring } from "framer-motion";
 import { Calendar, Search, Users, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
@@ -23,12 +23,10 @@ function trackSFP2026Event(eventName: string, params?: Record<string, unknown>) 
 
 const COUNTDOWN_TARGET = new Date("2026-03-13T23:59:59+07:00");
 
-const SECTION_IDS = ["impact", "about-pjx", "about-sfp", "mission", "partners", "roles", "journey", "testimonials", "faq"] as const;
+const SECTION_IDS = ["impact", "about-pjx", "partners", "roles", "journey", "testimonials", "faq"] as const;
 const SECTION_LABELS: Record<(typeof SECTION_IDS)[number], string> = {
   impact: "Impact",
-  "about-pjx": "About PJX",
-  "about-sfp": "About SFP",
-  mission: "Mission",
+  "about-pjx": "About",
   partners: "Partners",
   roles: "Opportunities",
   journey: "Timeline",
@@ -78,10 +76,10 @@ function Countdown() {
   }, []);
   return (
     <div className="mt-10">
-      <p className="text-center text-sm md:text-base font-medium mb-4 text-slate-600">
+      <p className="text-center text-sm md:text-base font-medium mb-4 text-slate-300">
         Application closes in
       </p>
-      <div className="p-6 md:p-8 rounded-3xl border backdrop-blur-xl max-w-lg mx-auto bg-white/80 border-white shadow-lg">
+      <div className="p-6 md:p-8 rounded-3xl border backdrop-blur-lg max-w-lg mx-auto bg-white/5 border-white/10">
         <div className="flex justify-center gap-4 sm:gap-6 md:gap-8">
           {[
             [d, "Days"],
@@ -93,7 +91,7 @@ function Countdown() {
               <div className="text-3xl sm:text-4xl md:text-5xl font-bold tabular-nums min-w-[3rem] md:min-w-[4rem] text-primary">
                 {String(val).padStart(2, "0")}
               </div>
-              <div className="text-xs sm:text-sm font-medium mt-2 text-slate-600">{label}</div>
+              <div className="text-xs sm:text-sm font-medium mt-2 text-slate-300">{label}</div>
             </div>
           ))}
         </div>
@@ -172,7 +170,7 @@ function StickySectionNav() {
     <motion.nav
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="fixed top-0 left-0 right-0 z-40 py-3 px-4 md:px-8 backdrop-blur-xl border-b transition-colors bg-white/90 border-slate-200/50"
+      className="fixed top-0 left-0 right-0 z-40 py-3 px-4 md:px-8 backdrop-blur-xl border-b transition-colors bg-[#01001F]/90 border-white/10"
     >
       <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-center gap-2 md:gap-4">
         {SECTION_IDS.map((id) => (
@@ -181,7 +179,7 @@ function StickySectionNav() {
             href={`#${id}`}
             className={`text-xs md:text-sm font-medium px-3 py-1.5 rounded-full transition-all ${activeSection === id
               ? "bg-primary/10 text-primary border border-primary/30"
-              : "text-slate-500 hover:text-primary hover:bg-slate-100"
+                : "text-slate-300 hover:text-primary hover:bg-white/5"
               }`}
           >
             {SECTION_LABELS[id]}
@@ -299,7 +297,10 @@ const createOrbitNode = ({
 
 
 export default function SFP2026Page() {
-  const [testimonialIndex, setTestimonialIndex] = useState(0);
+  const sectionLinks = SECTION_IDS.map((id) => ({
+    label: SECTION_LABELS[id],
+    href: `#${id}`,
+  }));
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number } | null>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
@@ -312,11 +313,24 @@ export default function SFP2026Page() {
   const aboutSFPTyped = useTypingText("Summer Fellowship Program 2026", 30, aboutSfpInView);
 
   const testimonials = [
-    { name: "Fellow 2024", role: "Product", quote: "Not just work, but a world where they see their future. That's what PJX gave me.", avatar: null },
-    { name: "Mentee 2024", role: "Software Engineer", quote: "The mentors and training gave me clarity and confidence. I landed my first tech role.", avatar: null },
-    { name: "Alumni", role: "Data Science", quote: "The community and support are unmatched. Forever grateful.", avatar: null },
-    { name: "Fellow SFP 2024", role: "Engineering", quote: "SFP connected me with mentors and a real internship. It was the turning point in my career.", avatar: null },
-    { name: "Fellow SFP 2025", role: "Product Design", quote: "Long-term transformation, not just a summer—I still lean on my cohort and mentors today.", avatar: null },
+    {
+      name: "Dang Thi Minh Anh",
+      roleLines: ["The Chinese University of Hong Kong", "Marketing Analytics Intern @Shopee"],
+      quote: "What stayed with me after Project X SFP was not just the advice, but the confidence to seek guidance and shape my own path.",
+      avatar: null,
+    },
+    {
+      name: "Le Huong Giang",
+      roleLines: ["National Economics University", "Founder Associate @NaviEdu"],
+      quote: "Project X SFP is a catalyst, connecting me with the right people at the right time and contributing to the path I am pursuing now.",
+      avatar: null,
+    },
+    {
+      name: "Bui Quynh Giao",
+      roleLines: ["Foreign Trade University", "Performance Marketing Intern @ GiveAsia"],
+      quote: "Project X SFP turned mentorship into a meaningful, human connection - not just advice, but real guidance.",
+      avatar: null,
+    },
   ];
 
   const faqItems = [
@@ -330,23 +344,17 @@ export default function SFP2026Page() {
 
   const journeySteps = [
     { date: "20/02 - 13/03", title: "Official Application", desc: "Application period opens for Project X Summer Fellowship Program 2026." },
-    { date: "16/03 - 28/03", title: "Round 1", desc: "Selection and screening of all applications." },
-    { date: "30/03 - 25/04", title: "Round 2", desc: "Final evaluation and interviews." },
-    { date: "09/07 - 22/08", title: "Summer Fellowship Program 2026", desc: "Summer Fellowship Program with internships and professional development." },
+    { date: "16/03 - 28/03", title: "Round 1", desc: "Develop a strong, cohesive profile including CV/Resume and Portfolio." },
+    { date: "30/03 - 25/04", title: "Round 2", desc: "Enhance interview readiness before and during job application." },
+    { date: "09/07 - 22/08", title: "Summer Fellowship Program 2026", desc: "Summer Fellowship Program with internships, professional, and personal development." },
   ];
 
   const impactStats = [
-    { value: 6000, suffix: "+", label: "Applicants up to 2025" },
-    { value: 60, suffix: "+", label: "Tech partners" },
-    { value: 180, suffix: "+", label: "Exclusive internship opportunities" },
-    { value: 85, suffix: "+", label: "Mentors across diverse domains" },
-    { value: 95, suffix: "%", label: "Partner satisfaction rate post-internship" },
-  ];
-
-  const missionPillars = [
-    { num: "01", title: "Empower", text: "Equip students with early career direction and essential foundations." },
-    { num: "02", title: "Nurture", text: "Develop a high-quality pool of future tech professionals aligned with industry trends." },
-    { num: "03", title: "Support", text: "Contribute to the growth of tech startups and companies through young talent development." },
+    { value: 6000, suffix: "+", label: "Cumulative applications" },
+    { value: 35, suffix: "+", label: "Hiring partners" },
+    { value: 85, suffix: "+", label: "Senior mentors" },
+    { value: 180, suffix: "+", label: "Internship opportunities" },
+    { value: 95, suffix: "%", label: "Partner satisfaction rate" },
   ];
 
   const partnerRoles = [
@@ -525,11 +533,41 @@ export default function SFP2026Page() {
   const [hoveredPillar, setHoveredPillar] = useState<string | null>(null)
   const orbitalRef = useRef<HTMLDivElement | null>(null)
   const orbitalInView = aboutPJXActive
+  const orbitAngleRef = useRef(0)
+  const orbitRafId = useRef<number | null>(null)
 
-  useAnimationFrame((t, delta) => {
-    if (!orbitalInView || isOrbitalPaused) return
-    setOrbitAngle(prev => (prev + delta * 0.02) % 360)
-  })
+  useEffect(() => {
+    if (!orbitalInView || isOrbitalPaused) {
+      if (orbitRafId.current !== null) {
+        cancelAnimationFrame(orbitRafId.current)
+        orbitRafId.current = null
+      }
+      return
+    }
+
+    let last = performance.now()
+    const tick = (now: number) => {
+      const delta = now - last
+      last = now
+      if (!Number.isFinite(delta)) {
+        orbitRafId.current = requestAnimationFrame(tick)
+        return
+      }
+
+      orbitAngleRef.current = (orbitAngleRef.current + delta * 0.02) % 360
+      const next = orbitAngleRef.current
+      setOrbitAngle(prev => (Math.abs(next - prev) > 0.01 ? next : prev))
+      orbitRafId.current = requestAnimationFrame(tick)
+    }
+
+    orbitRafId.current = requestAnimationFrame(tick)
+    return () => {
+      if (orbitRafId.current !== null) {
+        cancelAnimationFrame(orbitRafId.current)
+        orbitRafId.current = null
+      }
+    }
+  }, [orbitalInView, isOrbitalPaused])
 
   const getOrbitPosition = (radius: number, angleDeg: number) => {
     const rad = (angleDeg * Math.PI) / 180
@@ -541,22 +579,45 @@ export default function SFP2026Page() {
 
   return (
     <main
-      className="transition-colors duration-200 scroll-smooth bg-white"
+      className="relative transition-colors duration-200 scroll-smooth bg-[#01001F]"
     >
-      <Navbar isDark={false} />
+      <Navbar
+        isDark={true}
+        links={sectionLinks}
+        showCta={true}
+        logoHref="/"
+        enableScrollPill
+        logoSrc="/images/logo-white.svg"
+      />
 
       {/* Hero */}
       <section className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-24 pb-16 snap-start">
-        <div className="absolute inset-0 overflow-hidden transition-all duration-500">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-white to-cyan-50" />
-          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: `linear-gradient(to right, #0E56FA 1px, transparent 1px), linear-gradient(to bottom, #0E56FA 1px, transparent 1px)`, backgroundSize: "60px 60px" }} />
+<div className="absolute top-0 right-0 z-0 pointer-events-none translate-x-1/4  -translate-y-1/4 rotate-[45deg] blur-2xl">
+  <Image
+    src="/images/sfp2026/light.svg"
+    alt=""
+    width={2400}
+    height={1200}
+    className="w-[200vw] md:w-[150vw] opacity-70"
+    priority
+  />
+</div>
+        <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 rotate-[-90deg]">
+          <Image
+            src="/images/sfp2026/moonlight.svg"
+            alt=""
+            width={1920}
+            height={1600}
+            className="w-[150%] md:w-[80%]"
+          />
         </div>
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 text-center">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight text-pxv-dark"
+            className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight text-white"
+            style={{ fontFamily: "Plus Jakarta Sans" }}
           >
             Illuminate your tech career path
           </motion.h1>
@@ -564,7 +625,7 @@ export default function SFP2026Page() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.25 }}
-            className="mt-2 text-base md:text-lg max-w-2xl mx-auto text-slate-600"
+            className="mt-2 text-base md:text-lg max-w-2xl mx-auto text-slate-300"
           >
             Project X Summer Fellowship Program 2026 connects learning with real-world impact.
           </motion.p>
@@ -581,25 +642,26 @@ export default function SFP2026Page() {
               </Button>
             </Link>
             <a href="#impact">
-              <Button size="lg" variant="outline" className="rounded-full px-8 py-6 text-base font-semibold border-slate-200 hover:bg-slate-50">
+              <Button size="lg" variant="outline" className="rounded-full px-8 py-6 text-base font-semibold border-white/20 text-white hover:bg-white/5">
                 Learn More
               </Button>
             </a>
           </motion.div>
-          <div className="text-pxv-dark">
+          <div className="text-white">
             <Countdown />
           </div>
         </div>
       </section>
 
-      <StickySectionNav />
-
       {/* Our Impact So Far */}
-      <section id="impact" className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-slate-50">
+      <section id="impact" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+          <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 w-[140%] -translate-x-1/2 -translate-y-1/2 opacity-30 blur-2xl animate-pulse [animation-duration:8s]">
+            <Image src="/images/sfp2026/cloud.svg" alt="" width={1600} height={900} className="w-full" />
+          </div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-pxv-dark">Our Impact So Far</h2>
-            <p className="mt-4 max-w-2xl mx-auto text-slate-600">
+            <h2 className="text-3xl md:text-4xl font-bold text-white">Our Impact So Far</h2>
+            <p className="mt-4 max-w-2xl mx-auto text-slate-300">
               Project X Summer Fellowship Program has grown into one of Vietnam&apos;s most impactful tech initiatives - an integrated talent development ecosystem shaping the next generation of tech leaders.
             </p>
           </motion.div>
@@ -626,11 +688,12 @@ export default function SFP2026Page() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
-                  className={`w-full max-w-[260px] px-8 py-8 rounded-2xl border flex flex-col justify-between items-start h-[220px] bg-white border-slate-100 shadow-lg overflow-hidden ${positionClass}`}
+                  className={`relative w-full max-w-[260px] px-8 py-8 rounded-2xl border flex flex-col justify-between items-start h-[220px] bg-white/5 border-white/10 backdrop-blur-lg overflow-hidden ${positionClass}`}
                 >
+                  <div className="pointer-events-none absolute right-[-20%] top-[-20%] h-24 w-24 rounded-full bg-[#17CAFA]/30 blur-3xl" />
                   <div className="space-y-1">
                     {lines.map((part, idx) => (
-                      <p key={idx} className="text-sm font-sm text-slate-600">
+                      <p key={idx} className="text-sm font-sm text-slate-300">
                         {part}
                       </p>
                     ))}
@@ -646,7 +709,7 @@ export default function SFP2026Page() {
       </section>
 
       {/* About Project X Vietnam */}
-      <section id="about-pjx" ref={aboutRef} className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-white">
+      <section id="about-pjx" ref={aboutRef} className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
           <div className="grid lg:grid-cols-[1.5fr_1fr] gap-10 items-start overflow-visible">
             {/* Left Column - Text Content (60%) */}
@@ -661,16 +724,16 @@ export default function SFP2026Page() {
                 initial={{ opacity: 0, y: -10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="text-3xl md:text-4xl font-bold text-left text-pxv-dark"
+                className="text-3xl md:text-4xl font-bold text-left text-white"
               >
                 <span>About </span>
                 <span className="text-primary">{aboutPJXTyped}</span>
                 <span className="inline-block w-0.5 h-8 bg-primary animate-cursor-blink align-middle ml-1" />
               </motion.h2>
-              <p className="text-base md:text-lg leading-relaxed text-slate-700">
+              <p className="text-base md:text-lg leading-relaxed text-slate-300">
                 Founded in 2022, Project X Vietnam is a NGO with the mission to bridge the gap between young talents and companies in the Vietnam's tech ecosystem via our annual flagship, called Project X Summer Fellowship Program.
               </p>
-              <p className="text-base md:text-lg leading-relaxed text-slate-700">
+              <p className="text-base md:text-lg leading-relaxed text-slate-300">
                 Our mission is built on three core pillars: <strong className="text-primary">Empower, Nurture & Support.</strong>
               </p>
             </motion.div>
@@ -690,7 +753,7 @@ export default function SFP2026Page() {
               <svg className="w-full h-full overflow-visible" viewBox="0 0 400 400" style={{ overflow: "visible" }}>
 
                 {(() => {
-                  const ringColor = "rgba(0,0,0,0.15)";
+                  const ringColor = "rgba(255,255,255,0.15)";
 
                   const nodeFill = "white";
                   const primary = "#0E56FA";
@@ -798,7 +861,7 @@ export default function SFP2026Page() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute z-50 max-w-xs p-4 rounded-lg shadow-xl bg-white border border-slate-200"
+                  className="absolute z-50 max-w-xs p-4 rounded-lg shadow-xl bg-[#01001F] border border-white/10"
                   style={{
                     left: `${tooltipPos.x}px`,
                     top: `${tooltipPos.y}px`,
@@ -807,10 +870,10 @@ export default function SFP2026Page() {
                 >
                   <div className="flex items-start gap-2">
                     <div className="flex-1">
-                      <h4 className="font-semibold text-sm mb-1 capitalize text-pxv-dark">
+                      <h4 className="font-semibold text-sm mb-1 capitalize text-white">
                         {hoveredPillar}
                       </h4>
-                      <p className="text-xs leading-relaxed text-slate-600">
+                      <p className="text-xs leading-relaxed text-slate-300">
                         {hoveredPillar === "support" && "Contribute to the growth of tech startups and companies through young talent development"}
                         {hoveredPillar === "empower" && "Equip students with early career direction and essential foundations"}
                         {hoveredPillar === "nurture" && "Develop a high-quality pool of future tech professionals aligned with industry trends"}
@@ -829,14 +892,14 @@ export default function SFP2026Page() {
       <section
         id="about-sfp"
         ref={aboutSfpRef}
-        className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-slate-50"
+        className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F]"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
           <motion.h2
             initial={{ opacity: 0, y: -10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold mb-16 text-left text-pxv-dark"
+            className="text-3xl md:text-4xl font-bold mb-16 text-left text-white"
           >
             <span>About </span>
             <span className="text-primary">{aboutSFPTyped}</span>
@@ -845,7 +908,7 @@ export default function SFP2026Page() {
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <div className="space-y-6">
               <p
-                className="text-md md:text-base font-medium text-pxv-dark"
+                className="text-md md:text-base font-medium text-slate-200"
               >
                 Through mentorship, hands-on learning, and a strong community,
                 Project X helps you:
@@ -879,10 +942,11 @@ export default function SFP2026Page() {
                       }}
                       transition={{
                         layout: {
-                          duration: 3.0,
-                          ease: [0.4, 0.4, 0.2, 1],
+                          duration: 3.4,
+                          ease: [0.22, 1, 0.36, 1],
                         },
-                        duration: 0.7,
+                        duration: 0.9,
+                        ease: [0.22, 1, 0.36, 1],
                       }}
                       style={{
                         position: "absolute",
@@ -891,7 +955,7 @@ export default function SFP2026Page() {
                         left: 0,
                         right: 0,
                       }}
-                      className="h-24 md:h-28 p-6 rounded-2xl relative bg-white shadow-lg"
+                      className="h-24 md:h-28 p-6 rounded-2xl relative bg-white/5 border border-white/10 backdrop-blur-lg"
                     >
                       {/* Number badge overflowing in top right corner - only show on top card */}
                       {position === 0 && (
@@ -905,7 +969,7 @@ export default function SFP2026Page() {
                       )}
 
                       <div
-                        className="text-md md:text-lg font-semibold leading-relaxed text-pxv-dark"
+                        className="text-md md:text-lg font-semibold leading-relaxed text-white"
                       >
                         {item}
                       </div>
@@ -914,7 +978,7 @@ export default function SFP2026Page() {
                 })}
               </div>
             </div>
-            <div className="rounded-2xl border relative overflow-hidden bg-white border-slate-100 shadow-lg">
+            <div className="rounded-2xl border relative overflow-hidden bg-white/5 border-white/10 backdrop-blur-lg">
               <div className="relative h-[420px]">
                 <Image
                   src="/images/IMG_6661.jpg"
@@ -930,11 +994,14 @@ export default function SFP2026Page() {
       </section>
 
       {/* Our Partners */}
-      <section id="partners" className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-white overflow-hidden">
+      <section id="partners" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+          <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 w-[140%] -translate-x-1/2 -translate-y-1/2 opacity-25 blur-2xl animate-pulse [animation-duration:8s]">
+            <Image src="/cloud.svg" alt="" width={1600} height={900} className="w-full" />
+          </div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-pxv-dark">Trusted by Multiple Partners</h2>
-            <p className="text-base md:text-lg max-w-2xl mx-auto text-slate-600">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Trusted by Multiple Partners</h2>
+            <p className="text-base md:text-lg max-w-2xl mx-auto text-slate-300">
               Project X collaborates with a growing network of leading technology companies, startups, and innovation-driven organizations across Vietnam and globally.
             </p>
           </motion.div>
@@ -980,7 +1047,7 @@ export default function SFP2026Page() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="p-6 rounded-2xl border bg-white border-slate-100 shadow-sm"
+                className="p-6 rounded-2xl border bg-white/5 border-white/10 backdrop-blur-lg"
               >
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg mb-4 bg-primary/10">
                   {i === 0 && (
@@ -999,15 +1066,15 @@ export default function SFP2026Page() {
                     </svg>
                   )}
                 </div>
-                <h3 className="font-bold text-lg mb-2 text-pxv-dark">{card.title}</h3>
-                <p className="text-sm text-slate-600">{card.desc}</p>
+                <h3 className="font-bold text-lg mb-2 text-white">{card.title}</h3>
+                <p className="text-sm text-slate-300">{card.desc}</p>
               </motion.div>
             ))}
           </div>
 
           {/* Mentors section */}
           <div>
-            <h3 className="text-2xl font-bold mb-8 text-center text-pxv-dark">Meet Our Top Mentors</h3>
+            <h3 className="text-2xl font-bold mb-8 text-center text-white">Meet Our Top Mentors</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7 gap-4 mb-4">
               {featuredMentors.map((mentor, i) => (
                 <motion.div
@@ -1018,7 +1085,7 @@ export default function SFP2026Page() {
                   transition={{ delay: i * 0.05 }}
                   className="flex flex-col items-center text-center"
                 >
-                  <div className="w-16 h-16 md:w-18 md:h-18 rounded-full mb-3 overflow-hidden border border-slate-200 bg-white">
+                  <div className="w-16 h-16 md:w-18 md:h-18 rounded-full mb-3 overflow-hidden border border-white/10 bg-white/5 backdrop-blur-lg">
                     <Image
                       src={mentor.image}
                       alt={mentor.name}
@@ -1027,36 +1094,36 @@ export default function SFP2026Page() {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <p className="text-xs font-bold text-pxv-dark">{mentor.name}</p>
-                  <p className="text-[11px] text-slate-600">{mentor.role}</p>
-                  <p className="text-[11px] text-slate-500">@{mentor.company}</p>
+                  <p className="text-xs font-bold text-white">{mentor.name}</p>
+                  <p className="text-[11px] text-slate-300">{mentor.role}</p>
+                  <p className="text-[11px] text-slate-400">@{mentor.company}</p>
                 </motion.div>
               ))}
             </div>
-            <p className="text-center text-sm text-slate-500">and many more mentors across diverse tech domains</p>
+            <p className="text-center text-sm text-slate-400">and many more mentors across diverse tech domains</p>
           </div>
         </div>
       </section>
 
       {/* Targeted Roles & Domains */}
-      <section id="roles" className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-slate-50 overflow-hidden">
+      <section id="roles" className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-pxv-dark">Targeted Roles & Domains</h2>
-            <p className="mt-4 max-w-2xl mx-auto text-base md:text-lg text-slate-600">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Targeted Roles & Domains</h2>
+            <p className="mt-4 max-w-2xl mx-auto text-base md:text-lg text-slate-300">
             Whether you pursue deep technical expertise or business-driven tech roles, Project X Summer Fellowship Program 2026 offers a pathway tailored to your ambitions.
             </p>
           </motion.div>
 
           {/* Scrolling roles - Multi-line with alternating directions */}
           <div className="space-y-6 overflow-hidden">
-            <div className="py-5 sm:py-6 rounded-2xl bg-white/50 overflow-hidden">
+            <div className="py-5 sm:py-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-lg overflow-hidden">
               <div className="marquee">
                 <div className="marquee__track gap-4 sm:gap-6 lg:gap-8 px-4">
                 {[...Array(2)].map((_, set) => (
                   <div key={set} className="marquee__group gap-4 sm:gap-6 lg:gap-8 pr-4 sm:pr-6 lg:pr-8">
                     {rolesList.slice(0, Math.ceil(rolesList.length / 2)).map((role, i) => (
-                      <div key={`${set}-${i}`} className="text-base sm:text-lg md:text-2xl font-semibold whitespace-nowrap transition-all text-slate-700 hover:text-primary">
+                      <div key={`${set}-${i}`} className="text-base sm:text-lg md:text-2xl font-semibold whitespace-nowrap transition-all text-slate-200 hover:text-primary">
                         • {role}
                       </div>
                     ))}
@@ -1066,13 +1133,13 @@ export default function SFP2026Page() {
             </div>
           </div>
 
-            <div className="py-5 sm:py-6 rounded-2xl bg-white/50 overflow-hidden">
+            <div className="py-5 sm:py-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-lg overflow-hidden">
               <div className="marquee marquee--reverse">
                 <div className="marquee__track gap-4 sm:gap-6 lg:gap-8 px-4" style={{ animationDuration: "34s" }}>
                 {[...Array(2)].map((_, set) => (
                   <div key={set} className="marquee__group gap-4 sm:gap-6 lg:gap-8 pr-4 sm:pr-6 lg:pr-8">
                     {rolesList.slice(Math.ceil(rolesList.length / 2)).map((role, i) => (
-                      <div key={`${set}-${i}`} className="text-base sm:text-lg md:text-2xl font-semibold whitespace-nowrap transition-all text-slate-700 hover:text-primary">
+                      <div key={`${set}-${i}`} className="text-base sm:text-lg md:text-2xl font-semibold whitespace-nowrap transition-all text-slate-200 hover:text-primary">
                         • {role}
                       </div>
                     ))}
@@ -1086,7 +1153,7 @@ export default function SFP2026Page() {
       </section>
 
       {/* The Fellowship Journey 2026 */}
-      <section id="journey" className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-white">
+      <section id="journey" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1094,17 +1161,17 @@ export default function SFP2026Page() {
             viewport={{ once: true }}
             className="text-center mb-14"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-pxv-dark">The Fellowship Journey 2026</h2>
-            <p className="mt-3 text-sm md:text-base text-slate-600">
+            <h2 className="text-3xl md:text-4xl font-bold text-white">The Fellowship Journey 2026</h2>
+            <p className="mt-3 text-sm md:text-base text-slate-300">
               A high-contrast, tech-forward roadmap from application to launch.
             </p>
           </motion.div>
 
           <div ref={journeyRef} className="relative">
-            <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-slate-200" />
+            <div className="absolute right-6 md:right-16 top-0 bottom-0 w-px bg-white/10" />
             <motion.div
               style={{ scaleY: journeyProgress, transformOrigin: "top" }}
-              className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 bg-primary"
+              className="absolute right-6 md:right-16 top-0 bottom-0 w-[2px] bg-primary"
             />
 
             <div className="space-y-10">
@@ -1117,29 +1184,29 @@ export default function SFP2026Page() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: 0.5, delay: i * 0.08 }}
-                    className={`relative flex items-center ${i % 2 === 0 ? "md:justify-start" : "md:justify-end"}`}
+                    className="relative flex items-center justify-end"
                   >
                     <motion.div
                       whileHover={{ scale: 1.02 }}
-                      className={`ml-28 md:ml-0 ${i % 2 === 0 ? "md:pr-72" : "md:pl-72 "}`}
+                      className="ml-12 md:ml-0 md:pr-32"
                     >
                       <motion.div
                         whileInView={{ opacity: 1, y: 0 }} 
                         initial={{ opacity: 0, y: 12 }}
                         viewport={{ once: true, amount: 0.4 }}
                         transition={{ duration: 0.4, delay: i * 0.08 + 0.1 }}
-                        className="group relative w-[320px] md:w-[380px] rounded-2xl border border-slate-200/70 bg-white/70 backdrop-blur-xl text-pxv-dark shadow-lg"
+                        className="group relative w-[320px] md:w-[380px] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-lg text-white"
                       >
-                        <div className="absolute inset-0 rounded-2xl border border-slate-200/60 group-hover:border-primary/40 transition-colors" />
+                        <div className="absolute inset-0 rounded-2xl border border-white/10 group-hover:border-primary/40 transition-colors" />
                         <div className="relative px-6 py-5 space-y-2">
                           <div className="flex items-center gap-3 text-primary">
                             <Icon className="w-4 h-4" />
-                            <span className="text-xs uppercase tracking-[0.18em] font-semibold text-primary bg-primary/10 border border-primary/20 rounded-full px-2.5 py-1">
+                            <span className="text-xs uppercase tracking-[0.18em] font-semibold text-[#17CAFA] bg-[#17CAFA]/10 border border-[#17CAFA]/30 rounded-full px-2.5 py-1">
                               {step.date}
                             </span>
                           </div>
-                          <h3 className="text-base md:text-lg font-bold text-pxv-dark">{step.title}</h3>
-                          <p className="text-xs text-slate-600 leading-relaxed">{step.desc}</p>
+                          <h3 className="text-base md:text-lg font-bold text-white">{step.title}</h3>
+                          <p className="text-xs text-slate-300 leading-relaxed">{step.desc}</p>
                         </div>
                       </motion.div>
                     </motion.div>
@@ -1152,15 +1219,18 @@ export default function SFP2026Page() {
       </section>
 
       {/* How SFP Shapes Our Fellows */}
-      <section id="testimonials" className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-slate-50">
+      <section id="testimonials" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
+          <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 w-[140%] -translate-x-1/2 -translate-y-1/2 opacity-25 blur-2xl animate-pulse [animation-duration:8s]">
+            <Image src="/cloud.svg" alt="" width={1600} height={900} className="w-full" />
+          </div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-4"
           >
-            <p className="text-sm md:text-base font-medium text-slate-600">
+            <p className="text-sm md:text-base font-medium text-slate-300">
               How Project X Summer Fellowship Program shapes our fellows
             </p>
           </motion.div>
@@ -1169,105 +1239,67 @@ export default function SFP2026Page() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4 text-pxv-dark"
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4 text-white"
           >
-            Not just skills, but a shift in how they see their future.
+            Not just skills, but a shift in <br/> how they see their future
           </motion.h2>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center text-sm md:text-base mb-12 text-slate-600"
+            className="text-center text-sm md:text-base mb-12 text-slate-300"
           >
             — Voices from our Fellows (Class of 2025)
           </motion.p>
 
-          <div className="relative">
-            <div className="flex items-center justify-between gap-4">
-              <button
-                onClick={() => setTestimonialIndex((i) => (i - 1 + testimonials.length) % testimonials.length)}
-                className="p-3 rounded-full border flex-shrink-0 z-10 border-slate-200 hover:bg-slate-100"
-                aria-label="Previous"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-              </button>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {testimonials.map((testimonial) => {
+              const [university, role] = testimonial.roleLines;
+              return (
+                <motion.div
+                  key={testimonial.name}
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  className="relative h-full overflow-hidden rounded-[24px] border border-white/10 bg-white/5 backdrop-blur-lg p-8"
+                >
+                  <div className="pointer-events-none absolute right-[-20%] top-[-20%] h-48 w-48 rounded-full bg-blue-500/30 blur-3xl" />
+                  <div className="pointer-events-none absolute inset-0 rounded-[24px] border border-white/10 backdrop-blur-lg" />
+                  <div className="relative z-10 mb-6 space-y-1">
+                    <div className="text-lg font-semibold text-white">{testimonial.name}</div>
+                    <div className="text-sm text-slate-400">{university}</div>
+                    <div className="text-xs text-slate-400">{role}</div>
+                  </div>
 
-              <div className="flex-1 overflow-hidden">
-                <div className="flex items-center justify-center gap-4 md:gap-6">
-                  {[-1, 0, 1].map((offset) => {
-                    const idx = (testimonialIndex + offset + testimonials.length) % testimonials.length;
-                    const isCenter = offset === 0;
-                    return (
-                      <motion.div
-                        key={idx}
-                        initial={{ opacity: 0, scale: 0.9, y: 10 }}
-                        animate={{ opacity: isCenter ? 1 : 0.4, scale: isCenter ? 1 : 0.8, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, y: -10 }}
-                        transition={{ duration: 0.6, ease: "easeInOut" }}
-                        className={`flex-shrink-0 transition-all ${isCenter ? "w-full max-w-md" : "hidden md:block md:max-w-sm"}`}
-                      >
-                        <div className="p-8 rounded-2xl border h-full bg-white border-slate-100 shadow-sm">
-                          <div className="relative mb-6">
-                            <div className="text-6xl font-bold text-slate-200">&ldquo;</div>
-                            <p className="text-lg md:text-xl leading-relaxed -mt-4 text-slate-700">
-                              {testimonials[idx].quote}
-                            </p>
-                            <div className="text-6xl font-bold text-right text-slate-200">&rdquo;</div>
-                          </div>
-                          <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor: "#e2e8f0" }}>
-                            <div className="w-12 h-12 rounded-full flex-shrink-0 bg-slate-200" />
-                            <div>
-                              <div className="font-bold text-sm text-pxv-dark">{testimonials[idx].name}</div>
-                              <div className="text-xs text-slate-500">{testimonials[idx].role}</div>
-                            </div>
-                          </div>
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <button
-                onClick={() => setTestimonialIndex((i) => (i + 1) % testimonials.length)}
-                className="p-3 rounded-full border flex-shrink-0 z-10 border-slate-200 hover:bg-slate-100"
-                aria-label="Next"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-              </button>
-            </div>
-
-            {/* Dots indicator */}
-            <div className="flex justify-center gap-2 mt-8">
-              {testimonials.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setTestimonialIndex(i)}
-                  className={`w-2 h-2 rounded-full transition-all ${i === testimonialIndex ? "bg-primary w-8" : "bg-slate-300"}`}
-                  aria-label={`Go to testimonial ${i + 1}`}
-                />
-              ))}
-            </div>
+                  <div className="relative z-10">
+                    <div className="absolute -top-4 left-0 text-5xl font-bold text-white/20">&ldquo;</div>
+                    <p className="pt-6 text-base md:text-lg leading-relaxed text-white">
+                      {testimonial.quote}
+                    </p>
+                    <div className="absolute -bottom-6 right-0 text-5xl font-bold text-white/20">&rdquo;</div>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start bg-white">
+      <section id="faq" className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start bg-[#01001F]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-10">
-          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-bold text-center mb-12 text-pxv-dark">
+          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-bold text-center mb-12 text-white">
             Frequently Asked Questions
           </motion.h2>
           <div className="space-y-3">
             {faqItems.map((item, i) => (
               <div
                 key={i}
-                className="rounded-xl border overflow-hidden bg-white border-slate-100 shadow-sm"
+                className="rounded-xl border overflow-hidden bg-white/5 border-white/10 backdrop-blur-lg"
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center justify-between gap-4 px-6 py-4 text-left font-medium text-pxv-dark"
+                  className="w-full flex items-center justify-between gap-4 px-6 py-4 text-left font-medium text-white"
                 >
                   {item.q}
                   <span className={`flex-shrink-0 text-xl transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
@@ -1276,7 +1308,7 @@ export default function SFP2026Page() {
                   className={`grid transition-[grid-template-rows,opacity] duration-200 ease-out ${openFaq === i ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
                 >
                   <div className="overflow-hidden">
-                    <div className="px-6 pb-4 pt-0 text-slate-600 text-sm">
+                    <div className="px-6 pb-4 pt-0 text-slate-300 text-sm">
                       {item.a}
                     </div>
                   </div>
@@ -1288,7 +1320,7 @@ export default function SFP2026Page() {
       </section>
 
       {/* CTA */}
-      <section id="cta" className="relative py-24 md:py-32 overflow-hidden" style={{ background: "linear-gradient(135deg, #0a0f1a 0%, #0a1a4a 50%, #0E56FA 100%)" }}>
+      <section id="cta" className="relative py-24 md:py-32 overflow-hidden" style={{ background: "linear-gradient(135deg, #01001F 0%, #0E56FA 55%, #17CAFA 100%)" }}>
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 text-center">
           <motion.h2 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
             Where Your Tech Career Takes Shape
@@ -1311,36 +1343,36 @@ export default function SFP2026Page() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t transition-colors duration-500 bg-white border-slate-100">
+      <footer className="py-12 border-t transition-colors duration-500 bg-[#01001F] border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="flex flex-col gap-4">
               <Image src="/favicon.svg" alt="Project X Vietnam" width={32} height={32} />
-              <span className="text-sm text-slate-600">© 2026 Project X Vietnam</span>
+              <span className="text-sm text-slate-300">© 2026 Project X Vietnam</span>
             </div>
             <div>
-              <h4 className="font-semibold mb-3 text-pxv-dark">Links</h4>
+              <h4 className="font-semibold mb-3 text-white">Links</h4>
               <div className="flex flex-col gap-2">
                 {["About", "Contact", "Privacy", "Terms"].map((label) => (
-                  <a key={label} href="#" className="text-sm text-slate-600 hover:text-primary">{label}</a>
+                  <a key={label} href="#" className="text-sm text-slate-300 hover:text-primary">{label}</a>
                 ))}
               </div>
             </div>
             <div>
-              <h4 className="font-semibold mb-3 text-pxv-dark">Social</h4>
+              <h4 className="font-semibold mb-3 text-white">Social</h4>
               <div className="flex gap-4">
                 {["Facebook", "LinkedIn", "Twitter"].map((s) => (
-                  <a key={s} href="#" className="text-sm text-slate-600 hover:text-primary">{s}</a>
+                  <a key={s} href="#" className="text-sm text-slate-300 hover:text-primary">{s}</a>
                 ))}
               </div>
             </div>
             <div>
-              <h4 className="font-semibold mb-3 text-pxv-dark">Newsletter</h4>
+              <h4 className="font-semibold mb-3 text-white">Newsletter</h4>
               <div className="flex gap-2">
                 <input
                   type="email"
                   placeholder="Email"
-                  className="flex-1 min-w-0 px-4 py-2 rounded-lg border text-sm bg-slate-50 border-slate-200"
+                  className="flex-1 min-w-0 px-4 py-2 rounded-lg border text-sm bg-white/5 border-white/10 text-slate-200"
                 />
                 <Button size="sm" className="rounded-lg bg-primary text-white flex-shrink-0">Subscribe</Button>
               </div>
