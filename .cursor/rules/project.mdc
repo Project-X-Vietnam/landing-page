@@ -1,0 +1,82 @@
+---
+description: Project identity, tech stack, and coding standards for Project X Vietnam landing page
+globs:
+alwaysApply: true
+---
+
+You are a Senior Front-End Developer and an Expert in Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS 3.4, Framer Motion, and shadcn/ui patterns.
+
+- First, think step-by-step — describe your plan in pseudocode.
+- Focus on readability over performance.
+- Write clean, maintainable TypeScript with proper types.
+- Implement proper error handling and loading states.
+- Fully implement all requested functionality — no TODOs or placeholders.
+
+# Core Techstack
+
+- Next.js 15.x (App Router)
+- React 19.x
+- TypeScript 5.x
+- Tailwind CSS 3.4.x with tailwindcss-animate
+- Framer Motion 12.x for animations
+- shadcn/ui pattern (Radix UI + CVA + cn())
+- Lucide React for icons
+- Sonner for toast notifications
+
+# Project: Project X Vietnam — Landing Page
+
+A landing page for Project X Vietnam's Summer Fellowship Program 2026. The site includes:
+- Home/landing page with hero, stats, testimonials
+- Program information (SFP 2026)
+- Mentors listing
+- Partners page
+- Team page
+- Application form with Lark API integration
+
+# Design System — PXV Brand
+
+## Colors (CSS variables in globals.css)
+- `primary` (#0E56FA) — Main brand blue, CTAs, links
+- `secondary` (#17CAFA) — Accent cyan, gradients
+- `pxv-dark` (#01001F) — Dark backgrounds, text
+- `pxv-light` — Light backgrounds
+- `accent` — Blend of primary/secondary
+
+## Typography
+- SF Pro Display — body/default font
+- Plus Jakarta Sans — headings, emphasis
+- Weights: 300–800
+
+## Gradients & Animations
+- `gradient-text` — primary → accent → secondary text gradient
+- `animate-gradient-x` — horizontal gradient animation
+- `animate-float` — floating decorative elements
+- Use Framer Motion for scroll-triggered and view-based animations
+- Use Tailwind keyframes (`animate-*`) for simple repeating effects
+
+## Styling Rules
+- Always use Tailwind utility classes
+- Use `cn()` from `@/lib/utils` for conditional class merging
+- Use `hsl(var(--token))` for brand colors in custom CSS
+- Border radius: use `rounded-lg`, `rounded-md`, `rounded-sm` (mapped to --radius)
+- Responsive: mobile-first (`sm:`, `md:`, `lg:` breakpoints)
+
+# Component Priority
+
+1. `components/ui/` (shadcn primitives) — Button, Card, Input, Label, Textarea
+2. `components/` (custom) — Navbar, Header, Hero, Form, TeamMemberCard
+3. Native HTML elements — only when no component fits
+
+Always use `@/` path alias for imports.
+
+# Key Patterns
+
+- Client components: add `"use client"` directive at top
+- Animation: wrap with `<motion.div>` from Framer Motion
+- Forms: use controlled components with React state
+- API integration: use Next.js Route Handlers in `app/api/`
+- Toast notifications: use `toast` from `sonner`
+
+# Reference Implementation Process
+
+For multi-step features, follow @implementation-process.mdc

@@ -92,6 +92,37 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 30s linear infinite;
+  will-change: transform;
+}
+
+.marquee__group {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.marquee--reverse .marquee__track {
+  animation-direction: reverse;
+}
+
 /* Primary Font: Plus Jakarta Sans */
 @font-face {
   font-family: 'Plus Jakarta Sans';
@@ -330,4 +361,66 @@ html {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* Custom cursor blink animation */
+@keyframes cursor-blink {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+.animate-cursor-blink {
+  animation: cursor-blink 1s step-end infinite;
+}
+
+/* ─────────────────────────────────────────────────────────
+   Apple Liquid Glass — Three-layer architecture (WWDC25)
+   Reference: developer.apple.com/videos/play/wwdc2025/219
+              css-tricks.com/getting-clarity-on-apples-liquid-glass
+   Layers:
+     ::after  (z -2)  Illumination — backdrop blur + saturate (glass material)
+     ::before (z -1)  Highlight — specular gradient + inner luminosity
+     element          Surface — border edge + depth shadow
+   ───────────────────────────────────────────────────────── */
+
+.liquid-glass {
+  position: relative;
+  isolation: isolate;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 4px 24px -4px rgba(0, 0, 0, 0.25),
+    0 1px 3px 0 rgba(0, 0, 0, 0.08);
+}
+
+/* Illumination — the refractive glass material */
+.liquid-glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  border-radius: inherit;
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* Highlight — specular edge + inner luminosity */
+.liquid-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.07) 0%,
+    rgba(255, 255, 255, 0.02) 35%,
+    transparent 65%
+  );
+  box-shadow:
+    inset 0 0.5px 0 0 rgba(255, 255, 255, 0.20),
+    inset 0 0 10px -2px rgba(255, 255, 255, 0.06);
 }

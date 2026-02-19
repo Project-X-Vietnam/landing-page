@@ -106,7 +106,7 @@ export default function Header() {
 									</Button>
 								</a>
 								<div className="flex flex-col">
-									<Link href="/recruitment2026">
+									<Link href="/sfp2026">
 										<Button className="bg-white text-primary px-6 py-3 sm:px-10 sm:py-6 text-sm sm:text-lg font-bold rounded-lg border-2 border-white hover:text-primary hover:bg-white">
 											Apply Now
 										</Button>
@@ -117,7 +117,7 @@ export default function Header() {
 						) : (
 							<>
 								<div>
-									<Link href="/recruitment2026">
+									<Link href="/sfp2026">
 										<Button className="bg-white text-primary px-6 py-3 sm:px-10 sm:py-6 text-sm sm:text-lg font-bold rounded-lg border-2 border-white hover:text-primary hover:bg-white">
 											Apply Now
 										</Button>

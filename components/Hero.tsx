@@ -731,7 +731,7 @@ export default function Hero() {
 
             <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
               <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <Link href="/recruitment2026">
+                <Link href="/sfp2026">
                 <Button
                   size="lg"
                   className="bg-white text-primary hover:bg-white/90 rounded-full px-8 py-6 text-lg font-semibold"

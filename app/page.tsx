@@ -653,7 +653,7 @@ export default function HomePage() {
               <span className={`text-sm font-medium ${
                 isDark ? "text-primary" : "text-primary"
               }`}>
-                Recruiting Organizing Team 2026 — Applications Open
+                Summer Fellowship Program 2026 — Recruitment Now Open
               </span>
             </motion.div>
 
@@ -696,12 +696,12 @@ export default function HomePage() {
               className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
             >
               <CursorTooltip text="Let's go!">
-                <Link href="/recruitment2026">
+                <Link href="/sfp2026">
                   <Button
                     size="lg"
                     className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg shadow-primary/25 hover:shadow-xl transition-all hover:scale-[1.02]"
                   >
-                    Apply as Organizing Team
+                    Apply for SFP 2026
                     <svg
                       className="ml-2 w-4 h-4"
                       fill="none"
@@ -966,10 +966,10 @@ export default function HomePage() {
                   Ready to start your journey?
                 </p>
                 <p className={`text-sm ${isDark ? "text-white/60" : "text-slate-500"}`}>
-                  Summer 2025 applications open
+                  Summer 2026 applications open
                 </p>
               </div>
-              <Link href="/recruitment2026">
+              <Link href="/sfp2026">
                 <Button className="bg-primary hover:bg-primary/90 text-white rounded-lg px-6 py-3 font-medium shadow-md shadow-primary/20 whitespace-nowrap">
                   Apply Now
                   <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1058,7 +1058,7 @@ export default function HomePage() {
                   "Parallel internship experience",
                 ],
                 cta: "Apply Now",
-                href: "/recruitment2026",
+                href: "/sfp2026",
                 icon: (
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 14l9-5-9-5-9 5 9 5z" />

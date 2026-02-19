@@ -1,0 +1,175 @@
+---
+description: Detailed coding patterns and conventions for TypeScript/React files
+globs: **/*.tsx,**/*.ts
+alwaysApply: false
+---
+
+# Project Structure
+
+```
+app/              → Pages (App Router), API routes, layouts
+components/       → Reusable React components
+components/ui/    → shadcn-style primitives (Button, Card, Input, etc.)
+lib/              → Utilities, helpers, API clients
+public/           → Static assets (images, fonts, favicon)
+```
+
+# Import Order
+
+1. React / Next.js built-ins
+2. Third-party libraries (framer-motion, lucide-react, sonner)
+3. UI primitives (`@/components/ui/`)
+4. Custom components (`@/components/`)
+5. Utilities (`@/lib/`)
+6. Types/interfaces (if separate file)
+
+```tsx
+"use client";
+
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Navbar from "@/components/Navbar";
+import { cn } from "@/lib/utils";
+```
+
+# Component Patterns
+
+## shadcn/ui Components (components/ui/)
+
+Built with Radix UI + CVA + cn(). Always use these for base elements:
+
+- `<Button>` with variant/size props — never raw `<button>`
+- `<Card>` / `<CardContent>` — for card layouts
+- `<Input>` / `<Label>` / `<Textarea>` — for form fields
+
+## Custom Components
+
+- Props: define `interface` for props, not inline types
+- Export: default export for page-level, named export for utilities
+- Client components: always add `"use client"` as first line
+
+```tsx
+interface SectionProps {
+  title: string;
+  children: React.ReactNode;
+  className?: string;
+}
+
+export default function Section({ title, children, className }: SectionProps) {
+  return (
+    <section className={cn("py-20 px-6", className)}>
+      <h2 className="text-3xl font-bold text-center mb-12">{title}</h2>
+      {children}
+    </section>
+  );
+}
+```
+
+# Styling Conventions
+
+## Tailwind Classes
+
+- Layout: `flex`, `grid`, `max-w-7xl mx-auto`, `px-6 md:px-8`
+- Spacing: use Tailwind scale (`p-4`, `gap-6`, `mt-8`)
+- Colors: use design tokens (`text-primary`, `bg-pxv-dark`, `border-primary/20`)
+- Responsive: mobile-first (`text-sm md:text-base lg:text-lg`)
+- Dark mode: prefix with `dark:` when needed
+
+## Conditional Classes
+
+Always use `cn()`:
+
+```tsx
+<div className={cn(
+  "rounded-lg border p-6 transition-all",
+  isActive ? "border-primary bg-primary/5" : "border-border",
+  className
+)} />
+```
+
+## Gradients
+
+```tsx
+// Text gradient
+<span className="gradient-text">Gradient Text</span>
+
+// Background gradient
+<div className="bg-gradient-to-r from-primary to-secondary" />
+<div className="bg-gradient-to-br from-pxv-dark via-primary/20 to-pxv-dark" />
+```
+
+# Animation Patterns
+
+## Framer Motion (scroll/view animations)
+
+```tsx
+<motion.div
+  initial={{ opacity: 0, y: 30 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.6, delay: index * 0.1 }}
+>
+  {content}
+</motion.div>
+```
+
+## Tailwind Animations (simple repeating)
+
+```tsx
+<div className="animate-float" />
+<div className="animate-gradient-x bg-gradient-to-r from-primary via-accent to-secondary" />
+<div className="animate-pulse-glow" />
+```
+
+# Page Structure Pattern
+
+```tsx
+export default function PageName() {
+  return (
+    <div className="min-h-screen bg-background">
+      <Navbar isDark={false} />
+      <main className="pt-16"> {/* offset for fixed navbar */}
+        <HeroSection />
+        <ContentSection />
+        <CTASection />
+      </main>
+      <Footer />
+    </div>
+  );
+}
+```
+
+# API Route Pattern
+
+```tsx
+import { NextRequest, NextResponse } from "next/server";
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    // ... logic
+    return NextResponse.json({ success: true, data });
+  } catch (error) {
+    console.error("API error:", error);
+    return NextResponse.json(
+      { success: false, error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+```
+
+# Reference Examples
+
+| Pattern | File |
+|---------|------|
+| Full landing page | `app/page.tsx` |
+| Program page + form | `app/sfp2026/page.tsx` |
+| Mentor cards grid | `app/mentors/page.tsx` |
+| Navbar with scroll pill | `components/Navbar.tsx` |
+| shadcn Button (CVA) | `components/ui/button.tsx` |
+| Form with Lark API | `components/Form.tsx` |
+| Route handler | `app/api/lark/submit/route.ts` |
