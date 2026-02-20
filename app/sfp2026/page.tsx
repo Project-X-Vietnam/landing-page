@@ -2,12 +2,12 @@
 
 import { useEffect, useState, useRef, useCallback } from "react";
 import { motion, useInView, useScroll, useSpring } from "framer-motion";
-import { Calendar, Users, Rocket, ArrowRight } from "lucide-react";
+import { Calendar, Users, Rocket, ArrowRight, Briefcase, User, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import Image from "next/image";
-import { Package, TrendingUp } from "lucide-react";
+import { Package } from "lucide-react";
 import {
   trackClickApplyCta,
   trackScrollDepth,
@@ -403,9 +403,9 @@ export default function SFP2026Page() {
   ];
 
   const partnerRoles = [
-    { title: "Exclusive internships", desc: "Providing exclusive internship opportunities for fellows.", count: "" },
-    { title: "Mentorship & workshops", desc: "Participating in mentorship, workshops, and company tours.", count: "" },
-    { title: "Future-ready talent", desc: "Supporting the development of future-ready tech talent.", count: "" },
+    { title: "Exclusive Internship Opportunities", desc: "Providing exclusive internship opportunities & company tour slots", count: "", icon: "briefcase" },
+    { title: "Workshops & Mentorship", desc: "Participating in workshops, webinars, and mentorship program", count: "", icon: "person" },
+    { title: "Nurturing Future Talent", desc: "Nurturing future tech talent with clear career pathways and strong, long-term professional networks", count: "", icon: "growth" },
   ];
 
   const featuredMentors = [
@@ -483,7 +483,7 @@ export default function SFP2026Page() {
     "DevOps",
     "Cybersecurity",
     "Game Development",
-    "Adjacent tech-business roles",
+    "Tech-business",
   ];
 
   const rotatingCards = [
@@ -639,7 +639,7 @@ export default function SFP2026Page() {
 
 
         {/* Main Content Container */}
-        <div className="relative z-10 flex-1 flex flex-col justify-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 text-center">
+        <div className="relative z-10 flex-1 flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 text-center">
           {/* Main Headline with Gradient */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -1069,14 +1069,14 @@ export default function SFP2026Page() {
 
       {/* Our Partners */}
       <section id="partners" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-          <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 w-[140%] -translate-x-1/2 -translate-y-1/2 opacity-25 blur-2xl animate-pulse [animation-duration:8s]">
-            <Image src="/images/sfp2026/cloud.svg" alt="" width={1600} height={900} className="w-full" />
-          </div>
+        <div className="pointer-events-none absolute top-0 right-0 -z-10 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-[#0E56FA]/30 to-[#17CAFA]/20 blur-3xl opacity-40" />
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Trusted by Multiple Partners</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+              Trusted by <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">multiple partners</span>
+            </h2>
             <p className="text-base md:text-lg max-w-2xl mx-auto text-slate-300">
-              Project X collaborates with a growing network of leading technology companies, startups, and innovation-driven organizations across Vietnam and globally.
+              Project X collaborates with a growing network of <span className="text-white font-medium">leading technology companies, startups, and innovation-driven organizations</span> across Vietnam and globally.
             </p>
           </motion.div>
 
@@ -1129,9 +1129,9 @@ export default function SFP2026Page() {
                 >
 
                   <div className="relative z-10 inline-flex items-center justify-center w-12 h-12 rounded-lg mb-4 bg-primary">
-                    {i === 0 && <Package className="w-6 h-6 text-white" />}
-                    {i === 1 && <Users className="w-6 h-6 text-white" />}
-                    {i === 2 && <TrendingUp className="w-6 h-6 text-white" />}
+                    {card.icon === "briefcase" && <Briefcase className="w-6 h-6 text-white" />}
+                    {card.icon === "person" && <User className="w-6 h-6 text-white" />}
+                    {card.icon === "growth" && <TrendingUp className="w-6 h-6 text-white" />}
                   </div>
                   <h3 className="relative z-10 font-bold text-lg mb-2 text-white">{card.title}</h3>
                   <p className="relative z-10 text-sm text-slate-300">{card.desc}</p>
@@ -1142,8 +1142,8 @@ export default function SFP2026Page() {
 
           {/* Mentors section */}
           <div>
-            <h3 className="text-2xl font-bold mb-8 text-center text-white">Meet Our Top Mentors</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7 gap-4 mb-4">
+            <h3 className="text-2xl font-bold mb-8 text-center text-white uppercase tracking-wide">Meet Our Past Mentors & Guest Speakers</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7 gap-4 mb-8">
               {featuredMentors.map((mentor, i) => (
                 <motion.div
                   key={mentor.name}
@@ -1168,31 +1168,33 @@ export default function SFP2026Page() {
                 </motion.div>
               ))}
             </div>
-            <p className="text-center text-sm text-slate-400">and many more mentors across diverse tech domains</p>
+            <div className="flex items-center justify-end">
+              <p className="text-xl md:text-3xl font-light text-slate-500">and many more...</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Targeted Roles & Domains */}
-      <section id="roles" className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+      <section id="roles" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#020617] overflow-visible">
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Targeted Roles & Domains</h2>
+            <div className="pointer-events-none absolute left-1/2 top-4 -z-10 h-40 w-40 -translate-x-1/2 rounded-full bg-primary/40 blur-3xl" />
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Targeted <span className="bg-gradient-to-r from-[#22D3EE] via-[#3B82F6] to-[#2563EB] bg-clip-text text-transparent">Roles & Domains</span></h2>
             <p className="mt-4 max-w-2xl mx-auto text-base md:text-lg text-slate-300">
-              Whether you pursue deep technical expertise or business-driven tech roles, Project X Summer Fellowship Program 2026 offers a pathway tailored to your ambitions.
-            </p>
+              Project X Summer Fellowship Program 2026 supports <br /> a comprehensive range of tech and tech-related positions, including:            </p>
           </motion.div>
 
           {/* Scrolling roles - Multi-line with alternating directions */}
           <div className="space-y-6 overflow-hidden">
-            <div className="py-5 sm:py-6 rounded-2xl bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 border border-white/10 backdrop-blur-lg overflow-hidden">
+            <div className="py-5 sm:py-6 rounded-2xl bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 backdrop-blur-lg overflow-hidden">
               <div className="marquee">
                 <div className="marquee__track gap-4 sm:gap-6 lg:gap-8 px-4">
                   {[...Array(2)].map((_, set) => (
                     <div key={set} className="marquee__group gap-4 sm:gap-6 lg:gap-8 pr-4 sm:pr-6 lg:pr-8">
                       {rolesList.slice(0, Math.ceil(rolesList.length / 2)).map((role, i) => (
                         <div key={`${set}-${i}`} className="text-base sm:text-lg md:text-2xl font-semibold whitespace-nowrap transition-all text-slate-200 hover:text-primary">
-                          • {role}
+                          {role}
                         </div>
                       ))}
                     </div>
@@ -1201,14 +1203,14 @@ export default function SFP2026Page() {
               </div>
             </div>
 
-            <div className="py-5 sm:py-6 rounded-2xl bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 border border-white/10 backdrop-blur-lg overflow-hidden">
+            <div className="py-5 sm:py-6 rounded-2xl bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 backdrop-blur-lg overflow-hidden">
               <div className="marquee marquee--reverse">
                 <div className="marquee__track gap-4 sm:gap-6 lg:gap-8 px-4" style={{ animationDuration: "34s" }}>
                   {[...Array(2)].map((_, set) => (
                     <div key={set} className="marquee__group gap-4 sm:gap-6 lg:gap-8 pr-4 sm:pr-6 lg:pr-8">
                       {rolesList.slice(Math.ceil(rolesList.length / 2)).map((role, i) => (
                         <div key={`${set}-${i}`} className="text-base sm:text-lg md:text-2xl font-semibold whitespace-nowrap transition-all text-slate-200 hover:text-primary">
-                          • {role}
+                          {role}
                         </div>
                       ))}
                     </div>
@@ -1217,29 +1219,43 @@ export default function SFP2026Page() {
               </div>
             </div>
           </div>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mt-16">
+            <p className="text-base md:text-lg max-w-2xl mx-auto text-slate-300">
+              Whether you pursue deep technical expertise or business-driven tech roles,<br/><span className="text-secondary">Project X Summer Fellowship Program 2026</span> offers a pathway tailored to your ambitions.
+            </p>
+          </motion.div>
         </div>
       </section>
 
       {/* The Fellowship Journey 2026 */}
       <section id="journey" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-14"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-white">The Fellowship Journey 2026</h2>
+            <div className="pointer-events-none absolute inset-0 -z-10">
+              <Image
+                src="/images/sfp2026/moonlight.svg"
+                alt=""
+                width={1200}
+                height={1200}
+                className="w-full h-full rotate-90 object-center [mask-image:radial-gradient(circle_at_center,black_0%,transparent_60%)]"
+              />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-white">The <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">Fellowship Journey 2026</span></h2>
             <p className="mt-3 text-sm md:text-base text-slate-300">
-              A high-contrast, tech-forward roadmap from application to launch.
-            </p>
+A structured journey from selection to internship placement and professional development</p>
           </motion.div>
 
-          <div ref={journeyRef} className="relative">
-            <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px -translate-x-1/2 bg-white/10" />
+          <div ref={journeyRef} className="relative mx-auto w-full md:w-[750px]">
+            <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[1px] -translate-x-1/2 bg-white/10" />
             <motion.div
               style={{ scaleY: journeyProgress, transformOrigin: "top" }}
-              className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 bg-primary"
+              className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[1px] -translate-x-1/2 bg-primary"
             />
 
             <div className="space-y-10">
@@ -1256,22 +1272,20 @@ export default function SFP2026Page() {
                   >
                     <motion.div
                       whileHover={{ scale: 1.02 }}
-                      className={`ml-12 md:ml-0 ${i % 2 === 0 ? "md:pr-24" : "md:pl-24"}`}
+                      className={`ml-12 md:ml-0 ${i % 2 === 0 ? "md:text-left md:pr-[calc(50%-189px)]" : "md:text-left md:pl-[calc(50%-189px)]"}`}
                     >
                       <motion.div
                         whileInView={{ opacity: 1, y: 0 }}
                         initial={{ opacity: 0, y: 12 }}
                         viewport={{ once: true, amount: 0.4 }}
                         transition={{ duration: 0.4, delay: i * 0.08 + 0.1 }}
-                        className="group relative w-[320px] md:w-[380px] rounded-2xl border border-white/10 bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 backdrop-blur-lg text-white"
+                        className="group relative w-[300px] md:w-[340px] rounded-2xl border border-white/10 bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 backdrop-blur-lg text-white"
                       >
                         <div className="absolute inset-0 rounded-2xl border border-white/10 group-hover:border-primary/40 transition-colors" />
                         <div className="relative px-6 py-5 space-y-2">
                           <div className="flex items-center gap-3 text-primary">
-                            <Icon className="w-4 h-4" />
-                            <span className="text-xs uppercase tracking-[0.18em] font-semibold text-[#17CAFA] bg-[#17CAFA]/10 border border-[#17CAFA]/30 rounded-full px-2.5 py-1">
-                              {step.date}
-                            </span>
+                            <Icon className="w-4 h-4" />       
+                              <p className="text-sm text-white">{step.date}</p>
                           </div>
                           <h3 className="text-base md:text-lg font-bold text-white">{step.title}</h3>
                           <p className="text-xs text-slate-300 leading-relaxed">{step.desc}</p>
@@ -1288,7 +1302,7 @@ export default function SFP2026Page() {
 
       {/* How SFP Shapes Our Fellows */}
       <section id="testimonials" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10">
           <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 w-[140%] -translate-x-1/2 -translate-y-1/2 opacity-25 blur-2xl animate-pulse [animation-duration:8s]">
             <Image src="/images/sfp2026/cloud.svg" alt="" width={1600} height={900} className="w-full" />
           </div>
@@ -1309,7 +1323,7 @@ export default function SFP2026Page() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4 text-white"
           >
-            Not just skills, but a shift in <br /> how they see their future
+            Not just skills, but a <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">shift</span> in <br /> how they see their <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">future</span>
           </motion.h2>
 
           <motion.p
@@ -1355,9 +1369,9 @@ export default function SFP2026Page() {
 
       {/* FAQ */}
       <section id="faq" className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start bg-[#01001F]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10">
           <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-bold text-center mb-12 text-white">
-            Frequently Asked Questions
+            Frequently Asked <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">Questions</span>
           </motion.h2>
           <div className="space-y-3">
             {faqItems.map((item, i) => (
@@ -1388,18 +1402,35 @@ export default function SFP2026Page() {
       </section>
 
       {/* CTA */}
-      <section id="cta" className="relative py-24 md:py-32 overflow-hidden" style={{ background: "linear-gradient(135deg, #01001F 0%, #0E56FA 55%, #17CAFA 100%)" }}>
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 text-center">
-          <motion.h2 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
-            Where Your Tech Career Takes Shape
+      <section id="cta" className="relative py-24 md:py-32 overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 left-1/2 -translate-x-1/2 max-w-7xl w-full px-4 sm:px-6 lg:px-10 h-full overflow-hidden">
+          <Image
+            src="/images/sfp2026/moonlight.svg"
+            alt=""
+            width={1200}
+            height={600}
+            className="w-full h-full object-cover object-top opacity-50"
+          />
+        </div>
+
+        {/* Content Container */}
+        <div className="absolute inset-0 z-10 flex flex-col justify-center max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10 text-center">
+          <motion.h2 
+            initial={{ opacity: 0, y: 30 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            viewport={{ once: true }} 
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
+          >
+            Where your tech career <br/> takes{" "}
+            <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">shape</span>
           </motion.h2>
-          <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="mt-6 text-white/80 text-base md:text-lg max-w-2xl mx-auto">
-            For tech-driven students seeking clear direction, real-world skills, industry mentorship, and long-term professional networks, SFP2026 is where your tech career takes shape.
-          </motion.p>
-          <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }} className="mt-4 text-white/90 font-medium">
-            Project X Summer Fellowship Program 2026 is your next step.
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="mt-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            viewport={{ once: true }} 
+            transition={{ delay: 0.2 }} 
+            className="mt-10"
+          >
             <Link href="/sfp2026/apply" onClick={() => trackClickApplyCta("bottom_cta", "cta")}>
               <Button size="lg" className="bg-white text-primary hover:bg-white/90 rounded-full px-8 py-6 text-base font-semibold hover:scale-[1.02] transition-all shadow-lg">
                 Apply now and shape your future in tech
@@ -1412,7 +1443,7 @@ export default function SFP2026Page() {
 
       {/* Footer */}
       <footer className="py-12 border-t transition-colors duration-500 bg-[#01001F] border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="flex flex-col gap-4">
               <Image src="/favicon.svg" alt="Project X Vietnam" width={32} height={32} />
