@@ -167,7 +167,7 @@ export default function Navbar({
             </div>
 
             {showCta && (
-              <div className="flex items-center gap-3">
+              <div className="hidden sm:flex items-center gap-3">
                 <CursorTooltip text="Apply">
                   <Link href="/sfp2026/apply" onClick={() => trackClickApplyCta("navbar")}>
                     <Button

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 import {
   trackClickApplyCta,
   trackScrollDepth,
@@ -70,7 +71,7 @@ function Countdown() {
     return () => clearInterval(id);
   }, []);
   return (
-    <div className="mt-10 w-full max-w-[700px] mx-auto">
+    <div className="mt-6 sm:mt-10 w-full max-w-[480px] sm:max-w-[700px] mx-auto">
       <div className="relative" style={{ aspectRatio: "973 / 288" }}>
         <Image
           src="/images/sfp2026/countdown_hero.png"
@@ -81,28 +82,28 @@ function Countdown() {
         <div
           className="absolute inset-0 flex flex-col items-center justify-center px-[10%] -translate-y-[6%]"
         >
-          <p className="text-sm font-medium text-white/70 text-center mb-1">
+          <p className="text-xs sm:text-sm font-medium text-white/70 text-center mb-1">
             Application closes in
           </p>
           <div className="flex items-start justify-between w-full">
             <div className="flex flex-col items-center font-medium">
-              <span className="text-5xl xl:text-6xl 2xl:text-7xl font-medium text-white tabular-nums leading-none tracking-tight">{String(d).padStart(2, "0")}</span>
-              <span className="text-sm text-white/70 font-medium">days</span>
+              <span className="text-3xl sm:text-5xl xl:text-6xl 2xl:text-7xl font-medium text-white tabular-nums leading-none tracking-tight">{String(d).padStart(2, "0")}</span>
+              <span className="text-[10px] sm:text-sm text-white/70 font-medium">days</span>
             </div>
-            <span className="text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-none mt-[2px]">:</span>
+            <span className="text-2xl sm:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-none mt-[2px]">:</span>
             <div className="flex flex-col items-center font-medium">
-              <span className="text-5xl xl:text-6xl 2xl:text-7xl font-medium text-white tabular-nums leading-none tracking-tight">{String(h).padStart(2, "0")}</span>
-              <span className="text-sm text-white/70 font-medium">hours</span>
+              <span className="text-3xl sm:text-5xl xl:text-6xl 2xl:text-7xl font-medium text-white tabular-nums leading-none tracking-tight">{String(h).padStart(2, "0")}</span>
+              <span className="text-[10px] sm:text-sm text-white/70 font-medium">hours</span>
             </div>
-            <span className="text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-none mt-[2px]">:</span>
+            <span className="text-2xl sm:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-none mt-[2px]">:</span>
             <div className="flex flex-col items-center font-medium">
-              <span className="text-5xl xl:text-6xl 2xl:text-7xl font-medium text-white tabular-nums leading-none tracking-tight">{String(m).padStart(2, "0")}</span>
-              <span className="text-sm text-white/70 font-medium">minutes</span>
+              <span className="text-3xl sm:text-5xl xl:text-6xl 2xl:text-7xl font-medium text-white tabular-nums leading-none tracking-tight">{String(m).padStart(2, "0")}</span>
+              <span className="text-[10px] sm:text-sm text-white/70 font-medium">minutes</span>
             </div>
-            <span className="text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-none mt-[2px]">:</span>
+            <span className="text-2xl sm:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-none mt-[2px]">:</span>
             <div className="flex flex-col items-center font-medium">
-              <span className="text-5xl xl:text-6xl 2xl:text-7xl font-medium text-white tabular-nums leading-none tracking-tight">{String(s).padStart(2, "0")}</span>
-              <span className="text-sm text-white/70 font-medium">seconds</span>
+              <span className="text-3xl sm:text-5xl xl:text-6xl 2xl:text-7xl font-medium text-white tabular-nums leading-none tracking-tight">{String(s).padStart(2, "0")}</span>
+              <span className="text-[10px] sm:text-sm text-white/70 font-medium">seconds</span>
             </div>
           </div>
         </div>
@@ -344,8 +345,13 @@ function TestimonialFlipCard({ testimonial, index }: { testimonial: TestimonialD
         style={{ rotateY: springRotateY }}
         className="preserve-3d relative w-full h-full"
       >
-        {/* Front Face */}
-        <div className="backface-hidden absolute inset-0 rounded-[24px] border border-white/10 bg-gradient-to-br from-[#0E56FA]/10 via-white/5 to-[#17CAFA]/10 backdrop-blur-lg p-8 flex flex-col items-center justify-center">
+        {/* Front Face — visibility fallback for Safari backdrop-blur bug */}
+        <div
+          className={cn(
+            "backface-hidden absolute inset-0 rounded-[24px] border border-white/10 bg-gradient-to-br from-[#0E56FA]/10 via-white/5 to-[#17CAFA]/10 backdrop-blur-lg p-8 flex flex-col items-center justify-center transition-opacity duration-200",
+            isFlipped ? "opacity-0 pointer-events-none" : "opacity-100"
+          )}
+        >
           <div className="pointer-events-none absolute right-[-20%] top-[-20%] h-48 w-48 rounded-full bg-blue-500/20 blur-3xl" />
 
           <div className="relative mb-6">
@@ -380,8 +386,13 @@ function TestimonialFlipCard({ testimonial, index }: { testimonial: TestimonialD
           </div>
         </div>
 
-        {/* Back Face */}
-        <div className="backface-hidden rotate-y-180 absolute inset-0 rounded-[24px] border border-white/10 bg-gradient-to-br from-[#0E56FA]/10 via-white/5 to-[#17CAFA]/10 backdrop-blur-lg p-8 flex flex-col justify-between">
+        {/* Back Face — visibility fallback for Safari backdrop-blur bug */}
+        <div
+          className={cn(
+            "backface-hidden rotate-y-180 absolute inset-0 rounded-[24px] border border-white/10 bg-gradient-to-br from-[#0E56FA]/10 via-white/5 to-[#17CAFA]/10 backdrop-blur-lg p-8 flex flex-col justify-between transition-opacity duration-200",
+            isFlipped ? "opacity-100" : "opacity-0 pointer-events-none"
+          )}
+        >
           <div className="pointer-events-none absolute right-[-20%] top-[-20%] h-48 w-48 rounded-full bg-blue-500/30 blur-3xl" />
 
           <div className="relative z-10 flex flex-col justify-center flex-1">
@@ -763,8 +774,20 @@ export default function SFP2026Page() {
       />
 
       {/* Hero */}
-      <section className="relative min-h-screen flex flex-col justify-between overflow-hidden pt-24 pb-8 snap-start">
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      <section className="relative min-h-[100svh] flex flex-col justify-between overflow-hidden pt-20 pb-6 sm:pt-24 sm:pb-8 snap-start">
+        {/* Mobile light — vertical beam */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden sm:hidden">
+          <Image
+            src="/images/sfp2026/light.svg"
+            alt=""
+            width={973}
+            height={794}
+            priority
+            className="absolute -top-[5%] left-1/2 -translate-x-1/2 w-[280%] h-auto opacity-95 scale-y-[1.6]"
+          />
+        </div>
+        {/* Desktop light — horizontal beam */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden hidden sm:block">
           <Image
             src="/images/sfp2026/light_hero.svg"
             alt=""
@@ -776,7 +799,7 @@ export default function SFP2026Page() {
 
 
         {/* Main Content Container */}
-        <div className="relative z-10 flex-1 flex flex-col justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-10 text-center">
+        <div className="relative z-10 flex-1 flex flex-col justify-center -mt-12 sm:mt-0 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-10 text-center">
           {/* Main Headline with Gradient */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -796,17 +819,18 @@ export default function SFP2026Page() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-6 text-base md:text-lg lg:text-xl max-w-3xl font-medium mx-auto text-white leading-relaxed"
+            className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg lg:text-xl max-w-3xl font-medium mx-auto text-white leading-relaxed"
             style={{ fontFamily: "SF Pro Display, -apple-system, sans-serif" }}
           >
-            Project X Summer Fellowship Program 2026 is the guiding light <br /> that turns potential into clear direction in tech          </motion.p>
+            Project X Summer Fellowship Program 2026 is the guiding light<br className="hidden sm:inline" /> that turns potential into clear direction in tech
+          </motion.p>
 
           {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.35 }}
-            className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
           >
             <Link href="/sfp2026/apply" onClick={() => trackClickApplyCta("hero", "hero")}>
               <Button
@@ -840,11 +864,11 @@ export default function SFP2026Page() {
       </section>
 
       {/* Our Impact So Far */}
-      <section id="impact" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
+      <section id="impact" className="relative min-h-[auto] md:min-h-screen flex flex-col justify-center py-16 md:py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
         <div className="w-full lg:max-w-[75vw] mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="relative text-center mb-12">
             <div className="pointer-events-none absolute left-1/2 top-4 -z-10 h-40 w-40 -translate-x-1/2 rounded-full bg-primary/60 blur-3xl" />
-            <h2 className="text-5xl md:text-6xl font-medium mb-6 text-white">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-medium mb-4 sm:mb-6 text-white">
               Our <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">impact</span> so far
             </h2>
             <p className="text-base md:text-lg max-w-2xl mx-auto text-white/60 leading-none">
@@ -919,7 +943,7 @@ export default function SFP2026Page() {
       </section>
 
       {/* About Project X Vietnam */}
-      <section id="about-pjx" ref={aboutRef} className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
+      <section id="about-pjx" ref={aboutRef} className="relative min-h-[auto] md:min-h-screen flex flex-col justify-center py-16 md:py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
         <div className="pointer-events-none absolute bottom-0 right-0 translate-x-1/4 translate-y-1/4 z-0 w-[150vw] md:w-[80vw]">
           <Image src="/images/sfp2026/cloud.svg" alt="" width={1200} height={800} className="w-full" />
         </div>
@@ -937,7 +961,7 @@ export default function SFP2026Page() {
                 initial={{ opacity: 0, y: -10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="text-5xl md:text-6xl font-medium text-left text-white"
+                className="text-3xl sm:text-5xl md:text-6xl font-medium text-left text-white"
               >
                 <span>About </span>
                 <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">{aboutPJXTyped}</span>
@@ -1108,7 +1132,7 @@ export default function SFP2026Page() {
             initial={{ opacity: 0, y: -10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-5xl md:text-6xl font-medium mb-8 md:mb-16 text-left text-white"
+            className="text-3xl sm:text-5xl md:text-6xl font-medium mb-6 sm:mb-8 md:mb-16 text-left text-white"
           >
             <span>About </span>
             <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">{aboutSFPTyped}</span>
@@ -1306,7 +1330,7 @@ export default function SFP2026Page() {
       </section>
 
       {/* Targeted Roles & Domains */}
-      <section id="roles" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
+      <section id="roles" className="relative min-h-[auto] md:min-h-screen flex flex-col justify-center py-16 md:py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
         <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
             <div className="pointer-events-none absolute left-1/2 top-4 -z-10 h-40 w-40 -translate-x-1/2 rounded-full bg-primary/40 blur-3xl" />
@@ -1365,7 +1389,7 @@ export default function SFP2026Page() {
       </section>
 
       {/* The Fellowship Journey 2026 */}
-      <section id="journey" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F]">
+      <section id="journey" className="relative min-h-[auto] md:min-h-screen flex flex-col justify-center py-16 md:py-24 transition-colors duration-200 snap-start bg-[#01001F]">
         <div className="pointer-events-none absolute -left-[120%] md:-left-[48%] top-1/2 -translate-y-1/2 z-0 w-[200vw] md:w-[90vw] aspect-square md:max-w-[1500px]">
           <Image
             src="/images/sfp2026/moonlight_v2.svg"
@@ -1437,7 +1461,7 @@ A structured journey from selection to internship placement and professional dev
       </section>
 
       {/* How SFP Shapes Our Fellows */}
-      <section id="testimonials" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start">
+      <section id="testimonials" className="relative min-h-[auto] md:min-h-screen flex flex-col justify-center py-16 md:py-24 transition-colors duration-200 snap-start">
         <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10">
           <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 w-[140%] -translate-x-1/2 -translate-y-1/2 opacity-25 blur-2xl animate-pulse [animation-duration:8s]">
             <Image src="/images/sfp2026/cloud.svg" alt="" width={1600} height={900} className="w-full" />
@@ -1484,7 +1508,7 @@ A structured journey from selection to internship placement and professional dev
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start bg-[#01001F]">
+      <section id="faq" className="min-h-[auto] md:min-h-screen flex flex-col justify-center py-16 md:py-24 transition-colors duration-500 snap-start bg-[#01001F]">
         <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10">
           <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-5xl md:text-6xl font-medium text-center mb-12 text-white">
             Frequently Asked <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">Questions</span>
