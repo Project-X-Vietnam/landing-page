@@ -70,34 +70,40 @@ function Countdown() {
     return () => clearInterval(id);
   }, []);
   return (
-    <div className="mt-10">
-      
-      <div className="mx-auto p-[1px] rounded-3xl bg-gradient-to-tr from-transparent via-secondary/5 to-primary/20 border border-white/20">
-        <div className="relative p-8 md:p-10 lg:p-12 rounded-3xl backdrop-blur-lg">
-          <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-tr from-primary/10 via-transparent to-secondary/10 blur-xl opacity-60" />
-          <p className="text-center text-sm md:text-base font-medium mb-4 text-slate-300">
-        Application closes in
-      </p>
-          {/* Content Layer */}
-          <div className="relative z-10 flex justify-center items-center gap-[clamp(0.5rem,2vw,1.75rem)]">
-            {[
-              [d, "Days"],
-              [h, "Hours"],
-              [m, "Minutes"],
-              [s, "Seconds"],
-            ].map(([val, label], idx) => (
-              <div key={String(label)} className="flex flex-col items-center">
-                <div className="flex items-center">
-                  <div className="font-bold tabular-nums min-w-[clamp(2rem,5vw,5rem)] text-white text-center" style={{ fontSize: "clamp(2rem, 8vw, 8rem)" }}>
-                    {String(val).padStart(2, "0")}
-                  </div>
-                  {idx < 3 && (
-                    <div className="text-white/40 ml-[clamp(0.25rem,1vw,1rem)] font-light" style={{ fontSize: "clamp(1.5rem, 6vw, 7rem)" }}>:</div>
-                  )}
-                </div>
-                <div className="font-medium mt-2 text-slate-300" style={{ fontSize: "clamp(0.625rem, 1.5vw, 0.875rem)" }}>{label}</div>
-              </div>
-            ))}
+    <div className="mt-10 w-full max-w-[700px] mx-auto">
+      <div className="relative" style={{ aspectRatio: "973 / 288" }}>
+        <Image
+          src="/images/sfp2026/countdown_hero.png"
+          alt=""
+          fill
+          className="object-contain"
+        />
+        <div
+          className="absolute inset-0 flex flex-col items-center justify-center px-[10%] -translate-y-[6%]"
+        >
+          <p className="text-sm font-medium text-white/70 text-center mb-1">
+            Application closes in
+          </p>
+          <div className="flex items-start justify-between w-full">
+            <div className="flex flex-col items-center font-medium">
+              <span className="text-5xl xl:text-6xl 2xl:text-7xl font-medium text-white tabular-nums leading-none tracking-tight">{String(d).padStart(2, "0")}</span>
+              <span className="text-sm text-white/70 font-medium">days</span>
+            </div>
+            <span className="text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-none mt-[2px]">:</span>
+            <div className="flex flex-col items-center font-medium">
+              <span className="text-5xl xl:text-6xl 2xl:text-7xl font-medium text-white tabular-nums leading-none tracking-tight">{String(h).padStart(2, "0")}</span>
+              <span className="text-sm text-white/70 font-medium">hours</span>
+            </div>
+            <span className="text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-none mt-[2px]">:</span>
+            <div className="flex flex-col items-center font-medium">
+              <span className="text-5xl xl:text-6xl 2xl:text-7xl font-medium text-white tabular-nums leading-none tracking-tight">{String(m).padStart(2, "0")}</span>
+              <span className="text-sm text-white/70 font-medium">minutes</span>
+            </div>
+            <span className="text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-none mt-[2px]">:</span>
+            <div className="flex flex-col items-center font-medium">
+              <span className="text-5xl xl:text-6xl 2xl:text-7xl font-medium text-white tabular-nums leading-none tracking-tight">{String(s).padStart(2, "0")}</span>
+              <span className="text-sm text-white/70 font-medium">seconds</span>
+            </div>
           </div>
         </div>
       </div>
@@ -530,7 +536,7 @@ export default function SFP2026Page() {
   const journeySteps = [
     { date: "20/02 - 11/03", title: "Official Application", desc: "Application period opens for Project X Summer Fellowship Program 2026." },
     { date: "16/03 - 28/03", title: "Round 1", desc: "Develop a strong, cohesive profile including CV/Resume and Portfolio." },
-    { date: "30/03 - 25/04", title: "Round 2", desc: "Enhance interview readiness before and during job application." },
+    { date: "30/03 - 25/04", title: "Round 2", desc: "Enhance interview readiness and apply to partner internship positions." },
     { date: "09/07 - 22/08", title: "Summer Fellowship Program 2026", desc: "Summer Fellowship Program with internships, professional, and personal development." },
   ];
 
@@ -758,14 +764,13 @@ export default function SFP2026Page() {
 
       {/* Hero */}
       <section className="relative min-h-screen flex flex-col justify-between overflow-hidden pt-24 pb-8 snap-start">
-        <div className="pointer-events-none absolute top-0 left-1/4 rotate-[60deg] -translate-y-1/4 w-[100vw] h-[100vh] overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <Image
-            src="/images/sfp2026/light.svg"
+            src="/images/sfp2026/light_hero.svg"
             alt=""
-            width={3600}
-            height={1200}
+            fill
             priority
-            className="w-full h-full object-cover opacity-80 [mask-image:linear-gradient(to_bottom,black_40%,transparent)]"
+            className="object-cover object-right-top"
           />
         </div>
 
@@ -780,10 +785,10 @@ export default function SFP2026Page() {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
             style={{ fontFamily: "Plus Jakarta Sans" }}
           >
-            <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#0E56FA] from-0% to-[#17CAFA] to-[33%] bg-clip-text text-transparent">
               Illuminate
             </span>
-            <span className="text-white"> your tech <br /> career path</span>
+            <span className="text-white"> your<br />tech career path</span>
           </motion.h1>
 
           {/* Sub-headline */}
@@ -791,7 +796,7 @@ export default function SFP2026Page() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-6 text-base md:text-lg lg:text-xl max-w-3xl mx-auto text-slate-300 leading-relaxed"
+            className="mt-6 text-base md:text-lg lg:text-xl max-w-3xl font-medium mx-auto text-white leading-relaxed"
             style={{ fontFamily: "SF Pro Display, -apple-system, sans-serif" }}
           >
             Project X Summer Fellowship Program 2026 is the guiding light <br /> that turns potential into clear direction in tech          </motion.p>
@@ -806,16 +811,15 @@ export default function SFP2026Page() {
             <Link href="/sfp2026/apply" onClick={() => trackClickApplyCta("hero", "hero")}>
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] hover:from-[#0E56FA]/90 hover:to-[#17CAFA]/90 text-white rounded-full px-10 py-6 text-base md:text-lg font-semibold shadow-lg shadow-primary/25 hover:shadow-xl transition-all hover:scale-[1.02] w-full sm:w-auto"
+                className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] hover:from-[#0E56FA]/90 hover:to-[#17CAFA]/90 text-white rounded-full px-10 py-6 text-base md:text-lg font-semibold transition-all hover:scale-[1.02] w-full sm:w-auto"
               >
-                Register now
+                Apply now
               </Button>
             </Link>
             <a href="#impact">
               <Button
                 size="lg"
-                variant="outline"
-                className="group rounded-full px-10 py-6 text-base md:text-lg font-semibold border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-all w-full sm:w-auto"
+                className="group rounded-full px-8 py-6 text-base md:text-lg font-semibold bg-white text-[#01001F] hover:bg-white/90 transition-all w-full sm:w-auto"
               >
                 Learn more
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -1544,7 +1548,7 @@ A structured journey from selection to internship placement and professional dev
             className="mt-10"
           >
             <Link href="/sfp2026/apply" onClick={() => trackClickApplyCta("bottom_cta", "cta")}>
-              <Button size="lg" className="bg-primary text-white hover:bg-primary/90 rounded-full px-10 py-7 text-base md:text-lg font-semibold hover:scale-[1.02] transition-all shadow-lg">
+              <Button size="lg" className="bg-primary text-white hover:bg-primary/90 rounded-full px-10 py-7 text-base md:text-lg font-semibold hover:scale-[1.02] transition-all">
                 Apply now
                 <svg className="ml-2 w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
               </Button>
