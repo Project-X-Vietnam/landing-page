@@ -2,12 +2,11 @@
 
 import { useEffect, useState, useRef, useCallback } from "react";
 import { motion, useInView, useScroll, useSpring } from "framer-motion";
-import { Calendar, Users, Rocket, ArrowRight, Briefcase, User, TrendingUp } from "lucide-react";
+import { Calendar, Rocket, ArrowRight, Briefcase, User, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import Image from "next/image";
-import { Package } from "lucide-react";
 import {
   trackClickApplyCta,
   trackScrollDepth,
@@ -613,7 +612,7 @@ export default function SFP2026Page() {
 
   return (
     <main
-      className="relative transition-colors duration-200 scroll-smooth bg-[#01001F]"
+      className="relative transition-colors duration-200 scroll-smooth bg-[#01001F] overflow-x-hidden scrollbar-hide"
     >
       <Navbar
         isDark={true}
@@ -1176,7 +1175,7 @@ export default function SFP2026Page() {
       </section>
 
       {/* Targeted Roles & Domains */}
-      <section id="roles" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#020617] overflow-visible">
+      <section id="roles" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#020617] overflow-hidden">
         <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
             <div className="pointer-events-none absolute left-1/2 top-4 -z-10 h-40 w-40 -translate-x-1/2 rounded-full bg-primary/40 blur-3xl" />
