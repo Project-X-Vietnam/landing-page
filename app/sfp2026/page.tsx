@@ -1,13 +1,12 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from "react";
-import { motion, useInView, useScroll, useSpring } from "framer-motion";
-import { Calendar, Users, Rocket, ArrowRight } from "lucide-react";
+import { motion, useInView, useScroll, useSpring, useMotionValue } from "framer-motion";
+import { Calendar, Rocket, ArrowRight, Briefcase, User, TrendingUp, Users, Building2, GraduationCap, Star, RotateCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import Image from "next/image";
-import { Package, TrendingUp } from "lucide-react";
 import {
   trackClickApplyCta,
   trackScrollDepth,
@@ -71,34 +70,40 @@ function Countdown() {
     return () => clearInterval(id);
   }, []);
   return (
-    <div className="mt-10">
-      <p className="text-center text-sm md:text-base font-medium mb-4 text-slate-300">
-        Application closes in
-      </p>
-      <div className="mx-auto p-[1px] rounded-3xl bg-gradient-to-br from-[#0E56FA]/60 via-white/5 to-[#17CAFA]/60">
-        <div className="relative p-8 md:p-10 lg:p-12 rounded-3xl backdrop-blur-lg">
-          <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-[#0E56FA]/10 via-transparent to-[#17CAFA]/10 blur-xl opacity-60" />
-
-          {/* Content Layer */}
-          <div className="relative z-10 flex justify-center items-center gap-3 sm:gap-5 md:gap-7">
-            {[
-              [d, "Days"],
-              [h, "Hours"],
-              [m, "Minutes"],
-              [s, "Seconds"],
-            ].map(([val, label], idx) => (
-              <div key={String(label)} className="flex flex-col items-center">
-                <div className="flex items-center">
-                  <div className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tabular-nums min-w-[4rem] md:min-w-[5rem] text-white text-center">
-                    {String(val).padStart(2, "0")}
-                  </div>
-                  {idx < 3 && (
-                    <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white/40 ml-2 sm:ml-3 md:ml-4 font-light">:</div>
-                  )}
-                </div>
-                <div className="text-xs sm:text-sm font-medium mt-2 text-slate-300">{label}</div>
-              </div>
-            ))}
+    <div className="mt-10 w-full max-w-[700px] mx-auto">
+      <div className="relative" style={{ aspectRatio: "973 / 288" }}>
+        <Image
+          src="/images/sfp2026/countdown_hero.png"
+          alt=""
+          fill
+          className="object-contain"
+        />
+        <div
+          className="absolute inset-0 flex flex-col items-center justify-center px-[10%] -translate-y-[6%]"
+        >
+          <p className="text-sm font-medium text-white/70 text-center mb-1">
+            Application closes in
+          </p>
+          <div className="flex items-start justify-between w-full">
+            <div className="flex flex-col items-center font-medium">
+              <span className="text-5xl xl:text-6xl 2xl:text-7xl font-medium text-white tabular-nums leading-none tracking-tight">{String(d).padStart(2, "0")}</span>
+              <span className="text-sm text-white/70 font-medium">days</span>
+            </div>
+            <span className="text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-none mt-[2px]">:</span>
+            <div className="flex flex-col items-center font-medium">
+              <span className="text-5xl xl:text-6xl 2xl:text-7xl font-medium text-white tabular-nums leading-none tracking-tight">{String(h).padStart(2, "0")}</span>
+              <span className="text-sm text-white/70 font-medium">hours</span>
+            </div>
+            <span className="text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-none mt-[2px]">:</span>
+            <div className="flex flex-col items-center font-medium">
+              <span className="text-5xl xl:text-6xl 2xl:text-7xl font-medium text-white tabular-nums leading-none tracking-tight">{String(m).padStart(2, "0")}</span>
+              <span className="text-sm text-white/70 font-medium">minutes</span>
+            </div>
+            <span className="text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-none mt-[2px]">:</span>
+            <div className="flex flex-col items-center font-medium">
+              <span className="text-5xl xl:text-6xl 2xl:text-7xl font-medium text-white tabular-nums leading-none tracking-tight">{String(s).padStart(2, "0")}</span>
+              <span className="text-sm text-white/70 font-medium">seconds</span>
+            </div>
           </div>
         </div>
       </div>
@@ -255,6 +260,147 @@ const createOrbitNode = ({
 }
 
 
+interface TestimonialData {
+  name: string;
+  roleLines: [string, string];
+  quote: string;
+  avatar: string | null;
+}
+
+function TestimonialFlipCard({ testimonial, index }: { testimonial: TestimonialData; index: number }) {
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(cardRef, { once: true });
+
+  const rotateY = useMotionValue(0);
+  const springRotateY = useSpring(rotateY, { stiffness: 300, damping: 30 });
+
+  useEffect(() => {
+    setIsTouchDevice(window.matchMedia("(pointer: coarse)").matches);
+  }, []);
+
+  useEffect(() => {
+    rotateY.set(isFlipped ? 180 : 0);
+  }, [isFlipped, rotateY]);
+
+  useEffect(() => {
+    if (index === 0 && isInView && !hasInteracted) {
+      const timer = setTimeout(async () => {
+        rotateY.set(8);
+        await new Promise((r) => setTimeout(r, 250));
+        rotateY.set(-6);
+        await new Promise((r) => setTimeout(r, 200));
+        rotateY.set(3);
+        await new Promise((r) => setTimeout(r, 150));
+        rotateY.set(0);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [index, isInView, hasInteracted, rotateY]);
+
+  const handleMouseEnter = () => {
+    if (!isTouchDevice) {
+      setIsFlipped(true);
+      setHasInteracted(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isTouchDevice) {
+      setIsFlipped(false);
+    }
+  };
+
+  const handleClick = () => {
+    const isMobileViewport = window.innerWidth < 768;
+    if (isTouchDevice || isMobileViewport) {
+      setIsFlipped((prev) => !prev);
+      setHasInteracted(true);
+    }
+  };
+
+  const initials = testimonial.name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .slice(0, 2);
+  const [university, role] = testimonial.roleLines;
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.15, duration: 0.5 }}
+      className="perspective-1200 h-[380px] cursor-pointer"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+    >
+      <motion.div
+        style={{ rotateY: springRotateY }}
+        className="preserve-3d relative w-full h-full"
+      >
+        {/* Front Face */}
+        <div className="backface-hidden absolute inset-0 rounded-[24px] border border-white/10 bg-gradient-to-br from-[#0E56FA]/10 via-white/5 to-[#17CAFA]/10 backdrop-blur-lg p-8 flex flex-col items-center justify-center">
+          <div className="pointer-events-none absolute right-[-20%] top-[-20%] h-48 w-48 rounded-full bg-blue-500/20 blur-3xl" />
+
+          <div className="relative mb-6">
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#0E56FA] to-[#17CAFA] opacity-30 blur-xl scale-150" />
+            <div className="relative w-28 h-28 rounded-full overflow-hidden border-2 border-white/20 shadow-xl shadow-primary/25">
+              {testimonial.avatar ? (
+                <Image
+                  src={testimonial.avatar}
+                  alt={testimonial.name}
+                  width={224}
+                  height={224}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-[#0E56FA] to-[#17CAFA] flex items-center justify-center">
+                  <span className="text-3xl font-bold text-white">{initials}</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="relative z-10 text-center space-y-1.5">
+            <div className="text-xl font-bold text-white">{testimonial.name}</div>
+            <div className="text-sm text-white/60">{university}</div>
+            <div className="text-sm font-medium text-white">{role}</div>
+          </div>
+
+          <div className="mt-6 flex items-center gap-2 text-xs text-white/30">
+            <RotateCw className="w-3 h-3" />
+            <span className="hidden md:inline">{isTouchDevice ? "Tap" : "Hover"} to read</span>
+            <span className="md:hidden">Tap to read</span>
+          </div>
+        </div>
+
+        {/* Back Face */}
+        <div className="backface-hidden rotate-y-180 absolute inset-0 rounded-[24px] border border-white/10 bg-gradient-to-br from-[#0E56FA]/10 via-white/5 to-[#17CAFA]/10 backdrop-blur-lg p-8 flex flex-col justify-between">
+          <div className="pointer-events-none absolute right-[-20%] top-[-20%] h-48 w-48 rounded-full bg-blue-500/30 blur-3xl" />
+
+          <div className="relative z-10 flex flex-col justify-center flex-1">
+            <div className="text-5xl font-bold text-white/20 leading-none mb-3">&ldquo;</div>
+            <p className="text-base md:text-lg leading-relaxed text-white">
+              {testimonial.quote}
+            </p>
+            <div className="text-5xl font-bold text-white/20 leading-none self-end mt-3">&rdquo;</div>
+          </div>
+
+          <div className="relative z-10 text-sm text-slate-400 pt-4 border-t border-white/5">
+            — {testimonial.name}
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function SFP2026Page() {
   const sectionLinks = SECTION_IDS.map((id) => ({
     label: SECTION_LABELS[id],
@@ -362,19 +508,19 @@ export default function SFP2026Page() {
       name: "Dang Thi Minh Anh",
       roleLines: ["The Chinese University of Hong Kong", "Marketing Analytics Intern @Shopee"],
       quote: "What stayed with me after Project X SFP was not just the advice, but the confidence to seek guidance and shape my own path.",
-      avatar: null,
+      avatar: "/images/fellows/minhanh_fellow25.jpg",
     },
     {
       name: "Le Huong Giang",
       roleLines: ["National Economics University", "Founder Associate @NaviEdu"],
       quote: "Project X SFP is a catalyst, connecting me with the right people at the right time and contributing to the path I am pursuing now.",
-      avatar: null,
+      avatar: "/images/fellows/huonggiang_fellow25.jpg",
     },
     {
       name: "Bui Quynh Giao",
-      roleLines: ["Foreign Trade University", "Performance Marketing Intern @ GiveAsia"],
+      roleLines: ["Foreign Trade University", "SMB E-commerce Operations Intern @TikTok Shop"],
       quote: "Project X SFP turned mentorship into a meaningful, human connection - not just advice, but real guidance.",
-      avatar: null,
+      avatar: "/images/fellows/quynhgiao_fellow25.jpeg",
     },
   ];
 
@@ -390,7 +536,7 @@ export default function SFP2026Page() {
   const journeySteps = [
     { date: "20/02 - 11/03", title: "Official Application", desc: "Application period opens for Project X Summer Fellowship Program 2026." },
     { date: "16/03 - 28/03", title: "Round 1", desc: "Develop a strong, cohesive profile including CV/Resume and Portfolio." },
-    { date: "30/03 - 25/04", title: "Round 2", desc: "Enhance interview readiness before and during job application." },
+    { date: "30/03 - 25/04", title: "Round 2", desc: "Enhance interview readiness and apply to partner internship positions." },
     { date: "09/07 - 22/08", title: "Summer Fellowship Program 2026", desc: "Summer Fellowship Program with internships, professional, and personal development." },
   ];
 
@@ -403,9 +549,9 @@ export default function SFP2026Page() {
   ];
 
   const partnerRoles = [
-    { title: "Exclusive internships", desc: "Providing exclusive internship opportunities for fellows.", count: "" },
-    { title: "Mentorship & workshops", desc: "Participating in mentorship, workshops, and company tours.", count: "" },
-    { title: "Future-ready talent", desc: "Supporting the development of future-ready tech talent.", count: "" },
+    { title: "Exclusive Internship Opportunities", desc: "Providing exclusive internship opportunities & company tour slots", count: "", icon: "briefcase" },
+    { title: "Workshops & Mentorship", desc: "Participating in workshops, webinars, and mentorship program", count: "", icon: "person" },
+    { title: "Nurturing Future Talent", desc: "Nurturing future tech talent with clear career pathways and strong, long-term professional networks", count: "", icon: "growth" },
   ];
 
   const featuredMentors = [
@@ -453,24 +599,16 @@ export default function SFP2026Page() {
     },
   ];
 
-  const partnerLogosSmall = [
-    { src: "/images/partners/vng_logo.png", alt: "VNG" },
-    { src: "/images/partners/grab_logo.png", alt: "Grab" },
-    { src: "/images/partners/asilla-logo.jpg", alt: "Asilla" },
-    { src: "/images/partners/lg-logo.png", alt: "LG" },
-    { src: "/images/partners/one-mount-logo.png", alt: "One Mount" },
-  ];
-
   const partnerLogosAll = [
-    { src: "/images/partners/appota-logo.png", alt: "Appota" },
-    { src: "/images/partners/chotot-logo.png", alt: "Chotot" },
-    { src: "/images/partners/geek-up-logo.png", alt: "Geek Up" },
-    { src: "/images/partners/got-it-logo.png", alt: "Got It" },
-    { src: "/images/partners/grab_logo.png", alt: "Grab" },
-    { src: "/images/partners/holistics-logo.svg", alt: "Holistics" },
-    { src: "/images/partners/shopee-logo.png", alt: "Shopee" },
-    { src: "/images/partners/tiki_logo.png", alt: "Tiki" },
-    { src: "/images/partners/vng_logo.png", alt: "VNG" },
+    { src: "/images/partners/appota-logo.png", alt: "Appota", containerClass: "w-32 h-12 xl:w-36 xl:h-14" },
+    { src: "/images/partners/chotot-logo.png", alt: "Chotot", containerClass: "w-24 h-12 xl:w-28 xl:h-14" },
+    { src: "/images/partners/geek-up-logo.png", alt: "Geek Up", containerClass: "w-24 h-8 xl:w-28 xl:h-10" },
+    { src: "/images/partners/got-it-logo.png", alt: "Got It", containerClass: "w-28 h-16 xl:w-32 xl:h-20" },
+    { src: "/images/partners/grab_logo.png", alt: "Grab", containerClass: "w-24 h-10 xl:w-28 xl:h-10" },
+    { src: "/images/partners/holistics-logo.svg", alt: "Holistics", containerClass: "w-40 h-12 xl:w-44 xl:h-14" },
+    { src: "/images/partners/shopee-logo.png", alt: "Shopee", containerClass: "w-28 h-12 xl:w-32 xl:h-14" },
+    { src: "/images/partners/tiki_logo.png", alt: "Tiki", containerClass: "w-32 h-16 xl:w-36 xl:h-20" },
+    { src: "/images/partners/vng_logo.png", alt: "VNG", containerClass: "w-16 h-8 xl:w-20 xl:h-10" },
   ];
 
   const rolesList = [
@@ -483,7 +621,7 @@ export default function SFP2026Page() {
     "DevOps",
     "Cybersecurity",
     "Game Development",
-    "Adjacent tech-business roles",
+    "Tech-business",
   ];
 
   const rotatingCards = [
@@ -613,7 +751,7 @@ export default function SFP2026Page() {
 
   return (
     <main
-      className="relative transition-colors duration-200 scroll-smooth bg-[#01001F]"
+      className="relative transition-colors duration-200 scroll-smooth bg-[#01001F] overflow-x-hidden scrollbar-hide"
     >
       <Navbar
         isDark={true}
@@ -626,20 +764,19 @@ export default function SFP2026Page() {
 
       {/* Hero */}
       <section className="relative min-h-screen flex flex-col justify-between overflow-hidden pt-24 pb-8 snap-start">
-        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2  w-[100vw] md:w-[75vw] h-[45vh] overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <Image
-            src="/images/sfp2026/light.svg"
+            src="/images/sfp2026/light_hero.svg"
             alt=""
-            width={3600}
-            height={1200}
+            fill
             priority
-            className="w-full h-full object-cover opacity-80 [mask-image:linear-gradient(to_bottom,black_40%,transparent)]"
+            className="object-cover object-right-top"
           />
         </div>
 
 
         {/* Main Content Container */}
-        <div className="relative z-10 flex-1 flex flex-col justify-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 text-center">
+        <div className="relative z-10 flex-1 flex flex-col justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-10 text-center">
           {/* Main Headline with Gradient */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -648,10 +785,10 @@ export default function SFP2026Page() {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
             style={{ fontFamily: "Plus Jakarta Sans" }}
           >
-            <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#0E56FA] from-0% to-[#17CAFA] to-[33%] bg-clip-text text-transparent">
               Illuminate
             </span>
-            <span className="text-white"> your tech <br /> career path</span>
+            <span className="text-white"> your<br />tech career path</span>
           </motion.h1>
 
           {/* Sub-headline */}
@@ -659,7 +796,7 @@ export default function SFP2026Page() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-6 text-base md:text-lg lg:text-xl max-w-3xl mx-auto text-slate-300 leading-relaxed"
+            className="mt-6 text-base md:text-lg lg:text-xl max-w-3xl font-medium mx-auto text-white leading-relaxed"
             style={{ fontFamily: "SF Pro Display, -apple-system, sans-serif" }}
           >
             Project X Summer Fellowship Program 2026 is the guiding light <br /> that turns potential into clear direction in tech          </motion.p>
@@ -674,16 +811,15 @@ export default function SFP2026Page() {
             <Link href="/sfp2026/apply" onClick={() => trackClickApplyCta("hero", "hero")}>
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] hover:from-[#0E56FA]/90 hover:to-[#17CAFA]/90 text-white rounded-full px-10 py-6 text-base md:text-lg font-semibold shadow-lg shadow-primary/25 hover:shadow-xl transition-all hover:scale-[1.02] w-full sm:w-auto"
+                className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] hover:from-[#0E56FA]/90 hover:to-[#17CAFA]/90 text-white rounded-full px-10 py-6 text-base md:text-lg font-semibold transition-all hover:scale-[1.02] w-full sm:w-auto"
               >
-                Register now
+                Apply now
               </Button>
             </Link>
             <a href="#impact">
               <Button
                 size="lg"
-                variant="outline"
-                className="group rounded-full px-10 py-6 text-base md:text-lg font-semibold border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-all w-full sm:w-auto"
+                className="group rounded-full px-8 py-6 text-base md:text-lg font-semibold bg-white text-[#01001F] hover:bg-white/90 transition-all w-full sm:w-auto"
               >
                 Learn more
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -705,78 +841,77 @@ export default function SFP2026Page() {
 
       {/* Our Impact So Far */}
       <section id="impact" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+        <div className="w-full lg:max-w-[75vw] mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="relative text-center mb-12">
-            <div className="pointer-events-none absolute left-1/2 top-4 -z-10 h-40 w-40 -translate-x-1/2 rounded-full bg-primary/40 blur-3xl" />
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+            <div className="pointer-events-none absolute left-1/2 top-4 -z-10 h-40 w-40 -translate-x-1/2 rounded-full bg-primary/60 blur-3xl" />
+            <h2 className="text-5xl md:text-6xl font-medium mb-6 text-white">
               Our <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">impact</span> so far
             </h2>
-            <p className="text-base md:text-lg max-w-2xl mx-auto text-slate-300">
-              Project X Summer Fellowship Program has grown into one of Vietnam&apos;s most impactful tech initiatives - an integrated talent development ecosystem shaping the next generation of tech leaders.
+            <p className="text-base md:text-lg max-w-2xl mx-auto text-white/60 leading-none">
+              Project X Summer Fellowship Program has grown into one of <span className="font-bold text-white/70">Vietnam&apos;s  most impactful</span> student-led tech initiatives - an integrated talent development ecosystem shaping the next generation of tech leaders.
             </p>
           </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6 justify-items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-0 justify-items-center">
             {impactStats.map((stat, i) => {
-              const labelParts = stat.label.split(" in ");
-              const lines = labelParts.length > 1 ? labelParts.slice(0, 2) : [labelParts[0], ""];
               const positionClass =
-                i === 0
-                  ? "lg:col-span-2"
-                  : i === 1
-                    ? "lg:col-span-2"
-                    : i === 2
-                      ? "lg:col-span-2"
-                      : i === 3
-                        ? "lg:col-span-2 lg:col-start-2"
-                        : i === 4
-                          ? "lg:col-span-2 lg:col-start-4"
-                          : "";
+                i < 3 ? "lg:col-span-2"
+                  : i === 3 ? "lg:col-span-2 lg:col-start-2"
+                    : "lg:col-span-2 lg:col-start-4";
+
               return (
                 <motion.div
                   key={stat.label}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={{ scale: 1.04, y: -6 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
-                  className={`relative w-full max-w-[260px] p-[1px] rounded-2xl bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40  ${positionClass}`}
+                  className={`group relative w-full max-w-[400px] lg:max-w-none cursor-pointer ${positionClass}`}
+                  style={{ marginBottom: "-5.5%" }}
                 >
-                  {/* Inner Glass Container */}
-                  <div
-                    className="relative px-8 py-8 rounded-2xl 
-    bg-white/[0.04] backdrop-blur-lg 
-    shadow-[0_15px_50px_rgba(0,0,0,0.25)] 
-    overflow-hidden flex flex-col justify-between items-start"
-                  >
-                    {/* Inner Gradient Blur Light */}
-                    <div className="pointer-events-none absolute inset-0 rounded-2xl 
-      bg-gradient-to-br from-[#0E56FA]/10 via-transparent to-[#17CAFA]/10 
-      blur-xl opacity-60"
-                    />
+                  <Image
+                    src="/images/sfp2026/impact_glass_card.svg"
+                    alt=""
+                    width={562}
+                    height={275}
+                    className="w-full h-auto pointer-events-none select-none transition-all duration-300 group-hover:brightness-125"
+                  />
 
-                    {/* Content */}
-                    <div className="relative z-10 space-y-1 pb-2">
-                      {lines.map((part, idx) => (
+                  <div
+                    className="pointer-events-none absolute rounded-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{ left: "5.07%", right: "5.07%", top: "4.55%", bottom: "16.18%", boxShadow: "inset 0 0 40px rgba(23, 202, 250, 0.15), 0 0 30px rgba(14, 86, 250, 0.2)" }}
+                  />
+
+                  <div
+                    className="absolute z-10"
+                    style={{ left: "5.07%", right: "5.07%", top: "4.55%", bottom: "16.18%" }}
+                  >
+                    <div className="w-full h-full p-5 flex flex-col justify-between">
+                      <div className="flex items-start justify-between">
                         <p
-                          key={idx}
-                          className="text-sm font-medium text-white/75"
+                          className="text-base font-medium text-white/80 transition-colors duration-300 group-hover:text-white"
                           style={{ fontFamily: "SF Pro Display, -apple-system, sans-serif" }}
                         >
-                          {part}
+                          {stat.label}
                         </p>
-                      ))}
-                    </div>
+                        {[Users, Building2, GraduationCap, Briefcase, Star][i] &&
+                          (() => {
+                            const Icon = [Users, Building2, GraduationCap, Briefcase, Star][i];
+                            return <Icon className="w-5 h-5 text-white/50 flex-shrink-0 transition-all duration-300 group-hover:text-[#17CAFA] group-hover:scale-110" />;
+                          })()}
+                      </div>
 
-                    <div
-                      className="relative z-10 text-5xl md:text-6xl font-bold mt-auto text-white leading-none tracking-tight"
-                      style={{ fontFamily: "Plus Jakarta Sans, -apple-system, sans-serif" }}
-                    >
-                      {stat.suffix === "%"
-                        ? `~${stat.value}${stat.suffix}`
-                        : <><AnimatedCounter value={stat.value} suffix={stat.suffix} /></>}
+                      <div
+                        className="text-6xl md:text-7xl font-medium text-white leading-none tracking-tight transition-transform duration-300 origin-bottom-left group-hover:scale-105"
+                        style={{ fontFamily: "SF Pro Display, -apple-system, sans-serif" }}
+                      >
+                        {stat.suffix === "%"
+                          ? `~${stat.value}${stat.suffix}`
+                          : <AnimatedCounter value={stat.value} suffix={stat.suffix} />}
+                      </div>
                     </div>
                   </div>
                 </motion.div>
-
               );
             })}
           </div>
@@ -785,10 +920,10 @@ export default function SFP2026Page() {
 
       {/* About Project X Vietnam */}
       <section id="about-pjx" ref={aboutRef} className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
-        <div className="pointer-events-none absolute bottom-0 right-0 translate-x-1/4 translate-y-1/4 z-0 w-[80vw]">
+        <div className="pointer-events-none absolute bottom-0 right-0 translate-x-1/4 translate-y-1/4 z-0 w-[150vw] md:w-[80vw]">
           <Image src="/images/sfp2026/cloud.svg" alt="" width={1200} height={800} className="w-full" />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="relative z-10 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-10">
           <div className="grid lg:grid-cols-[1.5fr_1fr] gap-10 items-start overflow-visible">
             {/* Left Column - Text Content (60%) */}
             <motion.div
@@ -802,11 +937,11 @@ export default function SFP2026Page() {
                 initial={{ opacity: 0, y: -10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="text-3xl md:text-4xl font-bold text-left text-white"
+                className="text-5xl md:text-6xl font-medium text-left text-white"
               >
                 <span>About </span>
                 <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">{aboutPJXTyped}</span>
-                <span className="inline-block w-0.5 h-8 bg-primary animate-cursor-blink align-middle ml-1" />
+                <span className="inline-block w-[3px] h-[0.85em] bg-primary animate-cursor-blink align-baseline ml-1 relative top-[0.05em]" />
               </motion.h2>
               <p className="text-base md:text-lg leading-relaxed text-slate-300">
                 Founded in 2022, Project X Vietnam is a NGO with the mission to bridge the gap between young talents and companies in the Vietnam&apos;s tech ecosystem via our annual flagship, called Project X Summer Fellowship Program.
@@ -963,23 +1098,23 @@ export default function SFP2026Page() {
       <section
         id="about-sfp"
         ref={aboutSfpRef}
-        className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden"
+        className="relative min-h-[auto] md:min-h-screen flex flex-col justify-center py-14 md:py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden"
       >
-        <div className="pointer-events-none absolute top-0 right-0 z-0 translate-x-1/4 -translate-y-1/4 w-[80vw]  scale-y-[-1]">
+        <div className="pointer-events-none absolute top-0 right-0 z-0 translate-x-1/4 -translate-y-1/4 w-[150vw] md:w-[80vw] scale-y-[-1]">
           <Image src="/images/sfp2026/cloud.svg" alt="" width={1200} height={800} className="w-full" />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="relative z-10 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-10">
           <motion.h2
             initial={{ opacity: 0, y: -10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold mb-16 text-left text-white"
+            className="text-5xl md:text-6xl font-medium mb-8 md:mb-16 text-left text-white"
           >
             <span>About </span>
             <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">{aboutSFPTyped}</span>
-            <span className="inline-block w-0.5 h-8 bg-primary animate-cursor-blink align-middle ml-1" />
+            <span className="inline-block w-[3px] h-[0.85em] bg-primary animate-cursor-blink align-baseline ml-1 relative top-[0.05em]" />
           </motion.h2>
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
+          <div className="grid lg:grid-cols-2 gap-6 md:gap-12 items-start">
             <div className="space-y-6">
               <p
                 className="text-md md:text-base font-medium text-slate-200"
@@ -987,7 +1122,7 @@ export default function SFP2026Page() {
                 Through mentorship, hands-on learning, and a strong community,
                 Project X helps you:
               </p>
-              <div ref={rotatingRef} className="relative h-[420px] w-full">
+              <div ref={rotatingRef} className="relative h-[240px] md:h-[420px] w-full">
                 {rotatingCards.map((item, index) => {
 
                   const position = getStackPosition(index);
@@ -1053,7 +1188,7 @@ export default function SFP2026Page() {
               </div>
             </div>
             <div className="rounded-2xl border relative overflow-hidden bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 border-white/10 backdrop-blur-lg">
-              <div className="relative h-[420px]">
+              <div className="relative h-[280px] md:h-[420px]">
                 <Image
                   src="/images/IMG_6661.jpg"
                   alt="Summer Fellowship Program"
@@ -1068,82 +1203,68 @@ export default function SFP2026Page() {
       </section>
 
       {/* Our Partners */}
-      <section id="partners" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-          <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 w-[140%] -translate-x-1/2 -translate-y-1/2 opacity-25 blur-2xl animate-pulse [animation-duration:8s]">
-            <Image src="/images/sfp2026/cloud.svg" alt="" width={1600} height={900} className="w-full" />
-          </div>
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Trusted by Multiple Partners</h2>
-            <p className="text-base md:text-lg max-w-2xl mx-auto text-slate-300">
-              Project X collaborates with a growing network of leading technology companies, startups, and innovation-driven organizations across Vietnam and globally.
+      <section id="partners" className="relative min-h-[auto] md:min-h-screen flex flex-col justify-center py-16 md:py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
+        <div className="pointer-events-none absolute top-0 right-0 -z-10 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-[#0E56FA]/30 to-[#17CAFA]/20 blur-3xl opacity-40" />
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-6 md:mb-12">
+            <h2 className="text-5xl md:text-6xl font-medium mb-6 text-white">
+              Trusted by <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">multiple partners</span>
+            </h2>
+            <p className="text-base md:text-lg max-w-2xl mx-auto text-white/60">
+              Project X collaborates with a growing network of <span className="text-white/70 font-bold">leading technology companies, startups, and innovation-driven organizations</span> across Vietnam and globally.
             </p>
           </motion.div>
 
-          {/* Partner logos grid (small) */}
-          <div className="mb-12 lg:hidden">
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 items-center">
-              {partnerLogosSmall.map((logo) => (
-                <div key={logo.alt} className="flex items-center justify-center">
-                  <div className="relative w-24 h-12 sm:w-28 sm:h-14">
-                    <Image src={logo.src} alt={logo.alt} fill className="object-contain brightness-0 invert" />
-                  </div>
+        </div>
+
+        {/* Partner logos marquee — full width */}
+        <div className="mb-6 md:mb-12 overflow-hidden w-full">
+          <div className="marquee">
+            <div className="marquee__track gap-6 lg:gap-12 py-3 md:py-6 items-center">
+              {[...Array(3)].map((_, set) => (
+                <div key={set} className="marquee__group gap-6 lg:gap-12 pr-6 lg:pr-12 items-center">
+                  {partnerLogosAll.map((logo) => (
+                    <div key={`${set}-${logo.alt}`} className="flex items-center justify-center">
+                      <div className={`relative ${logo.containerClass}`}>
+                        <Image src={logo.src} alt={logo.alt} fill className="object-contain brightness-0 invert" />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               ))}
             </div>
           </div>
+        </div>
 
-          {/* Partner logos marquee (large) */}
-          <div className="mb-12 hidden lg:block overflow-hidden">
-            <div className="marquee">
-              <div className="marquee__track gap-6 py-6">
-                {[...Array(2)].map((_, set) => (
-                  <div key={set} className="marquee__group gap-6 pr-6">
-                    {partnerLogosAll.map((logo) => (
-                      <div key={`${set}-${logo.alt}`} className="flex items-center justify-center">
-                        <div className="relative w-28 h-14 xl:w-32 xl:h-16">
-                          <Image src={logo.src} alt={logo.alt} fill className="object-contain brightness-0 invert" />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10">
 
           {/* Partner roles */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-20">
             {partnerRoles.map((card, i) => (
               <motion.div
                 key={card.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -5 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="relative w-full p-[1px] rounded-2xl bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40"
+                className="group dark-glass rounded-2xl px-6 py-7 cursor-pointer"
               >
-                <div
-                  className="relative px-6 py-6 rounded-2xl
-                  overflow-hidden flex flex-col justify-between items-start"
-                >
-
-                  <div className="relative z-10 inline-flex items-center justify-center w-12 h-12 rounded-lg mb-4 bg-primary">
-                    {i === 0 && <Package className="w-6 h-6 text-white" />}
-                    {i === 1 && <Users className="w-6 h-6 text-white" />}
-                    {i === 2 && <TrendingUp className="w-6 h-6 text-white" />}
-                  </div>
-                  <h3 className="relative z-10 font-bold text-lg mb-2 text-white">{card.title}</h3>
-                  <p className="relative z-10 text-sm text-slate-300">{card.desc}</p>
+                <div className="inline-flex items-center justify-center w-11 h-11 rounded-xl mb-5 bg-primary/15 border border-primary/30 transition-all duration-300 group-hover:scale-110 group-hover:bg-primary/25">
+                  {card.icon === "briefcase" && <Briefcase className="w-5 h-5 text-primary transition-colors duration-300 group-hover:text-[#17CAFA]" />}
+                  {card.icon === "person" && <User className="w-5 h-5 text-primary transition-colors duration-300 group-hover:text-[#17CAFA]" />}
+                  {card.icon === "growth" && <TrendingUp className="w-5 h-5 text-primary transition-colors duration-300 group-hover:text-[#17CAFA]" />}
                 </div>
+                <h3 className="font-semibold text-base mb-2 text-white transition-colors duration-300 group-hover:text-[#17CAFA]">{card.title}</h3>
+                <p className="text-sm text-white/50 leading-relaxed">{card.desc}</p>
               </motion.div>
             ))}
           </div>
 
           {/* Mentors section */}
           <div>
-            <h3 className="text-2xl font-bold mb-8 text-center text-white">Meet Our Top Mentors</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7 gap-4 mb-4">
+            <h3 className="text-3xl font-medium mb-12 text-center text-white/60 uppercase tracking-wide">Meet Our Past Mentors & Guest Speakers</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7 gap-6 mb-8">
               {featuredMentors.map((mentor, i) => (
                 <motion.div
                   key={mentor.name}
@@ -1153,93 +1274,124 @@ export default function SFP2026Page() {
                   transition={{ delay: i * 0.05 }}
                   className="flex flex-col items-center text-center"
                 >
-                  <div className="w-16 h-16 md:w-18 md:h-18 rounded-full mb-3 overflow-hidden border border-white/10 bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 backdrop-blur-lg">
+                  <div className="w-18 h-18 md:w-20 md:h-20 rounded-full mb-3 overflow-hidden border border-white/10 bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 backdrop-blur-lg">
                     <Image
                       src={mentor.image}
                       alt={mentor.name}
-                      width={96}
-                      height={96}
+                      width={128}
+                      height={128}
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <p className="text-xs font-bold text-white">{mentor.name}</p>
-                  <p className="text-[11px] text-slate-300">{mentor.role}</p>
-                  <p className="text-[11px] text-slate-400">@{mentor.company}</p>
+                  <p className="text-sm font-bold text-white">{mentor.name}</p>
+                  <p className="text-xs text-white/60">{mentor.role}</p>
+                  <p className="text-xs text-white/70">@{mentor.company}</p>
                 </motion.div>
               ))}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: featuredMentors.length * 0.05 }}
+                className="flex flex-col items-center justify-center text-center xl:hidden"
+              >
+                <p className="text-lg font-medium text-white/60">and many more...</p>
+              </motion.div>
             </div>
-            <p className="text-center text-sm text-slate-400">and many more mentors across diverse tech domains</p>
+            <div className="hidden xl:flex items-center justify-end">
+              <p className="text-xl md:text-3xl font-medium text-white/60">and many more...</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Targeted Roles & Domains */}
-      <section id="roles" className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+      <section id="roles" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Targeted Roles & Domains</h2>
-            <p className="mt-4 max-w-2xl mx-auto text-base md:text-lg text-slate-300">
-              Whether you pursue deep technical expertise or business-driven tech roles, Project X Summer Fellowship Program 2026 offers a pathway tailored to your ambitions.
-            </p>
+            <div className="pointer-events-none absolute left-1/2 top-4 -z-10 h-40 w-40 -translate-x-1/2 rounded-full bg-primary/40 blur-3xl" />
+            <h2 className="text-5xl md:text-6xl font-medium mb-4 text-white">Targeted <span className="bg-gradient-to-r from-[#2563EB] via-[#3B82F6] to-[#22D3EE] bg-clip-text text-transparent">Roles & Domains</span></h2>
+            <p className="mt-4 max-w-2xl mx-auto text-base md:text-lg text-white/60">
+              Project X Summer Fellowship Program 2026 supports <br /> a comprehensive range of tech and tech-related positions, including:            </p>
           </motion.div>
+        </div>
 
-          {/* Scrolling roles - Multi-line with alternating directions */}
-          <div className="space-y-6 overflow-hidden">
-            <div className="py-5 sm:py-6 rounded-2xl bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 border border-white/10 backdrop-blur-lg overflow-hidden">
-              <div className="marquee">
-                <div className="marquee__track gap-4 sm:gap-6 lg:gap-8 px-4">
-                  {[...Array(2)].map((_, set) => (
-                    <div key={set} className="marquee__group gap-4 sm:gap-6 lg:gap-8 pr-4 sm:pr-6 lg:pr-8">
-                      {rolesList.slice(0, Math.ceil(rolesList.length / 2)).map((role, i) => (
-                        <div key={`${set}-${i}`} className="text-base sm:text-lg md:text-2xl font-semibold whitespace-nowrap transition-all text-slate-200 hover:text-primary">
-                          • {role}
+        {/* Scrolling roles - Full width marquee */}
+        <div className="w-full space-y-6 mb-4">
+            <div className="marquee">
+              <div className="marquee__track gap-4 sm:gap-6 lg:gap-8">
+                {[...Array(2)].map((_, set) => (
+                  <div key={set} className="marquee__group gap-4 sm:gap-6 lg:gap-8 pr-4 sm:pr-6 lg:pr-8">
+                    {rolesList.slice(0, Math.ceil(rolesList.length / 2)).flatMap((role, i) => [
+                      <div key={`${set}-${i}`} className="text-4xl font-normal whitespace-nowrap transition-all text-slate-500 hover:text-secondary">
+                        {role}
+                      </div>,
+                      i < Math.ceil(rolesList.length / 2) - 1 && (
+                        <div key={`${set}-${i}-dot`} className="text-5xl font-normal whitespace-nowrap transition-all text-slate-500">
+                          •
                         </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="py-5 sm:py-6 rounded-2xl bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 border border-white/10 backdrop-blur-lg overflow-hidden">
-              <div className="marquee marquee--reverse">
-                <div className="marquee__track gap-4 sm:gap-6 lg:gap-8 px-4" style={{ animationDuration: "34s" }}>
-                  {[...Array(2)].map((_, set) => (
-                    <div key={set} className="marquee__group gap-4 sm:gap-6 lg:gap-8 pr-4 sm:pr-6 lg:pr-8">
-                      {rolesList.slice(Math.ceil(rolesList.length / 2)).map((role, i) => (
-                        <div key={`${set}-${i}`} className="text-base sm:text-lg md:text-2xl font-semibold whitespace-nowrap transition-all text-slate-200 hover:text-primary">
-                          • {role}
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              </div>
+                      )
+                    ]).filter(Boolean)}
+                  </div>
+                ))}
             </div>
           </div>
+
+            <div className="marquee marquee--reverse">
+              <div className="marquee__track gap-4 sm:gap-6 lg:gap-8" style={{ animationDuration: "34s" }}>
+                {[...Array(2)].map((_, set) => (
+                  <div key={set} className="marquee__group gap-4 sm:gap-6 lg:gap-8 pr-4 sm:pr-6 lg:pr-8">
+                    {rolesList.slice(Math.ceil(rolesList.length / 2)).flatMap((role, i) => [
+                      <div key={`${set}-${i}`} className="text-4xl font-normal whitespace-nowrap transition-all text-slate-500 hover:text-secondary">
+                        {role}
+                      </div>,
+                      i < rolesList.length - Math.ceil(rolesList.length / 2) - 1 && (
+                        <div key={`${set}-${i}-dot`} className="text-5xl font-normal whitespace-nowrap transition-all text-slate-500">
+                          •
+                        </div>
+                      )
+                    ]).filter(Boolean)}
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10">
+          <p className="mt-4 mx-auto text-base md:text-lg text-slate-300 text-center">
+            Whether you pursue deep technical expertise or business-driven tech roles,<br/>Project X Summer Fellowship Program 2026 <strong className="text-secondary">offers a pathway tailored to your ambitions.</strong>
+          </p>
         </div>
       </section>
 
       {/* The Fellowship Journey 2026 */}
       <section id="journey" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="pointer-events-none absolute -left-[120%] md:-left-[48%] top-1/2 -translate-y-1/2 z-0 w-[200vw] md:w-[90vw] aspect-square md:max-w-[1500px]">
+          <Image
+            src="/images/sfp2026/moonlight_v2.svg"
+            alt=""
+            width={1972}
+            height={1050}
+            className="w-full h-full object-contain"
+          />
+        </div>
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-14"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-white">The Fellowship Journey 2026</h2>
+            <h2 className="text-5xl md:text-6xl font-medium text-white">The <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">Fellowship Journey 2026</span></h2>
             <p className="mt-3 text-sm md:text-base text-slate-300">
-              A high-contrast, tech-forward roadmap from application to launch.
-            </p>
+A structured journey from selection to internship placement and professional development</p>
           </motion.div>
 
-          <div ref={journeyRef} className="relative">
-            <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px -translate-x-1/2 bg-white/10" />
+          <div ref={journeyRef} className="relative mx-auto w-full md:w-[750px]">
+            <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[1px] -translate-x-1/2 bg-white/10" />
             <motion.div
               style={{ scaleY: journeyProgress, transformOrigin: "top" }}
-              className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 bg-primary"
+              className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[1px] -translate-x-1/2 bg-primary"
             />
 
             <div className="space-y-10">
@@ -1256,22 +1408,20 @@ export default function SFP2026Page() {
                   >
                     <motion.div
                       whileHover={{ scale: 1.02 }}
-                      className={`ml-12 md:ml-0 ${i % 2 === 0 ? "md:pr-24" : "md:pl-24"}`}
+                      className={`ml-12 md:ml-0 ${i % 2 === 0 ? "md:text-left md:pr-[calc(50%-189px)]" : "md:text-left md:pl-[calc(50%-189px)]"}`}
                     >
                       <motion.div
                         whileInView={{ opacity: 1, y: 0 }}
                         initial={{ opacity: 0, y: 12 }}
                         viewport={{ once: true, amount: 0.4 }}
                         transition={{ duration: 0.4, delay: i * 0.08 + 0.1 }}
-                        className="group relative w-[320px] md:w-[380px] rounded-2xl border border-white/10 bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 backdrop-blur-lg text-white"
+                        className="group relative w-[300px] md:w-[340px] rounded-2xl border border-white/10 bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 backdrop-blur-lg text-white"
                       >
                         <div className="absolute inset-0 rounded-2xl border border-white/10 group-hover:border-primary/40 transition-colors" />
                         <div className="relative px-6 py-5 space-y-2">
                           <div className="flex items-center gap-3 text-primary">
-                            <Icon className="w-4 h-4" />
-                            <span className="text-xs uppercase tracking-[0.18em] font-semibold text-[#17CAFA] bg-[#17CAFA]/10 border border-[#17CAFA]/30 rounded-full px-2.5 py-1">
-                              {step.date}
-                            </span>
+                            <Icon className="w-4 h-4" />       
+                              <p className="text-sm text-white">{step.date}</p>
                           </div>
                           <h3 className="text-base md:text-lg font-bold text-white">{step.title}</h3>
                           <p className="text-xs text-slate-300 leading-relaxed">{step.desc}</p>
@@ -1287,8 +1437,8 @@ export default function SFP2026Page() {
       </section>
 
       {/* How SFP Shapes Our Fellows */}
-      <section id="testimonials" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
+      <section id="testimonials" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start">
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10">
           <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 w-[140%] -translate-x-1/2 -translate-y-1/2 opacity-25 blur-2xl animate-pulse [animation-duration:8s]">
             <Image src="/images/sfp2026/cloud.svg" alt="" width={1600} height={900} className="w-full" />
           </div>
@@ -1307,9 +1457,9 @@ export default function SFP2026Page() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4 text-white"
+            className="text-5xl md:text-6xl lg:text-7xl font-medium text-center mb-4 text-white"
           >
-            Not just skills, but a shift in <br /> how they see their future
+            Not just skills, but a <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">shift</span> in <br /> how they see their <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">future</span>
           </motion.h2>
 
           <motion.p
@@ -1322,42 +1472,22 @@ export default function SFP2026Page() {
           </motion.p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((testimonial) => {
-              const [university, role] = testimonial.roleLines;
-              return (
-                <motion.div
-                  key={testimonial.name}
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="relative h-full overflow-hidden rounded-[24px] border border-white/10 bg-gradient-to-br from-[#0E56FA]/10 via-white/5 to-[#17CAFA]/10 backdrop-blur-lg p-8"
-                >
-                  <div className="pointer-events-none absolute right-[-20%] top-[-20%] h-48 w-48 rounded-full bg-blue-500/30 blur-3xl" />
-                  <div className="pointer-events-none absolute inset-0 rounded-[24px] border border-white/10 backdrop-blur-lg" />
-                  <div className="relative z-10 mb-6 space-y-1">
-                    <div className="text-lg font-semibold text-white">{testimonial.name}</div>
-                    <div className="text-sm text-slate-400">{university}</div>
-                    <div className="text-xs text-slate-400">{role}</div>
-                  </div>
-
-                  <div className="relative z-10">
-                    <div className="absolute -top-4 left-0 text-5xl font-bold text-white/20">&ldquo;</div>
-                    <p className="pt-6 text-base md:text-lg leading-relaxed text-white">
-                      {testimonial.quote}
-                    </p>
-                    <div className="absolute -bottom-6 right-0 text-5xl font-bold text-white/20">&rdquo;</div>
-                  </div>
-                </motion.div>
-              );
-            })}
+            {testimonials.map((testimonial, i) => (
+              <TestimonialFlipCard
+                key={testimonial.name}
+                testimonial={testimonial as TestimonialData}
+                index={i}
+              />
+            ))}
           </div>
         </div>
       </section>
 
       {/* FAQ */}
       <section id="faq" className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start bg-[#01001F]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-10">
-          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-bold text-center mb-12 text-white">
-            Frequently Asked Questions
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10">
+          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-5xl md:text-6xl font-medium text-center mb-12 text-white">
+            Frequently Asked <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">Questions</span>
           </motion.h2>
           <div className="space-y-3">
             {faqItems.map((item, i) => (
@@ -1388,21 +1518,38 @@ export default function SFP2026Page() {
       </section>
 
       {/* CTA */}
-      <section id="cta" className="relative py-24 md:py-32 overflow-hidden" style={{ background: "linear-gradient(135deg, #01001F 0%, #0E56FA 55%, #17CAFA 100%)" }}>
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 text-center">
-          <motion.h2 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
-            Where Your Tech Career Takes Shape
+      <section id="cta" className="relative py-16 md:py-20 overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 left-1/2 -translate-x-1/2 max-w-7xl w-full px-4 sm:px-6 lg:px-10 h-full overflow-hidden">
+          <Image
+            src="/images/sfp2026/moonlight.svg"
+            alt=""
+            width={1200}
+            height={600}
+            className="w-full h-full object-cover object-top opacity-50"
+          />
+        </div>
+
+        {/* Content Container */}
+        <div className="relative z-10 flex flex-col justify-center max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10 text-center">
+          <motion.h2 
+            initial={{ opacity: 0, y: 30 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            viewport={{ once: true }} 
+            className="text-4xl md:text-5xl lg:text-6xl font-medium text-white leading-tight"
+          >
+            Where your tech career <br/> takes{" "}
+            <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">shape</span>
           </motion.h2>
-          <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="mt-6 text-white/80 text-base md:text-lg max-w-2xl mx-auto">
-            For tech-driven students seeking clear direction, real-world skills, industry mentorship, and long-term professional networks, SFP2026 is where your tech career takes shape.
-          </motion.p>
-          <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }} className="mt-4 text-white/90 font-medium">
-            Project X Summer Fellowship Program 2026 is your next step.
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="mt-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            viewport={{ once: true }} 
+            transition={{ delay: 0.2 }} 
+            className="mt-10"
+          >
             <Link href="/sfp2026/apply" onClick={() => trackClickApplyCta("bottom_cta", "cta")}>
-              <Button size="lg" className="bg-white text-primary hover:bg-white/90 rounded-full px-8 py-6 text-base font-semibold hover:scale-[1.02] transition-all shadow-lg">
-                Apply now and shape your future in tech
+              <Button size="lg" className="bg-primary text-white hover:bg-primary/90 rounded-full px-10 py-7 text-base md:text-lg font-semibold hover:scale-[1.02] transition-all">
+                Apply now
                 <svg className="ml-2 w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
               </Button>
             </Link>
@@ -1411,39 +1558,25 @@ export default function SFP2026Page() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t transition-colors duration-500 bg-[#01001F] border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="flex flex-col gap-4">
-              <Image src="/favicon.svg" alt="Project X Vietnam" width={32} height={32} />
-              <span className="text-sm text-slate-300">© 2026 Project X Vietnam</span>
+      <footer className="py-12 border-t transition-colors duration-500 bg-[#020818] border-white/10">
+        <div className="max-w-6xl mx-auto px-6 md:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-3">
+              <Image src="/favicon.svg" alt="Project X Vietnam" width={28} height={28} />
+              <span className="text-sm font-medium text-white/60">
+                © 2026 Project X Vietnam
+              </span>
             </div>
-            <div>
-              <h4 className="font-semibold mb-3 text-white">Links</h4>
-              <div className="flex flex-col gap-2">
-                {["About", "Contact", "Privacy", "Terms"].map((label) => (
-                  <a key={label} href="#" className="text-sm text-slate-300 hover:text-primary">{label}</a>
-                ))}
-              </div>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-3 text-white">Social</h4>
-              <div className="flex gap-4">
-                {["Facebook", "LinkedIn", "Twitter"].map((s) => (
-                  <a key={s} href="#" className="text-sm text-slate-300 hover:text-primary">{s}</a>
-                ))}
-              </div>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-3 text-white">Newsletter</h4>
-              <div className="flex gap-2">
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="flex-1 min-w-0 px-4 py-2 rounded-lg border text-sm bg-white/5 border-white/10 text-slate-200"
-                />
-                <Button size="sm" className="rounded-lg bg-primary text-white flex-shrink-0">Subscribe</Button>
-              </div>
+            <div className="flex items-center gap-6">
+              {["Privacy", "Terms", "Contact"].map((item) => (
+                <a
+                  key={item}
+                  href="#"
+                  className="text-sm font-medium transition-colors text-white/40 hover:text-primary"
+                >
+                  {item}
+                </a>
+              ))}
             </div>
           </div>
         </div>
