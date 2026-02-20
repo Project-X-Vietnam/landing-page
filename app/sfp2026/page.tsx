@@ -72,15 +72,15 @@ function Countdown() {
   }, []);
   return (
     <div className="mt-10">
-      <p className="text-center text-sm md:text-base font-medium mb-4 text-slate-300">
+      
+      <div className="mx-auto p-[1px] rounded-3xl bg-gradient-to-tr from-transparent via-secondary/5 to-primary/20 border border-white/20">
+        <div className="relative p-8 md:p-10 lg:p-12 rounded-3xl backdrop-blur-lg">
+          <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-tr from-primary/10 via-transparent to-secondary/10 blur-xl opacity-60" />
+          <p className="text-center text-sm md:text-base font-medium mb-4 text-slate-300">
         Application closes in
       </p>
-      <div className="mx-auto p-[1px] rounded-3xl bg-gradient-to-br from-[#0E56FA]/60 via-white/5 to-[#17CAFA]/60">
-        <div className="relative p-8 md:p-10 lg:p-12 rounded-3xl backdrop-blur-lg">
-          <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-[#0E56FA]/10 via-transparent to-[#17CAFA]/10 blur-xl opacity-60" />
-
           {/* Content Layer */}
-          <div className="relative z-10 flex justify-center items-center gap-3 sm:gap-5 md:gap-7">
+          <div className="relative z-10 flex justify-center items-center gap-[clamp(0.5rem,2vw,1.75rem)]">
             {[
               [d, "Days"],
               [h, "Hours"],
@@ -89,14 +89,14 @@ function Countdown() {
             ].map(([val, label], idx) => (
               <div key={String(label)} className="flex flex-col items-center">
                 <div className="flex items-center">
-                  <div className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tabular-nums min-w-[4rem] md:min-w-[5rem] text-white text-center">
+                  <div className="font-bold tabular-nums min-w-[clamp(2rem,5vw,5rem)] text-white text-center" style={{ fontSize: "clamp(2rem, 8vw, 8rem)" }}>
                     {String(val).padStart(2, "0")}
                   </div>
                   {idx < 3 && (
-                    <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white/40 ml-2 sm:ml-3 md:ml-4 font-light">:</div>
+                    <div className="text-white/40 ml-[clamp(0.25rem,1vw,1rem)] font-light" style={{ fontSize: "clamp(1.5rem, 6vw, 7rem)" }}>:</div>
                   )}
                 </div>
-                <div className="text-xs sm:text-sm font-medium mt-2 text-slate-300">{label}</div>
+                <div className="font-medium mt-2 text-slate-300" style={{ fontSize: "clamp(0.625rem, 1.5vw, 0.875rem)" }}>{label}</div>
               </div>
             ))}
           </div>
@@ -626,7 +626,7 @@ export default function SFP2026Page() {
 
       {/* Hero */}
       <section className="relative min-h-screen flex flex-col justify-between overflow-hidden pt-24 pb-8 snap-start">
-        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2  w-[100vw] md:w-[75vw] h-[45vh] overflow-hidden">
+        <div className="pointer-events-none absolute top-0 left-1/4 rotate-[60deg] -translate-y-1/4 w-[100vw] h-[100vh] overflow-hidden">
           <Image
             src="/images/sfp2026/light.svg"
             alt=""
@@ -639,7 +639,7 @@ export default function SFP2026Page() {
 
 
         {/* Main Content Container */}
-        <div className="relative z-10 flex-1 flex flex-col justify-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 text-center">
+        <div className="relative z-10 flex-1 flex flex-col justify-center max-w-[75vw] mx-auto px-4 sm:px-6 lg:px-10 text-center">
           {/* Main Headline with Gradient */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -705,7 +705,7 @@ export default function SFP2026Page() {
 
       {/* Our Impact So Far */}
       <section id="impact" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+        <div className="max-w-[75vw] mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="relative text-center mb-12">
             <div className="pointer-events-none absolute left-1/2 top-4 -z-10 h-40 w-40 -translate-x-1/2 rounded-full bg-primary/40 blur-3xl" />
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
@@ -788,7 +788,7 @@ export default function SFP2026Page() {
         <div className="pointer-events-none absolute bottom-0 right-0 translate-x-1/4 translate-y-1/4 z-0 w-[80vw]">
           <Image src="/images/sfp2026/cloud.svg" alt="" width={1200} height={800} className="w-full" />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="relative z-10 max-w-[75vw] mx-auto px-4 sm:px-6 lg:px-10">
           <div className="grid lg:grid-cols-[1.5fr_1fr] gap-10 items-start overflow-visible">
             {/* Left Column - Text Content (60%) */}
             <motion.div
@@ -968,7 +968,7 @@ export default function SFP2026Page() {
         <div className="pointer-events-none absolute top-0 right-0 z-0 translate-x-1/4 -translate-y-1/4 w-[80vw]  scale-y-[-1]">
           <Image src="/images/sfp2026/cloud.svg" alt="" width={1200} height={800} className="w-full" />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="relative z-10 max-w-[75vw] mx-auto px-4 sm:px-6 lg:px-10">
           <motion.h2
             initial={{ opacity: 0, y: -10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1069,12 +1069,15 @@ export default function SFP2026Page() {
 
       {/* Our Partners */}
       <section id="partners" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="max-w-[75vw] mx-auto px-4 sm:px-6 lg:px-10">
           <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 w-[140%] -translate-x-1/2 -translate-y-1/2 opacity-25 blur-2xl animate-pulse [animation-duration:8s]">
             <Image src="/images/sfp2026/cloud.svg" alt="" width={1600} height={900} className="w-full" />
           </div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Trusted by Multiple Partners</h2>
+            <div className="pointer-events-none absolute left-1/2 top-4 -z-10 h-40 w-40 -translate-x-1/2 rounded-full bg-primary/40 blur-3xl" />
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+              Trusted by <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">Multiple Partners</span>
+            </h2>
             <p className="text-base md:text-lg max-w-2xl mx-auto text-slate-300">
               Project X collaborates with a growing network of leading technology companies, startups, and innovation-driven organizations across Vietnam and globally.
             </p>
@@ -1175,54 +1178,64 @@ export default function SFP2026Page() {
 
       {/* Targeted Roles & Domains */}
       <section id="roles" className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F] overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="max-w-[75vw] mx-auto px-4 sm:px-6 lg:px-10">
+                        <div className="pointer-events-none absolute left-1/2 top-4 -z-10 h-40 w-40 -translate-x-1/2 rounded-full bg-primary/40 blur-3xl" />
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Targeted Roles & Domains</h2>
-            <p className="mt-4 max-w-2xl mx-auto text-base md:text-lg text-slate-300">
-              Whether you pursue deep technical expertise or business-driven tech roles, Project X Summer Fellowship Program 2026 offers a pathway tailored to your ambitions.
-            </p>
+      
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Targeted <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">Roles & Domains</span></h2>
+            <p className="mt-4 max-w-2xl mx-auto text-base md:text-lg text-slate-500">
+Project X Summer Fellowship Program 2026 supports a comprehensive range of tech and tech-related positions, including:            </p>
           </motion.div>
 
           {/* Scrolling roles - Multi-line with alternating directions */}
           <div className="space-y-6 overflow-hidden">
-            <div className="py-5 sm:py-6 rounded-2xl bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 border border-white/10 backdrop-blur-lg overflow-hidden">
               <div className="marquee">
                 <div className="marquee__track gap-4 sm:gap-6 lg:gap-8 px-4">
                   {[...Array(2)].map((_, set) => (
                     <div key={set} className="marquee__group gap-4 sm:gap-6 lg:gap-8 pr-4 sm:pr-6 lg:pr-8">
-                      {rolesList.slice(0, Math.ceil(rolesList.length / 2)).map((role, i) => (
-                        <div key={`${set}-${i}`} className="text-base sm:text-lg md:text-2xl font-semibold whitespace-nowrap transition-all text-slate-200 hover:text-primary">
-                          • {role}
-                        </div>
-                      ))}
+                      {rolesList.slice(0, Math.ceil(rolesList.length / 2)).flatMap((role, i) => [
+                        <div key={`${set}-${i}`} className="text-4xl font-normal whitespace-nowrap transition-all text-slate-500 hover:text-secondary">
+                          {role}
+                        </div>,
+                        i < Math.ceil(rolesList.length / 2) - 1 && (
+                          <div key={`${set}-${i}-dot`} className="text-5xl font-normal whitespace-nowrap transition-all text-slate-500">
+                            •
+                          </div>
+                        )
+                      ]).filter(Boolean)}
                     </div>
                   ))}
-                </div>
               </div>
             </div>
 
-            <div className="py-5 sm:py-6 rounded-2xl bg-gradient-to-br from-[#0E56FA]/40 via-white/5 to-[#17CAFA]/40 border border-white/10 backdrop-blur-lg overflow-hidden">
               <div className="marquee marquee--reverse">
                 <div className="marquee__track gap-4 sm:gap-6 lg:gap-8 px-4" style={{ animationDuration: "34s" }}>
                   {[...Array(2)].map((_, set) => (
                     <div key={set} className="marquee__group gap-4 sm:gap-6 lg:gap-8 pr-4 sm:pr-6 lg:pr-8">
-                      {rolesList.slice(Math.ceil(rolesList.length / 2)).map((role, i) => (
-                        <div key={`${set}-${i}`} className="text-base sm:text-lg md:text-2xl font-semibold whitespace-nowrap transition-all text-slate-200 hover:text-primary">
-                          • {role}
-                        </div>
-                      ))}
+                      {rolesList.slice(Math.ceil(rolesList.length / 2)).flatMap((role, i) => [
+                        <div key={`${set}-${i}`} className="text-4xl font-normal whitespace-nowrap transition-all text-slate-500 hover:text-secondary">
+                          {role}
+                        </div>,
+                        i < rolesList.length - Math.ceil(rolesList.length / 2) - 1 && (
+                          <div key={`${set}-${i}-dot`} className="text-5xl font-normal whitespace-nowrap transition-all text-slate-500">
+                            •
+                          </div>
+                        )
+                      ]).filter(Boolean)}
                     </div>
                   ))}
-                </div>
               </div>
             </div>
+            <p className="mt-4 mx-auto text-base md:text-lg text-slate-300 text-center">
+              Whether you pursue deep technical expertise or business-driven tech roles,<br/>Project X Summer Fellowship Program 2026 <strong className="text-secondary">offers a pathway tailored to your ambitions.</strong>
+            </p>          
           </div>
         </div>
       </section>
 
       {/* The Fellowship Journey 2026 */}
       <section id="journey" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="max-w-[75vw] mx-auto px-4 sm:px-6 lg:px-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1288,7 +1301,7 @@ export default function SFP2026Page() {
 
       {/* How SFP Shapes Our Fellows */}
       <section id="testimonials" className="relative min-h-screen flex flex-col justify-center py-24 transition-colors duration-200 snap-start bg-[#01001F]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="max-w-[75vw] mx-auto px-4 sm:px-6 lg:px-10">
           <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 w-[140%] -translate-x-1/2 -translate-y-1/2 opacity-25 blur-2xl animate-pulse [animation-duration:8s]">
             <Image src="/images/sfp2026/cloud.svg" alt="" width={1600} height={900} className="w-full" />
           </div>
@@ -1355,7 +1368,7 @@ export default function SFP2026Page() {
 
       {/* FAQ */}
       <section id="faq" className="min-h-screen flex flex-col justify-center py-24 transition-colors duration-500 snap-start bg-[#01001F]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="max-w-[75vw] mx-auto px-4 sm:px-6 lg:px-10">
           <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-bold text-center mb-12 text-white">
             Frequently Asked Questions
           </motion.h2>
@@ -1389,7 +1402,7 @@ export default function SFP2026Page() {
 
       {/* CTA */}
       <section id="cta" className="relative py-24 md:py-32 overflow-hidden" style={{ background: "linear-gradient(135deg, #01001F 0%, #0E56FA 55%, #17CAFA 100%)" }}>
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 text-center">
+        <div className="relative z-10 max-w-[75vw] mx-auto px-4 sm:px-6 lg:px-10 text-center">
           <motion.h2 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
             Where Your Tech Career Takes Shape
           </motion.h2>
@@ -1412,7 +1425,7 @@ export default function SFP2026Page() {
 
       {/* Footer */}
       <footer className="py-12 border-t transition-colors duration-500 bg-[#01001F] border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="max-w-[75vw] mx-auto px-4 sm:px-6 lg:px-10">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="flex flex-col gap-4">
               <Image src="/favicon.svg" alt="Project X Vietnam" width={32} height={32} />
