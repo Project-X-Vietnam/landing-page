@@ -306,32 +306,49 @@ function validateStep(step: number, data: ApplicationFormData, phase: FormPhase)
 function preparePayload(data: ApplicationFormData, phase: FormPhase) {
   const withOther = (arr: string[], otherText: string) =>
     arr.map((item) => (item === "Other" && otherText ? `Other: ${otherText}` : item)).join(", ");
+
+  const seeSource = (() => {
+    const parts = withOther(data.announcementSource, data.announcementSourceOther);
+    if (data.announcementSourceUniPortal) return `${parts} (${data.announcementSourceUniPortal})`;
+    return parts;
+  })();
+
   return {
-    formType: phase, timestamp: new Date().toISOString(),
-    fullName: data.fullName, email: data.email, phone: data.phone,
-    socialMedia: data.socialMedia, summerLocation: data.summerLocation,
-    university: data.university, graduationYear: data.graduationYear,
-    majors: data.majors, minors: data.minors, gpa: data.gpa,
-    cvLink: data.cvLink, portfolioLink: data.portfolioLink,
-    areasOfInterest: withOther(data.areasOfInterest, data.areasOfInterestOther),
-    preferredLocation: withOther(data.preferredLocation, data.preferredLocationOther),
-    followingDuration: data.followingDuration,
-    announcementSource: withOther(data.announcementSource, data.announcementSourceOther),
-    announcementSourceUniPortal: data.announcementSourceUniPortal,
-    applyFactors: withOther(data.applyFactors, data.applyFactorsOther),
-    appliedWith: data.appliedWith.join(", "),
-    cvChallenge: withOther(data.cvChallenge, data.cvChallengeOther),
+    formType: phase,
+    timestamp: new Date().toISOString(),
+    fullName: data.fullName,
+    email: data.email,
+    phone: data.phone,
+    social: data.socialMedia,
+    location: data.summerLocation,
+    university: data.university,
+    grad_year: data.graduationYear,
+    major: data.majors,
+    minor: data.minors,
+    gpa: data.gpa,
+    resume: data.cvLink,
+    portfolio: data.portfolioLink,
+    career_interest: withOther(data.areasOfInterest, data.areasOfInterestOther),
+    intern_location: withOther(data.preferredLocation, data.preferredLocationOther),
+    follow_prjx: data.followingDuration,
+    see_prjx: seeSource,
+    reason_apply: withOther(data.applyFactors, data.applyFactorsOther),
+    apply_partner: data.appliedWith.join(", "),
+    cv_challenge: withOther(data.cvChallenge, data.cvChallengeOther),
     cvRatingContent: data.cvRatings.contentStructure || 0,
     cvRatingImpact: data.cvRatings.impactAchievements || 0,
     cvRatingRelevance: data.cvRatings.relevance || 0,
     cvRatingClarity: data.cvRatings.clarityComm || 0,
-    portfolioPlan: data.portfolioPlan, portfolioChallenge: data.portfolioChallenge.join(", "),
-    previousApplications: data.previousApplications,
-    topPriorities: withOther(data.topPriorities, data.topPrioritiesOther),
-    techBizChallenge: data.techBizChallenge.join(", "),
-    fiveYearVision: data.fiveYearVision, stepsTaken: data.stepsTaken,
-    programGoals: withOther(data.programGoals, data.programGoalsOther),
-    referral: data.referral, questions: data.questions,
+    prj_showcase: data.portfolioPlan,
+    port_challenge: data.portfolioChallenge.join(", "),
+    apply_intern: data.previousApplications,
+    priority: withOther(data.topPriorities, data.topPrioritiesOther),
+    tech_challenge: data.techBizChallenge.join(", "),
+    open_q1: data.fiveYearVision,
+    open_q2: data.stepsTaken,
+    open_q3: withOther(data.programGoals, data.programGoalsOther),
+    note: data.questions,
+    referral: data.referral,
   };
 }
 
@@ -824,6 +841,7 @@ export default function ApplyPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
   const [isHydrated, setIsHydrated] = useState(false);
+  const leftPanelRef = useRef<HTMLDivElement>(null);
 
   // ── GA4 tracking refs ──
   const hasTrackedFormStart = useRef(false);
@@ -878,10 +896,14 @@ export default function ApplyPage() {
     setFormData((prev) => ({ ...prev, [key]: value }));
   }, [trackFormStartOnce]);
 
+  const scrollToTop = useCallback(() => {
+    leftPanelRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   const goToStep = (step: number) => {
     setErrors([]);
     setCurrentStep(step);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollToTop();
   };
 
   const handleNext = () => {
@@ -901,7 +923,7 @@ export default function ApplyPage() {
     }
 
     setCurrentStep((p) => p + 1);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollToTop();
   };
 
   const handleSubmit = async () => {
@@ -991,9 +1013,9 @@ export default function ApplyPage() {
   const deadline = getDeadline(phase);
 
   return (
-    <main className="min-h-screen bg-white">
-      {/* LEFT: Form (50%) */}
-      <div className="w-full lg:w-1/2 min-h-screen">
+    <main className="min-h-screen lg:h-screen lg:overflow-hidden bg-white">
+      {/* LEFT: Form (50%) — independently scrollable */}
+      <div ref={leftPanelRef} className="w-full lg:w-1/2 min-h-screen lg:h-screen lg:overflow-y-auto">
         <div className="max-w-2xl mx-auto px-6 lg:px-12 py-10 lg:py-12">
           {/* Logo */}
           <Link href="/sfp2026" onClick={() => trackFormExit("logo", currentStep, analyticsPhase)} className="inline-block mb-8">
