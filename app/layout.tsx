@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { Inter_Tight } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
+
+const interTight = Inter_Tight({
+  subsets: ["latin", "vietnamese"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-inter-tight",
+  display: "swap",
+});
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
@@ -59,10 +67,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className={`scroll-smooth ${interTight.variable}`}>
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link
+          rel="preload"
+          href="/fonts/SFProDisplay/SFProDisplay-Regular.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
       </head>
       <body className="bg-white text-foreground antialiased font-primary">
         {children}

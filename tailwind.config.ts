@@ -10,8 +10,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        primary: ["SF Pro Display", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica", "Arial", "sans-serif"],
-        sans: ["SF Pro Display", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica", "Arial", "sans-serif"],
+        primary: ["SF Pro Display", "var(--font-inter-tight)", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica", "Arial", "sans-serif"],
+        sans: ["SF Pro Display", "var(--font-inter-tight)", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica", "Arial", "sans-serif"],
       },
       colors: {
         background: "hsl(var(--background))",

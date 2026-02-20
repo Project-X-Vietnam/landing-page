@@ -808,7 +808,7 @@ export default function SFP2026Page() {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
             style={{ fontFamily: "Plus Jakarta Sans" }}
           >
-            <span className="bg-gradient-to-r from-[#0E56FA] from-0% to-[#17CAFA] to-[33%] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#0E56FA] from-0% to-[#17CAFA] to-[33%] bg-clip-text text-transparent gradient-clip-fix">
               Illuminate
             </span>
             <span className="text-white"> your<br />tech career path</span>
@@ -869,7 +869,7 @@ export default function SFP2026Page() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="relative text-center mb-12">
             <div className="pointer-events-none absolute left-1/2 top-4 -z-10 h-40 w-40 -translate-x-1/2 rounded-full bg-primary/60 blur-3xl" />
             <h2 className="text-3xl sm:text-5xl md:text-6xl font-medium mb-4 sm:mb-6 text-white">
-              Our <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">impact</span> so far
+              Our <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent gradient-clip-fix">impact</span> so far
             </h2>
             <p className="text-base md:text-lg max-w-2xl mx-auto text-white/60 leading-none">
               Project X Summer Fellowship Program has grown into one of <span className="font-bold text-white/70">Vietnam&apos;s  most impactful</span> student-led tech initiatives - an integrated talent development ecosystem shaping the next generation of tech leaders.
@@ -964,7 +964,7 @@ export default function SFP2026Page() {
                 className="text-3xl sm:text-5xl md:text-6xl font-medium text-left text-white"
               >
                 <span>About </span>
-                <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">{aboutPJXTyped}</span>
+                <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent gradient-clip-fix">{aboutPJXTyped}</span>
                 <span className="inline-block w-[3px] h-[0.85em] bg-primary animate-cursor-blink align-baseline ml-1 relative top-[0.05em]" />
               </motion.h2>
               <p className="text-base md:text-lg leading-relaxed text-slate-300">
@@ -1135,7 +1135,7 @@ export default function SFP2026Page() {
             className="text-3xl sm:text-5xl md:text-6xl font-medium mb-6 sm:mb-8 md:mb-16 text-left text-white"
           >
             <span>About </span>
-            <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">{aboutSFPTyped}</span>
+            <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent gradient-clip-fix">{aboutSFPTyped}</span>
             <span className="inline-block w-[3px] h-[0.85em] bg-primary animate-cursor-blink align-baseline ml-1 relative top-[0.05em]" />
           </motion.h2>
           <div className="grid lg:grid-cols-2 gap-6 md:gap-12 items-start">
@@ -1232,7 +1232,7 @@ export default function SFP2026Page() {
         <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-6 md:mb-12">
             <h2 className="text-5xl md:text-6xl font-medium mb-6 text-white">
-              Trusted by <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">multiple partners</span>
+              Trusted by <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent gradient-clip-fix">multiple partners</span>
             </h2>
             <p className="text-base md:text-lg max-w-2xl mx-auto text-white/60">
               Project X collaborates with a growing network of <span className="text-white/70 font-bold">leading technology companies, startups, and innovation-driven organizations</span> across Vietnam and globally.
@@ -1334,7 +1334,7 @@ export default function SFP2026Page() {
         <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
             <div className="pointer-events-none absolute left-1/2 top-4 -z-10 h-40 w-40 -translate-x-1/2 rounded-full bg-primary/40 blur-3xl" />
-            <h2 className="text-5xl md:text-6xl font-medium mb-4 text-white">Targeted <span className="bg-gradient-to-r from-[#2563EB] via-[#3B82F6] to-[#22D3EE] bg-clip-text text-transparent">Roles & Domains</span></h2>
+            <h2 className="text-5xl md:text-6xl font-medium mb-4 text-white">Targeted <span className="bg-gradient-to-r from-[#2563EB] via-[#3B82F6] to-[#22D3EE] bg-clip-text text-transparent gradient-clip-fix">Roles & Domains</span></h2>
             <p className="mt-4 max-w-2xl mx-auto text-base md:text-lg text-white/60">
               Project X Summer Fellowship Program 2026 supports <br /> a comprehensive range of tech and tech-related positions, including:            </p>
           </motion.div>
@@ -1406,7 +1406,7 @@ export default function SFP2026Page() {
             viewport={{ once: true }}
             className="text-center mb-14"
           >
-            <h2 className="text-5xl md:text-6xl font-medium text-white">The <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">Fellowship Journey 2026</span></h2>
+            <h2 className="text-5xl md:text-6xl font-medium text-white">The <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent gradient-clip-fix">Fellowship Journey 2026</span></h2>
             <p className="mt-3 text-sm md:text-base text-slate-300">
 A structured journey from selection to internship placement and professional development</p>
           </motion.div>
@@ -1483,7 +1483,7 @@ A structured journey from selection to internship placement and professional dev
             viewport={{ once: true }}
             className="text-5xl md:text-6xl lg:text-7xl font-medium text-center mb-4 text-white"
           >
-            Not just skills, but a <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">shift</span> in <br /> how they see their <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">future</span>
+            Not just skills, but a <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent gradient-clip-fix">shift</span> in <br /> how they see their <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent gradient-clip-fix">future</span>
           </motion.h2>
 
           <motion.p
@@ -1511,7 +1511,7 @@ A structured journey from selection to internship placement and professional dev
       <section id="faq" className="min-h-[auto] md:min-h-screen flex flex-col justify-center py-16 md:py-24 transition-colors duration-500 snap-start bg-[#01001F]">
         <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10">
           <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-5xl md:text-6xl font-medium text-center mb-12 text-white">
-            Frequently Asked <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">Questions</span>
+            Frequently Asked <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent gradient-clip-fix">Questions</span>
           </motion.h2>
           <div className="space-y-3">
             {faqItems.map((item, i) => (
@@ -1562,7 +1562,7 @@ A structured journey from selection to internship placement and professional dev
             className="text-4xl md:text-5xl lg:text-6xl font-medium text-white leading-tight"
           >
             Where your tech career <br/> takes{" "}
-            <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent">shape</span>
+            <span className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] bg-clip-text text-transparent gradient-clip-fix">shape</span>
           </motion.h2>
           <motion.div 
             initial={{ opacity: 0, y: 20 }} 
