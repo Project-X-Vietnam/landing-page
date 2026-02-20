@@ -429,11 +429,19 @@ function OptionGrid({ options, selected, onChange, multiple = true, maxSelect, c
           const isSelected = selected.includes(option);
           const isDisabled = multiple && !!maxSelect && selected.length >= maxSelect && !isSelected;
           return (
-            <label key={option} className={cn(
-              "flex items-center gap-3 py-2.5 px-3 rounded-lg border cursor-pointer transition-all text-sm",
-              isSelected ? "border-primary bg-primary/5" : "border-slate-200 hover:border-slate-300",
-              isDisabled && "opacity-40 cursor-not-allowed"
-            )}>
+            <div
+              key={option}
+              role="checkbox"
+              aria-checked={isSelected}
+              tabIndex={0}
+              onClick={() => !isDisabled && toggle(option)}
+              onKeyDown={(e) => { if (e.key === " " || e.key === "Enter") { e.preventDefault(); if (!isDisabled) toggle(option); } }}
+              className={cn(
+                "flex items-center gap-3 py-2.5 px-3 rounded-lg border cursor-pointer transition-all text-sm select-none",
+                isSelected ? "border-primary bg-primary/5" : "border-slate-200 hover:border-slate-300",
+                isDisabled && "opacity-40 cursor-not-allowed"
+              )}
+            >
               <div className={cn(
                 "w-4 h-4 shrink-0 rounded border-2 flex items-center justify-center",
                 multiple ? "" : "rounded-full",
@@ -445,8 +453,7 @@ function OptionGrid({ options, selected, onChange, multiple = true, maxSelect, c
                 )}
               </div>
               <span className="text-slate-700">{option}</span>
-              <input type="checkbox" checked={isSelected} onChange={() => !isDisabled && toggle(option)} className="sr-only" />
-            </label>
+            </div>
           );
         })}
       </div>
@@ -477,16 +484,23 @@ function GroupedOptionGrid({ groups, selected, onChange, hasOther, otherValue, o
             {group.options.map((option) => {
               const isSelected = selected.includes(option);
               return (
-                <label key={option} className={cn(
-                  "flex items-center gap-3 py-2.5 px-3 rounded-lg border cursor-pointer transition-all text-sm",
-                  isSelected ? "border-primary bg-primary/5" : "border-slate-200 hover:border-slate-300"
-                )}>
+                <div
+                  key={option}
+                  role="checkbox"
+                  aria-checked={isSelected}
+                  tabIndex={0}
+                  onClick={() => toggle(option)}
+                  onKeyDown={(e) => { if (e.key === " " || e.key === "Enter") { e.preventDefault(); toggle(option); } }}
+                  className={cn(
+                    "flex items-center gap-3 py-2.5 px-3 rounded-lg border cursor-pointer transition-all text-sm select-none",
+                    isSelected ? "border-primary bg-primary/5" : "border-slate-200 hover:border-slate-300"
+                  )}
+                >
                   <div className={cn("w-4 h-4 shrink-0 rounded border-2 flex items-center justify-center", isSelected ? "border-primary bg-primary" : "border-slate-300")}>
                     {isSelected && <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />}
                   </div>
                   <span className="text-slate-700">{option}</span>
-                  <input type="checkbox" checked={isSelected} onChange={() => toggle(option)} className="sr-only" />
-                </label>
+                </div>
               );
             })}
           </div>
@@ -494,16 +508,22 @@ function GroupedOptionGrid({ groups, selected, onChange, hasOther, otherValue, o
       ))}
       {hasOther && (
         <div>
-          <label className={cn(
-            "flex items-center gap-3 py-2.5 px-3 rounded-lg border cursor-pointer transition-all text-sm w-full",
-            isOtherSelected ? "border-primary bg-primary/5" : "border-slate-200 hover:border-slate-300"
-          )}>
+          <div
+            role="checkbox"
+            aria-checked={isOtherSelected}
+            tabIndex={0}
+            onClick={() => toggle("Other")}
+            onKeyDown={(e) => { if (e.key === " " || e.key === "Enter") { e.preventDefault(); toggle("Other"); } }}
+            className={cn(
+              "flex items-center gap-3 py-2.5 px-3 rounded-lg border cursor-pointer transition-all text-sm w-full select-none",
+              isOtherSelected ? "border-primary bg-primary/5" : "border-slate-200 hover:border-slate-300"
+            )}
+          >
             <div className={cn("w-4 h-4 shrink-0 rounded border-2 flex items-center justify-center", isOtherSelected ? "border-primary bg-primary" : "border-slate-300")}>
               {isOtherSelected && <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />}
             </div>
             <span className="text-slate-700">Other (Please Specify)</span>
-            <input type="checkbox" checked={isOtherSelected} onChange={() => toggle("Other")} className="sr-only" />
-          </label>
+          </div>
           {isOtherSelected && <FormInput placeholder="Please specify the area(s)..." value={otherValue || ""} onChange={(e) => onOtherChange?.(e.target.value)} className="mt-2" />}
         </div>
       )}
@@ -739,8 +759,9 @@ function RightPanel({ phase, deadline, currentStep, data, onExit }: {
         </Link>
       </div>
 
-      {/* Centered content — fills remaining space */}
-      <div className="flex-1 flex flex-col items-center justify-center min-h-0 mb-24">
+      {/* Centered content — fills remaining space, safe-centered */}
+      <div className="flex-1 flex flex-col min-h-0 overflow-y-auto scrollbar-hide">
+        <div className="my-auto w-full flex flex-col items-center">
         {/* Program hero */}
         <div className="text-center mb-6">
           {phase === "early-bird" ? (
@@ -822,6 +843,7 @@ function RightPanel({ phase, deadline, currentStep, data, onExit }: {
             </GlassCard>
           </motion.div>
         )}
+        </div>
         </div>
       </div>
     </div>
@@ -1015,7 +1037,7 @@ export default function ApplyPage() {
   return (
     <main className="min-h-screen lg:h-screen lg:overflow-hidden bg-white">
       {/* LEFT: Form (50%) — independently scrollable */}
-      <div ref={leftPanelRef} className="w-full lg:w-1/2 min-h-screen lg:h-screen lg:overflow-y-auto">
+      <div ref={leftPanelRef} className="w-full lg:w-1/2 min-h-screen lg:h-screen lg:overflow-y-auto scrollbar-hide">
         <div className="max-w-2xl mx-auto px-6 lg:px-12 py-10 lg:py-12">
           {/* Logo */}
           <Link href="/sfp2026" onClick={() => trackFormExit("logo", currentStep, analyticsPhase)} className="inline-block mb-8">
