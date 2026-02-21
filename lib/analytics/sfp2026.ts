@@ -18,7 +18,7 @@ declare global {
 // Types
 // ─────────────────────────────────────────────────────────────
 
-export type CtaPosition = "hero" | "bottom_cta" | "navbar";
+export type CtaPosition = "hero" | "bottom_cta" | "navbar" | "testimonials";
 export type FormPhase = "early-bird" | "official";
 export type ScrollPercent = 25 | 50 | 75;
 

@@ -412,6 +412,105 @@ function TestimonialFlipCard({ testimonial, index }: { testimonial: TestimonialD
   );
 }
 
+function FellowCTACard() {
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const rotateY = useMotionValue(0);
+  const springRotateY = useSpring(rotateY, { stiffness: 300, damping: 30 });
+
+  useEffect(() => {
+    setIsTouchDevice(window.matchMedia("(pointer: coarse)").matches);
+  }, []);
+
+  useEffect(() => {
+    rotateY.set(isFlipped ? 180 : 0);
+  }, [isFlipped, rotateY]);
+
+  const handleMouseEnter = () => { if (!isTouchDevice) setIsFlipped(true); };
+  const handleMouseLeave = () => { if (!isTouchDevice) setIsFlipped(false); };
+  const handleClick = () => {
+    if (isTouchDevice || window.innerWidth < 768) setIsFlipped((prev) => !prev);
+  };
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: 0.6, duration: 0.5 }}
+      className="perspective-1200 h-[380px] cursor-pointer"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+    >
+      <motion.div
+        style={{ rotateY: springRotateY }}
+        className="preserve-3d relative w-full h-full"
+      >
+        {/* Front Face */}
+        <div
+          className={cn(
+            "backface-hidden absolute inset-0 rounded-[24px] border border-dashed border-white/30 bg-gradient-to-br from-[#0E56FA]/15 via-white/5 to-[#17CAFA]/15 p-8 flex flex-col items-center justify-center transition-opacity duration-200 overflow-hidden",
+            isFlipped ? "opacity-0 pointer-events-none" : "opacity-100"
+          )}
+        >
+          <div className="pointer-events-none absolute right-[-20%] top-[-20%] h-48 w-48 rounded-full bg-blue-500/15 blur-3xl" />
+
+          <div className="relative mb-6">
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#0E56FA] to-[#17CAFA] opacity-15 blur-xl scale-150" />
+            <div className="relative w-28 h-28 rounded-full border-2 border-dashed border-white/30 flex items-center justify-center">
+              <span className="text-4xl font-light text-white/40">?</span>
+            </div>
+          </div>
+
+          <div className="relative z-10 text-center space-y-2">
+            <div className="text-xl font-bold text-white/70">This could be you</div>
+            <div className="text-sm text-white/40">Fellow — Class of 2026</div>
+          </div>
+
+          <div className="mt-6 flex items-center gap-2 text-xs text-white/30">
+            <RotateCw className="w-3 h-3" />
+            <span className="hidden md:inline">{isTouchDevice ? "Tap" : "Hover"} to read</span>
+            <span className="md:hidden">Tap to read</span>
+          </div>
+        </div>
+
+        {/* Back Face — CTA */}
+        <div
+          className={cn(
+            "backface-hidden rotate-y-180 absolute inset-0 rounded-[24px] border border-dashed border-white/30 bg-gradient-to-br from-[#0E56FA]/15 via-white/5 to-[#17CAFA]/15 p-8 flex flex-col items-center justify-center transition-opacity duration-200 overflow-hidden",
+            isFlipped ? "opacity-100" : "opacity-0 pointer-events-none"
+          )}
+        >
+          <div className="pointer-events-none absolute right-[-20%] top-[-20%] h-48 w-48 rounded-full bg-blue-500/20 blur-3xl" />
+
+          <div className="relative z-10 flex flex-col items-center text-center space-y-5">
+            <p className="text-lg md:text-xl leading-relaxed text-white font-medium">
+              Ready to write your own story?
+            </p>
+            <p className="text-sm text-white/50 max-w-[240px]">
+              The next chapter of Project X starts with you.
+            </p>
+            <Link
+              href="/sfp2026/apply"
+              onClick={(e) => {
+                e.stopPropagation();
+                trackClickApplyCta("testimonials", "fellow_cta_card");
+              }}
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] text-white text-sm font-semibold hover:shadow-lg hover:shadow-primary/25 transition-shadow duration-300"
+            >
+              Apply now
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function SFP2026Page() {
   const sectionLinks = SECTION_IDS.map((id) => ({
     label: SECTION_LABELS[id],
@@ -528,10 +627,16 @@ export default function SFP2026Page() {
       avatar: "/images/fellows/huonggiang_fellow25.jpg",
     },
     {
-      name: "Bui Quynh Giao",
-      roleLines: ["Foreign Trade University", "SMB E-commerce Operations Intern @TikTok Shop"],
-      quote: "Project X SFP turned mentorship into a meaningful, human connection - not just advice, but real guidance.",
-      avatar: "/images/fellows/quynhgiao_fellow25.jpeg",
+      name: "Phan Trong Dai",
+      roleLines: ["VNUHCM - University of Science", "AI Engineer @Viettel Digital Talent"],
+      quote: "As an AI engineer, Project X helped me break out of the coder mindset. The mentors, the community, the buddy program — they shaped how I think about my career path, and I still carry those connections today.",
+      avatar: "/images/fellows/daitrongphan_fellow25.jpg",
+    },
+    {
+      name: "Long Pham",
+      roleLines: ["VNUHCM - University of Science", "Machine Learning Intern @TecAlliance"],
+      quote: "Two transformative months of learning from industry seniors, expanding my network, and gaining clearer direction in tech — Project X gave me exactly the push I needed.",
+      avatar: "/images/fellows/longpham_fellow25.jpg",
     },
   ];
 
@@ -762,7 +867,7 @@ export default function SFP2026Page() {
 
   return (
     <main
-      className="relative transition-colors duration-200 scroll-smooth bg-[#01001F] overflow-x-hidden scrollbar-hide"
+      className="relative transition-colors duration-200 scroll-smooth bg-[#01001F] overflow-x-clip scrollbar-hide"
     >
       <Navbar
         isDark={true}
@@ -835,7 +940,7 @@ export default function SFP2026Page() {
             <Link href="/sfp2026/apply" onClick={() => trackClickApplyCta("hero", "hero")}>
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] hover:from-[#0E56FA]/90 hover:to-[#17CAFA]/90 text-white rounded-full px-10 py-6 text-base md:text-lg font-semibold transition-all hover:scale-[1.02] w-full sm:w-auto"
+                className="bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] hover:from-[#0E56FA]/90 hover:to-[#17CAFA]/90 text-white rounded-full px-10 py-6 text-base md:text-lg font-medium transition-all hover:scale-[1.02] w-full sm:w-auto"
               >
                 Apply now
               </Button>
@@ -843,7 +948,7 @@ export default function SFP2026Page() {
             <a href="#impact">
               <Button
                 size="lg"
-                className="group rounded-full px-8 py-6 text-base md:text-lg font-semibold bg-white text-[#01001F] hover:bg-white/90 transition-all w-full sm:w-auto"
+                className="group rounded-full px-8 py-6 text-base md:text-lg font-medium bg-white text-[#01001F] hover:bg-white/90 transition-all w-full sm:w-auto"
               >
                 Learn more
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -1495,14 +1600,18 @@ A structured journey from selection to internship placement and professional dev
             — Voices from our Fellows (Class of 2025)
           </motion.p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="flex flex-wrap justify-center gap-6">
             {testimonials.map((testimonial, i) => (
-              <TestimonialFlipCard
-                key={testimonial.name}
-                testimonial={testimonial as TestimonialData}
-                index={i}
-              />
+              <div key={testimonial.name} className="w-full md:w-[calc(33.333%-1rem)]">
+                <TestimonialFlipCard
+                  testimonial={testimonial as TestimonialData}
+                  index={i}
+                />
+              </div>
             ))}
+            <div className="w-full md:w-[calc(33.333%-1rem)]">
+              <FellowCTACard />
+            </div>
           </div>
         </div>
       </section>
