@@ -40,7 +40,7 @@ import {
 type FormPhase = "early-bird" | "official" | "closed";
 
 const EARLY_BIRD_DEADLINE = new Date("2026-02-28T23:59:59+07:00");
-const OFFICIAL_DEADLINE = new Date("2026-03-13T23:59:59+07:00");
+const OFFICIAL_DEADLINE = new Date("2026-03-11T23:59:59+07:00");
 
 function getFormPhase(): FormPhase {
   const now = new Date();
