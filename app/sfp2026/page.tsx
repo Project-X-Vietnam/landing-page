@@ -17,7 +17,7 @@ import {
   type ScrollPercent,
 } from "@/lib/analytics/sfp2026";
 
-const COUNTDOWN_TARGET = new Date("2026-03-11T23:59:59+07:00");
+const COUNTDOWN_TARGET = new Date("2026-03-13T23:59:59+07:00");
 
 const SECTION_IDS = ["impact", "about-pjx", "partners", "roles", "journey", "testimonials", "faq"] as const;
 const SECTION_LABELS: Record<(typeof SECTION_IDS)[number], string> = {
@@ -650,7 +650,7 @@ export default function SFP2026Page() {
   ];
 
   const journeySteps = [
-    { date: "20/02 - 11/03", title: "Official Application", desc: "Application period opens for Project X Summer Fellowship Program 2026." },
+    { date: "20/02 - 13/03", title: "Official Application", desc: "Application period opens for Project X Summer Fellowship Program 2026." },
     { date: "16/03 - 28/03", title: "Round 1", desc: "Develop a strong, cohesive profile including CV/Resume and Portfolio." },
     { date: "30/03 - 25/04", title: "Round 2", desc: "Enhance interview readiness and apply to partner internship positions." },
     { date: "09/07 - 22/08", title: "Summer Fellowship Program 2026", desc: "Summer Fellowship Program with internships, professional, and personal development." },
