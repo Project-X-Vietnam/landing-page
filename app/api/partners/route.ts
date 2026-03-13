@@ -1,16 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { trackServerEvent, getGA4ClientId } from "@/lib/analytics/ga4-server";
 
-// Google Apps Script cold starts are slow (10–80s+), but data is stored
-// synchronously on their end. We race the fetch against a generous timer —
-// if no response within ASSUME_SUCCESS_MS we still treat it as success.
 const ASSUME_SUCCESS_MS = 12_000;
 const HARD_TIMEOUT_MS = 60_000;
 
 export async function POST(request: NextRequest) {
-  const googleScriptUrl = process.env.NEXT_GOOGLE_SCRIPT_URL;
+  const googleScriptUrl = process.env.NEXT_GOOGLE_PARTNER_SCRIPT_URL;
   if (!googleScriptUrl) {
-    console.error("NEXT_GOOGLE_SCRIPT_URL is not configured");
+    console.error("NEXT_GOOGLE_PARTNER_SCRIPT_URL is not configured");
     return NextResponse.json(
       { success: false, error: "Server misconfiguration. Please contact support." },
       { status: 500 },
@@ -40,42 +37,40 @@ export async function POST(request: NextRequest) {
 
     const timerPromise = new Promise<{ status: number; error: boolean; detail: string }>(
       (resolve) =>
-        setTimeout(() => resolve({ status: -1, error: false, detail: "timer" }), ASSUME_SUCCESS_MS)
+        setTimeout(() => resolve({ status: -1, error: false, detail: "timer" }), ASSUME_SUCCESS_MS),
     );
 
     const result = await Promise.race([fetchPromise, timerPromise]);
     clearTimeout(hardTimer);
 
-    // 200 = direct response / followed redirect successfully
-    // -1  = timer won the race — data is already in flight to Google
     if (result.status === 200 || result.status === -1) {
       const clientId = getGA4ClientId(request.cookies.get("_ga")?.value);
-      trackServerEvent(clientId, "application_submitted_server", {
-        form_phase: body.formType || "unknown",
-        application_cycle: "SFP2026",
+      trackServerEvent(clientId, "partner_inquiry_submitted", {
+        partnership_type: body.partnershipType || "unknown",
+        company_name: body.companyName || "unknown",
       });
 
       return NextResponse.json({ success: true });
     }
 
     if (result.error) {
-      console.error("Submission failed — fetch error:", result.detail);
+      console.error("Partner submission failed — fetch error:", result.detail);
       return NextResponse.json(
         { success: false, error: "Could not reach submission server. Please check your connection and try again." },
-        { status: 502 }
+        { status: 502 },
       );
     }
 
     console.error("Unexpected Google Script status:", result.status);
     return NextResponse.json(
       { success: false, error: "Unexpected response from submission server." },
-      { status: 502 }
+      { status: 502 },
     );
   } catch (error) {
-    console.error("Apply submission error:", error);
+    console.error("Partner submission error:", error);
     return NextResponse.json(
-      { success: false, error: "Failed to process your application. Please try again." },
-      { status: 500 }
+      { success: false, error: "Failed to process your inquiry. Please try again." },
+      { status: 500 },
     );
   }
 }

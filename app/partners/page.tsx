@@ -3,8 +3,12 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
+import { toast } from "sonner";
 
 // ============================================
 // DARK MODE HOOK
@@ -255,6 +259,62 @@ export default function PartnersPage() {
     },
   ];
 
+  const formRef = useRef<HTMLDivElement>(null);
+
+  const [formData, setFormData] = useState({
+    companyName: "",
+    contactName: "",
+    email: "",
+    phone: "",
+    partnershipType: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  function scrollToForm() {
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    if (!formData.companyName || !formData.contactName || !formData.email || !formData.partnershipType) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const res = await fetch("/api/partners", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          submittedAt: new Date().toISOString(),
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setIsSubmitted(true);
+        toast.success("Thank you! We'll be in touch soon.");
+      } else {
+        toast.error(data.error || "Something went wrong. Please try again.");
+      }
+    } catch {
+      toast.error("Network error. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   const partnershipTypes = [
     {
       title: "Hiring Partner",
@@ -287,17 +347,6 @@ export default function PartnersPage() {
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-        </svg>
-      )
-    },
-    {
-      title: "Sponsor",
-      description: "Support our mission and gain premium visibility",
-      features: ["Brand placement", "Speaking opportunities", "VIP access to events"],
-      color: "from-primary to-cyan-500",
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
         </svg>
       )
     },
@@ -373,7 +422,7 @@ export default function PartnersPage() {
             <span className="block">Our</span>
             <span className="block mt-2">
               <span className="bg-gradient-to-r from-primary via-pxv-cyan to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient-x">
-                Partners & Sponsors
+                Partners
               </span>
             </span>
           </motion.h1>
@@ -386,7 +435,7 @@ export default function PartnersPage() {
               isDark ? "text-white/60" : "text-slate-600"
             }`}
           >
-            We collaborate with leading companies, universities, and organizations to create 
+            We collaborate with leading companies, universities, and organizations — at no cost — to create 
             opportunities for Vietnam&apos;s next generation of tech talent.
           </motion.p>
 
@@ -398,6 +447,7 @@ export default function PartnersPage() {
           >
             <Button
               size="lg"
+              onClick={scrollToForm}
               className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg shadow-primary/25 hover:shadow-xl transition-all hover:scale-[1.02]"
             >
               Become a Partner
@@ -415,17 +465,22 @@ export default function PartnersPage() {
                 />
               </svg>
             </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className={`rounded-full px-8 py-6 text-base font-semibold transition-all hover:scale-[1.02] ${
-                isDark
-                  ? "border-white/20 text-white hover:bg-white/10"
-                  : "border-slate-200 hover:bg-slate-50 hover:border-slate-300"
-              }`}
-            >
-              Become a Sponsor
-            </Button>
+            <Link href="https://calendar.app.google/tooj5WaUeVvaLoKQA" target="_blank" rel="noopener noreferrer">
+              <Button
+                size="lg"
+                variant="outline"
+                className={`rounded-full px-8 py-6 text-base font-semibold transition-all hover:scale-[1.02] ${
+                  isDark
+                    ? "border-white/20 text-white hover:bg-white/10"
+                    : "border-slate-200 hover:bg-slate-50 hover:border-slate-300"
+                }`}
+              >
+                <svg className="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Book a Discovery Meeting
+              </Button>
+            </Link>
           </motion.div>
 
           {/* Quick Stats */}
@@ -495,7 +550,7 @@ export default function PartnersPage() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
             {partnershipTypes.map((type, i) => (
               <motion.div
                 key={type.title}
@@ -563,7 +618,7 @@ export default function PartnersPage() {
             <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${
               isDark ? "text-white" : "text-pxv-dark"
             }`}>
-              Partner Companies (2022–2024)
+              Partner Companies (2022–2025)
             </h2>
             <p className={`max-w-2xl mx-auto ${isDark ? "text-white/60" : "text-slate-600"}`}>
               These companies have partnered with us to recruit top Vietnamese tech talent.
@@ -718,6 +773,277 @@ export default function PartnersPage() {
         </div>
       </section>
 
+      {/* ========== PARTNER INQUIRY FORM ========== */}
+      <section
+        ref={formRef}
+        id="partner-form"
+        className={`py-24 transition-colors duration-500 ${
+          isDark ? "bg-[#0a0f1a]" : "bg-slate-50"
+        }`}
+      >
+        <div className="max-w-3xl mx-auto px-6 md:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <p className="text-sm font-bold text-primary uppercase tracking-widest mb-4">
+              Get Started
+            </p>
+            <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${
+              isDark ? "text-white" : "text-pxv-dark"
+            }`}>
+              Partner With Us
+            </h2>
+            <p className={`max-w-xl mx-auto ${isDark ? "text-white/60" : "text-slate-600"}`}>
+              Fill out the form below and our partnerships team will reach out within 2 business days.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className={`rounded-2xl border p-8 md:p-10 ${
+              isDark
+                ? "bg-white/5 border-white/10"
+                : "bg-white border-slate-100 shadow-lg"
+            }`}
+          >
+            {isSubmitted ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-center py-12"
+              >
+                <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-green-500/10 flex items-center justify-center">
+                  <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h3 className={`text-2xl font-bold mb-3 ${isDark ? "text-white" : "text-pxv-dark"}`}>
+                  Thank You!
+                </h3>
+                <p className={`mb-6 ${isDark ? "text-white/60" : "text-slate-600"}`}>
+                  We&apos;ve received your partnership inquiry. Our team will review it and get back to you within 2 business days.
+                </p>
+                <Button
+                  onClick={() => {
+                    setIsSubmitted(false);
+                    setFormData({
+                      companyName: "",
+                      contactName: "",
+                      email: "",
+                      phone: "",
+                      partnershipType: "",
+                      message: "",
+                    });
+                  }}
+                  variant="outline"
+                  className={`rounded-full px-6 ${
+                    isDark
+                      ? "border-white/20 text-white hover:bg-white/10"
+                      : "border-slate-200 hover:bg-slate-50"
+                  }`}
+                >
+                  Submit Another Inquiry
+                </Button>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="companyName"
+                      className={isDark ? "text-white/80" : "text-slate-700"}
+                    >
+                      Company / Organization Name <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="companyName"
+                      name="companyName"
+                      value={formData.companyName}
+                      onChange={handleChange}
+                      placeholder="e.g. VNG Corporation"
+                      required
+                      className={`rounded-lg ${
+                        isDark
+                          ? "bg-white/5 border-white/15 text-white placeholder:text-white/30 focus:border-primary"
+                          : "bg-white border-slate-200 focus:border-primary"
+                      }`}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="contactName"
+                      className={isDark ? "text-white/80" : "text-slate-700"}
+                    >
+                      Contact Person <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="contactName"
+                      name="contactName"
+                      value={formData.contactName}
+                      onChange={handleChange}
+                      placeholder="Full name"
+                      required
+                      className={`rounded-lg ${
+                        isDark
+                          ? "bg-white/5 border-white/15 text-white placeholder:text-white/30 focus:border-primary"
+                          : "bg-white border-slate-200 focus:border-primary"
+                      }`}
+                    />
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="email"
+                      className={isDark ? "text-white/80" : "text-slate-700"}
+                    >
+                      Email <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="you@company.com"
+                      required
+                      className={`rounded-lg ${
+                        isDark
+                          ? "bg-white/5 border-white/15 text-white placeholder:text-white/30 focus:border-primary"
+                          : "bg-white border-slate-200 focus:border-primary"
+                      }`}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="phone"
+                      className={isDark ? "text-white/80" : "text-slate-700"}
+                    >
+                      Phone Number
+                    </Label>
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="+84 xxx xxx xxx"
+                      className={`rounded-lg ${
+                        isDark
+                          ? "bg-white/5 border-white/15 text-white placeholder:text-white/30 focus:border-primary"
+                          : "bg-white border-slate-200 focus:border-primary"
+                      }`}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="partnershipType"
+                    className={isDark ? "text-white/80" : "text-slate-700"}
+                  >
+                    Partnership Type <span className="text-red-500">*</span>
+                  </Label>
+                  <select
+                    id="partnershipType"
+                    name="partnershipType"
+                    value={formData.partnershipType}
+                    onChange={handleChange}
+                    required
+                    className={`flex h-10 w-full rounded-lg border px-3 py-2 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary ${
+                      isDark
+                        ? "bg-white/5 border-white/15 text-white [&>option]:bg-[#0a0f1a] [&>option]:text-white"
+                        : "bg-white border-slate-200 text-slate-900"
+                    } ${!formData.partnershipType ? (isDark ? "text-white/30" : "text-slate-400") : ""}`}
+                  >
+                    <option value="" disabled>Select a partnership type</option>
+                    <option value="Hiring Partner">Hiring Partner</option>
+                    <option value="Academic Partner">Academic Partner</option>
+                    <option value="Community Partner">Community Partner</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="message"
+                    className={isDark ? "text-white/80" : "text-slate-700"}
+                  >
+                    Message
+                  </Label>
+                  <Textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows={4}
+                    placeholder="Tell us about your organization and how you'd like to partner..."
+                    className={`rounded-lg resize-none ${
+                      isDark
+                        ? "bg-white/5 border-white/15 text-white placeholder:text-white/30 focus:border-primary"
+                        : "bg-white border-slate-200 focus:border-primary"
+                    }`}
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  size="lg"
+                  disabled={isSubmitting}
+                  className="w-full bg-primary hover:bg-primary/90 text-white rounded-full py-6 text-base font-semibold shadow-lg shadow-primary/25 hover:shadow-xl transition-all hover:scale-[1.01] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+                >
+                  {isSubmitting ? (
+                    <span className="flex items-center gap-2">
+                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Submitting...
+                    </span>
+                  ) : (
+                    "Submit Partnership Inquiry"
+                  )}
+                </Button>
+
+                <div className={`flex items-center gap-3 justify-center ${isDark ? "text-white/40" : "text-slate-400"}`}>
+                  <div className={`flex-1 h-px ${isDark ? "bg-white/10" : "bg-slate-200"}`} />
+                  <span className="text-xs font-medium uppercase tracking-wider">or</span>
+                  <div className={`flex-1 h-px ${isDark ? "bg-white/10" : "bg-slate-200"}`} />
+                </div>
+
+                <Link
+                  href="https://calendar.app.google/tooj5WaUeVvaLoKQA"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex items-center justify-center gap-3 w-full py-4 rounded-full border text-sm font-semibold transition-all hover:scale-[1.01] ${
+                    isDark
+                      ? "border-white/15 text-white/80 hover:bg-white/5 hover:border-white/25"
+                      : "border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300"
+                  }`}
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  Book a Discovery Meeting with our President, Liam Le
+                </Link>
+
+                <p className={`text-xs text-center ${isDark ? "text-white/40" : "text-slate-400"}`}>
+                  By submitting this form, you agree to be contacted by our partnerships team.
+                </p>
+              </form>
+            )}
+          </motion.div>
+        </div>
+      </section>
+
       {/* ========== CTA SECTION ========== */}
       <section 
         className="relative py-24 md:py-32 overflow-hidden"
@@ -751,23 +1077,27 @@ export default function PartnersPage() {
               </span>
             </h2>
             <p className="mt-6 text-base md:text-lg text-white/60 max-w-xl mx-auto">
-              Partner with Project X Vietnam and help shape the next generation of tech talent 
-              while accessing a pipeline of pre-trained, job-ready candidates.
+              Partner with Project X Vietnam at zero cost and access a pipeline of 
+              pre-trained, job-ready candidates while shaping the next generation of tech talent.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button
                 size="lg"
+                onClick={scrollToForm}
                 className="bg-white text-primary hover:bg-white/90 rounded-full px-8 py-6 text-base font-semibold hover:scale-[1.02] transition-all shadow-lg"
               >
                 Become a Partner
               </Button>
-              <Link href="/">
+              <Link href="https://calendar.app.google/tooj5WaUeVvaLoKQA" target="_blank" rel="noopener noreferrer">
                 <Button
                   size="lg"
                   variant="outline"
                   className="border-white/30 text-white hover:bg-white/10 rounded-full px-8 py-6 text-base font-semibold hover:scale-[1.02] transition-all"
                 >
-                  Back to Home
+                  <svg className="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  Book a Discovery Meeting
                 </Button>
               </Link>
             </div>
