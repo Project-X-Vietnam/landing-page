@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { trackServerEvent, getGA4ClientId } from "@/lib/analytics/ga4-server";
 
 // Google Apps Script cold starts are slow (10–80s+), but data is stored
 // synchronously on their end. We race the fetch against a generous timer —
@@ -48,6 +49,12 @@ export async function POST(request: NextRequest) {
     // 200 = direct response / followed redirect successfully
     // -1  = timer won the race — data is already in flight to Google
     if (result.status === 200 || result.status === -1) {
+      const clientId = getGA4ClientId(request.cookies.get("_ga")?.value);
+      trackServerEvent(clientId, "application_submitted_server", {
+        form_phase: body.formType || "unknown",
+        application_cycle: "SFP2026",
+      });
+
       return NextResponse.json({ success: true });
     }
 
