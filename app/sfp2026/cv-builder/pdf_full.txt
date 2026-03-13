@@ -1,0 +1,557 @@
+
+
+=== PAGE 1 ===
+ 
+PROJECT X 
+CV Writing Guide 
+Key Insights for Tech Candidates 
+ 
+ 
+ 
+ 
+Covers  ·  PM  ·  BA  ·  DA  ·  SWE  ·  AI/ML 
+ 
+Season 2026 
+ 
+Table of Content  
+00  |  CV Foundation......................................................................................................................2 
+Structure: The 9 Core Sections................................................................................................................................2 
+The Golden Formula...................................................................................................................................................3 
+Top Misconceptions to Drop.................................................................................................................................... 3 
+Formatting Rules.........................................................................................................................................................3 
+Action Verb Bank (from Checklist)...........................................................................................................................3 
+01  |  Product Management (PM).................................................................................................... 5 
+Core Mindset............................................................................................................................................................... 5 
+By Level........................................................................................................................................................................ 5 
+02  |  Business Analysis (BA)..........................................................................................................7 
+Core Mindset............................................................................................................................................................... 7 
+By Level.........................................................................................................................................................................7 
+03  |  Data Analytics (DA)...............................................................................................................9 
+Core Mindset...............................................................................................................................................................9 
+By Level........................................................................................................................................................................ 9 
+04  |  Software Engineering (SWE).................................................................................................11 
+Core Mindset...............................................................................................................................................................11 
+By Level........................................................................................................................................................................11 
+05  |  AI / Machine Learning (AI/ML).............................................................................................. 13 
+Core Mindset..............................................................................................................................................................13 
+By Level.......................................................................................................................................................................13 
+ 
+ 
+ 
+ 
+ 
+
+
+=== PAGE 2 ===
+ 
+ 
+00  |  CV Foundation 
+Universal principles that apply to every track. Internalise these before reading your specific path. 
+ 
+Structure: The 9 Core Sections 
+•​ Header - Full name, email, phone, 
+LinkedIn, city 
+•​ Professional Summary - 2-3 sentences, 
+tailored to the role 
+•​ Technical Skills - Grouped by category, 
+honest levels only 
+•​ Professional Experience - Most recent 
+first 
+•​ Projects - Links to deployed work 
+whenever possible 
+•​ Education - Degree, institution, GPA, awards 
+•​ Certifications - Relevant 
+technical/methodological certs 
+•​ Additional - Languages, conferences, 
+open-source contributions 
+•​ Soft Skills - Brief mention; let experience 
+sections prove them 
+ 
+The Golden Formula 
+ 
+Achieved X, as measured by Y, by doing Z 
+Every bullet point in your Experience and Projects sections should follow this structure. Always add data 
+- even rough numbers beat no numbers. 
+ 
+Example (weak) 
+Optimised backend API using Node.js. 
+Example (strong) 
+Optimised Node.js backend API, reducing system response time by 
+40%. 
+ 
+Top Misconceptions to Drop 
+1. 
+Extracurriculars > 
+Experience 
+Recruiters prioritise proven, real-world work over club activities 
+or blood-donation records. 
+ 
+2. 
+Big Tech vs. Startup 
+pedigree 
+It does not matter where you worked - it matters how clearly 
+you articulate what you achieved there. 
+ 
+3. 
+Hackathon awards = 
+Work experience 
+HR often discounts hackathon wins as unrealistic. They help, 
+but never substitute for real project/internship experience. 
+ 
+
+
+=== PAGE 3 ===
+4. 
+Listing skills is enough 
+Recruiters can't verify a listed skill. Demonstrate it through 
+achievements in your Experience or Projects sections. 
+ 
+5. 
+One CV for all roles 
+Tailor per JD. If the company's stack is Java/Spring Boot, 
+mention those terms explicitly - ATS filters aggressively. 
+ 
+Formatting Rules 
+•​ 1 page maximum for Intern / Junior / Fresher. Page 2 only from Senior level upward. 
+•​ Always export as PDF (text-selectable, not scanned image). File name: Role - Your Name. 
+•​ Use Harvard / clean single-column layout (e.g. UNC Computer Science template). 
+•​ No unexplained employment gaps. No profile photo unless the JD explicitly requests one. 
+•​ Contact info: phone, work email, LinkedIn, city only - keep it under one line. 
+ 
+Action Verb Bank (from Checklist) 
+Start every bullet with a strong verb. Group by intent: 
+ 
+ 
+Leadership 
+Spearheaded · Orchestrated · Delegated · Prioritised · Consolidated · Supervised 
+ 
+ 
+Communication 
+Liaised · Negotiated · Facilitated · Presented · Recruited · Synthesised 
+ 
+ 
+Technical 
+Architected · Optimised · Automated · Engineered · Streamlined · Deployed 
+ 
+ 
+Research / Analysis 
+Extracted · Diagnosed · Modelled · Investigated · Formulated · Systematised 
+ 
+ 
+Quantitative 
+Forecasted · Budgeted · Maximised · Minimised · Projected · Allocated 
+ 
+
+
+=== PAGE 4 ===
+01  |  Product Management (PM) 
+PM sits at the intersection of UX, Business, and Technology. Your CV must prove you can lead without 
+authority, speak all three languages, and drive outcomes - not just ship features. 
+ 
+Core Mindset 
+1. 
+Outcomes over Outputs 
+Never say 'launched feature X'. Say 'launched feature X, 
+increasing weekly active users by 15%'. Tie every action to a 
+business metric. 
+ 
+2. 
+Cover the full product 
+lifecycle 
+Show you can move from Discovery → Strategy → Execution 
+→ Go-to-Market → Iteration. One-phase PMs are a red flag. 
+ 
+3. 
+Cross-functional 
+leadership is mandatory 
+Name the stakeholders. 'Coordinated 10-person Engineering 
+team, 2 Product Designers, and Marketing to ship campaign on 
+time' beats 'worked with multiple teams'. 
+ 
+4. 
+Quantify with PM core 
+metrics 
+DAU/MAU, Retention Rate, Churn Rate, Conversion Rate, 
+Revenue. Pick the metric that matters most for your product 
+and tie results to it. 
+ 
+5. 
+Attach a Portfolio 
+A Product Teardown (UX/user-flow analysis of any app) or a 
+self-written Sample PRD proves Product Sense far more than a 
+bullet point. 
+ 
+6. 
+Use strong leadership 
+verbs 
+Spearheaded · Aligned · Facilitated · Prioritised · Negotiated - 
+these signal authority without the title. 
+ 
+7. 
+For non-tech 
+backgrounds 
+Show foundational tech knowledge (basic CS concepts, SQL, 
+API awareness). Many companies now expect PM candidates 
+to speak tech fluently. 
+ 
+By Level 
+  FRESHER / JUNIOR  (0 – 2 years)   
+•​ Focus on PRD writing, user flow diagrams, and User Story decomposition. 
+
+
+=== PAGE 5 ===
+•​ Highlight hands-on execution: backlog management, sprint facilitation in clubs, student orgs, or 
+community projects. 
+•​ Tools that win: Figma (wireframes), Jira / Trello / Notion (task management), SQL + PowerBI (data 
+independence). 
+•​ Metrics to cite: Sprint completion rate, feature adoption in week 1, number of User Stories delivered. 
+ 
+  MID-LEVEL  (2 – 5 years)   
+•​ Show ownership of a full feature lifecycle end-to-end. 
+•​ Highlight A/B Testing: hypothesis → experiment → statistical decision. 
+•​ Tools: Amplitude / Mixpanel / GA4 (analytics), Productboard / Aha! (roadmapping), Optimizely / 
+Firebase (A/B). 
+•​ Metrics: DAU/MAU, Session Length, 7-day / 30-day Retention, Funnel Conversion Rate. 
+ 
+  SENIOR / LEAD  (5+ years)   
+•​ Lead with Business Impact: market share expansion, new market entry, monetisation optimisation. 
+•​ Show framework-building and mentorship of junior PMs. 
+•​ Tools: Tableau / Looker (data governance), OKR tracking tools. 
+•​ Metrics: MRR/ARR, LTV, CAC, GMV, NPS, CSAT, team size managed, budget owned. 
+ 
+ATS KEYWORDS 
+Product Lifecycle · Roadmap · Product Backlog · User Story · Agile/Scrum · A/B Testing · Go-to-Market 
+(GTM) · Cross-functional Leadership · Data-driven · User Research 
+ 
+
+
+=== PAGE 6 ===
+02  |  Business Analysis (BA) 
+BA is the translator between Business and Technology. Your CV must show you are a problem-solver and 
+storyteller - not a note-taker. Demonstrate a clear logical thread: problem identified → requirements 
+gathered → tech solution proposed → outcome delivered. 
+ 
+Core Mindset 
+1. 
+Traceability is everything 
+Show a logical thread: problem → requirements elicitation → 
+proposed tech solution → final outcome. This proves you think 
+end-to-end, not task-by-task. 
+ 
+2. 
+Convert documents into 
+impact 
+Don't say 'wrote BRD/SRS'. Say 'Completed BRD/SRS for CRM 
+system, reducing Dev team's coding time by 15% through 
+clearer logic documentation'. 
+ 
+3. 
+Stakeholder Management 
+is a skill 
+Name who you worked with: C-level, Marketing, Dev, QA. 
+Describe how you resolved conflicting requirements - this 
+differentiates senior thinkers. 
+ 
+4. 
+Precision in flow 
+modelling 
+Flowcharts, Use Cases, User Stories: show care and accuracy. 
+These artefacts are your primary deliverables - treat them as 
+such. 
+ 
+5. 
+Tech literacy is now 
+expected 
+Postman/Swagger (API testing), SQL, basic understanding of 
+data flows and system architecture. Being able to talk to Devs 
+as a peer is a significant differentiator. 
+ 
+6. 
+Certifications signal 
+commitment 
+ECBA (Fresher), CCBA (Mid), CBAP (Senior) from IIBA. PSM I / 
+CSM for Agile roles. Include if you have them. 
+ 
+By Level 
+  FRESHER / JUNIOR  (0 – 2 years)   
+•​ Use academic or course projects if no work experience - state which elicitation techniques you 
+applied: Interview, Survey, Document Analysis. 
+•​ Emphasise accuracy in flow diagrams (Draw.io, Lucidchart, Visio) and written Use Cases / User Stories. 
+•​ Tools: Jira/Trello (task), Balsamiq/Figma (wireframes), Excel (Pivot Table, VLOOKUP), basic SQL. 
+
+
+=== PAGE 7 ===
+•​ Metrics: number of Use Cases/User Stories written, logic errors caught in UAT, on-time document 
+delivery rate. 
+ 
+  MID-LEVEL  (2 – 5 years)   
+•​ Show methodology: Agile/Scrum vs Waterfall and your specific role in ceremonies (Sprint Planning, 
+Backlog Refinement). 
+•​ Demonstrate system analysis: data flows, API understanding, architecture awareness - proof you can 
+talk to Devs without a translator. 
+•​ Tools: BPMN 2.0 (critical for process modelling), Confluence/SharePoint, Postman/Swagger, 
+PowerBI/Tableau. 
+•​ Metrics: Requirement Churn Rate (lower = better), % reduction in manual processing time, 
+time-to-market improvement. 
+ 
+  SENIOR / LEAD  (5+ years)   
+•​ Lead with Domain Knowledge depth: Fintech, E-commerce, Healthcare, ERP - name your vertical. 
+•​ Show 'Push-back' capability: examples of using data/logic to reject low-ROI feature requests from 
+stakeholders. 
+•​ Tools: SAP/Oracle/Odoo (ERP), Salesforce/MS Dynamics (CRM), Enterprise Architect tools. 
+•​ Metrics: financial impact ($-saved or %-revenue-added), User Adoption Rate of launched system, 
+portfolio project success rate (on-time, on-budget). 
+ 
+ATS KEYWORDS 
+BRD · SRS · FRS · UAT · Stakeholder Management · Requirements Gathering · As-Is & To-Be Process · Gap 
+Analysis · Backlog Grooming · BPMN · Agile/Scrum 
+ 
+
+
+=== PAGE 8 ===
+03  |  Data Analytics (DA) 
+Data Analysts turn raw, messy numbers into decisions. Your CV must prove the formula: Tool X → Dataset Y 
+→ Insight Z → Business Action W. Automation mindset and clear business impact are what separate 
+average CVs from standout ones. 
+ 
+Core Mindset 
+1. 
+Embrace the mess 
+80% of a DA's time is data cleaning. Show you are not afraid of 
+raw, incomplete, inconsistent datasets - missing values, 
+duplicates, and all. 
+ 
+2. 
+Business Impact is the 
+only metric 
+A beautiful dashboard is worthless if nobody uses it to make a 
+decision. Every project bullet must end with a business action 
+or outcome. 
+ 
+3. 
+Automation > Manual 
+If you built a script or pipeline that auto-generates a weekly 
+report, say how many manual hours it saves. Hiring managers 
+love this. 
+ 
+4. 
+Quantify everything 
+Include dataset size (rows/GB), number of dashboards built, % 
+data errors removed, hours saved, % uplift in KPIs. 
+ 
+5. 
+SQL + PowerBI is your 
+base combo 
+For Fresher/Junior level, this pairing is the standard 'weapon' 
+for passing CV screens. Do not skip either. 
+ 
+6. 
+DA needs soft skills too 
+Unlike SWE, DAs communicate findings to non-technical 
+stakeholders daily. Add: Cross-functional Collaboration, Data 
+Storytelling, Stakeholder Management. 
+ 
+By Level 
+  FRESHER / JUNIOR  (0 – 2 years)   
+•​ Personal projects from Kaggle or public datasets are perfectly valid. Host on GitHub with clear 
+README. Link to live dashboards if possible. 
+•​ Document your pipeline: Extract → Clean → Analyse → Visualise. Show all four stages. 
+•​ Tools: SQL (CTEs, Window Functions), PowerBI or Tableau, Excel (Pivot Table, Power Query). 
+•​ Metrics: dataset size processed (e.g. 500,000+ rows), number of dashboards built and their purpose. 
+ 
+
+
+=== PAGE 9 ===
+ 
+Weak vs. Strong - Junior Example 
+Weak: 'Used PowerBI to make weekly sales charts.'  →  Strong: 'Built automated PowerBI sales 
+dashboard visualising 100,000+ transactions, eliminating 4 hours of weekly manual reporting.' 
+ 
+  MID-LEVEL  (2 – 5 years)   
+•​ Shift from descriptive (What happened?) to diagnostic (Why did it happen?) analysis, and begin 
+advising other departments. 
+•​ Showcase A/B Testing: experiment design, sample splitting, statistical hypothesis testing to validate 
+conclusions. 
+•​ Tools: Python (Pandas, NumPy, Matplotlib), GA4 / Mixpanel / Amplitude, Google BigQuery / Snowflake. 
+•​ Metrics: campaign ROI improvement (e.g. +20%), CAC reduction (e.g. -15%), hours of manual work 
+automated per week. 
+ 
+  SENIOR / LEAD  (5+ years)   
+•​ You own the organisation's Data Culture. Show Data Architecture and Data Governance work. 
+•​ Demonstrate direct work with C-Level to set company-wide OKRs/KPIs. 
+•​ Tools: dbt, Apache Airflow (pipeline scheduling), AWS Redshift / GCP / Azure (Cloud DW ecosystems), 
+Tableau / Looker. 
+•​ Metrics: cross-sell/up-sell revenue unlocked from data insights, % speed improvement in data 
+discovery, team size led. 
+ 
+ATS KEYWORDS 
+Data Cleansing · Data Visualisation · ETL (Extract, Transform, Load) · A/B Testing · Predictive Modelling · 
+Statistical Analysis · Dashboard · Cohort Analysis · Funnel Analysis · Data Storytelling · Stakeholder 
+Management 
+ 
+
+
+=== PAGE 10 ===
+04  |  Software Engineering (SWE) 
+SWE CVs live and die on demonstrated technical depth. Recruiters look for clean code, scalability thinking, 
+and performance results. Show, don't tell: link to GitHub, cite benchmark numbers, prove your code 
+survives production. 
+ 
+Core Mindset 
+1. 
+Show, Don't Tell 
+Never write 'Proficient in React'. Write 'Built SPA with React + 
+Redux, achieved Lighthouse score 95+'. GitHub links are 
+non-negotiable. 
+ 
+2. 
+Quantify optimisation 
+Good engineers solve resource problems. Always measure: 
+response time (ms), memory usage, CPU load, cost savings. 
+Numbers prove impact. 
+ 
+3. 
+Testing = Production 
+mindset 
+Writing Unit Tests, Integration Tests, and understanding CI/CD 
+pipelines signals you build maintainable software - not just 
+code that 'runs on my machine'. 
+ 
+4. 
+Group your Tech Stack 
+clearly 
+Avoid a long undifferentiated list. Use four categories: 
+Languages · Frontend/Backend Frameworks · Databases · 
+Cloud & DevOps.  
+Cleaner = easier to scan. 
+ 
+5. 
+SWE proves value through 
+technical metrics 
+Unlike PM/BA, your core proof points are: latency, throughput, 
+uptime %, code coverage %, cost reduction - not business 
+revenue. 
+ 
+By Level 
+  FRESHER / JUNIOR  (0 – 2 years)   
+•​ GitHub repos must have a clean README with setup instructions and architecture overview. 
+•​ Show Git discipline: branching, merge, rebase - not just 'I pushed to main'. 
+•​ Emphasise what you learned from fixing bugs and reviewing code - growth mindset signals. 
+•​ Tools: Core language + framework you truly understand (JS/React, Java/Spring, Python/Django), SQL 
+basics, Git/GitHub. 
+•​ Metrics: code coverage % (e.g. 80% with Jest/JUnit), bug reduction rate, LeetCode / HackerRank 
+ranking (big plus for Freshers). 
+ 
+
+
+=== PAGE 11 ===
+  MID-LEVEL  (2 – 5 years)   
+•​ Shift from feature-builder to system-optimiser. How did you address Technical Debt? 
+•​ Show Agile/Scrum teamwork and early mentoring of Juniors. 
+•​ Tools: Redis/Memcached (caching), Docker, AWS/GCP/Azure basics, CI/CD (GitHub Actions, Jenkins), 
+Microservices, RESTful API design. 
+•​ Metrics: API latency reduction (e.g. 500ms → 100ms), SQL optimisation reducing DB CPU by 30%, 
+CCU (concurrent users) supported. 
+ 
+  SENIOR / LEAD / PRINCIPAL  (5+ years)   
+•​ You are the System Architect: own Tech Stack decisions, High Availability, and engineering culture. 
+•​ Focus on System Design: Distributed Systems, Event-driven Architecture, Data Consistency at scale. 
+•​ Show how technical decisions connect to business goals (e.g. 'chose X technology, saving $Y/month 
+in server costs'). 
+•​ Tools: Kubernetes, Kafka/RabbitMQ, ElasticSearch, Prometheus/Grafana/Datadog (observability). 
+•​ Metrics: 99.99% uptime, millions of transactions/day (QPS), cloud cost reduction ($X,000/month), 
+CI/CD cycle time reduction. 
+ 
+ATS KEYWORDS  
+Object-Oriented Programming (OOP) · REST API · Microservices · CI/CD · Unit Testing · Design Patterns · 
+Scalability · Refactoring · Database Optimisation · Clean Code 
+ 
+
+
+=== PAGE 12 ===
+05  |  AI / Machine Learning (AI/ML) 
+AI/ML CVs must prove you can ship production-ready models - not just hit accuracy scores in a notebook. 
+Business ROI from deployed AI is the ultimate differentiator. 
+ 
+Core Mindset 
+1. 
+Production-Ready > High 
+Accuracy 
+A 90%-accurate model running on a real server beats a 
+99%-accurate model stuck in a Jupyter notebook. Always 
+highlight 'deployed' work. 
+ 
+2. 
+Translate AI into Business Every model result must connect to business impact. 
+'Recommendation model increased conversion rate by X%'. 
+'Chatbot saved Y hours/day for support team'. 
+ 
+3. 
+Data quality is 
+foundational 
+Show awareness of data labelling, cleaning, and handling class 
+imbalance. 80% of ML work is data - embrace it. 
+ 
+4. 
+Escape the Notebook trap Wrap your model in a FastAPI/Flask endpoint. Package with 
+Docker. Deploy a Streamlit/Gradio demo. This alone separates 
+you from 80% of applicants. 
+ 
+5. 
+LLMs and RAG are now 
+table stakes for Mid+ 
+Experience integrating Large Language Models and 
+Retrieval-Augmented Generation (RAG) is a fast-growing 
+expectation at Mid-level and above. 
+ 
+6. 
+Use the right model 
+metrics 
+F1-Score, Precision, Recall, AUC-ROC - never cite Accuracy 
+alone, especially on imbalanced datasets. It signals model 
+evaluation maturity. 
+ 
+7. 
+Publications = instant 
+credibility 
+Papers at CVPR, NeurIPS, ACL? Put them at the top of your CV. 
+Even for applied roles, ability to read and re-implement SOTA 
+research is a survival skill. 
+ 
+By Level 
+  FRESHER / JUNIOR  (0 – 2 years)   
+•​ Choose practical project topics: text classification, product defect detection - not overused Titanic / Iris 
+datasets. 
+
+
+=== PAGE 13 ===
+•​ Wrap model in API (FastAPI/Flask) + Docker. Demo with Streamlit or Gradio. Link everything. 
+•​ Tools: PyTorch or TensorFlow/Keras, Scikit-learn, Pandas/NumPy, FastAPI/Flask, Docker. 
+•​ Metrics: F1/Precision/Recall/AUC-ROC, inference speed (e.g. '<200ms per image'), dataset size 
+processed. 
+ 
+  MID-LEVEL  (2 – 5 years)   
+•​ MLOps is your core keyword. Show management of the full model lifecycle: training → deployment → 
+monitoring → retraining. 
+•​ Highlight Model Drift handling and automated retraining pipelines. 
+•​ Show LLM integration and RAG implementation experience. 
+•​ Tools: MLflow / W&B / DVC (lifecycle), Kubernetes + AWS SageMaker / GCP Vertex AI (infra), Pinecone 
+/ Milvus / ChromaDB (vector DB). 
+•​ Metrics: dataset scale (e.g. 100GB trained), model compression (e.g. 50% RAM reduction via 
+quantisation), business ROI (e.g. 10,000 tickets auto-classified/day at 92% accuracy). 
+ 
+  SENIOR / PRINCIPAL  (5+ years)   
+•​ You design the full AI Architecture and make the build/buy/fine-tune decision for the org. 
+•​ Prove cost-awareness: GPU/cloud cost optimisation at scale is the #1 concern at this level. 
+•​ Show distributed training experience across multiple GPUs/nodes. 
+•​ Tools: Triton Inference Server, TensorRT, vLLM (LLM serving), Ray / DeepSpeed / Horovod (distributed 
+training). 
+•​ Metrics: throughput improvement (e.g. 3x), GPU/cloud cost savings (e.g. $X0,000/month), internal AI 
+platform serving 5+ product teams. 
+ 
+ATS KEYWORDS 
+MLOps · LLM · Prompt Engineering · RAG · Fine-tuning · Computer Vision · NLP · Recommendation 
+Systems · Model Deployment · Docker · Kubernetes · PyTorch · Feature Engineering 
+ 
+ 
+Project X  ·  CV Guide  ·  Season 2026 
