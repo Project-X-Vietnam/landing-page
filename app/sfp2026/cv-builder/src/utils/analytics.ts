@@ -1,17 +1,25 @@
-/// <reference types="vite/client" />
-import { track } from '@vercel/analytics';
+import posthog from 'posthog-js';
 
 const isDev = import.meta.env.DEV;
 
+// Initialize PostHog
+if (typeof window !== 'undefined') {
+  posthog.init('phc_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', {
+    api_host: 'https://us.posthog.com', // Override with your Host URL
+    autocapture: false, // We will manually track events
+    capture_pageview: true,
+  });
+}
+
 /**
- * Custom tracking wrapper mapping to Vercel Analytics custom events
+ * Custom tracking wrapper mapping to PostHog events
  */
 export const trackEvent = (eventName: string, properties?: Record<string, any>) => {
   if (isDev) {
     console.log(`[Analytics Event] ${eventName}`, properties);
   } else {
     try {
-      track(eventName, properties);
+      posthog.capture(eventName, properties);
     } catch (e) {
       console.warn("Analytics error", e);
     }
