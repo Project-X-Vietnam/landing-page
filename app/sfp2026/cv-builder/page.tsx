@@ -1,11 +1,12 @@
+"use client";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Screen1Pillars } from "./components/Screen1Pillars";
-import { Screen3Workspace } from "./components/Screen3Workspace";
-import { Screen4Finish } from "./components/Screen4Finish";
-import { MobileWorkspacePreview } from "./components/MobileWorkspacePreview";
-import { DiagnosticLevel } from "./types";
-import { trackEvent } from "../utils/analytics";
+import { Screen1Pillars } from "./src/components/Screen1Pillars";
+import { Screen3Workspace } from "./src/components/Screen3Workspace";
+import { Screen4Finish } from "./src/components/Screen4Finish";
+import { MobileWorkspacePreview } from "./src/components/MobileWorkspacePreview";
+import { DiagnosticLevel } from "./src/types";
+import { trackEvent } from "./src/utils/analytics";
 
 export default function App() {
   const [screen, setScreen] = useState<1 | 3 | 4>(1);
