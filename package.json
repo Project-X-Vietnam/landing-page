@@ -17,6 +17,7 @@
     "framer-motion": "^12.23.26",
     "lucide-react": "^0.473.0",
     "next": "^15.1.5",
+    "posthog-js": "^1.360.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sonner": "^1.7.2",
