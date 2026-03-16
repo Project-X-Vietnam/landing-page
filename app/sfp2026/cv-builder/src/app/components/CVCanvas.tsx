@@ -381,3 +381,4 @@ export const CVCanvas = React.memo(function CVCanvas({
     </div>
   );
 });
+

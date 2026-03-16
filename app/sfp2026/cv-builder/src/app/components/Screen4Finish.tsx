@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { motion } from "motion/react";
+import { motion } from 'motion/react';
+import posthog from 'posthog-js'; // [ANALYTICS]
 import { Download, ExternalLink, RotateCcw, Check } from "lucide-react";
 
 // ── Confetti Canvas ────────────────────────────────────────────────
@@ -153,6 +154,7 @@ export function Screen4Finish({ bullet, onRestart }: Props) {
   const handleCopy = () => {
     navigator.clipboard.writeText(bullet).then(() => {
       setCopied(true);
+      posthog.capture('cv_builder_prompt_copied'); // [ANALYTICS]
       setTimeout(() => setCopied(false), 2000);
     });
   };
@@ -299,25 +301,25 @@ export function Screen4Finish({ bullet, onRestart }: Props) {
             </span>
           </div>
 
-          <h1
-            style={{
-              fontSize: "clamp(30px, 5vw, 48px)",
-              fontWeight: 800,
-              color: "#020818",
-              letterSpacing: "-0.04em",
-              lineHeight: 1.05,
-              marginBottom: 14,
-            }}
-          >
-            Your CV is
-            <br />
-            <span style={{ color: "#0E56FA" }}>recruiter-ready.</span>
-          </h1>
+                      {/* [UX FIX - Change 5] Header & Copy */}
+            <h1
+              style={{
+                fontSize: "clamp(30px, 5vw, 48px)",
+                fontWeight: 800,
+                color: "#020818",
+                letterSpacing: "-0.04em",
+                lineHeight: 1.05,
+                marginBottom: 14,
+              }}
+            >
+              Your AI rewrite prompt is
+              <br />
+              <span style={{ color: "#0E56FA" }}>ready 🎯</span>
+            </h1>
 
-          <p style={{ fontSize: 15, color: "#64748b", lineHeight: 1.6 }}>
-            You've applied the XYZ formula across your CV sections. Time to take
-            the next step with your full application kit.
-          </p>
+            <p style={{ fontSize: 16, color: "#475569", lineHeight: 1.6 }}>
+              Copy the prompt below and paste into ChatGPT/Claude to rewrite your CV instantly.
+            </p>
         </motion.div>
 
         {/* Bullet Preview Card */}
@@ -399,114 +401,103 @@ export function Screen4Finish({ bullet, onRestart }: Props) {
                 </div>
               </div>
 
-              {/* Copy button */}
-              <button
-                onClick={handleCopy}
-                style={{
-                  width: "100%",
-                  padding: "11px",
-                  borderTop: "1px solid #F1F5F9",
-                  background: copied ? "#F0FDF4" : "#FAFBFF",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: 12,
-                  fontWeight: 600,
-                  color: copied ? "#16a34a" : "#94a3b8",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 6,
-                  transition: "all 0.18s",
-                  borderRadius: "0 0 15px 15px",
-                }}
-              >
-                {copied ? (
-                  <>
-                    <Check size={12} strokeWidth={3} />
-                    Copied to clipboard!
-                  </>
-                ) : (
-                  "Click to copy bullet"
-                )}
-              </button>
+              
             </div>
           </motion.div>
         )}
 
-        {/* Action Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.4 }}
-          style={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            gap: 12,
-          }}
-        >
-          {/* Ghost button */}
-          <button
+        {/* [UX FIX - Change 5] Action Buttons (Updated Hierarchy) */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.4 }}
             style={{
               width: "100%",
-              padding: "14px 24px",
-              borderRadius: 14,
-              border: "1px solid #E2E8F0",
-              background: "white",
-              color: "#020818",
-              fontSize: 14,
-              fontWeight: 600,
-              cursor: "pointer",
               display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 9,
-              letterSpacing: "-0.02em",
-              boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
-              transition: "all 0.18s",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.borderColor = "#CBD5E1";
-              (e.currentTarget as HTMLButtonElement).style.boxShadow =
-                "0 4px 12px rgba(0,0,0,0.08)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.borderColor = "#E2E8F0";
-              (e.currentTarget as HTMLButtonElement).style.boxShadow =
-                "0 1px 4px rgba(0,0,0,0.04)";
+              flexDirection: "column",
+              gap: 12,
             }}
           >
-            <Download size={15} strokeWidth={2} />
-            Download Full PJX CV Template &amp; Action Verb Checklist
-          </button>
+            {/* Primary CTA (Massive Copy Prompt) */}
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={handleCopy}
+              style={{
+                width: "100%",
+                padding: "20px 24px",
+                borderRadius: 14,
+                background: copied ? "#22C55E" : "linear-gradient(135deg, #0E56FA 0%, #2563EB 100%)",
+                color: "white",
+                fontSize: 18,
+                fontWeight: 800,
+                cursor: "pointer",
+                border: "none",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 10,
+                letterSpacing: "-0.03em",
+                boxShadow: copied 
+                  ? "0 8px 32px rgba(34,197,94,0.4), 0 2px 8px rgba(34,197,94,0.2)"
+                  : "0 8px 32px rgba(14,86,250,0.4), 0 2px 8px rgba(14,86,250,0.2)",
+                transition: "all 0.2s ease"
+              }}
+            >
+              {copied ? (
+                <>
+                  <Check size={20} strokeWidth={3} />
+                  Copied to Clipboard!
+                </>
+              ) : (
+                <>
+                  Copy Your AI Rewrite Prompt 
+                  <span style={{fontSize:"1.2em"}}>✨</span>
+                </>
+              )}
+            </motion.button>
+              {/* [UX FIX - Change 1] Subtext */}
+              <div style={{ fontSize: 12, color: "#6B7280", textAlign: "center", marginTop: 4 }}>
+                Paste into any AI tool to instantly tailor and strengthen your CV bullets
+              </div>
 
-          {/* Primary CTA */}
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            style={{
-              width: "100%",
-              padding: "18px 24px",
-              borderRadius: 14,
-              background: "linear-gradient(135deg, #0E56FA 0%, #2563EB 100%)",
-              color: "white",
-              fontSize: 16,
-              fontWeight: 800,
-              cursor: "pointer",
-              border: "none",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 10,
-              letterSpacing: "-0.03em",
-              boxShadow:
-                "0 8px 32px rgba(14,86,250,0.4), 0 2px 8px rgba(14,86,250,0.2)",
-            }}
-          >
-            Apply for SFP Round 2
-            <ExternalLink size={16} strokeWidth={2.5} />
-          </motion.button>
-        </motion.div>
+            {/* Ghost button - Download Guide */}
+            <button
+              style={{
+                width: "100%",
+                padding: "14px 24px",
+                borderRadius: 14,
+                border: "1px solid #E2E8F0",
+                background: "white",
+                color: "#475569",
+                fontSize: 14,
+                fontWeight: 600,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 9,
+                letterSpacing: "-0.02em",
+                boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+                transition: "all 0.18s",
+              }}
+              onClick={() => {
+                 posthog.capture('cv_builder_template_downloaded'); // [ANALYTICS]
+                 window.open("https://projectx.vn", "_blank");
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget).style.borderColor = "#CBD5E1";
+                (e.currentTarget).style.boxShadow = "0 4px 12px rgba(0,0,0,0.08)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget).style.borderColor = "#E2E8F0";
+                (e.currentTarget).style.boxShadow = "0 1px 4px rgba(0,0,0,0.04)";
+              }}
+            >
+              <Download size={15} strokeWidth={2} />
+              Save Guide (PDF) & CV Template
+            </button>
+          </motion.div>
 
         {/* Restart */}
         <motion.button

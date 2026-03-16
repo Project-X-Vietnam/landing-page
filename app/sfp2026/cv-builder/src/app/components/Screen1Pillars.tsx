@@ -300,7 +300,7 @@ export function Screen1Pillars({
             gap: 6,
           }}
         >
-          {[1, 2, 3, 4].map((s) => (
+          {[1, 2, 3].map((s) => (
             <div
               key={s}
               style={{
@@ -320,7 +320,7 @@ export function Screen1Pillars({
               marginLeft: 6,
             }}
           >
-            1 of 4
+            1 of 3
           </span>
         </div>
       </div>
@@ -366,7 +366,8 @@ export function Screen1Pillars({
               textTransform: "uppercase",
             }}
           >
-            Step 1 of 4
+              {/* // [UX FIX - Change 1] */}
+            ● STEP 1 OF 3
           </span>
         </div>
 
@@ -499,3 +500,5 @@ export function Screen1Pillars({
     </div>
   );
 }
+
+

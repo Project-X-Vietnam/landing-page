@@ -1,18 +1,21 @@
 "use client";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Screen1Pillars } from "./src/components/Screen1Pillars";
-import { Screen3Workspace } from "./src/components/Screen3Workspace";
-import { Screen4Finish } from "./src/components/Screen4Finish";
-import { MobileWorkspacePreview } from "./src/components/MobileWorkspacePreview";
-import { DiagnosticLevel } from "./src/types";
+import { Screen1Pillars } from "./src/app/components/Screen1Pillars";
+import { Screen3Workspace } from "./src/app/components/Screen3Workspace";
+import { Screen4Finish } from "./src/app/components/Screen4Finish";
+import { MobileWorkspacePreview } from "./src/app/components/MobileWorkspacePreview";
+import { DiagnosticLevel } from "./src/app/types";
 import { trackEvent } from "./src/utils/analytics";
 
 export default function App() {
   const [screen, setScreen] = useState<1 | 3 | 4>(1);
-  const [selectedPillar, setSelectedPillar] = useState<string | null>("product");
+  const [selectedPillar, setSelectedPillar] = useState<string | null>(
+    "product",
+  );
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
-  const [workspaceLevel, setWorkspaceLevel] = useState<DiagnosticLevel>("developing");
+  const [workspaceLevel, setWorkspaceLevel] =
+    useState<DiagnosticLevel>("developing");
   const [builtBullet, setBuiltBullet] = useState<string>("");
   const [showMobile, setShowMobile] = useState(false);
 
@@ -55,7 +58,8 @@ export default function App() {
       style={{
         minHeight: "100vh",
         background: "#FAFBFF",
-        fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        fontFamily:
+          "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
         WebkitFontSmoothing: "antialiased",
       }}
     >
@@ -143,7 +147,11 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            style={{ height: "100vh", display: "flex", flexDirection: "column" }}
+            style={{
+              height: "100vh",
+              display: "flex",
+              flexDirection: "column",
+            }}
           >
             <Screen3Workspace
               level={workspaceLevel}

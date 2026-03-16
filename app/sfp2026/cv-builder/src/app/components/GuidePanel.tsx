@@ -485,3 +485,4 @@ export function GuidePanel({ level, formula, onFormulaChange, onAddBullet }: Pro
     </div>
   );
 }
+

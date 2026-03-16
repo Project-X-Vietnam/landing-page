@@ -218,7 +218,7 @@ function BrandNav({
       {/* Right: Step dots */}
       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
         <div style={{ display: "flex", gap: 4 }}>
-          {[1, 2, 3, 4].map(i => (
+          {[1, 2, 3].map(i => (
             <div key={i} style={{
               width: i === step ? 16 : 6, height: 6, borderRadius: 99,
               background: i <= step ? "#0E56FA" : "#E2E8F0",
@@ -399,7 +399,7 @@ function Screen1({
           }}>
             <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#0E56FA" }} />
             <span style={{ fontSize: 10.5, fontWeight: 800, color: "#0E56FA", letterSpacing: "0.07em", textTransform: "uppercase" }}>
-              Step 1 of 4
+              Step 1 of 3
             </span>
           </div>
 
@@ -662,7 +662,7 @@ function Screen2({
           }}>
             <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#0E56FA" }} />
             <span style={{ fontSize: 10.5, fontWeight: 800, color: "#0E56FA", letterSpacing: "0.07em", textTransform: "uppercase" }}>
-              Step 2 of 4
+              Step 1 of 3
             </span>
           </div>
           <h1 style={{
@@ -793,7 +793,7 @@ function WorkspaceNavHeader({
         </button>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <span style={{ fontSize: 13, fontWeight: 700, color: "#020818", letterSpacing: "-0.02em" }}>Workspace</span>
-          <span style={{ fontSize: 10, fontWeight: 500, color: "#94a3b8" }}>Step 3 of 4</span>
+          <span style={{ fontSize: 10, fontWeight: 500, color: "#94a3b8" }}>Step 2 of 3</span>
         </div>
         <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
           {[1,2,3,4].map(i => (
@@ -1288,7 +1288,7 @@ const SCREEN_META = {
     left: [
       { color: "#0E56FA", label: "Status Bar", desc: "iOS native" },
       { color: "#0E56FA", label: "Brand Nav", desc: "Logo + step dots" },
-      { color: "#7c3aed", label: "Step Pill", desc: "STEP 1 OF 4" },
+      { color: "#7c3aed", label: "Step Pill", desc: "Step 1 of 3" },
       { color: "#16a34a", label: "Heading", desc: "Where are you heading?" },
       { color: "#F59E0B", label: "Accordion Cards", desc: "4 pillars, tap to expand" },
     ],
@@ -1305,7 +1305,7 @@ const SCREEN_META = {
     desc: "iPhone 15 Pro · 393 × 852 · Sticky Progress Bar",
     left: [
       { color: "#0E56FA", label: "Brand Nav", desc: "Back + step 2 dots" },
-      { color: "#7c3aed", label: "Step Pill", desc: "STEP 2 OF 4" },
+      { color: "#7c3aed", label: "Step Pill", desc: "Step 1 of 3" },
       { color: "#0E56FA", label: "Title", desc: "Sticky sub-header" },
       { color: "#F59E0B", label: "Progress Bar", desc: "Beginner→Middle→Expert" },
       { color: "#EC4899", label: "Alert Banner", desc: "3/5 checked · Middle" },
@@ -1541,3 +1541,4 @@ export function MobileWorkspacePreview({ onBack }: { onBack: () => void }) {
     </div>
   );
 }
+
