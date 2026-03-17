@@ -20,7 +20,7 @@ export interface RoleLevelData {
   keySkills: string[];
 
   // HR Quote shown in the side panel
-  hrQuote: string;
+  hrQuotes: { header?: string; summary?: string; experience: string; projects?: string; }
   hrName: string;
   hrRole: string;
   hrCompany: "shopee" | "google" | "grab" | "vng" | "startup" | "scaleup";
@@ -54,7 +54,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Built", "Implemented", "Developed", "Designed", "Shipped", "Prototyped", "Deployed", "Created"],
       keySkills: ["React.js", "HTML/CSS", "JavaScript", "Figma", "Git", "Responsive Design"],
-      hrQuote: "For junior frontend roles, I look for proof that you can build real UIs — not just theory. Show me a GitHub link, a live site, a hackathon project. The code doesn't have to be perfect; the initiative does.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "For junior frontend roles, I look for proof that you can build real UIs — not just theory. Show me a GitHub link, a live site, a hackathon project. The code doesn't have to be perfect; the initiative does.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Linh Tran",
       hrRole: "Engineering Manager",
       hrCompany: "vng",
@@ -74,7 +79,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Architected", "Optimised", "Migrated", "Refactored", "Shipped", "Implemented", "Reduced", "Improved"],
       keySkills: ["React.js", "TypeScript", "Next.js", "Tailwind CSS", "Webpack/Vite", "Web Vitals (LCP, CLS)", "REST API"],
-      hrQuote: "Mid-level frontend engineers need to show they understand performance trade-offs, not just that they can write JSX. I want to see bundle sizes reduced, Lighthouse scores improved, or a component library adopted by a team.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Mid-level frontend engineers need to show they understand performance trade-offs, not just that they can write JSX. I want to see bundle sizes reduced, Lighthouse scores improved, or a component library adopted by a team.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
       hrCompany: "google",
@@ -94,7 +104,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Championed", "Spearheaded", "Architected", "Defined", "Established", "Scaled", "Mentored", "Orchestrated"],
       keySkills: ["React.js / Next.js", "TypeScript", "Micro-frontends", "CI/CD (GitHub Actions)", "Design Systems", "Web Vitals", "Team Leadership"],
-      hrQuote: "For senior frontend roles I'm looking for engineers who've shaped the platform, not just used it. Tell me about the design system you built, the guild you led, or the performance initiative that cut your LCP in half. Code quality advocates get calls back.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "For senior frontend roles I'm looking for engineers who've shaped the platform, not just used it. Tell me about the design system you built, the guild you led, or the performance initiative that cut your LCP in half. Code quality advocates get calls back.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "David Kim",
       hrRole: "VP Engineering",
       hrCompany: "scaleup",
@@ -117,7 +132,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Built", "Designed", "Implemented", "Developed", "Wrote", "Integrated", "Created", "Configured"],
       keySkills: ["Python / Node.js", "REST API", "SQL (PostgreSQL)", "Git", "Docker (basic)", "Data Structures & Algorithms"],
-      hrQuote: "For junior backend roles, I want to see you understand how systems connect — APIs, databases, auth flows. A side project with a working API connected to a real DB tells me more than a list of languages on your CV.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "For junior backend roles, I want to see you understand how systems connect — APIs, databases, auth flows. A side project with a working API connected to a real DB tells me more than a list of languages on your CV.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Linh Tran",
       hrRole: "Engineering Manager",
       hrCompany: "vng",
@@ -137,7 +157,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Designed", "Scaled", "Migrated", "Optimised", "Implemented", "Refactored", "Deployed", "Reduced"],
       keySkills: ["Python / Go / Java", "Microservices", "Kafka / RabbitMQ", "PostgreSQL / Redis", "Docker / Kubernetes", "REST / gRPC", "CI/CD"],
-      hrQuote: "I scan backend CVs for scale numbers and reliability signals. 'Built an API' means nothing. 'Scaled API to handle 10K req/s with p99 latency under 50ms' tells me you understand production engineering.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "I scan backend CVs for scale numbers and reliability signals. 'Built an API' means nothing. 'Scaled API to handle 10K req/s with p99 latency under 50ms' tells me you understand production engineering.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
       hrCompany: "google",
@@ -157,7 +182,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Architected", "Championed", "Spearheaded", "Defined", "Established", "Drove", "Mentored", "Designed"],
       keySkills: ["Distributed Systems", "System Design", "Python / Go / Java", "Kafka / Flink", "PostgreSQL / Cassandra", "Kubernetes", "Staff Leadership"],
-      hrQuote: "At Staff level I need to see you've made decisions that outlast you — a system design that teams still build on, a tech debt initiative that saved months. Show me architectural ownership, not just feature delivery.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "At Staff level I need to see you've made decisions that outlast you — a system design that teams still build on, a tech debt initiative that saved months. Show me architectural ownership, not just feature delivery.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "David Kim",
       hrRole: "VP Engineering",
       hrCompany: "scaleup",
@@ -180,7 +210,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Built", "Developed", "Shipped", "Integrated", "Designed", "Deployed", "Connected", "Created"],
       keySkills: ["React.js", "Node.js / Express", "PostgreSQL", "REST API", "Git", "Docker (basic)", "HTML/CSS", "Vercel / Railway"],
-      hrQuote: "Full stack juniors stand out when they show ownership of the entire feature — not just 'did some frontend and some backend'. Walk me through one project from idea to deployment. That ownership mindset is what we hire for.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Full stack juniors stand out when they show ownership of the entire feature — not just 'did some frontend and some backend'. Walk me through one project from idea to deployment. That ownership mindset is what we hire for.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
       hrCompany: "shopee",
@@ -200,7 +235,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Owned", "Shipped", "Implemented", "Refactored", "Integrated", "Optimised", "Designed", "Deployed"],
       keySkills: ["React / TypeScript", "Node.js / FastAPI / Django", "PostgreSQL / MongoDB", "Redis", "Docker / CI/CD", "REST / GraphQL"],
-      hrQuote: "Mid-level full stack candidates who stand out show they make smart trade-off decisions — when to use a cache, when to push logic to the frontend vs backend. I don't want someone who does both layers; I want someone who thinks about the right layer.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Mid-level full stack candidates who stand out show they make smart trade-off decisions — when to use a cache, when to push logic to the frontend vs backend. I don't want someone who does both layers; I want someone who thinks about the right layer.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
       hrCompany: "google",
@@ -220,7 +260,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Architected", "Spearheaded", "Led", "Defined", "Championed", "Scaled", "Mentored", "Established"],
       keySkills: ["React / Next.js", "Node.js / Go", "PostgreSQL / Redis", "Kubernetes / Docker", "System Design", "Tech Leadership", "Monorepo Architecture"],
-      hrQuote: "A great senior full stack engineer shows they've shaped the engineering culture, not just written code. Tell me about the standards you've set, the developer experience improvements you've driven, or the platform that your team now builds on top of.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "A great senior full stack engineer shows they've shaped the engineering culture, not just written code. Tell me about the standards you've set, the developer experience improvements you've driven, or the platform that your team now builds on top of.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "David Kim",
       hrRole: "VP Engineering",
       hrCompany: "scaleup",
@@ -243,7 +288,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Automated", "Provisioned", "Containerised", "Configured", "Deployed", "Monitored", "Scripted", "Integrated"],
       keySkills: ["Linux / Bash", "Docker", "GitHub Actions / GitLab CI", "AWS / GCP Basics", "Python / Go (scripting)", "Git"],
-      hrQuote: "For junior DevOps roles, I look for candidates who understand that operations is a software problem. Show me a project where you didn't just run code locally, but containerised it and set up a deployment pipeline.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "For junior DevOps roles, I look for candidates who understand that operations is a software problem. Show me a project where you didn't just run code locally, but containerised it and set up a deployment pipeline.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
       hrCompany: "google",
@@ -263,7 +313,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Architected", "Automated", "Optimised", "Migrated", "Secured", "Scaled", "Streamlined", "Resolved"],
       keySkills: ["Kubernetes", "Terraform", "AWS / Azure", "CI/CD Architecture", "Prometheus / Datadog", "Site Reliability", "Security / IAM"],
-      hrQuote: "Mid-level DevOps is about scaling both systems and developer productivity. 'Built a deployment script' is baseline. Tell me how your CI/CD improvements accelerated 5 engineering teams, or how your monitoring caught an incident before users did.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Mid-level DevOps is about scaling both systems and developer productivity. 'Built a deployment script' is baseline. Tell me how your CI/CD improvements accelerated 5 engineering teams, or how your monitoring caught an incident before users did.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "David Kim",
       hrRole: "VP Engineering",
       hrCompany: "scaleup",
@@ -283,7 +338,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Architected", "Spearheaded", "Championed", "Defined", "Established", "Governed", "Mentored", "Pioneered"],
       keySkills: ["Platform Engineering", "Cloud Architecture (Enterprise)", "FinOps / Cost Optimisation", "SRE Leadership", "Compliance / Security", "Multi-region Kubernetes", "Golang"],
-      hrQuote: "At the senior level, I want to see a Platform Engineering mindset, not just a sysadmin. Have you built self-serve tools that developers love? Have you aligned infrastructure spending with business value? Show me you can lead the technical vision for operations.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "At the senior level, I want to see a Platform Engineering mindset, not just a sysadmin. Have you built self-serve tools that developers love? Have you aligned infrastructure spending with business value? Show me you can lead the technical vision for operations.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "David Kim",
       hrRole: "VP Engineering",
       hrCompany: "scaleup",
@@ -306,7 +366,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Developed", "Published", "Designed", "Integrated", "Built", "Optimised", "Implemented", "Prototyped"],
       keySkills: ["Swift / Kotlin", "Flutter / React Native", "Mobile UI Design", "REST API Integration", "Git", "State Management"],
-      hrQuote: "For junior mobile roles, having an app actually published to a store — even a simple one — is the strongest signal you can send. It proves you understand the full lifecycle, from code to certificates to submission.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "For junior mobile roles, having an app actually published to a store — even a simple one — is the strongest signal you can send. It proves you understand the full lifecycle, from code to certificates to submission.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Linh Tran",
       hrRole: "Engineering Manager",
       hrCompany: "vng",
@@ -326,7 +391,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Architected", "Refactored", "Optimised", "Shipped", "Migrated", "Reduced", "Implemented", "Automated"],
       keySkills: ["iOS / Android Native", "Reactive Programming (RxSwift/Coroutines)", "MVVM / Clean Architecture", "CoreData / Room", "Fastlane / CI/CD", "Performance Profiling", "Unit/UI Testing"],
-      hrQuote: "Mid-level mobile engineers need to worry about memory, battery, and offline states. Don't just list frameworks. Tell me how you maintained a 99.9% crash-free rate or how you handled background syncing gracefully.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Mid-level mobile engineers need to worry about memory, battery, and offline states. Don't just list frameworks. Tell me how you maintained a 99.9% crash-free rate or how you handled background syncing gracefully.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
       hrCompany: "google",
@@ -346,7 +416,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Spearheaded", "Architected", "Led", "Defined", "Championed", "Unified", "Scaled", "Mentored"],
       keySkills: ["Mobile Strategy", "Cross-platform Architecture", "App Store Optimisation", "Team Leadership", "Advanced Core Graphics/Animations", "Security / Crypto APIs", "Mobile DevOps"],
-      hrQuote: "As a mobile lead, you are defining how the company reaches its users in their pockets. Show me how you improved developer velocity, unified fragmented codebases, or partnered with product design to build an Apple Design Award-worthy experience.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "As a mobile lead, you are defining how the company reaches its users in their pockets. Show me how you improved developer velocity, unified fragmented codebases, or partnered with product design to build an Apple Design Award-worthy experience.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "David Kim",
       hrRole: "VP Engineering",
       hrCompany: "scaleup",
@@ -369,7 +444,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Programmed", "Designed", "Integrated", "Debugged", "Optimised", "Tested", "Built", "Configured"],
       keySkills: ["C / C++", "Linux Systems", "RTOS / Embedded", "Computer Architecture", "Networking Protocols", "Debugging (GDB)"],
-      hrQuote: "Junior systems engineers stand out by demonstrating they understand what happens down at the metal. If you've written code that manages its own memory or interfaces directly with hardware, make that front and center on your CV.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Junior systems engineers stand out by demonstrating they understand what happens down at the metal. If you've written code that manages its own memory or interfaces directly with hardware, make that front and center on your CV.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Linh Tran",
       hrRole: "Engineering Manager",
       hrCompany: "vng",
@@ -389,7 +469,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Architected", "Optimised", "Engineered", "Reduced", "Profiled", "Implemented", "Designed", "Resolved"],
       keySkills: ["C++ / Rust / Go", "Low-latency Design", "Multi-threading / Concurrency", "Linux Kernel Tuning", "Network Programming", "Performance Profiling", "Distributed Systems"],
-      hrQuote: "For mid-level systems roles, performance numbers speak volumes. Don't just say you 'optimised the system'. Tell me you reduced 99th percentile latency from 500µs to 50µs by implementing lock-free queues. Contextualise your optimisations.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "For mid-level systems roles, performance numbers speak volumes. Don't just say you 'optimised the system'. Tell me you reduced 99th percentile latency from 500µs to 50µs by implementing lock-free queues. Contextualise your optimisations.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
       hrCompany: "google",
@@ -409,7 +494,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Architected", "Pioneered", "Designed", "Spearheaded", "Authored", "Established", "Mentored", "Optimised"],
       keySkills: ["Systems Architecture", "Distributed Consensus (Raft/Paxos)", "Custom Storage Engines", "Advanced C++ / Rust", "Performance Engineering", "Technical Leadership", "Open Source Authorship"],
-      hrQuote: "At the principal level in systems engineering, you are often defining the technical edge of the company. I want to see how your architectural decisions solved fundamentally hard computer science problems that enabled entirely new products or massive cost savings.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "At the principal level in systems engineering, you are often defining the technical edge of the company. I want to see how your architectural decisions solved fundamentally hard computer science problems that enabled entirely new products or massive cost savings.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "David Kim",
       hrRole: "VP Engineering",
       hrCompany: "scaleup",
@@ -434,7 +524,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Launched", "Prioritised", "Researched", "Led", "Prototyped", "Coordinated", "Analysed", "Designed"],
       keySkills: ["User Discovery", "Wireframing (Figma)", "Agile / Scrum", "Data Analysis (SQL)", "Market Research", "Cross-functional Leadership"],
-      hrQuote: "For APMs, I want to see you've actually built something, even if it's a side project. I'm looking for the 'Product Mindset': can you identify a real problem, rally a team around a solution, and measure the result?",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "For APMs, I want to see you've actually built something, even if it's a side project. I'm looking for the 'Product Mindset': can you identify a real problem, rally a team around a solution, and measure the result?",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Thao Nguyen",
       hrRole: "Head of Product",
       hrCompany: "grab",
@@ -454,7 +549,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Launched", "Defined", "Prioritised", "Drove", "Spearheaded", "Optimised", "Roadmapped", "Orchestrated"],
       keySkills: ["Product Strategy", "Roadmapping", "A/B Testing", "Mixpanel / Amplitude", "Jira / Agile", "Stakeholder Management", "UX/UI Principles"],
-      hrQuote: "Mid-level PMs must prove they influence metrics, not just manage backlogs. Don't tell me you wrote tickets; tell me you shipped a feature that increased conversion by 5%. Connecting tech output to business outcome is non-negotiable.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Mid-level PMs must prove they influence metrics, not just manage backlogs. Don't tell me you wrote tickets; tell me you shipped a feature that increased conversion by 5%. Connecting tech output to business outcome is non-negotiable.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Thao Nguyen",
       hrRole: "Head of Product",
       hrCompany: "grab",
@@ -474,7 +574,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Championed", "Defined", "Scaled", "Governed", "Negotiated", "Pioneered", "Mentored", "Established"],
       keySkills: ["Product Portfolio Management", "P&L Ownership", "Product-Led Growth Strategy", "Executive Stakeholder Alignment", "Team Mentorship", "Go-to-Market Strategy"],
-      hrQuote: "At the Product Lead level, I need to know you can manage other PMs and define a strategy the whole company can rally behind. Your CV should speak the language of the CEO: ARR, Market Share, margins, and portfolio growth.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "At the Product Lead level, I need to know you can manage other PMs and define a strategy the whole company can rally behind. Your CV should speak the language of the CEO: ARR, Market Share, margins, and portfolio growth.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "James Watson",
       hrRole: "Chief Product Officer",
       hrCompany: "scaleup",
@@ -497,7 +602,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Gathered", "Mapped", "Analysed", "Documented", "Facilitated", "Proposed", "Researched", "Tested"],
       keySkills: ["Requirements Gathering", "Process Mapping (BPMN)", "Excel (Advanced)", "SQL (Basic)", "Stakeholder Interviews", "UAT Testing"],
-      hrQuote: "Junior BAs need to show they are organized, structured thinkers. Even if it's a university project, walk me through how you gathered constraints, formalized them into requirements, and ensured the final output met the goal.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Junior BAs need to show they are organized, structured thinkers. Even if it's a university project, walk me through how you gathered constraints, formalized them into requirements, and ensured the final output met the goal.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
       hrCompany: "shopee",
@@ -517,7 +627,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Optimised", "Translated", "Authored", "Streamlined", "Engineered", "Diagnosed", "Aligned", "Validated"],
       keySkills: ["As-Is & To-Be Flow", "BRD / PRD Writing", "SQL & Data Analysis", "Agile / Scrum", "Jira / Confluence", "UAT Leadership", "Stakeholder Alignment"],
-      hrQuote: "A great mid-level BA is the glue between business and engineering. Don't just list 'wrote requirements'. Tell me how your requirements clarified a complex business process that saved the engineering team from writing the wrong feature.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "A great mid-level BA is the glue between business and engineering. Don't just list 'wrote requirements'. Tell me how your requirements clarified a complex business process that saved the engineering team from writing the wrong feature.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Thao Nguyen",
       hrRole: "Head of Product",
       hrCompany: "grab",
@@ -537,7 +652,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Spearheaded", "Re-engineered", "Standardised", "Championed", "Led", "Transformed", "Consulted", "Governed"],
       keySkills: ["Digital Transformation", "Enterprise Architecture", "Change Management", "BA Guild Leadership", "Executive Consulting", "Process Engineering (Six Sigma/Lean)"],
-      hrQuote: "Lead BAs are essentially internal consultants and process engineers. I look for enterprise-scale systems thinking. Tell me how you standardized processes across the company or led the analysis for a multi-million-dollar transformation.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Lead BAs are essentially internal consultants and process engineers. I look for enterprise-scale systems thinking. Tell me how you standardized processes across the company or led the analysis for a multi-million-dollar transformation.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "James Watson",
       hrRole: "Chief Product Officer",
       hrCompany: "scaleup",
@@ -560,7 +680,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Analysed", "Experimented", "Optimised", "Tested", "Researched", "Reported", "Identified", "Segmented"],
       keySkills: ["SQL", "Google Analytics", "A/B Testing Basics", "Excel", "Data Visualisation (Looker/Tableau)", "Python (Pandas)"],
-      hrQuote: "For growth roles, I want to see a hacker mindset combined with data rigor. Show me a personal project where you didn't just analyze data, but used that data to try and change a metric.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "For growth roles, I want to see a hacker mindset combined with data rigor. Show me a personal project where you didn't just analyze data, but used that data to try and change a metric.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Linh Tran",
       hrRole: "Engineering Manager",
       hrCompany: "vng",
@@ -580,7 +705,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Optimised", "Designed", "Executed", "Uncovered", "Scaled", "Boosted", "Segmented", "Iterated"],
       keySkills: ["A/B & Multivariate Testing", "Mixpanel / Amplitude", "Advanced SQL", "Cohort Analysis", "Funnel Optimisation", "Statistical Significance"],
-      hrQuote: "Growth Analysts must show they drive revenue/users, not just dashboards. 'Created a dashboard' is passive. 'Uncovered a churn driver and ran an experiment that saved $50K/month' gets you the job.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Growth Analysts must show they drive revenue/users, not just dashboards. 'Created a dashboard' is passive. 'Uncovered a churn driver and ran an experiment that saved $50K/month' gets you the job.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Thao Nguyen",
       hrRole: "Head of Product",
       hrCompany: "grab",
@@ -600,7 +730,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Orchestrated", "Scaled", "Pioneered", "Championed", "Led", "Defined", "Monetised", "Established"],
       keySkills: ["Growth Strategy", "Marketing Mix Modelling", "Experimentation Infrastructure", "LTV/CAC Forecasting", "Team Leadership", "Product-Led Growth (PLG)"],
-      hrQuote: "At the Lead Growth level, you need to show you built the 'growth engine'. Did you establish the experimentation culture? Did you dictate where millions in marketing budget went based on your models? Strategy and scale are key.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "At the Lead Growth level, you need to show you built the 'growth engine'. Did you establish the experimentation culture? Did you dictate where millions in marketing budget went based on your models? Strategy and scale are key.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "James Watson",
       hrRole: "Chief Product Officer",
       hrCompany: "scaleup",
@@ -623,7 +758,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Conducted", "Researched", "Synthesised", "Interviewed", "Analysed", "Facilitated", "Presented", "Recruited"],
       keySkills: ["Usability Testing", "User Interviews", "Survey Design", "Affinity Mapping", "Figma (Basics)", "Miro / FigJam"],
-      hrQuote: "Show me you know how to talk to users, but more importantly, show me how you translate their messy feedback into clear, prioritized insights that a product team can actually use.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Show me you know how to talk to users, but more importantly, show me how you translate their messy feedback into clear, prioritized insights that a product team can actually use.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
       hrCompany: "shopee",
@@ -643,7 +783,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Synthesised", "Uncovered", "Validated", "Influenced", "Mapped", "Diagnosed", "Led", "Triangulated"],
       keySkills: ["Mixed-Methods Research", "Generative Discovery", "Evaluative Testing", "Persona/Journey Mapping", "Qualtrics/SurveyMonkey", "UserTesting.com", "Data Synthesis"],
-      hrQuote: "Mid-level UXRs must prove they influence the roadmap. I don't want to read that you 'wrote a research report'. I want to read that your research 'pivoted the product strategy away from a failing feature, saving 6 months of dev time'.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Mid-level UXRs must prove they influence the roadmap. I don't want to read that you 'wrote a research report'. I want to read that your research 'pivoted the product strategy away from a failing feature, saving 6 months of dev time'.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Thao Nguyen",
       hrRole: "Head of Product",
       hrCompany: "grab",
@@ -663,7 +808,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Established", "Spearheaded", "Scaled", "Pioneered", "Championed", "Mentored", "Defined", "Governed"],
       keySkills: ["Research Strategy", "ResearchOps", "Foundational Discovery", "Executive Presentation", "Team Leadership", "Cross-Org Influence"],
-      hrQuote: "Senior UXRs are strategic partners to the VP of Product. Tell me how you built the research democratisation process, or how your foundational study identified a totally new market segment that generated millions.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Senior UXRs are strategic partners to the VP of Product. Tell me how you built the research democratisation process, or how your foundational study identified a totally new market segment that generated millions.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "James Watson",
       hrRole: "Chief Product Officer",
       hrCompany: "scaleup",
@@ -686,7 +836,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Analysed", "Modelled", "Evaluated", "Researched", "Presented", "Forecasted", "Structured", "Sized"],
       keySkills: ["Financial Modelling", "Market Sizing", "Competitor Analysis", "Excel/PowerPoint", "Structured Problem Solving", "Data Analysis"],
-      hrQuote: "Junior strategy roles require sheer analytical horsepower and structured thinking. If you won a case competition or built a robust model during an internship, highlight the 'so what?' of your analysis.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Junior strategy roles require sheer analytical horsepower and structured thinking. If you won a case competition or built a robust model during an internship, highlight the 'so what?' of your analysis.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
       hrCompany: "shopee",
@@ -706,7 +861,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Spearheaded", "Overhauled", "Orchestrated", "Evaluated", "Drove", "Partnered", "Executed", "Structured"],
       keySkills: ["Corporate Strategy", "Pricing Strategy", "M&A Due Diligence", "Go-To-Market Formulation", "Executive Alignment", "Cross-functional Leadership"],
-      hrQuote: "Mid-level strategists need to show they can execute, not just make slides. 'Created a deck' is consultant-speak. 'Created a pricing strategy and piloted it with sales, raising margins 10%' is tech-speak.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Mid-level strategists need to show they can execute, not just make slides. 'Created a deck' is consultant-speak. 'Created a pricing strategy and piloted it with sales, raising margins 10%' is tech-speak.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "James Watson",
       hrRole: "Chief Product Officer",
       hrCompany: "scaleup",
@@ -726,7 +886,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Defined", "Orchestrated", "Pioneered", "Championed", "Secured", "Advised", "Navigated", "Established"],
       keySkills: ["Board / Investor Relations", "Capital Raising", "Global Market Expansion", "Post-Merger Integration", "Strategic Planning", "P&L Optimisation"],
-      hrQuote: "Senior strategy leaders are co-pilots to the CEO. The CV should read like a history of the company's biggest pivotal moments. Show me the multi-million dollar bets you recommended and how they paid off.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Senior strategy leaders are co-pilots to the CEO. The CV should read like a history of the company's biggest pivotal moments. Show me the multi-million dollar bets you recommended and how they paid off.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "James Watson",
       hrRole: "Chief Product Officer",
       hrCompany: "scaleup",
@@ -749,7 +914,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Analysed", "Proposed", "Prototyped", "Visualised", "Bridged", "Uncovered", "Mapped", "Coordinated"],
       keySkills: ["SQL", "Data Visualisation", "Requirement Gathering", "Agile Basics", "Python (Pandas)", "A/B Testing Basics"],
-      hrQuote: "For entry-level Data PMs, I want to see that you can 'speak data' to engineers and 'speak value' to business. Show me a project where your data analysis directly led to a business decision or product change.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "For entry-level Data PMs, I want to see that you can 'speak data' to engineers and 'speak value' to business. Show me a project where your data analysis directly led to a business decision or product change.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Thao Nguyen",
       hrRole: "Head of Product",
       hrCompany: "grab",
@@ -769,7 +939,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Launched", "Aligned", "Architected", "Translated", "Spearheaded", "Optimised", "Prioritised", "Evangelised"],
       keySkills: ["Machine Learning Lifecycle", "A/B Testing Infrastructure", "Data Taxonomy / Governance", "Advanced SQL", "Stakeholder Alignment", "Product Strategy"],
-      hrQuote: "A great Data PM doesn't just manage data scientists; they treat algorithms and data pipelines as products. Tell me how your data product solved a real problem, whether it was improving a ML model's ROI or getting 50 Ops people to trust a dashboard.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "A great Data PM doesn't just manage data scientists; they treat algorithms and data pipelines as products. Tell me how your data product solved a real problem, whether it was improving a ML model's ROI or getting 50 Ops people to trust a dashboard.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Thao Nguyen",
       hrRole: "Head of Product",
       hrCompany: "grab",
@@ -789,7 +964,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Pioneered", "Championed", "Defined", "Scaled", "Governed", "Orchestrated", "Established", "Transformed"],
       keySkills: ["AI/ML Product Strategy", "Enterprise Data Architecture", "Data Mesh / Governance", "Experimentation Platforms", "Team Leadership", "Executive Alignment"],
-      hrQuote: "At the Lead level, you own the company's 'Data Nervous System'. I need to see that you've built scalable platforms—like an experimentation engine or a data mesh—that fundamentally changed how fast the whole company can iterate.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "At the Lead level, you own the company's 'Data Nervous System'. I need to see that you've built scalable platforms—like an experimentation engine or a data mesh—that fundamentally changed how fast the whole company can iterate.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "James Watson",
       hrRole: "Chief Product Officer",
       hrCompany: "scaleup",
@@ -814,7 +994,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Outreached", "Negotiated", "Secured", "Generated", "Pitched", "Qualified", "Converted", "Prospected"],
       keySkills: ["B2B Sales", "Lead Generation", "Cold Outreach", "CRM (Salesforce/HubSpot)", "Client Presentations", "Market Research"],
-      hrQuote: "BD is about hustle and numbers. If you're a fresher, I want to see how you deal with rejection and how you hit targets. Tell me about the 100 cold emails you sent to land that one sponsorship for your university club.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "BD is about hustle and numbers. If you're a fresher, I want to see how you deal with rejection and how you hit targets. Tell me about the 100 cold emails you sent to land that one sponsorship for your university club.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
       hrCompany: "shopee",
@@ -834,7 +1019,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Closed", "Generated", "Exceeded", "Negotiated", "Pipeline", "Accelerated", "Onboarded", "Expanded"],
       keySkills: ["Enterprise Sales", "Quota Attainment", "Pipeline Management", "Contract Negotiation", "MEDDIC / SPIN", "Strategic Account Planning"],
-      hrQuote: "Sales and BD CVs are the easiest to read: what was your quota, and what percentage did you hit? Don't hide the numbers. If you closed a $500K enterprise deal, tell me how long the cycle was and who you negotiated with.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Sales and BD CVs are the easiest to read: what was your quota, and what percentage did you hit? Don't hide the numbers. If you closed a $500K enterprise deal, tell me how long the cycle was and who you negotiated with.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Thao Nguyen",
       hrRole: "Head of Product",
       hrCompany: "grab",
@@ -854,7 +1044,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Scaled", "Pioneered", "Championed", "Orchestrated", "Secured", "Grew", "Directed", "Established"],
       keySkills: ["GTM Strategy", "Sales Leadership & Coaching", "Revenue Forecasting", "Enterprise C-Level Sales", "Territory Mapping", "Partnership Ecosystems"],
-      hrQuote: "At the Head of BD level, you aren't just selling; you're building a revenue machine. Show me how you hired, trained, and scaled your team. Tell me how you halved the ramp time for new Account Executives.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "At the Head of BD level, you aren't just selling; you're building a revenue machine. Show me how you hired, trained, and scaled your team. Tell me how you halved the ramp time for new Account Executives.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "James Watson",
       hrRole: "Chief Product Officer",
       hrCompany: "scaleup",
@@ -877,7 +1072,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Analysed", "Structured", "Evaluated", "Recommended", "Synthesised", "Researched", "Modelled", "Presented"],
       keySkills: ["Structured Thinking", "Financial Modelling", "Data Synthesis", "Slide Design (PPT)", "Public Speaking", "Market Research"],
-      hrQuote: "For entry-level consulting, we index heavily on academic rigor, structural thinking, and polish. Your CV must be perfectly formatted—it's your first deliverable to us. Show me you can dissect a complex problem into MECE parts.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "For entry-level consulting, we index heavily on academic rigor, structural thinking, and polish. Your CV must be perfectly formatted—it's your first deliverable to us. Show me you can dissect a complex problem into MECE parts.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "James Watson",
       hrRole: "Chief Product Officer",
       hrCompany: "scaleup",
@@ -897,7 +1097,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Advised", "Implemented", "Facilitated", "Diagnosed", "Streamlined", "Transformed", "Aligned", "Delivered"],
       keySkills: ["Project Management Office (PMO)", "Change Management", "Digital Transformation", "C-Level Stakeholder Management", "Financial Analysis", "Client Delivery"],
-      hrQuote: "A mid-level consultant must show they can own a workstream and manage client relationships. Don't just list industries; tell me the specific business problem you solved and the dollar value it unlocked for the client.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "A mid-level consultant must show they can own a workstream and manage client relationships. Don't just list industries; tell me the specific business problem you solved and the dollar value it unlocked for the client.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
       hrCompany: "google",
@@ -917,7 +1122,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Directed", "Originated", "Navigated", "Governed", "Pioneered", "Partnered", "Negotiated", "Mentored"],
       keySkills: ["Practice Leadership", "Client Origination (Sales)", "Executive Advisory", "Complex Program Management", "Practice Building", "Talent Development"],
-      hrQuote: "At the Manager/Director level in consulting, you are evaluated on two things: can you sell work, and can you deliver complex programs safely? Your CV must highlight both origination dollars and delivery scale.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "At the Manager/Director level in consulting, you are evaluated on two things: can you sell work, and can you deliver complex programs safely? Your CV must highlight both origination dollars and delivery scale.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "James Watson",
       hrRole: "Chief Product Officer",
       hrCompany: "scaleup",
@@ -940,7 +1150,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Coordinated", "Executed", "Organised", "Streamlined", "Resolved", "Managed", "Dispatched", "Tracked"],
       keySkills: ["Process Optimisation", "Logistics Coordination", "Advanced Excel", "Vendor Management", "Time Management", "Data Entry & Quality"],
-      hrQuote: "Operations is about keeping the lights on and the wheels turning. I look for reliability and an obsession with efficiency. Tell me about a messy, manual process you inherited and how you made it faster or less error-prone.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Operations is about keeping the lights on and the wheels turning. I look for reliability and an obsession with efficiency. Tell me about a messy, manual process you inherited and how you made it faster or less error-prone.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
       hrCompany: "shopee",
@@ -960,7 +1175,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Scaled", "Optimised", "Overhauled", "Halved", "Standardised", "Automated", "Forecasted", "Negotiated"],
       keySkills: ["SLA Management", "Process Engineering", "P&L Management", "Supply Chain / Logistics", "Cross-functional Alignment", "Data Analysis (SQL)"],
-      hrQuote: "Mid-level Ops lives at the intersection of the real world and the tech product. Tell me how you identified an operational bottleneck in the real world and worked with the tech team to build a software feature to solve it.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Mid-level Ops lives at the intersection of the real world and the tech product. Tell me how you identified an operational bottleneck in the real world and worked with the tech team to build a software feature to solve it.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Thao Nguyen",
       hrRole: "Head of Product",
       hrCompany: "grab",
@@ -980,7 +1200,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Pioneered", "Expanded", "Restructured", "Governed", "Scaled", "Championed", "Architected", "Directed"],
       keySkills: ["Unit Economics Optimisation", "Market Expansion", "Org Design & Leadership", "Regulatory / Compliance", "Supply Chain Strategy", "Executive P&L Ownership"],
-      hrQuote: "Senior Operations leaders are responsible for the company's margins. Your CV must show how you improved unit economics at scale. Did you turn a heavily subsidized operation into a profitable one while expanding to new cities?",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Senior Operations leaders are responsible for the company's margins. Your CV must show how you improved unit economics at scale. Did you turn a heavily subsidized operation into a profitable one while expanding to new cities?",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "James Watson",
       hrRole: "Chief Product Officer",
       hrCompany: "scaleup",
@@ -1003,7 +1228,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Analysed", "Forecasted", "Modelled", "Researched", "Evaluated", "Reconciled", "Optimised", "Audited"],
       keySkills: ["Financial Modelling", "SQL / Python Basics", "Risk & Compliance Basics", "Market Research", "Excel (Advanced)", "Banking Regulations Overview"],
-      hrQuote: "For entry-level FinTech, we look for people who intuitively understand both the rigid world of banking and the fast-moving world of tech. Show me you understand risk and compliance, but want to disrupt the delivery.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "For entry-level FinTech, we look for people who intuitively understand both the rigid world of banking and the fast-moving world of tech. Show me you understand risk and compliance, but want to disrupt the delivery.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Thao Nguyen",
       hrRole: "Head of Product",
       hrCompany: "grab",
@@ -1023,7 +1253,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Integrated", "Reconciled", "Mitigated", "Launched", "Onboarded", "Streamlined", "Ensured", "Optimised"],
       keySkills: ["Payment Gateway Integration", "KYC / AML Compliance", "Fraud/Risk Mitigation", "Reconciliation Processes", "API Product Knowledge", "Partner Bank Relations"],
-      hrQuote: "Mid-level FinTech CVs must show an understanding of the unsexy parts of finance. Don't just talk about the UI; tell me how you handled edge cases, refunds, chargebacks, and reconciliation discrepancies.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Mid-level FinTech CVs must show an understanding of the unsexy parts of finance. Don't just talk about the UI; tell me how you handled edge cases, refunds, chargebacks, and reconciliation discrepancies.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Thao Nguyen",
       hrRole: "Head of Product",
       hrCompany: "grab",
@@ -1043,7 +1278,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Secured", "Governed", "Scaled", "Negotiated", "Architected", "Directed", "Pioneered", "Partnered"],
       keySkills: ["Licensing & Regulatory Strategy", "Credit Risk Management", "P&L Ownership", "Central Bank Relations", "Capital Markets", "Executive Leadership"],
-      hrQuote: "Senior FinTech leaders deal with existential company risks. I want to see how you navigated Central Bank regulations, secured critical licenses, or managed a multi-million dollar lending book through a macroeconomic downturn.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Senior FinTech leaders deal with existential company risks. I want to see how you navigated Central Bank regulations, secured critical licenses, or managed a multi-million dollar lending book through a macroeconomic downturn.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "James Watson",
       hrRole: "Chief Product Officer",
       hrCompany: "scaleup",
@@ -1066,7 +1306,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Designed", "Facilitated", "Curated", "Instructed", "Analysed", "Assessed", "Developed", "Evaluated"],
       keySkills: ["Instructional Design", "LMS Administration", "Curriculum Development", "Learner Experience (LX)", "Video Editing Basics", "Data Analysis (Basic)"],
-      hrQuote: "EdTech needs people who understand how humans actually learn. If you've tutored, built an online course, or managed a student community, highlight how you measured whether they actually learned the material.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "EdTech needs people who understand how humans actually learn. If you've tutored, built an online course, or managed a student community, highlight how you measured whether they actually learned the material.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
       hrCompany: "shopee",
@@ -1086,7 +1331,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Launched", "Gamified", "Scaled", "Optimised", "Retained", "Integrated", "Managed", "Monetised"],
       keySkills: ["Learner Retention Strategy", "Gamification", "Content Pipeline Management", "B2B2C Dynamics", "EdTech Product Strategy", "Community Management"],
-      hrQuote: "In EdTech, user acquisition is easy; retention is incredibly hard. I want to see how you moved the needle on 'Course Completion Rate' or 'Daily Active Learners'. Did you introduce gamification, social features, or better pedagogy?",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "In EdTech, user acquisition is easy; retention is incredibly hard. I want to see how you moved the needle on 'Course Completion Rate' or 'Daily Active Learners'. Did you introduce gamification, social features, or better pedagogy?",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Thao Nguyen",
       hrRole: "Head of Product",
       hrCompany: "grab",
@@ -1106,7 +1356,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Secured", "Pioneered", "Scaled", "Governed", "Partnered", "Transformed", "Championed", "Defined"],
       keySkills: ["B2G/B2B Institutional Sales", "EdTech Vision & Strategy", "Government Relations", "P&L Ownership", "GenAI in Education", "Executive Leadership"],
-      hrQuote: "At the senior EdTech level, you have to navigate incredibly slow, complex sales cycles with governments or huge universities. Show me your B2B/B2G track record. How did you align pedagogical purity with aggressive revenue targets?",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "At the senior EdTech level, you have to navigate incredibly slow, complex sales cycles with governments or huge universities. Show me your B2B/B2G track record. How did you align pedagogical purity with aggressive revenue targets?",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "James Watson",
       hrRole: "Chief Product Officer",
       hrCompany: "scaleup",
@@ -1129,7 +1384,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Secured", "Liaised", "Coordinated", "Sourced", "Negotiated", "Managed", "Onboarded", "Facilitated"],
       keySkills: ["Relationship Building", "Sponsorship/Vendor Sourcing", "Event Go-To-Market", "B2B Communication", "Contract Basics", "CRM Tools"],
-      hrQuote: "Partnerships at the junior level is all about organization and follow-through. Can you keep track of 20 different conversations without dropping the ball? Show me how you managed multiple external stakeholders in your past projects.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Partnerships at the junior level is all about organization and follow-through. Can you keep track of 20 different conversations without dropping the ball? Show me how you managed multiple external stakeholders in your past projects.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
       hrCompany: "shopee",
@@ -1149,7 +1409,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Onboarded", "Integrated", "Collaborated", "Generated", "Negotiated", "Expanded", "Piloted", "Aligned"],
       keySkills: ["API/Tech Partnerships", "Reseller/Affiliate Programs", "Co-Marketing Strategy", "Contract Negotiation", "Cross-functional Alignment", "Indirect Revenue Generation"],
-      hrQuote: "Mid-level partnership roles must prove tangible business value. A handshake is nice, but did that partner drive API calls, referrals, or revenue? Quantify the value of the ecosystem you built.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Mid-level partnership roles must prove tangible business value. A handshake is nice, but did that partner drive API calls, referrals, or revenue? Quantify the value of the ecosystem you built.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Thao Nguyen",
       hrRole: "Head of Product",
       hrCompany: "grab",
@@ -1169,7 +1434,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Architected", "Secured", "Championed", "Negotiated", "Scaled", "Governed", "Orchestrated", "Pioneered"],
       keySkills: ["Strategic M&A/Investments", "Global Ecosystem Strategy", "Enterprise C-Level Negotiation", "Channel Sales Strategy", "Executive Alignment", "Contract Law Interpretation"],
-      hrQuote: "At the Head of Partnerships level, your alliances define the company's valuation and moat. Show me the multi-year, multi-million dollar deals you locked in that secured your company's position in the market.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "At the Head of Partnerships level, your alliances define the company's valuation and moat. Show me the multi-year, multi-million dollar deals you locked in that secured your company's position in the market.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "James Watson",
       hrRole: "Chief Product Officer",
       hrCompany: "scaleup",
@@ -1194,7 +1464,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Trained", "Deployed", "Optimised", "Engineered", "Preprocessed", "Built", "Evaluated", "Implemented"],
       keySkills: ["Python (PyTorch/TensorFlow)", "SQL", "Model Deployment (FastAPI/Flask)", "Docker", "Git/Version Control", "Basic MLOps"],
-      hrQuote: "Entry-level ML Engineers often focus too much on 'training models' and not enough on 'engineering'. I want to see that you can write production-ready code, put a model in a container, and serve it via an API.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Entry-level ML Engineers often focus too much on 'training models' and not enough on 'engineering'. I want to see that you can write production-ready code, put a model in a container, and serve it via an API.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
       hrCompany: "google",
@@ -1214,7 +1489,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Deployed", "Optimised", "Architected", "Automated", "Scaled", "Instrumented", "Served", "Containerised"],
       keySkills: ["MLOps (MLflow, Kubeflow)", "Model Serving (Triton/TorchServe)", "Cloud (AWS SageMaker / GCP)", "ONNX / TensorRT", "CI/CD for ML", "Distributed Training"],
-      hrQuote: "Mid-level MLEs must prove they understand infrastructure. The model is just 10% of the work. Tell me how you sped up inference, managed model drift, or built an automated retraining pipeline.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Mid-level MLEs must prove they understand infrastructure. The model is just 10% of the work. Tell me how you sped up inference, managed model drift, or built an automated retraining pipeline.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Linh Tran",
       hrRole: "Engineering Manager",
       hrCompany: "vng",
@@ -1234,7 +1514,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Architected", "Pioneered", "Led", "Standardised", "Scaled", "Championed", "Defined", "Governed"],
       keySkills: ["AI Infrastructure Architecture", "GenAI / LLM Fine-tuning", "Feature Store Implementation", "Technical Leadership", "Cost Optimisation", "Cross-functional Strategy"],
-      hrQuote: "At the Lead level, you are building the foundation that allows other engineers to move fast. Show me how you architected scalable ML platforms, managed runaway cloud computing costs, or introduced LLMs into legacy products safely.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "At the Lead level, you are building the foundation that allows other engineers to move fast. Show me how you architected scalable ML platforms, managed runaway cloud computing costs, or introduced LLMs into legacy products safely.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "James Watson",
       hrRole: "Chief Product Officer",
       hrCompany: "scaleup",
@@ -1257,7 +1542,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Modelled", "Analysed", "Predicted", "Visualised", "A/B Tested", "Segmented", "Uncovered", "Presented"],
       keySkills: ["Statistical Modelling", "Python (Pandas, Scikit-Learn)", "SQL", "A/B Testing", "Data Storytelling", "Machine Learning Basics"],
-      hrQuote: "Data Science isn't just about throwing random forest algorithms at a dataset. Junior DS candidates need to show they can translate a business problem into a math problem, solve it, and then explain the solution back to the business.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Data Science isn't just about throwing random forest algorithms at a dataset. Junior DS candidates need to show they can translate a business problem into a math problem, solve it, and then explain the solution back to the business.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Thao Nguyen",
       hrRole: "Head of Product",
       hrCompany: "grab",
@@ -1277,7 +1567,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Engineered", "Optimised", "Designed", "Uncovered", "Forecasted", "Clustered", "Influenced", "Quantified"],
       keySkills: ["Causal Inference", "Advanced Experimentation", "Predictive Modelling", "Product Analytics", "Advanced SQL", "Business Stakeholder Management"],
-      hrQuote: "Mid-level Data Scientists must influence the business. Don't tell me your model's F1 score; tell me how your model changed the product roadmap, saved money, or generated new revenue. The currency of a Data Scientist is trust.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Mid-level Data Scientists must influence the business. Don't tell me your model's F1 score; tell me how your model changed the product roadmap, saved money, or generated new revenue. The currency of a Data Scientist is trust.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Thao Nguyen",
       hrRole: "Head of Product",
       hrCompany: "grab",
@@ -1297,7 +1592,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Pioneered", "Defined", "Governed", "Scaled", "Architected", "Mentored", "Established", "Transformed"],
       keySkills: ["Data Strategy", "Algorithm Design", "Experimentation Culture", "Executive Advisory", "Team Leadership", "Cross-Org Influence"],
-      hrQuote: "At the Lead level, your algorithms are the product. Your CV should demonstrate how you built the core logic of the business—whether that's the matching algorithm for a marketplace or the risk model for a bank.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "At the Lead level, your algorithms are the product. Your CV should demonstrate how you built the core logic of the business—whether that's the matching algorithm for a marketplace or the risk model for a bank.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "James Watson",
       hrRole: "Chief Product Officer",
       hrCompany: "scaleup",
@@ -1320,7 +1620,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Published", "Researched", "Invented", "Formulated", "Theorised", "Benchmarked", "Open-sourced", "Innovated"],
       keySkills: ["Deep Learning Theory", "PyTorch / JAX", "Literature Review", "Algorithm Innovation", "Academic Writing", "Mathematical Modelling"],
-      hrQuote: "For entry-level Research Scientists (usually out of a PhD), publications are your currency. Specifically, highlight what novel architecture or method you invented, and prove that you can actually code the implementation yourself.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "For entry-level Research Scientists (usually out of a PhD), publications are your currency. Specifically, highlight what novel architecture or method you invented, and prove that you can actually code the implementation yourself.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
       hrCompany: "google",
@@ -1340,7 +1645,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Adapted", "Invented", "Patented", "Translated", "Optimised", "Pioneered", "Developed", "Spearheaded"],
       keySkills: ["Applied Research", "Model Compression / Quantization", "Generative AI", "Patent Writing", "Cross-functional Teaming", "SOTA Implementation"],
-      hrQuote: "Mid-level researchers in tech need to show they aren't just in an ivory tower. How did your research make the company money or save compute? Show me that you can invent something new and hand it off to engineering successfully.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Mid-level researchers in tech need to show they aren't just in an ivory tower. How did your research make the company money or save compute? Show me that you can invent something new and hand it off to engineering successfully.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Linh Tran",
       hrRole: "Engineering Manager",
       hrCompany: "vng",
@@ -1360,7 +1670,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Directed", "Pioneered", "Architected", "Envisioned", "Championed", "Defined", "Established", "Mentored"],
       keySkills: ["Research Strategy", "Lab Leadership", "Industry Thought Leadership", "Technology Horizon Scanning", "Executive Influence", "Foundational Model Design"],
-      hrQuote: "Principal Scientists shape the future of the company. Your CV should read like a history of major breakthroughs. You need to show that you can manage brilliant researchers and align their work with the CEO's ultimate vision.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Principal Scientists shape the future of the company. Your CV should read like a history of major breakthroughs. You need to show that you can manage brilliant researchers and align their work with the CEO's ultimate vision.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "James Watson",
       hrRole: "Chief Product Officer",
       hrCompany: "scaleup",
@@ -1383,7 +1698,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Prototyped", "Integrated", "Identified", "Defined", "Prioritised", "Researched", "Launched", "Evaluated"],
       keySkills: ["Prompt Engineering Basics", "LLM API Integration", "User Discovery", "Agile / Scrum", "AI Ethics / Safety Basics", "Product Wireframing"],
-      hrQuote: "For entry-level AI PMs, I want to see that you aren't just riding the hype wave. Did you actually build a prototype? Do you understand what an LLM does well and what it fails at? Show me a real problem you solved with AI.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "For entry-level AI PMs, I want to see that you aren't just riding the hype wave. Did you actually build a prototype? Do you understand what an LLM does well and what it fails at? Show me a real problem you solved with AI.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Thao Nguyen",
       hrRole: "Head of Product",
       hrCompany: "grab",
@@ -1403,7 +1723,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Launched", "Translated", "Balanced", "Iterated", "Prioritised", "Aligned", "Mitigated", "Spearheaded"],
       keySkills: ["AI/ML Product Lifecycle", "Translating Math to Business", "UX for AI (Graceful Failures)", "A/B Testing AI Features", "Data Privacy/Compliance", "Stakeholder Alignment"],
-      hrQuote: "A great AI PM knows that AI is probabilistic and constantly fails. Tell me how you designed the UX to handle edge cases and hallucinations. Tell me how you aligned the Data Scientists (who care about accuracy) with the Business (who cares about revenue).",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "A great AI PM knows that AI is probabilistic and constantly fails. Tell me how you designed the UX to handle edge cases and hallucinations. Tell me how you aligned the Data Scientists (who care about accuracy) with the Business (who cares about revenue).",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Thao Nguyen",
       hrRole: "Head of Product",
       hrCompany: "grab",
@@ -1423,7 +1748,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Pioneered", "Governed", "Architected", "Scaled", "Championed", "Defined", "Orchestrated", "Established"],
       keySkills: ["Enterprise AI Strategy", "AI Ethics, Bias & Governance", "Platform Product Management", "Executive Alignment", "Cross-Org Leadership", "Build vs Buy Analysis"],
-      hrQuote: "At the Lead level, you are the CEO of the company's AI strategy. You need to show you can make massive 'build vs. buy' decisions regarding LLMs, navigate complex legal/privacy compliance, and align the entire organization behind an AI vision.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "At the Lead level, you are the CEO of the company's AI strategy. You need to show you can make massive 'build vs. buy' decisions regarding LLMs, navigate complex legal/privacy compliance, and align the entire organization behind an AI vision.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "James Watson",
       hrRole: "Chief Product Officer",
       hrCompany: "scaleup",
@@ -1446,7 +1776,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Led", "Built", "Drove", "Launched", "Designed", "Coordinated", "Delivered", "Improved"],
       keySkills: ["Communication", "Problem Solving", "Project Management", "Data Analysis", "Microsoft Office / G-Suite", "Teamwork"],
-      hrQuote: "Whatever your background, the strongest CVs show initiative, ownership, and outcomes. Even without formal experience, frame your projects, coursework, and activities to show what you built, what you led, and what changed because of your work.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "Whatever your background, the strongest CVs show initiative, ownership, and outcomes. Even without formal experience, frame your projects, coursework, and activities to show what you built, what you led, and what changed because of your work.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
       hrCompany: "shopee",
@@ -1466,7 +1801,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Led", "Spearheaded", "Defined", "Optimised", "Coordinated", "Delivered", "Improved", "Built"],
       keySkills: ["Project Management", "Cross-functional Collaboration", "Data Analysis", "Stakeholder Management", "Process Improvement"],
-      hrQuote: "At mid-level, your CV should show impact, not just activity. I'm not looking for what you did day-to-day — I want to know what changed because of your work. Quantify your impact wherever possible.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "At mid-level, your CV should show impact, not just activity. I'm not looking for what you did day-to-day — I want to know what changed because of your work. Quantify your impact wherever possible.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
       hrCompany: "google",
@@ -1486,7 +1826,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
       ],
       actionVerbs: ["Championed", "Spearheaded", "Orchestrated", "Architected", "Drove", "Defined", "Scalable", "Led"],
       keySkills: ["Strategic Leadership", "P&L Ownership", "Executive Communication", "Cross-org Alignment", "Change Management", "Team Building", "OKRs / KPIs"],
-      hrQuote: "At senior level, I'm scanning for company-scale impact. Tell me the revenue you influenced, the organisation you shaped, or the strategy you defined. If I can't see your business footprint in 6 seconds, I move on.",
+      hrQuotes: {
+    header: "Keep your header clean and scannable. Include your LinkedIn and GitHub/Portfolio links.",
+    summary: "Your summary should be an elevator pitch. Tell me your years of experience, core expertise, and a key highlight.",
+    experience: "At senior level, I'm scanning for company-scale impact. Tell me the revenue you influenced, the organisation you shaped, or the strategy you defined. If I can't see your business footprint in 6 seconds, I move on.",
+    projects: "Highlight 1-2 impactful projects. What problem did you solve? What stack did you use?"
+  },
       hrName: "David Kim",
       hrRole: "VP Engineering",
       hrCompany: "scaleup",

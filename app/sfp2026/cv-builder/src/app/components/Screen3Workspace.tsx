@@ -52,7 +52,7 @@ const TOUR_CONTENT = [
   {
     title: "✅ Self-Audit Checklist",
     description:
-      "Tự kiểm tra CV của bạn và mở khóa ChatGPT prompt đặc biệt khi hoàn thành đủ 3 mục.",
+      "Tự kiểm tra CV của bạn và mở khóa AI prompt đặc biệt khi hoàn thành đủ 3 mục.",
     buttonText: "Got it! 🎉",
   },
 ];
@@ -748,7 +748,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
       hrAvatar: "woman",
       aiTitle: "Struggling to write this?",
       aiSubtext:
-        "Use our prompt to let ChatGPT turn raw activity descriptions into professional, XYZ-formatted bullet points.",
+        "use our prompt to let AI turn raw activity descriptions into professional, XYZ-formatted bullet points.",
       aiPrompt: `Act as an expert Tech Recruiter for entry-level PM roles.\n\nRewrite the following raw activity into 3 professional bullet points using the XYZ Google formula: "Accomplished [X] as measured by [Y], by doing [Z]."\n\nRequirements:\n- Start each bullet with a strong action verb\n- No "I" or "my" — professional third-person\n- Include team size, tools, or any available scope\n- Emphasize initiative and ownership\n\nRaw activity:\n[PASTE YOUR DESCRIPTION HERE]`,
     },
     developing: {
@@ -760,7 +760,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
       hrAvatar: "man",
       aiTitle: "Struggling to write this?",
       aiSubtext:
-        "Use our prompt to let ChatGPT rewrite your raw bullet points into HR-approved XYZ formats with real metrics.",
+        "use our prompt to let AI rewrite your raw bullet points into HR-approved XYZ formats with real metrics.",
       aiPrompt: `Act as an expert Tech Recruiter specializing in mid-level PM roles.\n\nRewrite the following experience into 3 powerful bullet points using the XYZ Google formula.\n\nRequirements:\n- Start with strong verbs (Led, Spearheaded, Optimised, Defined, Shipped)\n- Include specific metrics: %, $, user counts, NPS scores\n- Show cross-functional collaboration\n- Demonstrate product thinking (why, not just what)\n\nRaw bullets:\n[PASTE YOUR BULLET POINTS HERE]\n\nContext: I'm applying for [ROLE] at [COMPANY TYPE, e.g. Series B SaaS startup].`,
     },
     ready: {
@@ -1374,10 +1374,12 @@ function TopNav({
   level,
   onSetLevel,
   onDownload,
+  onBack,
 }: {
   level: DiagnosticLevel;
   onSetLevel: (l: DiagnosticLevel) => void;
   onDownload: () => void;
+  onBack?: () => void;
 }) {
   return (
     <div
@@ -1396,6 +1398,38 @@ function TopNav({
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 10, flex: 1 }}>
+        <button
+          onClick={onBack}
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            width: 32,
+            height: 32,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: 8,
+            marginRight: 4,
+            transition: "background 0.2s",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.background = "#f1f5f9")}
+          onMouseLeave={(e) => (e.currentTarget.style.background = "none")}
+          title="Go Back"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#64748B"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+        </button>
         <div
           style={{
             width: 28,
@@ -1463,7 +1497,7 @@ function TopNav({
           transform: "translateX(-50%)",
         }}
       >
-        <LevelSwitcher level={level} onChange={onSetLevel} />
+        {/* LevelSwitcher Removed [UX Change - Fix 8] */}
       </div>
 
       <div
@@ -1476,29 +1510,47 @@ function TopNav({
 // ─── CV Section Block ─────────────────────────────────────────────────────────
 
 function CVSectionBlock({
-  id,
-  isActive,
-  isHovered,
-  onHover,
-  onClick,
-  children,
-  bubbleData,
-}: {
-  id: CVSection;
-  isActive: boolean;
-  isHovered: boolean;
-  onHover: (id: CVSection | null) => void;
-  onClick: (id: CVSection) => void;
-  children: React.ReactNode;
-  bubbleData?: {
-    hrQuote: string;
-    hrName: string;
-    companyInfo: { name: string; color: string; textColor: string };
-    hrAvatar: "man" | "woman";
-  } | null;
-}) {
+    id,
+    isActive,
+    isHovered,
+    onHover,
+    onClick,
+    children,
+    bubbleData,
+  }: {
+    id: CVSection;
+    isActive: boolean;
+    isHovered: boolean;
+    onHover: (id: CVSection | null) => void;
+    onClick: (id: CVSection) => void;
+    children: React.ReactNode;
+    bubbleData?: {
+      hrQuote: string;
+      hrName: string;
+      companyInfo: { name: string; color: string; textColor: string };
+      hrAvatar: "man" | "woman";
+    } | null;
+  }) {
+    const blockRef = useRef<HTMLDivElement>(null);
+  const [rect, setRect] = useState<{ top: number; right: number; bottom: number; left: number; width: number; height: number } | null>(null);
+  useEffect(() => {
+    const updateRect = () => {
+      if (isActive && blockRef.current) {
+        const r = blockRef.current.getBoundingClientRect();
+        setRect({ top: r.top, right: r.right, bottom: r.bottom, left: r.left, width: r.width, height: r.height });
+      }
+    };
+    updateRect();
+    window.addEventListener('scroll', updateRect, true);
+    window.addEventListener('resize', updateRect);
+    return () => {
+      window.removeEventListener('scroll', updateRect, true);
+      window.removeEventListener('resize', updateRect);
+    };
+  }, [isActive]);
   return (
     <div
+      ref={blockRef}
       onMouseEnter={() => onHover(id)}
       onMouseLeave={() => onHover(null)}
       onClick={() => onClick(id)}
@@ -1555,149 +1607,226 @@ function CVSectionBlock({
           </span>
         </div>
       )}
+
       {children}
-      {/* [UX FIX - Change 3] - Speech Bubble Display */}
+
       <AnimatePresence>
         {isActive && bubbleData && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.18, ease: "easeOut" }}
-          >
-            <div className="speech-bubble-desktop">
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "10px" }}
-              >
-                <img
-                  src={
-                    bubbleData.hrAvatar === "woman" ? AVATAR_WOMAN : AVATAR_MAN
-                  }
-                  alt={bubbleData.hrName}
-                  style={{
-                    width: 32,
-                    height: 32,
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                  }}
-                />
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "2px",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: 13,
-                      fontWeight: 600,
-                      color: "#1e293b",
-                      lineHeight: 1,
-                    }}
-                  >
-                    {bubbleData.hrName}
-                  </span>
-                  <span
-                    style={{
-                      fontSize: 10,
-                      fontWeight: 700,
-                      padding: "2px 6px",
-                      borderRadius: 4,
-                      backgroundColor: bubbleData.companyInfo.color,
-                      color: bubbleData.companyInfo.textColor,
-                      width: "fit-content",
-                    }}
-                  >
-                    {bubbleData.companyInfo.name}
-                  </span>
-                </div>
-              </div>
-              <div
-                style={{
-                  fontSize: 13,
-                  color: "#475569",
-                  fontStyle: "italic",
-                  lineHeight: 1.5,
-                  display: "-webkit-box",
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                }}
-              >
-                "{bubbleData.hrQuote}"
-              </div>
-            </div>
-
-            <div className="speech-bubble-mobile">
+          <>
+            {/* Desktop floating bubble */}
+            <motion.div
+              initial={{ opacity: 0, x: 10, scale: 0.95 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 10, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="speech-bubble-desktop"
+              style={{
+                width: 340,
+                padding: 16,
+                top: rect ? rect.bottom + 12 : "50%",
+                left: rect ? `max(16px, ${rect.left - 340 - 16}px)` : "-356px",
+                zIndex: 9999,
+                transform: rect ? "none" : "translateY(-50%)",
+              }}
+            >
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "12px",
-                  marginBottom: 4,
+                  justifyContent: "space-between",
+                  marginBottom: "8px",
                 }}
               >
-                <img
-                  src={
-                    bubbleData.hrAvatar === "woman" ? AVATAR_WOMAN : AVATAR_MAN
-                  }
-                  alt={bubbleData.hrName}
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                  }}
-                />
                 <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "4px",
-                  }}
+                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
                 >
-                  <span
+                  <img
+                    src={
+                      bubbleData.hrAvatar === "man"
+                        ? "https://ui-avatars.com/api/?name=HR+Man&background=E0E7FF&color=0E56FA"
+                        : "https://ui-avatars.com/api/?name=HR+Woman&background=FCE7F3&color=DB2777"
+                    }
+                    alt="HR Avatar"
                     style={{
-                      fontSize: 15,
-                      fontWeight: 600,
-                      color: "#1e293b",
-                      lineHeight: 1,
+                      width: 32,
+                      height: 32,
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
                     }}
                   >
-                    {bubbleData.hrName}
-                  </span>
+                    <span
+                      style={{
+                        fontSize: "13px",
+                        fontWeight: 600,
+                        color: "#0F172A",
+                      }}
+                    >
+                      {bubbleData.hrName}
+                    </span>
+                    <span
+                      style={{
+                        padding: "2px 6px",
+                        borderRadius: "4px",
+                        fontSize: "9px",
+                        fontWeight: 700,
+                        backgroundColor: bubbleData.companyInfo.color,
+                        color: bubbleData.companyInfo.textColor || "white",
+                      }}
+                    >
+                      {bubbleData.companyInfo.name}
+                    </span>
+                  </div>
+                </div>
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "4px" }}
+                >
+                  <div
+                    style={{
+                      width: "6px",
+                      height: "6px",
+                      borderRadius: "50%",
+                      backgroundColor: "#22c55e",
+                    }}
+                  />
                   <span
                     style={{
-                      fontSize: 11,
-                      fontWeight: 700,
-                      padding: "2px 8px",
-                      borderRadius: 4,
-                      backgroundColor: bubbleData.companyInfo.color,
-                      color: bubbleData.companyInfo.textColor,
-                      width: "fit-content",
+                      fontSize: "10px",
+                      fontWeight: 800,
+                      color: "#22c55e",
+                      letterSpacing: "0.05em",
                     }}
                   >
-                    {bubbleData.companyInfo.name}
+                    VERIFIED
                   </span>
                 </div>
               </div>
-              <div
+              <p
                 style={{
-                  fontSize: 14,
+                  fontSize: "13px",
                   color: "#475569",
                   fontStyle: "italic",
-                  lineHeight: 1.6,
+                  lineHeight: 1.5,
+                  margin: 0,
                   display: "-webkit-box",
-                  WebkitLineClamp: 2,
+                  WebkitLineClamp: 3,
                   WebkitBoxOrient: "vertical",
                   overflow: "hidden",
                 }}
               >
                 "{bubbleData.hrQuote}"
+              </p>
+            </motion.div>
+
+            {/* Mobile bottom sheet */}
+            <motion.div
+              initial={{ opacity: 0, y: "100%" }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="speech-bubble-mobile"
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginBottom: "8px",
+                }}
+              >
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
+                >
+                  <img
+                    src={
+                      bubbleData.hrAvatar === "man"
+                        ? "https://ui-avatars.com/api/?name=HR+Man&background=E0E7FF&color=0E56FA"
+                        : "https://ui-avatars.com/api/?name=HR+Woman&background=FCE7F3&color=DB2777"
+                    }
+                    alt="HR Avatar"
+                    style={{
+                      width: 32,
+                      height: 32,
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "13px",
+                        fontWeight: 600,
+                        color: "#0F172A",
+                      }}
+                    >
+                      {bubbleData.hrName}
+                    </span>
+                    <span
+                      style={{
+                        padding: "2px 6px",
+                        borderRadius: "4px",
+                        fontSize: "9px",
+                        fontWeight: 700,
+                        backgroundColor: bubbleData.companyInfo.color,
+                        color: bubbleData.companyInfo.textColor || "white",
+                      }}
+                    >
+                      {bubbleData.companyInfo.name}
+                    </span>
+                  </div>
+                </div>
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "4px" }}
+                >
+                  <div
+                    style={{
+                      width: "6px",
+                      height: "6px",
+                      borderRadius: "50%",
+                      backgroundColor: "#22c55e",
+                    }}
+                  />
+                  <span
+                    style={{
+                      fontSize: "10px",
+                      fontWeight: 800,
+                      color: "#22c55e",
+                      letterSpacing: "0.05em",
+                    }}
+                  >
+                    VERIFIED
+                  </span>
+                </div>
               </div>
-            </div>
-          </motion.div>
+              <p
+                style={{
+                  fontSize: "13px",
+                  color: "#475569",
+                  fontStyle: "italic",
+                  lineHeight: 1.5,
+                  margin: 0,
+                  display: "-webkit-box",
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                }}
+              >
+                "{bubbleData.hrQuote}"
+              </p>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </div>
@@ -1761,13 +1890,18 @@ function LeftCVColumn({
   selectedRole: string | null;
 }) {
   const cv = CV_DATA[level];
-  const roleData = getRoleLevelData(selectedRole, level);
+  const roleData = getRoleLevelData(
+    selectedRole,
+    "developing",
+  ); /* [UX FIX - Fix 8] */
   const stageIndex = checks.filter(Boolean).length;
 
   const getBubbleData = (sectionId: CVSection) => {
-    const data = PANEL_DATA[sectionId] ? PANEL_DATA[sectionId][level] : null;
+    const data = PANEL_DATA[sectionId]
+      ? PANEL_DATA[sectionId]["developing"]
+      : null;
     if (!data) return null;
-    const hrQuote = roleData.hrQuote || data.hrQuote;
+    const hrQuote = (roleData.hrQuotes && roleData.hrQuotes[sectionId as keyof typeof roleData.hrQuotes]) || data.hrQuote;
     const hrName = roleData.hrName || data.hrName;
     const hrCompanyKey = roleData.hrCompany || data.hrCompany || "shopee";
     const companyInfo = COMPANY_INFO[hrCompanyKey];
@@ -1845,28 +1979,31 @@ function LeftCVColumn({
       <div
         className="cv-left-scroll"
         style={{
-          width: "50%",
+          width: activeSection ? "60%" : "100%",
+          transition: "width 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
           overflowY: "auto",
-          background: "#F1F5F9",
-          borderRight: "1px solid #E2E8F0",
-          padding: "28px 24px 60px",
+          background: "transparent",
+          padding: "40px 24px 80px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
         }}
       >
         {/* Instruction chip */}
-        <div
+        <div // [UX FIX - Fix 5 & 7]
           style={{
             marginBottom: 18,
             display: "flex",
             alignItems: "center",
             gap: 6,
-            padding: "5px 12px",
+            padding: "5px 16px",
             borderRadius: 99,
             background: "white",
             border: "1px solid #E2E8F0",
             boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
+            position: "relative",
+            zIndex: 10,
+            whiteSpace: "nowrap",
           }}
         >
           <div
@@ -1879,8 +2016,7 @@ function LeftCVColumn({
             }}
           />
           <span style={{ fontSize: 11, fontWeight: 500, color: "#64748b" }}>
-            {/* // [UX FIX - Change 2] */}
-            Tick 3 items → unlock your AI rewrite prompt ✨
+            Read the insight → tick the checklist → unlock your AI prompt ✨
           </span>
         </div>
 
@@ -1889,8 +2025,8 @@ function LeftCVColumn({
           style={{
             background: "white",
             width: "100%",
-            maxWidth: 520,
-            border: "1px solid #E2E8F0",
+            maxWidth: 720,
+            border: "1px solid rgba(226,232,240,0.8)",
             borderRadius: 6,
             boxShadow:
               "0 1px 3px rgba(0,0,0,0.04), 0 6px 20px rgba(0,0,0,0.07), 0 24px 56px rgba(0,0,0,0.07)",
@@ -1906,8 +2042,10 @@ function LeftCVColumn({
           <div style={{ padding: "26px 32px 32px" }}>
             {/* ── HEADER ── */}
             <CVSectionBlock
-                bubbleData={activeSection === "header" ? getBubbleData("header") : null}
-                id="header"
+              bubbleData={
+                activeSection === "header" ? getBubbleData("header") : null
+              }
+              id="header"
               isActive={activeSection === "header"}
               isHovered={hoveredSection === "header"}
               onHover={onHover}
@@ -1978,8 +2116,10 @@ function LeftCVColumn({
 
             {/* ── SUMMARY ── */}
             <CVSectionBlock
-                bubbleData={activeSection === "summary" ? getBubbleData("summary") : null}
-                id="summary"
+              bubbleData={
+                activeSection === "summary" ? getBubbleData("summary") : null
+              }
+              id="summary"
               isActive={activeSection === "summary"}
               isHovered={hoveredSection === "summary"}
               onHover={onHover}
@@ -2045,8 +2185,12 @@ function LeftCVColumn({
 
             {/* ── EXPERIENCE ── */}
             <CVSectionBlock
-                bubbleData={activeSection === "experience" ? getBubbleData("experience") : null}
-                id="experience"
+              bubbleData={
+                activeSection === "experience"
+                  ? getBubbleData("experience")
+                  : null
+              }
+              id="experience"
               isActive={activeSection === "experience"}
               isHovered={hoveredSection === "experience"}
               onHover={onHover}
@@ -2198,8 +2342,10 @@ function LeftCVColumn({
 
             {/* ── PROJECTS ── */}
             <CVSectionBlock
-                bubbleData={activeSection === "projects" ? getBubbleData("projects") : null}
-                id="projects"
+              bubbleData={
+                activeSection === "projects" ? getBubbleData("projects") : null
+              }
+              id="projects"
               isActive={activeSection === "projects"}
               isHovered={hoveredSection === "projects"}
               onHover={onHover}
@@ -2417,11 +2563,11 @@ function StepChecklist({
               borderRadius: 10,
               border: `1.5px solid ${done ? "#BBF7D0" : enabled ? "#F1F5F9" : "#F8FAFC"}`,
               background: done ? "#F0FDF4" : enabled ? "#FAFBFF" : "#FAFBFF",
-              cursor: enabled ? "pointer" : "not-allowed",
+              cursor: "pointer", // [UX FIX - Fix 4]
               textAlign: "left",
               transition: "all 0.2s",
               width: "100%",
-              opacity: enabled ? 1 : 0.45,
+              opacity: 1, // [UX FIX - Fix 4]
               position: "relative",
             }}
           >
@@ -2559,9 +2705,12 @@ function RightInsightPanel({
   selectedRole: string | null;
 }) {
   const data = PANEL_DATA[section][level];
-  const roleData = getRoleLevelData(selectedRole, level);
+  const roleData = getRoleLevelData(
+    selectedRole,
+    "developing",
+  ); /* [UX FIX - Fix 8] */
   // Override HR data and checklist with role-specific content
-  const hrQuote = roleData.hrQuote;
+  const hrQuote = roleData.hrQuotes[section as keyof typeof roleData.hrQuotes] || roleData.hrQuotes.experience;
   const hrName = roleData.hrName;
   const hrRole = roleData.hrRole;
   const hrCompany = roleData.hrCompany;
@@ -2599,11 +2748,23 @@ function RightInsightPanel({
           handleScrollDepthTracking(e, "Screen3Workspace_HRPanel")
         }
         style={{
-          width: "50%",
+          width: "40%",
+          position: "absolute",
+          right: 0,
+          top: 0,
+          bottom: 0,
+          transform: section ? "translateX(0)" : "translateX(100%)",
+          opacity: section ? 1 : 0,
+          pointerEvents: section ? "auto" : "none",
+          transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
           overflowY: "auto",
-          background: "white",
+          background: "rgba(255, 255, 255, 0.85)",
+          backdropFilter: "blur(24px)",
+          borderLeft: "1px solid rgba(226, 232, 240, 0.8)",
+          boxShadow: "-20px 0 40px rgba(0,0,0,0.06)",
           display: "flex",
           flexDirection: "column",
+          zIndex: 50,
         }}
       >
         <AnimatePresence mode="wait">
@@ -2666,275 +2827,8 @@ function RightInsightPanel({
                   lineHeight: 1.2,
                 }}
               >
-                Mastering {SECTION_LABEL[section]} ({LEVEL_LABEL[level]})
+                Mastering {SECTION_LABEL[section]}
               </h2>
-            </div>
-
-            {/* ── Block 1: HR Quote with Company Logo ── */}
-            <div
-              style={{
-                borderRadius: 14,
-                border: "1px solid #E2E8F0",
-                background: "white",
-                padding: "16px 18px",
-                boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  marginBottom: 12,
-                }}
-              >
-                <div
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: "50%",
-                    overflow: "hidden",
-                    flexShrink: 0,
-                    border: "2px solid #E2E8F0",
-                  }}
-                >
-                  <img
-                    src={data.hrAvatar === "man" ? AVATAR_MAN : AVATAR_WOMAN}
-                    alt={hrName}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 6,
-                      marginBottom: 2,
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: 12,
-                        fontWeight: 700,
-                        color: "#020818",
-                        letterSpacing: "-0.02em",
-                      }}
-                    >
-                      {hrName}
-                    </span>
-                    {/* Enhanced company badge */}
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 4,
-                        padding: "3px 9px 3px 7px",
-                        borderRadius: 6,
-                        background: companyInfo.color,
-                        boxShadow: `0 2px 8px ${companyInfo.color}55`,
-                        flexShrink: 0,
-                      }}
-                    >
-                      <Building2
-                        size={9}
-                        color={companyInfo.textColor}
-                        strokeWidth={2.5}
-                        style={{ opacity: 0.85 }}
-                      />
-                      <span
-                        style={{
-                          fontSize: 9.5,
-                          fontWeight: 800,
-                          color: companyInfo.textColor,
-                          letterSpacing: "0.04em",
-                          textTransform: "uppercase",
-                        }}
-                      >
-                        {companyInfo.name}
-                      </span>
-                    </div>
-                  </div>
-                  <div style={{ fontSize: 10.5, color: "#94a3b8" }}>
-                    {hrRole}
-                  </div>
-                </div>
-                {/* Verified badge */}
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 4,
-                    padding: "3px 9px",
-                    borderRadius: 7,
-                    background: "#F0FDF4",
-                    border: "1px solid #BBF7D0",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 6,
-                      height: 6,
-                      borderRadius: "50%",
-                      background: "#16a34a",
-                      flexShrink: 0,
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontSize: 9.5,
-                      fontWeight: 700,
-                      color: "#16a34a",
-                      letterSpacing: "0.04em",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    Verified
-                  </span>
-                </div>
-              </div>
-              <div
-                style={{
-                  padding: "12px 14px",
-                  borderRadius: 10,
-                  background: "#FAFBFF",
-                  border: "1px solid #F1F5F9",
-                  position: "relative",
-                }}
-              >
-                <span
-                  style={{
-                    position: "absolute",
-                    top: 8,
-                    left: 12,
-                    fontSize: 28,
-                    color: "#BFDBFE",
-                    lineHeight: 1,
-                    fontFamily: "Georgia, serif",
-                    pointerEvents: "none",
-                  }}
-                >
-                  "
-                </span>
-                <p
-                  style={{
-                    fontSize: 12.5,
-                    color: "#334155",
-                    lineHeight: 1.65,
-                    margin: 0,
-                    paddingTop: 16,
-                    fontStyle: "italic",
-                    letterSpacing: "-0.01em",
-                  }}
-                >
-                  {hrQuote}
-                </p>
-              </div>
-
-              {/* Feedback Loop */}
-              <div
-                style={{
-                  marginTop: 12,
-                  paddingTop: 12,
-                  borderTop: "1px solid #F1F5F9",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: 10,
-                  }}
-                >
-                  <span
-                    style={{ fontSize: 11, color: "#94a3b8", fontWeight: 500 }}
-                  >
-                    Was this insight helpful?
-                  </span>
-                  <div style={{ display: "flex", gap: 6 }}>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() =>
-                        setFeedback(feedback === "helpful" ? null : "helpful")
-                      }
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 5,
-                        padding: "5px 12px",
-                        borderRadius: 99,
-                        border: `1.5px solid ${feedback === "helpful" ? "#0E56FA" : "#E2E8F0"}`,
-                        background:
-                          feedback === "helpful"
-                            ? "rgba(14,86,250,0.08)"
-                            : "white",
-                        color: feedback === "helpful" ? "#0E56FA" : "#64748b",
-                        fontSize: 11,
-                        fontWeight: 600,
-                        cursor: "pointer",
-                        transition: "all 0.2s",
-                      }}
-                    >
-                      <ThumbsUp size={12} strokeWidth={2.5} />
-                      Helpful
-                    </motion.button>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() =>
-                        setFeedback(feedback === "love" ? null : "love")
-                      }
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 5,
-                        padding: "5px 12px",
-                        borderRadius: 99,
-                        border: `1.5px solid ${feedback === "love" ? "#dc2626" : "#E2E8F0"}`,
-                        background:
-                          feedback === "love"
-                            ? "rgba(220,38,38,0.08)"
-                            : "white",
-                        color: feedback === "love" ? "#dc2626" : "#64748b",
-                        fontSize: 11,
-                        fontWeight: 600,
-                        cursor: "pointer",
-                        transition: "all 0.2s",
-                      }}
-                    >
-                      <Heart
-                        size={12}
-                        strokeWidth={2.5}
-                        fill={feedback === "love" ? "#dc2626" : "none"}
-                      />
-                      Love it
-                    </motion.button>
-                  </div>
-                </div>
-                {feedback && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    style={{ marginTop: 8 }}
-                  >
-                    <span
-                      style={{
-                        fontSize: 10.5,
-                        color: "#16a34a",
-                        fontWeight: 600,
-                      }}
-                    >
-                      ✨ Thank you for your feedback!
-                    </span>
-                  </motion.div>
-                )}
-              </div>
             </div>
 
             {/* ── Block 2: Step Checklist ── */}
@@ -3076,13 +2970,6 @@ function RightInsightPanel({
                 boxShadow: allChecked
                   ? "none"
                   : "0 0 16px rgba(14, 86, 250, 0.12)",
-                // [UX FIX - Change 3]
-                border: allChecked
-                  ? "none"
-                  : "2px solid rgba(14, 86, 250, 0.4)",
-                boxShadow: allChecked
-                  ? "none"
-                  : "0 0 16px rgba(14, 86, 250, 0.12)",
                 transition: "background 0.5s",
               }}
             >
@@ -3157,7 +3044,7 @@ function RightInsightPanel({
                     <strong style={{ color: "#0E56FA" }}>
                       3/3 checklist items
                     </strong>{" "}
-                    above to unlock the premium ChatGPT rewrite prompt.
+                    above to unlock the premium AI rewrite prompt.
                   </p>
                   <div
                     style={{
@@ -3262,8 +3149,8 @@ function RightInsightPanel({
                       letterSpacing: "-0.01em",
                     }}
                   >
-                    Copy the AI prompt below ? paste into ChatGPT with your CV
-                    bullet ? watch it transform ?
+                    Copy the AI prompt below ? paste into your AI tool with your
+                    CV bullet ? watch it transform ?
                   </p>
                   <motion.button
                     whileHover={{ scale: 1.02 }}
@@ -3299,7 +3186,7 @@ function RightInsightPanel({
                       <Sparkles size={14} strokeWidth={2.5} />
                     )}
                     {copied
-                      ? "Copied! Paste into ChatGPT →"
+                      ? "Copied! paste into your AI tool →"
                       : "✨ Copy AI Prompt Template"}
                   </motion.button>
                   {copied && (
@@ -3313,7 +3200,8 @@ function RightInsightPanel({
                         fontWeight: 500,
                       }}
                     >
-                      Paste this into ChatGPT along with your raw bullet points.
+                      Paste this into your AI tool along with your raw bullet
+                      points.
                     </motion.p>
                   )}
                 </motion.div>
@@ -3329,29 +3217,40 @@ function RightInsightPanel({
                 justifyContent: "flex-end",
               }}
             >
-              <motion.button
-                whileHover={{ scale: 1.02, x: 2 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={onContinue}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 6,
-                  padding: "8px 18px",
-                  borderRadius: 9,
-                  background: "#020818",
-                  border: "none",
-                  color: "white",
-                  fontSize: 12,
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  boxShadow: "0 2px 10px rgba(2,8,24,0.18)",
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                Continue to Final Summary
-                <ArrowRight size={13} strokeWidth={2.5} />
-              </motion.button>
+              <AnimatePresence>
+                {allChecked && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.25 }}
+                  >
+                    <motion.button
+                      whileHover={{ scale: 1.02, x: 2 }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={onContinue}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 6,
+                        padding: "8px 18px",
+                        borderRadius: 9,
+                        background: "#020818",
+                        border: "none",
+                        color: "white",
+                        fontSize: 12,
+                        fontWeight: 700,
+                        cursor: "pointer",
+                        boxShadow: "0 2px 10px rgba(2,8,24,0.18)",
+                        letterSpacing: "-0.01em",
+                      }}
+                    >
+                      Continue to Final Summary
+                      <ArrowRight size={13} strokeWidth={2.5} />
+                    </motion.button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
         </AnimatePresence>
@@ -3367,6 +3266,7 @@ interface Screen3Props {
   onSetLevel: (l: DiagnosticLevel) => void;
   selectedRole: string | null;
   onComplete: (bullet: string) => void;
+  onBack?: () => void;
 }
 
 export function Screen3Workspace({
@@ -3374,6 +3274,7 @@ export function Screen3Workspace({
   onSetLevel,
   selectedRole,
   onComplete,
+  onBack,
 }: Screen3Props) {
   // [UX FIX - Change 3] - Add Speech Bubble Styles
   useEffect(() => {
@@ -3391,12 +3292,9 @@ export function Screen3Workspace({
           display: none;
         }
         @media (min-width: 1024px) {
-          .speech-bubble-desktop {
-            display: flex !important;
-            position: absolute;
+          .speech-bubble-desktop { display: flex !important; position: fixed;
             top: 50%;
             left: calc(100% + 16px);
-            transform: translateY(-50%);
             width: 300px;
             z-index: 1000;
             background: white;
@@ -3410,12 +3308,12 @@ export function Screen3Workspace({
           .speech-bubble-desktop::before {
             content: '';
             position: absolute;
-            left: -8px;
-            top: 50%;
-            transform: translateY(-50%);
-            border-top: 8px solid transparent;
-            border-bottom: 8px solid transparent;
-            border-right: 8px solid white;
+              right: auto; left: 32px;
+              top: -8px;
+              transform: none;
+              border-top: none;
+              border-bottom: 8px solid white;
+              border-left: 8px solid transparent; border-right: 8px solid transparent;
           }
         }
         @media (max-width: 1023px) {
@@ -3537,10 +3435,21 @@ export function Screen3Workspace({
       <TopNav
         level={level}
         onSetLevel={onSetLevel}
-        onDownload={handleContinue}
+        onBack={onBack}
+        /* [UX FIX - Fix 2] */ onDownload={handleContinue}
       />
 
-      <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          overflow: "hidden",
+          position: "relative",
+          backgroundColor: "#FAFBFF",
+          backgroundImage: "radial-gradient(#CBD5E1 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+        }}
+      >
         <LeftCVColumn
           level={level}
           activeSection={activeSection}

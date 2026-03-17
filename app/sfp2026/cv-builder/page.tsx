@@ -154,6 +154,7 @@ export default function App() {
             }}
           >
             <Screen3Workspace
+              onBack={() => setScreen(1)}
               level={workspaceLevel}
               onSetLevel={setWorkspaceLevel}
               selectedRole={selectedRole}
@@ -170,7 +171,8 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
           >
-            <Screen4Finish bullet={builtBullet} onRestart={handleRestart} />
+            <Screen4Finish
+              onBack={() => setScreen(3)} bullet={builtBullet} onRestart={handleRestart} />
           </motion.div>
         )}
       </AnimatePresence>

@@ -191,9 +191,11 @@ interface Props {
   onSetLevel: (l: ExperienceLevel) => void;
   track: CareerTrack;
   onSetTrack: (t: CareerTrack) => void;
+
+  onBack?: () => void;
 }
 
-export function TopNav({ level, onSetLevel, track, onSetTrack }: Props) {
+export function TopNav({ level, onSetLevel, track, onSetTrack, onBack }: Props) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -228,34 +230,22 @@ export function TopNav({ level, onSetLevel, track, onSetTrack }: Props) {
     >
       {/* ── Left: Logo + Track ── */}
       <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 12 }}>
-        {/* Project X Logo mark */}
-        <div
+        
+        {/* // [UX FIX - Fix 2] Ghost Back Button */}
+        <button
+          onClick={onBack}
           style={{
-            width: 30,
-            height: 30,
-            borderRadius: 9,
-            background: "#020818",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexShrink: 0,
-            boxShadow: "0 2px 6px rgba(2,8,24,0.25)",
+            display: "flex", alignItems: "center", gap: 6,
+            background: "none", border: "none", cursor: "pointer",
+            padding: "6px 12px", borderRadius: 6,
+            color: "#6B7280", fontSize: 13, fontWeight: 600,
+            outline: "none", 
           }}
         >
-          <span
-            style={{
-              color: "white",
-              fontSize: 14,
-              fontWeight: 900,
-              letterSpacing: "-0.06em",
-              lineHeight: 1,
-            }}
-          >
-            X
-          </span>
-        </div>
-
+          ← Back
+        </button>
         <div style={{ width: 1, height: 18, background: "#E2E8F0", flexShrink: 0 }} />
+
 
         {/* Track selector */}
         <div ref={dropdownRef} style={{ position: "relative" }}>
@@ -321,20 +311,7 @@ export function TopNav({ level, onSetLevel, track, onSetTrack }: Props) {
         </div>
       </div>
 
-      {/* ── Center: Level Switcher (absolute centered) ── */}
-      <div
-        style={{
-          position: "absolute",
-          left: "50%",
-          transform: "translateX(-50%)",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 0,
-        }}
-      >
-        <LevelSwitcher level={level} onSetLevel={onSetLevel} />
-      </div>
+      {/* ── Center: Level Switcher Removed (Fix 8) ── */}
 
       {/* ── Right: Download CV ── */}
       <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>

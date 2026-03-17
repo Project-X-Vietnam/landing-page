@@ -318,93 +318,9 @@ export function Screen4Finish({ bullet, onRestart }: Props) {
             </h1>
 
             <p style={{ fontSize: 16, color: "#475569", lineHeight: 1.6 }}>
-              Copy the prompt below and paste into ChatGPT/Claude to rewrite your CV instantly.
+              Copy the prompt below and paste into any AI tool to rewrite your CV instantly.
             </p>
         </motion.div>
-
-        {/* Bullet Preview Card */}
-        {bullet && (
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.4, delay: 0.3 }}
-            style={{ width: "100%", marginBottom: 32 }}
-          >
-            <div
-              style={{
-                background: "white",
-                border: "1px solid #E2E8F0",
-                borderRadius: 16,
-                overflow: "hidden",
-                boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
-              }}
-            >
-              <div
-                style={{
-                  height: 3,
-                  background: "linear-gradient(90deg, #020818 0%, #0E56FA 100%)",
-                }}
-              />
-              <div style={{ padding: "20px 24px" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 7,
-                    marginBottom: 14,
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: 9,
-                      fontWeight: 800,
-                      letterSpacing: "0.1em",
-                      color: "#94a3b8",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    Your Optimized Bullet
-                  </span>
-                  <div style={{ flex: 1, height: 1, background: "#F1F5F9" }} />
-                </div>
-
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "flex-start",
-                    gap: 10,
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: 14,
-                      color: "#0E56FA",
-                      fontWeight: 700,
-                      marginTop: 1,
-                      flexShrink: 0,
-                    }}
-                  >
-                    ▸
-                  </span>
-                  <p
-                    style={{
-                      fontSize: 14,
-                      color: "#1e293b",
-                      lineHeight: 1.6,
-                      fontWeight: 500,
-                      letterSpacing: "-0.01em",
-                      margin: 0,
-                    }}
-                  >
-                    {bullet}
-                  </p>
-                </div>
-              </div>
-
-              
-            </div>
-          </motion.div>
-        )}
 
         {/* [UX FIX - Change 5] Action Buttons (Updated Hierarchy) */}
           <motion.div
@@ -461,7 +377,7 @@ export function Screen4Finish({ bullet, onRestart }: Props) {
                 Paste into any AI tool to instantly tailor and strengthen your CV bullets
               </div>
 
-            {/* Ghost button - Download Guide */}
+            {/* [FIX - Change 3] Update Download button */}
             <button
               style={{
                 width: "100%",
@@ -482,8 +398,11 @@ export function Screen4Finish({ bullet, onRestart }: Props) {
                 transition: "all 0.18s",
               }}
               onClick={() => {
-                 posthog.capture('cv_builder_template_downloaded'); // [ANALYTICS]
-                 window.open("https://projectx.vn", "_blank");
+                 const link = document.createElement('a');
+                 link.href = '/PJX_CV_Guide_2026.pdf';
+                 link.download = 'PJX_CV_Guide_2026.pdf';
+                 link.click();
+                 posthog.capture('checklist_downloaded');
               }}
               onMouseEnter={(e) => {
                 (e.currentTarget).style.borderColor = "#CBD5E1";
@@ -495,7 +414,7 @@ export function Screen4Finish({ bullet, onRestart }: Props) {
               }}
             >
               <Download size={15} strokeWidth={2} />
-              Save Guide (PDF) & CV Template
+              Download CV Checklist (PDF)
             </button>
           </motion.div>
 
