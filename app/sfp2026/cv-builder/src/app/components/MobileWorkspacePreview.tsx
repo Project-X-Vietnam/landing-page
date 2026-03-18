@@ -218,7 +218,7 @@ function BrandNav({
       {/* Right: Step dots */}
       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
         <div style={{ display: "flex", gap: 4 }}>
-          {[1, 2, 3].map(i => (
+          {[1, 2, 3, 4].map(i => (
             <div key={i} style={{
               width: i === step ? 16 : 6, height: 6, borderRadius: 99,
               background: i <= step ? "#0E56FA" : "#E2E8F0",
@@ -399,7 +399,7 @@ function Screen1({
           }}>
             <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#0E56FA" }} />
             <span style={{ fontSize: 10.5, fontWeight: 800, color: "#0E56FA", letterSpacing: "0.07em", textTransform: "uppercase" }}>
-              Step 1 of 3
+              Step 1 of 4
             </span>
           </div>
 
@@ -662,7 +662,7 @@ function Screen2({
           }}>
             <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#0E56FA" }} />
             <span style={{ fontSize: 10.5, fontWeight: 800, color: "#0E56FA", letterSpacing: "0.07em", textTransform: "uppercase" }}>
-              Step 1 of 3
+              Step 2 of 4
             </span>
           </div>
           <h1 style={{
@@ -1122,7 +1122,7 @@ function WsAIPromptBox({ allChecked, stageIndex }: { allChecked: boolean; stageI
           </div>
           <div style={{ fontSize: 13, fontWeight: 800, color: "#020818", letterSpacing: "-0.02em", marginBottom: 5 }}>🔒 AI Prompt — Locked</div>
           <p style={{ fontSize: 11.5, color: "#64748b", lineHeight: 1.6, margin: "0 0 10px", letterSpacing: "-0.01em" }}>
-            Tick <strong style={{ color: "#0E56FA" }}>3/3 boxes</strong> above to unlock the premium ChatGPT rewrite prompt.
+            Tick <strong style={{ color: "#0E56FA" }}>3/3 boxes</strong> above to unlock the your AI rewrite prompt.
           </p>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "5px 14px", borderRadius: 99, background: "rgba(14,86,250,0.08)", border: "1px solid rgba(14,86,250,0.15)" }}>
             <div style={{ display: "flex", gap: 3 }}>
@@ -1140,7 +1140,7 @@ function WsAIPromptBox({ allChecked, stageIndex }: { allChecked: boolean; stageI
             <span style={{ fontSize: 13, fontWeight: 800, color: "#020818", letterSpacing: "-0.02em" }}>AI Prompt Unlocked!</span>
             <span style={{ fontSize: 8.5, fontWeight: 800, padding: "2px 7px", borderRadius: 99, background: "#16a34a", color: "white", textTransform: "uppercase" }}>✓ Unlocked</span>
           </div>
-          <p style={{ fontSize: 11.5, color: "#64748b", lineHeight: 1.6, margin: "0 0 12px" }}>Copy to ChatGPT for an HR-approved XYZ format rewrite.</p>
+          <p style={{ fontSize: 11.5, color: "#64748b", lineHeight: 1.6, margin: "0 0 12px" }}>Copy to your AI for an HR-approved XYZ format rewrite.</p>
           <motion.button whileTap={{ scale: 0.97 }} onClick={() => { 
             setCopied(true); 
             trackEvent("prompt_copied");
@@ -1153,7 +1153,7 @@ function WsAIPromptBox({ allChecked, stageIndex }: { allChecked: boolean; stageI
             boxShadow: copied ? "0 4px 14px rgba(22,163,74,0.4)" : "0 4px 14px rgba(14,86,250,0.4)",
             transition: "background 0.2s", letterSpacing: "-0.01em",
           }}>
-            {copied ? <><CheckCheck size={14} />Copied! Paste to ChatGPT →</> : <><Sparkles size={14} />✨ Copy AI Prompt</>}
+            {copied ? <><CheckCheck size={14} />Copied! Paste to your AI →</> : <><Sparkles size={14} />✨ Copy AI Prompt</>}
           </motion.button>
         </motion.div>
       )}
@@ -1190,7 +1190,7 @@ function WsBottomSheet({ checks, onChecksChange, feedback, onFeedback, stageInde
             <div style={{ padding: "3px 10px", borderRadius: 99, background: "rgba(14,86,250,0.08)", border: "1px solid rgba(14,86,250,0.15)" }}>
               <span style={{ fontSize: 10, fontWeight: 700, color: "#0E56FA", letterSpacing: "0.05em", textTransform: "uppercase" }}>Experience</span>
             </div>
-            <span style={{ fontSize: 11, color: "#94a3b8" }}>🚀 Mid-Level</span>
+            
           </div>
           <motion.button whileTap={{ scale: 0.9 }} onClick={() => setExpanded(!expanded)} style={{
             width: 28, height: 28, borderRadius: 8, background: "#F8FAFC", border: "1px solid #E2E8F0",
@@ -1288,7 +1288,7 @@ const SCREEN_META = {
     left: [
       { color: "#0E56FA", label: "Status Bar", desc: "iOS native" },
       { color: "#0E56FA", label: "Brand Nav", desc: "Logo + step dots" },
-      { color: "#7c3aed", label: "Step Pill", desc: "Step 1 of 3" },
+      { color: "#7c3aed", label: "Step Pill", desc: "STEP 1 OF 4" },
       { color: "#16a34a", label: "Heading", desc: "Where are you heading?" },
       { color: "#F59E0B", label: "Accordion Cards", desc: "4 pillars, tap to expand" },
     ],
@@ -1305,7 +1305,7 @@ const SCREEN_META = {
     desc: "iPhone 15 Pro · 393 × 852 · Sticky Progress Bar",
     left: [
       { color: "#0E56FA", label: "Brand Nav", desc: "Back + step 2 dots" },
-      { color: "#7c3aed", label: "Step Pill", desc: "Step 1 of 3" },
+      { color: "#7c3aed", label: "Step Pill", desc: "STEP 2 OF 4" },
       { color: "#0E56FA", label: "Title", desc: "Sticky sub-header" },
       { color: "#F59E0B", label: "Progress Bar", desc: "Beginner→Middle→Expert" },
       { color: "#EC4899", label: "Alert Banner", desc: "3/5 checked · Middle" },
@@ -1541,4 +1541,3 @@ export function MobileWorkspacePreview({ onBack }: { onBack: () => void }) {
     </div>
   );
 }
-

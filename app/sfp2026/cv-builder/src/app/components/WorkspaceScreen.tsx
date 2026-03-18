@@ -21,9 +21,7 @@ const NAV_HEIGHT = 56;
 
 // ── Helpers ────────────────────────────────────────────────────────
 
-function calcPopoverPos(
-  rect: DOMRect
-): { top: number; left: number } {
+function calcPopoverPos(rect: DOMRect): { top: number; left: number } {
   // Aim to overlap the right edge of the experience block by ~90px
   let left = rect.right - 90;
   // Clamp so popover never exits the right of the viewport
@@ -38,6 +36,7 @@ function calcPopoverPos(
 export function WorkspaceScreen({ level, track }: Props) {
   const [formula, setFormula] = useState<FormulaState>({
     action: "",
+    context: "",
     impact: "",
     method: "",
   });
@@ -46,7 +45,10 @@ export function WorkspaceScreen({ level, track }: Props) {
 
   // Refs for position tracking
   const [experienceEl, setExperienceEl] = useState<HTMLDivElement | null>(null);
-  const [popoverPos, setPopoverPos] = useState<{ top: number; left: number } | null>(null);
+  const [popoverPos, setPopoverPos] = useState<{
+    top: number;
+    left: number;
+  } | null>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
 
   // Callback ref for the experience section in CVCanvas
@@ -81,7 +83,7 @@ export function WorkspaceScreen({ level, track }: Props) {
   const handleFormulaChange = useCallback(
     (field: keyof FormulaState, value: string) =>
       setFormula((prev) => ({ ...prev, [field]: value })),
-    []
+    [],
   );
 
   const handleAddBullet = useCallback((bullet: string) => {
@@ -144,10 +146,7 @@ export function WorkspaceScreen({ level, track }: Props) {
             </span>
           </div>
 
-          <CVCanvas
-            addedBullets={addedBullets}
-            experienceRef={experienceRef}
-          />
+          <CVCanvas addedBullets={addedBullets} experienceRef={experienceRef} />
 
           {/* Bullet count indicator below paper */}
           <AnimatePresence>
@@ -173,7 +172,8 @@ export function WorkspaceScreen({ level, track }: Props) {
                     borderRadius: 99,
                   }}
                 >
-                  ✓ {addedBullets.length} bullet{addedBullets.length > 1 ? "s" : ""} added to Experience
+                  ✓ {addedBullets.length} bullet
+                  {addedBullets.length > 1 ? "s" : ""} added to Experience
                 </span>
               </motion.div>
             )}
@@ -246,7 +246,10 @@ export function WorkspaceScreen({ level, track }: Props) {
 
 // ── Small toast that flashes when level changes ────────────────────
 
-const LEVEL_COLORS: Record<ExperienceLevel, { bg: string; text: string; border: string }> = {
+const LEVEL_COLORS: Record<
+  ExperienceLevel,
+  { bg: string; text: string; border: string }
+> = {
   beginner: { bg: "#EFF6FF", text: "#0369A1", border: "#BAE6FD" },
   mid: { bg: "#FFFBEB", text: "#B45309", border: "#FDE68A" },
   expert: { bg: "#F5F3FF", text: "#6D28D9", border: "#DDD6FE" },
@@ -306,4 +309,3 @@ function LevelToast({ level }: { level: ExperienceLevel }) {
     </AnimatePresence>
   );
 }
-

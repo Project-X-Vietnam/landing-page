@@ -1172,7 +1172,7 @@ export function PJXWorkspace({ trackId, onBack }: PJXWorkspaceProps) {
                       marginBottom: 20,
                     }}
                   >
-                    You've completed all 3 items! Here's your premium ChatGPT rewrite prompt.
+                    You've completed all 3 items! Here's your your AI rewrite prompt.
                   </p>
                   <motion.button
                     whileHover={{ scale: 1.03 }}
@@ -1244,4 +1244,3 @@ export function PJXWorkspace({ trackId, onBack }: PJXWorkspaceProps) {
     </div>
   );
 }
-

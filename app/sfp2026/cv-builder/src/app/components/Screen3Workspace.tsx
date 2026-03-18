@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { getRoleLevelData } from "../../data/roleData";
 import { trackEvent, handleScrollDepthTracking } from "../../utils/analytics";
+import { PROMPTS_DATA, SectionPrompts } from "../../data/promptsData"; // [PROMPT WIRING - Step 3]
+import { ROLE_TO_PROMPT_KEY } from "../../data/rolePromptMapping"; // [PROMPT WIRING - Step 3]
 import { motion, AnimatePresence } from "motion/react";
-import posthog from "posthog-js"; // [ANALYTICS]
 import {
   Check,
   Download,
@@ -21,6 +22,18 @@ import {
 } from "lucide-react";
 import { DiagnosticLevel } from "../types";
 
+// [PROMPT WIRING - Step 3] Helper to get dynamic prompt
+const getPromptForSection = (role: string | null, section: string): string => {
+  const safeRole = role || "Junior Product Manager";
+  const promptKey = ROLE_TO_PROMPT_KEY[safeRole] ?? "Product Management (PM)";
+  const sectionData = PROMPTS_DATA[promptKey];
+  if (!sectionData) return "Prompt not available for this role.";
+  return (
+    sectionData[section as keyof SectionPrompts] ??
+    "Prompt not available for this section."
+  );
+};
+
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 type CVSection = "header" | "summary" | "experience" | "projects";
@@ -38,21 +51,21 @@ type Stage = TextSeg[];
 
 const TOUR_CONTENT = [
   {
-    title: "📄 Tờ CV của bạn",
+    title: "📄 Interactive CV",
     description:
-      "Bấm vào bất kỳ phần nào trên CV này để khám phá bí mật mà HR đang tìm kiếm.",
-    buttonText: "Tiếp theo →",
+      "Click any section on this CV to discover the criteria HR is looking for.",
+    buttonText: "Next →",
   },
   {
     title: "⚡ Level Switcher",
     description:
-      "Chuyển đổi Level tại đây để xem tiêu chuẩn của HR thay đổi như thế nào.",
-    buttonText: "Tiếp theo →",
+      "Toggle between levels here to see how HR expectations evolve.",
+    buttonText: "Next →",
   },
   {
     title: "✅ Self-Audit Checklist",
     description:
-      "Tự kiểm tra CV của bạn và mở khóa AI prompt đặc biệt khi hoàn thành đủ 3 mục.",
+      "Audit your CV against these points to unlock an exclusive AI prompt.",
     buttonText: "Got it! 🎉",
   },
 ];
@@ -85,13 +98,13 @@ const COMPANY_INFO: Record<
 
 const LEVEL_OPTS: { id: DiagnosticLevel; emoji: string; label: string }[] = [
   { id: "starter", emoji: "🌱", label: "Beginner" },
-  { id: "developing", emoji: "🚀", label: "Mid-Level" },
+  { id: "developing", emoji: "🚀", label: "Junior / Intern" },
   { id: "ready", emoji: "🎯", label: "Expert" },
 ];
 
 const LEVEL_LABEL: Record<DiagnosticLevel, string> = {
   starter: "Beginner",
-  developing: "Mid-Level",
+  developing: "Junior / Intern",
   ready: "Expert",
 };
 
@@ -127,7 +140,7 @@ const CV_DATA: Record<
 > = {
   starter: {
     name: "Alex Nguyen",
-    title: "Aspiring Product Manager",
+    title: "Aspiring Junior Product Manager",
     email: "alex.nguyen@gmail.com",
     location: "Ho Chi Minh City, VN",
     linkedin: "linkedin.com/in/alexn",
@@ -168,16 +181,16 @@ const CV_DATA: Record<
   },
   developing: {
     name: "Alex Johnson",
-    title: "Product Manager",
+    title: "Junior Product Manager",
     email: "alex.johnson@gmail.com",
     location: "London, UK",
     linkedin: "linkedin.com/in/alexj",
     summary:
-      "Data-driven Product Manager with 2+ years building B2B SaaS products. Track record of increasing user retention by 23% through data-led roadmap decisions and cross-functional team leadership.",
+      "Data-driven Junior Product Manager with 2+ years building B2B SaaS products. Track record of increasing user retention by 23% through data-led roadmap decisions and cross-functional team leadership.",
     experience: [
       {
         company: "TechCorp Ltd",
-        role: "Product Manager",
+        role: "Junior Product Manager",
         dates: "Jun 2022 – Present",
         bullets: [
           "Led cross-functional team of 5 engineers to redesign onboarding flow, reducing drop-off by 23%",
@@ -209,7 +222,7 @@ const CV_DATA: Record<
   },
   ready: {
     name: "Alex Johnson",
-    title: "Senior Product Lead",
+    title: "Associate Junior Product Manager",
     email: "alex.johnson@gmail.com",
     location: "London, UK",
     linkedin: "linkedin.com/in/alexj",
@@ -218,7 +231,7 @@ const CV_DATA: Record<
     experience: [
       {
         company: "ScaleUp Inc",
-        role: "Senior Product Lead",
+        role: "Associate Junior Product Manager",
         dates: "2021 – Present",
         bullets: [
           "Spearheaded 0-to-1 enterprise tier launch, generating $4.2M ARR within 12 months",
@@ -228,7 +241,7 @@ const CV_DATA: Record<
       },
       {
         company: "GrowthCo",
-        role: "Product Manager II",
+        role: "Junior Product Manager II",
         dates: "2019 – 2021",
         bullets: [
           "Drove 47% uplift in enterprise customer retention through strategic roadmap reprioritisation",
@@ -441,20 +454,20 @@ const TRANSFORM: Record<CVSection, Record<DiagnosticLevel, TransformData>> = {
         [
           {
             id: "s0",
-            text: "Product Manager with experience in tech companies. Good at building products.",
+            text: "Junior Product Manager with experience in tech companies. Good at building products.",
           },
         ],
         [
           {
             id: "title",
-            text: "Data-driven Product Manager with 2+ years in B2B SaaS.",
+            text: "Data-driven Junior Product Manager with 2+ years in B2B SaaS.",
             flash: "blue",
           },
         ],
         [
           {
             id: "title",
-            text: "Data-driven Product Manager with 2+ years in B2B SaaS.",
+            text: "Data-driven Junior Product Manager with 2+ years in B2B SaaS.",
           },
           {
             id: "ach",
@@ -465,7 +478,7 @@ const TRANSFORM: Record<CVSection, Record<DiagnosticLevel, TransformData>> = {
         [
           {
             id: "title",
-            text: "Data-driven Product Manager with 2+ years in B2B SaaS.",
+            text: "Data-driven Junior Product Manager with 2+ years in B2B SaaS.",
           },
           {
             id: "ach",
@@ -658,13 +671,19 @@ const TRANSFORM: Record<CVSection, Record<DiagnosticLevel, TransformData>> = {
       demoLabel: "Live Title Transformation",
       stages: [
         [{ id: "s0", text: "Student" }],
-        [{ id: "title", text: "Aspiring Product Manager", flash: "blue" }],
         [
-          { id: "title", text: "Aspiring Product Manager" },
+          {
+            id: "title",
+            text: "Aspiring Junior Product Manager",
+            flash: "blue",
+          },
+        ],
+        [
+          { id: "title", text: "Aspiring Junior Product Manager" },
           { id: "school", text: " · CS at VinUni", flash: "blue" },
         ],
         [
-          { id: "title", text: "Aspiring Product Manager" },
+          { id: "title", text: "Aspiring Junior Product Manager" },
           { id: "school", text: " · CS at VinUni" },
           { id: "year", text: " · Class of 2025", flash: "green" },
         ],
@@ -678,18 +697,18 @@ const TRANSFORM: Record<CVSection, Record<DiagnosticLevel, TransformData>> = {
     developing: {
       demoLabel: "Live Title Transformation",
       stages: [
-        [{ id: "s0", text: "Product Manager" }],
+        [{ id: "s0", text: "Junior Product Manager" }],
         [
-          { id: "title", text: "Product Manager", flash: "blue" },
+          { id: "title", text: "Junior Product Manager", flash: "blue" },
           { id: "domain", text: " · B2B SaaS", flash: "blue" },
         ],
         [
-          { id: "title", text: "Product Manager" },
+          { id: "title", text: "Junior Product Manager" },
           { id: "domain", text: " · B2B SaaS" },
           { id: "track", text: " | Growth & Retention", flash: "blue" },
         ],
         [
-          { id: "title", text: "Product Manager" },
+          { id: "title", text: "Junior Product Manager" },
           { id: "domain", text: " · B2B SaaS | Growth & Retention" },
           { id: "loc", text: " · London, UK", flash: "green" },
         ],
@@ -703,14 +722,20 @@ const TRANSFORM: Record<CVSection, Record<DiagnosticLevel, TransformData>> = {
     ready: {
       demoLabel: "Live Title Transformation",
       stages: [
-        [{ id: "s0", text: "Senior Product Manager" }],
-        [{ id: "title", text: "Senior Product Lead", flash: "blue" }],
+        [{ id: "s0", text: "Senior Junior Product Manager" }],
         [
-          { id: "title", text: "Senior Product Lead" },
+          {
+            id: "title",
+            text: "Associate Junior Product Manager",
+            flash: "blue",
+          },
+        ],
+        [
+          { id: "title", text: "Associate Junior Product Manager" },
           { id: "scope", text: " · B2B SaaS | $18M ARR", flash: "blue" },
         ],
         [
-          { id: "title", text: "Senior Product Lead" },
+          { id: "title", text: "Associate Junior Product Manager" },
           { id: "scope", text: " · B2B SaaS | $18M ARR" },
           { id: "stage", text: " · Series C", flash: "green" },
         ],
@@ -748,7 +773,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
       hrAvatar: "woman",
       aiTitle: "Struggling to write this?",
       aiSubtext:
-        "use our prompt to let AI turn raw activity descriptions into professional, XYZ-formatted bullet points.",
+        "Use our prompt to let your AI turn raw activity descriptions into professional, XYZ-formatted bullet points.",
       aiPrompt: `Act as an expert Tech Recruiter for entry-level PM roles.\n\nRewrite the following raw activity into 3 professional bullet points using the XYZ Google formula: "Accomplished [X] as measured by [Y], by doing [Z]."\n\nRequirements:\n- Start each bullet with a strong action verb\n- No "I" or "my" — professional third-person\n- Include team size, tools, or any available scope\n- Emphasize initiative and ownership\n\nRaw activity:\n[PASTE YOUR DESCRIPTION HERE]`,
     },
     developing: {
@@ -760,7 +785,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
       hrAvatar: "man",
       aiTitle: "Struggling to write this?",
       aiSubtext:
-        "use our prompt to let AI rewrite your raw bullet points into HR-approved XYZ formats with real metrics.",
+        "Use our prompt to let your AI rewrite your raw bullet points into HR-approved XYZ formats with real metrics.",
       aiPrompt: `Act as an expert Tech Recruiter specializing in mid-level PM roles.\n\nRewrite the following experience into 3 powerful bullet points using the XYZ Google formula.\n\nRequirements:\n- Start with strong verbs (Led, Spearheaded, Optimised, Defined, Shipped)\n- Include specific metrics: %, $, user counts, NPS scores\n- Show cross-functional collaboration\n- Demonstrate product thinking (why, not just what)\n\nRaw bullets:\n[PASTE YOUR BULLET POINTS HERE]\n\nContext: I'm applying for [ROLE] at [COMPANY TYPE, e.g. Series B SaaS startup].`,
     },
     ready: {
@@ -787,7 +812,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
       aiTitle: "Need help with your summary?",
       aiSubtext:
         "Use this prompt to generate a crisp, professional 2-line summary tailored for entry-level tech roles.",
-      aiPrompt: `Act as an expert CV writer for entry-level tech candidates.\n\nWrite a 2–3 sentence professional summary for a student applying for PM/tech roles.\n\nInput:\n- Degree & university: [e.g., BSc CS at VinUni]\n- Graduation year: [e.g., 2025]\n- Key experiences: [e.g., led product club, did data internship]\n- Target role: [e.g., Associate Product Manager]\n\nRequirements:\n- Line 1: degree, university, graduation year\n- Line 2: strongest experience or project\n- Line 3: specific career goal\n- No "I" or "my"\n- Max 60 words`,
+      aiPrompt: `Act as an expert CV writer for entry-level tech candidates.\n\nWrite a 2–3 sentence professional summary for a student applying for PM/tech roles.\n\nInput:\n- Degree & university: [e.g., BSc CS at VinUni]\n- Graduation year: [e.g., 2025]\n- Key experiences: [e.g., led product club, did data internship]\n- Target role: [e.g., Associate Junior Product Manager]\n\nRequirements:\n- Line 1: degree, university, graduation year\n- Line 2: strongest experience or project\n- Line 3: specific career goal\n- No "I" or "my"\n- Max 60 words`,
     },
     developing: {
       hrQuote:
@@ -837,7 +862,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
       aiTitle: "Want to make your project shine?",
       aiSubtext:
         "Use this prompt to reframe an initiative or side project as a compelling CV entry with measurable impact.",
-      aiPrompt: `Act as an expert CV coach for mid-level Product Managers.\n\nReframe the following project as a professional CV entry with 3 bullet points.\n\nContext:\n- Name: [e.g., AI-Powered Onboarding]\n- Problem: [1–2 sentences]\n- Your role: [defined scope / led sprint / coordinated data team]\n- Team: [3 engineers, 1 designer, 1 data scientist]\n- Outcome: [D7 retention +14%, A/B test winner, shipped in 6 weeks]\n\nRequirements:\n- Bullet 1: what shipped + ownership\n- Bullet 2: cross-functional collaboration\n- Bullet 3: measurable impact\n- XYZ formula where possible`,
+      aiPrompt: `Act as an expert CV coach for mid-level Junior Product Managers.\n\nReframe the following project as a professional CV entry with 3 bullet points.\n\nContext:\n- Name: [e.g., AI-Powered Onboarding]\n- Problem: [1–2 sentences]\n- Your role: [defined scope / led sprint / coordinated data team]\n- Team: [3 engineers, 1 designer, 1 data scientist]\n- Outcome: [D7 retention +14%, A/B test winner, shipped in 6 weeks]\n\nRequirements:\n- Bullet 1: what shipped + ownership\n- Bullet 2: cross-functional collaboration\n- Bullet 3: measurable impact\n- XYZ formula where possible`,
     },
     ready: {
       hrQuote:
@@ -855,7 +880,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
   header: {
     starter: {
       hrQuote:
-        "Don't just write 'Student'. Write 'Aspiring Product Manager' or 'CS Student · PM Track'. It signals intent immediately and helps me route your CV to the right hiring manager — before I've read a single bullet.",
+        "Don't just write 'Student'. Write 'Aspiring Junior Product Manager' or 'CS Student · PM Track'. It signals intent immediately and helps me route your CV to the right hiring manager — before I've read a single bullet.",
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
       hrCompany: "shopee",
@@ -867,7 +892,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
     },
     developing: {
       hrQuote:
-        "I see hundreds of generic 'Product Manager' headers weekly. 'Growth PM — B2B SaaS & Analytics' takes 3 seconds and tells me you're specialised. That specificity alone gets you a second look at 4am screening.",
+        "I see hundreds of generic 'Junior Product Manager' headers weekly. 'Growth PM — B2B SaaS & Analytics' takes 3 seconds and tells me you're specialised. That specificity alone gets you a second look at 4am screening.",
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
       hrCompany: "google",
@@ -875,7 +900,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
       aiTitle: "Want a sharper header?",
       aiSubtext:
         "Use this prompt to generate a specialised, role-specific title that stands out in ATS scans.",
-      aiPrompt: `Act as an expert CV coach for mid-level Product Managers.\n\nGenerate 5 professional CV title options for a PM with 2–4 years experience.\n\nContext:\n- Current role: [PM at TechCorp]\n- Specialisation: [Growth / Platform / Data / B2B SaaS]\n- Target company: [Series B startup / enterprise SaaS]\n- Target seniority: [Senior PM / Product Lead]\n\nRequirements:\n- Domain-specific — not just "PM"\n- 3–8 words per title\n- 2 variants should include a metric or scope signal\n- ATS-friendly\n\nBonus: LinkedIn headline for the strongest option.`,
+      aiPrompt: `Act as an expert CV coach for mid-level Junior Product Managers.\n\nGenerate 5 professional CV title options for a PM with 2–4 years experience.\n\nContext:\n- Current role: [PM at TechCorp]\n- Specialisation: [Growth / Platform / Data / B2B SaaS]\n- Target company: [Series B startup / enterprise SaaS]\n- Target seniority: [Senior PM / Product Lead]\n\nRequirements:\n- Domain-specific — not just "PM"\n- 3–8 words per title\n- 2 variants should include a metric or scope signal\n- ATS-friendly\n\nBonus: LinkedIn headline for the strongest option.`,
     },
     ready: {
       hrQuote:
@@ -1060,8 +1085,8 @@ function SpotlightTour({
   onSkip: () => void;
 }) {
   const [dims, setDims] = useState({
-    w: window.innerWidth,
-    h: window.innerHeight,
+    w: typeof window !== "undefined" ? window.innerWidth : 1200,
+    h: typeof window !== "undefined" ? window.innerHeight : 800,
   });
 
   useEffect(() => {
@@ -1373,13 +1398,13 @@ function LevelSwitcher({
 function TopNav({
   level,
   onSetLevel,
-  onDownload,
   onBack,
+  onDownload,
 }: {
   level: DiagnosticLevel;
   onSetLevel: (l: DiagnosticLevel) => void;
-  onDownload: () => void;
   onBack?: () => void;
+  onDownload: () => void;
 }) {
   return (
     <div
@@ -1398,38 +1423,29 @@ function TopNav({
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 10, flex: 1 }}>
-        <button
-          onClick={onBack}
-          style={{
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            width: 32,
-            height: 32,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: 8,
-            marginRight: 4,
-            transition: "background 0.2s",
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.background = "#f1f5f9")}
-          onMouseLeave={(e) => (e.currentTarget.style.background = "none")}
-          title="Go Back"
-        >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#64748B"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+        {onBack && (
+          <button
+            onClick={onBack}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: 6,
+              marginLeft: -8,
+              marginRight: 2,
+              borderRadius: 6,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              transition: "background 0.2s",
+            }}
           >
-            <path d="M19 12H5M12 19l-7-7 7-7" />
-          </svg>
-        </button>
+            <ArrowRight
+              size={18}
+              style={{ transform: "rotate(180deg)", color: "#64748B" }}
+            />
+          </button>
+        )}
         <div
           style={{
             width: 28,
@@ -1490,19 +1506,39 @@ function TopNav({
         </div>
       </div>
 
-      <div
-        style={{
-          position: "absolute",
-          left: "50%",
-          transform: "translateX(-50%)",
-        }}
-      >
-        {/* LevelSwitcher Removed [UX Change - Fix 8] */}
+      <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
+        <button
+          onClick={onDownload}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 7,
+            padding: "7px 15px",
+            borderRadius: 8,
+            background: "transparent",
+            border: "1px solid #CBD5E1",
+            color: "#64748b",
+            fontSize: 12,
+            fontWeight: 600,
+            cursor: "pointer",
+            transition: "all 0.15s",
+            letterSpacing: "-0.01em",
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.borderColor =
+              "#0E56FA";
+            (e.currentTarget as HTMLButtonElement).style.color = "#0E56FA";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.borderColor =
+              "#CBD5E1";
+            (e.currentTarget as HTMLButtonElement).style.color = "#64748b";
+          }}
+        >
+          <Download size={13} strokeWidth={2} />
+          Download Full Guide PDF
+        </button>
       </div>
-
-      <div
-        style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}
-      ></div>
     </div>
   );
 }
@@ -1510,47 +1546,22 @@ function TopNav({
 // ─── CV Section Block ─────────────────────────────────────────────────────────
 
 function CVSectionBlock({
-    id,
-    isActive,
-    isHovered,
-    onHover,
-    onClick,
-    children,
-    bubbleData,
-  }: {
-    id: CVSection;
-    isActive: boolean;
-    isHovered: boolean;
-    onHover: (id: CVSection | null) => void;
-    onClick: (id: CVSection) => void;
-    children: React.ReactNode;
-    bubbleData?: {
-      hrQuote: string;
-      hrName: string;
-      companyInfo: { name: string; color: string; textColor: string };
-      hrAvatar: "man" | "woman";
-    } | null;
-  }) {
-    const blockRef = useRef<HTMLDivElement>(null);
-  const [rect, setRect] = useState<{ top: number; right: number; bottom: number; left: number; width: number; height: number } | null>(null);
-  useEffect(() => {
-    const updateRect = () => {
-      if (isActive && blockRef.current) {
-        const r = blockRef.current.getBoundingClientRect();
-        setRect({ top: r.top, right: r.right, bottom: r.bottom, left: r.left, width: r.width, height: r.height });
-      }
-    };
-    updateRect();
-    window.addEventListener('scroll', updateRect, true);
-    window.addEventListener('resize', updateRect);
-    return () => {
-      window.removeEventListener('scroll', updateRect, true);
-      window.removeEventListener('resize', updateRect);
-    };
-  }, [isActive]);
+  id,
+  isActive,
+  isHovered,
+  onHover,
+  onClick,
+  children,
+}: {
+  id: CVSection;
+  isActive: boolean;
+  isHovered: boolean;
+  onHover: (id: CVSection | null) => void;
+  onClick: (id: CVSection) => void;
+  children: React.ReactNode;
+}) {
   return (
     <div
-      ref={blockRef}
       onMouseEnter={() => onHover(id)}
       onMouseLeave={() => onHover(null)}
       onClick={() => onClick(id)}
@@ -1607,228 +1618,7 @@ function CVSectionBlock({
           </span>
         </div>
       )}
-
       {children}
-
-      <AnimatePresence>
-        {isActive && bubbleData && (
-          <>
-            {/* Desktop floating bubble */}
-            <motion.div
-              initial={{ opacity: 0, x: 10, scale: 0.95 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 10, scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-              className="speech-bubble-desktop"
-              style={{
-                width: 340,
-                padding: 16,
-                top: rect ? rect.bottom + 12 : "50%",
-                left: rect ? `max(16px, ${rect.left - 340 - 16}px)` : "-356px",
-                zIndex: 9999,
-                transform: rect ? "none" : "translateY(-50%)",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  marginBottom: "8px",
-                }}
-              >
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
-                >
-                  <img
-                    src={
-                      bubbleData.hrAvatar === "man"
-                        ? "https://ui-avatars.com/api/?name=HR+Man&background=E0E7FF&color=0E56FA"
-                        : "https://ui-avatars.com/api/?name=HR+Woman&background=FCE7F3&color=DB2777"
-                    }
-                    alt="HR Avatar"
-                    style={{
-                      width: 32,
-                      height: 32,
-                      borderRadius: "50%",
-                      objectFit: "cover",
-                    }}
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "6px",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: "13px",
-                        fontWeight: 600,
-                        color: "#0F172A",
-                      }}
-                    >
-                      {bubbleData.hrName}
-                    </span>
-                    <span
-                      style={{
-                        padding: "2px 6px",
-                        borderRadius: "4px",
-                        fontSize: "9px",
-                        fontWeight: 700,
-                        backgroundColor: bubbleData.companyInfo.color,
-                        color: bubbleData.companyInfo.textColor || "white",
-                      }}
-                    >
-                      {bubbleData.companyInfo.name}
-                    </span>
-                  </div>
-                </div>
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "4px" }}
-                >
-                  <div
-                    style={{
-                      width: "6px",
-                      height: "6px",
-                      borderRadius: "50%",
-                      backgroundColor: "#22c55e",
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      fontWeight: 800,
-                      color: "#22c55e",
-                      letterSpacing: "0.05em",
-                    }}
-                  >
-                    VERIFIED
-                  </span>
-                </div>
-              </div>
-              <p
-                style={{
-                  fontSize: "13px",
-                  color: "#475569",
-                  fontStyle: "italic",
-                  lineHeight: 1.5,
-                  margin: 0,
-                  display: "-webkit-box",
-                  WebkitLineClamp: 3,
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                }}
-              >
-                "{bubbleData.hrQuote}"
-              </p>
-            </motion.div>
-
-            {/* Mobile bottom sheet */}
-            <motion.div
-              initial={{ opacity: 0, y: "100%" }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="speech-bubble-mobile"
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  marginBottom: "8px",
-                }}
-              >
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
-                >
-                  <img
-                    src={
-                      bubbleData.hrAvatar === "man"
-                        ? "https://ui-avatars.com/api/?name=HR+Man&background=E0E7FF&color=0E56FA"
-                        : "https://ui-avatars.com/api/?name=HR+Woman&background=FCE7F3&color=DB2777"
-                    }
-                    alt="HR Avatar"
-                    style={{
-                      width: 32,
-                      height: 32,
-                      borderRadius: "50%",
-                      objectFit: "cover",
-                    }}
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "6px",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: "13px",
-                        fontWeight: 600,
-                        color: "#0F172A",
-                      }}
-                    >
-                      {bubbleData.hrName}
-                    </span>
-                    <span
-                      style={{
-                        padding: "2px 6px",
-                        borderRadius: "4px",
-                        fontSize: "9px",
-                        fontWeight: 700,
-                        backgroundColor: bubbleData.companyInfo.color,
-                        color: bubbleData.companyInfo.textColor || "white",
-                      }}
-                    >
-                      {bubbleData.companyInfo.name}
-                    </span>
-                  </div>
-                </div>
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "4px" }}
-                >
-                  <div
-                    style={{
-                      width: "6px",
-                      height: "6px",
-                      borderRadius: "50%",
-                      backgroundColor: "#22c55e",
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      fontWeight: 800,
-                      color: "#22c55e",
-                      letterSpacing: "0.05em",
-                    }}
-                  >
-                    VERIFIED
-                  </span>
-                </div>
-              </div>
-              <p
-                style={{
-                  fontSize: "13px",
-                  color: "#475569",
-                  fontStyle: "italic",
-                  lineHeight: 1.5,
-                  margin: 0,
-                  display: "-webkit-box",
-                  WebkitLineClamp: 3,
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                }}
-              >
-                "{bubbleData.hrQuote}"
-              </p>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
@@ -1890,24 +1680,8 @@ function LeftCVColumn({
   selectedRole: string | null;
 }) {
   const cv = CV_DATA[level];
-  const roleData = getRoleLevelData(
-    selectedRole,
-    "developing",
-  ); /* [UX FIX - Fix 8] */
+  const roleData = getRoleLevelData(selectedRole, level);
   const stageIndex = checks.filter(Boolean).length;
-
-  const getBubbleData = (sectionId: CVSection) => {
-    const data = PANEL_DATA[sectionId]
-      ? PANEL_DATA[sectionId]["developing"]
-      : null;
-    if (!data) return null;
-    const hrQuote = (roleData.hrQuotes && roleData.hrQuotes[sectionId as keyof typeof roleData.hrQuotes]) || data.hrQuote;
-    const hrName = roleData.hrName || data.hrName;
-    const hrCompanyKey = roleData.hrCompany || data.hrCompany || "shopee";
-    const companyInfo = COMPANY_INFO[hrCompanyKey];
-    if (!hrQuote || !hrName || !companyInfo) return null;
-    return { hrQuote, hrName, companyInfo, hrAvatar: data.hrAvatar };
-  };
 
   const ACTION_VERBS = new Set([
     "led",
@@ -1977,286 +1751,425 @@ function LeftCVColumn({
       `}</style>
 
       <div
-        className="cv-left-scroll"
         style={{
-          width: activeSection ? "60%" : "100%",
-          transition: "width 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-          overflowY: "auto",
-          background: "transparent",
-          padding: "40px 24px 80px",
+          position: "relative",
+          width: "50%",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
         }}
       >
-        {/* Instruction chip */}
-        <div // [UX FIX - Fix 5 & 7]
-          style={{
-            marginBottom: 18,
-            display: "flex",
-            alignItems: "center",
-            gap: 6,
-            padding: "5px 16px",
-            borderRadius: 99,
-            background: "white",
-            border: "1px solid #E2E8F0",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
-            position: "relative",
-            zIndex: 10,
-            whiteSpace: "nowrap",
-          }}
-        >
-          <div
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: "#0E56FA",
-              flexShrink: 0,
-            }}
-          />
-          <span style={{ fontSize: 11, fontWeight: 500, color: "#64748b" }}>
-            Read the insight → tick the checklist → unlock your AI prompt ✨
-          </span>
-        </div>
-
-        {/* A4 Paper */}
         <div
+          className="cv-left-scroll pb-32"
           style={{
-            background: "white",
+            flex: 1,
             width: "100%",
-            maxWidth: 720,
-            border: "1px solid rgba(226,232,240,0.8)",
-            borderRadius: 6,
-            boxShadow:
-              "0 1px 3px rgba(0,0,0,0.04), 0 6px 20px rgba(0,0,0,0.07), 0 24px 56px rgba(0,0,0,0.07)",
-            overflow: "hidden",
+            overflowY: "auto",
+            background: "#F1F5F9",
+            borderRight: "1px solid #E2E8F0",
+            padding: "28px 24px 60px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
+          {/* Instruction chip */}
           <div
             style={{
-              height: 3,
-              background: "linear-gradient(90deg, #020818 0%, #0E56FA 100%)",
+              marginBottom: 18,
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "5px 12px",
+              borderRadius: 99,
+              background: "white",
+              border: "1px solid #E2E8F0",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
             }}
-          />
-          <div style={{ padding: "26px 32px 32px" }}>
-            {/* ── HEADER ── */}
-            <CVSectionBlock
-              bubbleData={
-                activeSection === "header" ? getBubbleData("header") : null
-              }
-              id="header"
-              isActive={activeSection === "header"}
-              isHovered={hoveredSection === "header"}
-              onHover={onHover}
-              onClick={onActivate}
-            >
-              <div
-                style={{
-                  fontSize: 19,
-                  fontWeight: 800,
-                  color: "#020818",
-                  letterSpacing: "-0.04em",
-                  marginBottom: 3,
-                }}
-              >
-                {cv.name}
-              </div>
-              <div
-                style={{
-                  fontSize: 12,
-                  fontWeight: 500,
-                  color: "#64748b",
-                  marginBottom: 8,
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                {roleData.cvTitle}
-              </div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
-                {[
-                  { icon: Mail, text: cv.email },
-                  { icon: MapPin, text: cv.location },
-                  { icon: ExternalLink, text: cv.linkedin },
-                ].map(({ icon: Icon, text }, i) => (
-                  <div
-                    key={i}
-                    style={{ display: "flex", alignItems: "center", gap: 4 }}
-                  >
-                    <Icon size={9} color="#94a3b8" strokeWidth={2} />
-                    <span style={{ fontSize: 10, color: "#64748b" }}>
-                      {text}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              {/* Transform demo for header */}
-              {activeSection === "header" && (
-                <div style={{ marginTop: 10 }}>
-                  <div
-                    style={{
-                      fontSize: 9,
-                      fontWeight: 700,
-                      color: "#94a3b8",
-                      letterSpacing: "0.06em",
-                      textTransform: "uppercase",
-                      marginBottom: 6,
-                    }}
-                  >
-                    {TRANSFORM.header[level].demoLabel}
-                  </div>
-                  <TransformBullet
-                    section="header"
-                    stages={TRANSFORM.header[level].stages}
-                    stageIndex={stageIndex}
-                  />
-                </div>
-              )}
-            </CVSectionBlock>
+          >
+            <div
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                background: "#0E56FA",
+                flexShrink: 0,
+              }}
+            />
+            <span style={{ fontSize: 11, fontWeight: 500, color: "#64748b" }}>
+              Click any section → check items on the right → watch it transform
+              ✨
+            </span>
+          </div>
 
-            {/* ── SUMMARY ── */}
-            <CVSectionBlock
-              bubbleData={
-                activeSection === "summary" ? getBubbleData("summary") : null
-              }
-              id="summary"
-              isActive={activeSection === "summary"}
-              isHovered={hoveredSection === "summary"}
-              onHover={onHover}
-              onClick={onActivate}
-            >
-              <SectionDivider
-                text="Professional Summary"
-                active={activeSection === "summary"}
-              />
-              {activeSection === "summary" && (
-                <div style={{ marginBottom: 8 }}>
-                  <div
-                    style={{
-                      fontSize: 9,
-                      fontWeight: 700,
-                      color: "#94a3b8",
-                      letterSpacing: "0.06em",
-                      textTransform: "uppercase",
-                      marginBottom: 6,
-                    }}
-                  >
-                    {TRANSFORM.summary[level].demoLabel}
-                  </div>
-                  <TransformBullet
-                    section="summary"
-                    stages={TRANSFORM.summary[level].stages}
-                    stageIndex={stageIndex}
-                  />
-                  <div
-                    style={{
-                      fontSize: 9,
-                      fontWeight: 600,
-                      color: "#CBD5E1",
-                      marginBottom: 6,
-                      marginTop: 8,
-                      letterSpacing: "0.05em",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    Good Examples ↓
-                  </div>
-                </div>
-              )}
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={`sum-${level}-${selectedRole}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.22 }}
+          {/* A4 Paper */}
+          <div
+            style={{
+              background: "white",
+              width: "100%",
+              maxWidth: 520,
+              border: "1px solid #E2E8F0",
+              borderRadius: 6,
+              boxShadow:
+                "0 1px 3px rgba(0,0,0,0.04), 0 6px 20px rgba(0,0,0,0.07), 0 24px 56px rgba(0,0,0,0.07)",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                height: 3,
+                background: "linear-gradient(90deg, #020818 0%, #0E56FA 100%)",
+              }}
+            />
+            <div style={{ padding: "26px 32px 32px" }}>
+              {/* ── HEADER ── */}
+              <CVSectionBlock
+                id="header"
+                isActive={activeSection === "header"}
+                isHovered={hoveredSection === "header"}
+                onHover={onHover}
+                onClick={onActivate}
+              >
+                <div
                   style={{
-                    fontSize: 11,
-                    color: "#334155",
-                    lineHeight: 1.65,
-                    margin: 0,
-                    paddingLeft: 2,
+                    fontSize: 19,
+                    fontWeight: 800,
+                    color: "#020818",
+                    letterSpacing: "-0.04em",
+                    marginBottom: 3,
                   }}
                 >
-                  {roleData.cvSummary}
-                </motion.p>
-              </AnimatePresence>
-            </CVSectionBlock>
-
-            {/* ── EXPERIENCE ── */}
-            <CVSectionBlock
-              bubbleData={
-                activeSection === "experience"
-                  ? getBubbleData("experience")
-                  : null
-              }
-              id="experience"
-              isActive={activeSection === "experience"}
-              isHovered={hoveredSection === "experience"}
-              onHover={onHover}
-              onClick={onActivate}
-            >
-              <SectionDivider
-                text="Experience"
-                active={activeSection === "experience"}
-              />
-              {activeSection === "experience" && (
-                <div style={{ marginBottom: 10 }}>
-                  <div
-                    style={{
-                      fontSize: 9,
-                      fontWeight: 700,
-                      color: "#94a3b8",
-                      letterSpacing: "0.06em",
-                      textTransform: "uppercase",
-                      marginBottom: 6,
-                    }}
-                  >
-                    {TRANSFORM.experience[level].demoLabel}
-                  </div>
-                  <TransformBullet
-                    section="experience"
-                    stages={TRANSFORM.experience[level].stages}
-                    stageIndex={stageIndex}
-                  />
-                  <div
-                    style={{
-                      fontSize: 9,
-                      fontWeight: 600,
-                      color: "#CBD5E1",
-                      marginBottom: 8,
-                      marginTop: 8,
-                      letterSpacing: "0.05em",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    Good Examples ↓
-                  </div>
+                  {cv.name}
                 </div>
-              )}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`exp-${level}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.22 }}
+                <div
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 500,
+                    color: "#64748b",
+                    marginBottom: 8,
+                    letterSpacing: "-0.01em",
+                  }}
                 >
-                  {cv.experience.map((entry, idx) => (
+                  {roleData.cvTitle}
+                </div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+                  {[
+                    { icon: Mail, text: cv.email },
+                    { icon: MapPin, text: cv.location },
+                    { icon: ExternalLink, text: cv.linkedin },
+                  ].map(({ icon: Icon, text }, i) => (
                     <div
-                      key={idx}
+                      key={i}
+                      style={{ display: "flex", alignItems: "center", gap: 4 }}
+                    >
+                      <Icon size={9} color="#94a3b8" strokeWidth={2} />
+                      <span style={{ fontSize: 10, color: "#64748b" }}>
+                        {text}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                {/* Transform demo for header */}
+                {activeSection === "header" && (
+                  <div style={{ marginTop: 10 }}>
+                    <div
                       style={{
-                        marginBottom: idx < cv.experience.length - 1 ? 14 : 0,
-                        paddingLeft: 10,
-                        borderLeft: "2px solid #E2E8F0",
+                        fontSize: 9,
+                        fontWeight: 700,
+                        color: "#94a3b8",
+                        letterSpacing: "0.06em",
+                        textTransform: "uppercase",
+                        marginBottom: 6,
                       }}
                     >
+                      {TRANSFORM.header[level].demoLabel}
+                    </div>
+                    <TransformBullet
+                      section="header"
+                      stages={TRANSFORM.header[level].stages}
+                      stageIndex={stageIndex}
+                    />
+                  </div>
+                )}
+              </CVSectionBlock>
+
+              {/* ── SUMMARY ── */}
+              <CVSectionBlock
+                id="summary"
+                isActive={activeSection === "summary"}
+                isHovered={hoveredSection === "summary"}
+                onHover={onHover}
+                onClick={onActivate}
+              >
+                <SectionDivider
+                  text="Professional Summary"
+                  active={activeSection === "summary"}
+                />
+                {activeSection === "summary" && (
+                  <div style={{ marginBottom: 8 }}>
+                    <div
+                      style={{
+                        fontSize: 9,
+                        fontWeight: 700,
+                        color: "#94a3b8",
+                        letterSpacing: "0.06em",
+                        textTransform: "uppercase",
+                        marginBottom: 6,
+                      }}
+                    >
+                      {TRANSFORM.summary[level].demoLabel}
+                    </div>
+                    <TransformBullet
+                      section="summary"
+                      stages={TRANSFORM.summary[level].stages}
+                      stageIndex={stageIndex}
+                    />
+                    <div
+                      style={{
+                        fontSize: 9,
+                        fontWeight: 600,
+                        color: "#CBD5E1",
+                        marginBottom: 6,
+                        marginTop: 8,
+                        letterSpacing: "0.05em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Good Examples ↓
+                    </div>
+                  </div>
+                )}
+                <AnimatePresence mode="wait">
+                  <motion.p
+                    key={`sum-${level}-${selectedRole}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.22 }}
+                    style={{
+                      fontSize: 11,
+                      color: "#334155",
+                      lineHeight: 1.65,
+                      margin: 0,
+                      paddingLeft: 2,
+                    }}
+                  >
+                    {roleData.cvSummary}
+                  </motion.p>
+                </AnimatePresence>
+              </CVSectionBlock>
+
+              {/* ── EXPERIENCE ── */}
+              <CVSectionBlock
+                id="experience"
+                isActive={activeSection === "experience"}
+                isHovered={hoveredSection === "experience"}
+                onHover={onHover}
+                onClick={onActivate}
+              >
+                <SectionDivider
+                  text="Experience"
+                  active={activeSection === "experience"}
+                />
+                {activeSection === "experience" && (
+                  <div style={{ marginBottom: 10 }}>
+                    <div
+                      style={{
+                        fontSize: 9,
+                        fontWeight: 700,
+                        color: "#94a3b8",
+                        letterSpacing: "0.06em",
+                        textTransform: "uppercase",
+                        marginBottom: 6,
+                      }}
+                    >
+                      {TRANSFORM.experience[level].demoLabel}
+                    </div>
+                    <TransformBullet
+                      section="experience"
+                      stages={TRANSFORM.experience[level].stages}
+                      stageIndex={stageIndex}
+                    />
+                    <div
+                      style={{
+                        fontSize: 9,
+                        fontWeight: 600,
+                        color: "#CBD5E1",
+                        marginBottom: 8,
+                        marginTop: 8,
+                        letterSpacing: "0.05em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Good Examples ↓
+                    </div>
+                  </div>
+                )}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={`exp-${level}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.22 }}
+                  >
+                    {cv.experience.map((entry, idx) => (
                       <div
+                        key={idx}
                         style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "baseline",
-                          marginBottom: 1,
+                          marginBottom: idx < cv.experience.length - 1 ? 14 : 0,
+                          paddingLeft: 10,
+                          borderLeft: "2px solid #E2E8F0",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "baseline",
+                            marginBottom: 1,
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "baseline",
+                              gap: 5,
+                            }}
+                          >
+                            <span
+                              style={{
+                                fontSize: 11.5,
+                                fontWeight: 700,
+                                color: "#020818",
+                                letterSpacing: "-0.02em",
+                              }}
+                            >
+                              {entry.role}
+                            </span>
+                            <span style={{ fontSize: 10, color: "#64748b" }}>
+                              · {entry.company}
+                            </span>
+                          </div>
+                          <span
+                            style={{
+                              fontSize: 9,
+                              color: "#CBD5E1",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {entry.dates}
+                          </span>
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 3,
+                            marginTop: 5,
+                          }}
+                        >
+                          {entry.bullets.map((bullet, bi) => (
+                            <div
+                              key={bi}
+                              style={{
+                                display: "flex",
+                                gap: 5,
+                                alignItems: "flex-start",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  fontSize: 9.5,
+                                  color:
+                                    activeSection === "experience"
+                                      ? "#0E56FA"
+                                      : "#CBD5E1",
+                                  fontWeight: 700,
+                                  marginTop: 1.5,
+                                  flexShrink: 0,
+                                  transition: "color 0.2s",
+                                }}
+                              >
+                                ▸
+                              </span>
+                              <div
+                                style={{
+                                  fontSize: 10.5,
+                                  lineHeight: 1.55,
+                                  letterSpacing: "-0.01em",
+                                }}
+                              >
+                                {renderHighlighted(bullet)}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </motion.div>
+                </AnimatePresence>
+              </CVSectionBlock>
+
+              {/* ── PROJECTS ── */}
+              <CVSectionBlock
+                id="projects"
+                isActive={activeSection === "projects"}
+                isHovered={hoveredSection === "projects"}
+                onHover={onHover}
+                onClick={onActivate}
+              >
+                <SectionDivider
+                  text="Projects"
+                  active={activeSection === "projects"}
+                />
+                {activeSection === "projects" && (
+                  <div style={{ marginBottom: 10 }}>
+                    <div
+                      style={{
+                        fontSize: 9,
+                        fontWeight: 700,
+                        color: "#94a3b8",
+                        letterSpacing: "0.06em",
+                        textTransform: "uppercase",
+                        marginBottom: 6,
+                      }}
+                    >
+                      {TRANSFORM.projects[level].demoLabel}
+                    </div>
+                    <TransformBullet
+                      section="projects"
+                      stages={TRANSFORM.projects[level].stages}
+                      stageIndex={stageIndex}
+                    />
+                    <div
+                      style={{
+                        fontSize: 9,
+                        fontWeight: 600,
+                        color: "#CBD5E1",
+                        marginBottom: 8,
+                        marginTop: 8,
+                        letterSpacing: "0.05em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Good Examples ↓
+                    </div>
+                  </div>
+                )}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={`proj-${level}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.22 }}
+                  >
+                    {cv.projects.map((proj, idx) => (
+                      <div
+                        key={idx}
+                        style={{
+                          paddingLeft: 10,
+                          borderLeft: "2px solid #E2E8F0",
                         }}
                       >
                         <div
@@ -2264,6 +2177,7 @@ function LeftCVColumn({
                             display: "flex",
                             alignItems: "baseline",
                             gap: 5,
+                            marginBottom: 5,
                           }}
                         >
                           <span
@@ -2274,243 +2188,105 @@ function LeftCVColumn({
                               letterSpacing: "-0.02em",
                             }}
                           >
-                            {entry.role}
+                            {proj.name}
                           </span>
                           <span style={{ fontSize: 10, color: "#64748b" }}>
-                            · {entry.company}
+                            · {proj.type}
                           </span>
                         </div>
-                        <span
+                        <div
                           style={{
-                            fontSize: 9,
-                            color: "#CBD5E1",
-                            whiteSpace: "nowrap",
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 3,
                           }}
                         >
-                          {entry.dates}
-                        </span>
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: 3,
-                          marginTop: 5,
-                        }}
-                      >
-                        {entry.bullets.map((bullet, bi) => (
-                          <div
-                            key={bi}
-                            style={{
-                              display: "flex",
-                              gap: 5,
-                              alignItems: "flex-start",
-                            }}
-                          >
-                            <span
-                              style={{
-                                fontSize: 9.5,
-                                color:
-                                  activeSection === "experience"
-                                    ? "#0E56FA"
-                                    : "#CBD5E1",
-                                fontWeight: 700,
-                                marginTop: 1.5,
-                                flexShrink: 0,
-                                transition: "color 0.2s",
-                              }}
-                            >
-                              ▸
-                            </span>
+                          {proj.bullets.map((bullet, bi) => (
                             <div
+                              key={bi}
                               style={{
-                                fontSize: 10.5,
-                                lineHeight: 1.55,
-                                letterSpacing: "-0.01em",
+                                display: "flex",
+                                gap: 5,
+                                alignItems: "flex-start",
                               }}
                             >
-                              {renderHighlighted(bullet)}
+                              <span
+                                style={{
+                                  fontSize: 9.5,
+                                  color:
+                                    activeSection === "projects"
+                                      ? "#0E56FA"
+                                      : "#CBD5E1",
+                                  fontWeight: 700,
+                                  marginTop: 1.5,
+                                  flexShrink: 0,
+                                  transition: "color 0.2s",
+                                }}
+                              >
+                                ▸
+                              </span>
+                              <div
+                                style={{
+                                  fontSize: 10.5,
+                                  lineHeight: 1.55,
+                                  letterSpacing: "-0.01em",
+                                }}
+                              >
+                                {renderHighlighted(bullet)}
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </motion.div>
-              </AnimatePresence>
-            </CVSectionBlock>
+                    ))}
+                  </motion.div>
+                </AnimatePresence>
+              </CVSectionBlock>
+            </div>
 
-            {/* ── PROJECTS ── */}
-            <CVSectionBlock
-              bubbleData={
-                activeSection === "projects" ? getBubbleData("projects") : null
-              }
-              id="projects"
-              isActive={activeSection === "projects"}
-              isHovered={hoveredSection === "projects"}
-              onHover={onHover}
-              onClick={onActivate}
+            {/* Legend */}
+            <div
+              style={{
+                padding: "8px 32px 12px",
+                borderTop: "1px solid #F8FAFC",
+                display: "flex",
+                gap: 14,
+              }}
             >
-              <SectionDivider
-                text="Projects"
-                active={activeSection === "projects"}
-              />
-              {activeSection === "projects" && (
-                <div style={{ marginBottom: 10 }}>
-                  <div
-                    style={{
-                      fontSize: 9,
-                      fontWeight: 700,
-                      color: "#94a3b8",
-                      letterSpacing: "0.06em",
-                      textTransform: "uppercase",
-                      marginBottom: 6,
-                    }}
-                  >
-                    {TRANSFORM.projects[level].demoLabel}
-                  </div>
-                  <TransformBullet
-                    section="projects"
-                    stages={TRANSFORM.projects[level].stages}
-                    stageIndex={stageIndex}
-                  />
-                  <div
-                    style={{
-                      fontSize: 9,
-                      fontWeight: 600,
-                      color: "#CBD5E1",
-                      marginBottom: 8,
-                      marginTop: 8,
-                      letterSpacing: "0.05em",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    Good Examples ↓
-                  </div>
-                </div>
-              )}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`proj-${level}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.22 }}
-                >
-                  {cv.projects.map((proj, idx) => (
-                    <div
-                      key={idx}
-                      style={{
-                        paddingLeft: 10,
-                        borderLeft: "2px solid #E2E8F0",
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "baseline",
-                          gap: 5,
-                          marginBottom: 5,
-                        }}
-                      >
-                        <span
-                          style={{
-                            fontSize: 11.5,
-                            fontWeight: 700,
-                            color: "#020818",
-                            letterSpacing: "-0.02em",
-                          }}
-                        >
-                          {proj.name}
-                        </span>
-                        <span style={{ fontSize: 10, color: "#64748b" }}>
-                          · {proj.type}
-                        </span>
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: 3,
-                        }}
-                      >
-                        {proj.bullets.map((bullet, bi) => (
-                          <div
-                            key={bi}
-                            style={{
-                              display: "flex",
-                              gap: 5,
-                              alignItems: "flex-start",
-                            }}
-                          >
-                            <span
-                              style={{
-                                fontSize: 9.5,
-                                color:
-                                  activeSection === "projects"
-                                    ? "#0E56FA"
-                                    : "#CBD5E1",
-                                fontWeight: 700,
-                                marginTop: 1.5,
-                                flexShrink: 0,
-                                transition: "color 0.2s",
-                              }}
-                            >
-                              ▸
-                            </span>
-                            <div
-                              style={{
-                                fontSize: 10.5,
-                                lineHeight: 1.55,
-                                letterSpacing: "-0.01em",
-                              }}
-                            >
-                              {renderHighlighted(bullet)}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </motion.div>
-              </AnimatePresence>
-            </CVSectionBlock>
-          </div>
-
-          {/* Legend */}
-          <div
-            style={{
-              padding: "8px 32px 12px",
-              borderTop: "1px solid #F8FAFC",
-              display: "flex",
-              gap: 14,
-            }}
-          >
-            {[
-              { color: "#0E56FA", label: "Action Verb" },
-              { color: "#16a34a", label: "Metric" },
-            ].map(({ color, label }) => (
-              <div
-                key={label}
-                style={{ display: "flex", alignItems: "center", gap: 4 }}
-              >
+              {[
+                { color: "#0E56FA", label: "Action Verb" },
+                { color: "#16a34a", label: "Metric" },
+              ].map(({ color, label }) => (
                 <div
-                  style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: 2,
-                    background: color,
-                  }}
-                />
-                <span
-                  style={{ fontSize: 9, color: "#94a3b8", fontWeight: 500 }}
+                  key={label}
+                  style={{ display: "flex", alignItems: "center", gap: 4 }}
                 >
-                  {label}
-                </span>
-              </div>
-            ))}
+                  <div
+                    style={{
+                      width: 6,
+                      height: 6,
+                      borderRadius: 2,
+                      background: color,
+                    }}
+                  />
+                  <span
+                    style={{ fontSize: 9, color: "#94a3b8", fontWeight: 500 }}
+                  >
+                    {label}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
+        <AnimatePresence mode="wait">
+          <HRQuoteBubble
+            key={activeSection + level}
+            section={activeSection}
+            level={level}
+            selectedRole={selectedRole}
+          />
+        </AnimatePresence>
       </div>
     </>
   );
@@ -2563,11 +2339,11 @@ function StepChecklist({
               borderRadius: 10,
               border: `1.5px solid ${done ? "#BBF7D0" : enabled ? "#F1F5F9" : "#F8FAFC"}`,
               background: done ? "#F0FDF4" : enabled ? "#FAFBFF" : "#FAFBFF",
-              cursor: "pointer", // [UX FIX - Fix 4]
+              cursor: enabled ? "pointer" : "not-allowed",
               textAlign: "left",
               transition: "all 0.2s",
               width: "100%",
-              opacity: 1, // [UX FIX - Fix 4]
+              opacity: enabled ? 1 : 0.45,
               position: "relative",
             }}
           >
@@ -2689,6 +2465,196 @@ function StepChecklist({
 
 // ─── Right Insight Panel ──────────────────────────────────────────────────────
 
+// ─── HR Quote Floating Bubble ──────────────────────────────────────────────────
+
+function HRQuoteBubble({
+  section,
+  level,
+  selectedRole,
+}: {
+  section: CVSection;
+  level: DiagnosticLevel;
+  selectedRole: string | null;
+}) {
+  const data = PANEL_DATA[section][level];
+  const roleData = getRoleLevelData(selectedRole, level);
+  const hrQuote =
+    (roleData as any).hrQuotes?.[section] ||
+    (roleData as any).hrQuote ||
+    data.hrQuote;
+  const hrName = roleData.hrName;
+  const hrRole = roleData.hrRole;
+  const hrCompany = roleData.hrCompany;
+  const companyInfo = COMPANY_INFO[hrCompany];
+
+  return (
+    <motion.div
+      key={section + level}
+      initial={{ opacity: 0, y: 12, scale: 0.96 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.32, ease: "easeOut" }}
+      style={{
+        position: "absolute",
+        bottom: 24,
+        left: 24,
+        zIndex: 50,
+          width: 440,
+        borderRadius: 16,
+        border: "1px solid rgba(226, 232, 240, 0.8)",
+        background: "white",
+        padding: "20px 22px",
+        boxShadow:
+          "0 12px 40px rgba(2, 8, 24, 0.08), 0 4px 12px rgba(2, 8, 24, 0.04)",
+      }}
+    >
+      {/* Speech bubble tail */}
+      <div
+        style={{
+          position: "absolute",
+          top: -10,
+          left: 36,
+          width: 0,
+          height: 0,
+          borderLeft: "10px solid transparent",
+          borderRight: "10px solid transparent",
+          borderBottom: "11px solid white",
+          filter: "drop-shadow(0 -2px 1px rgba(0,0,0,0.05))",
+        }}
+      />
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+          marginBottom: 14,
+        }}
+      >
+        <div
+          style={{
+            width: 44,
+            height: 44,
+            borderRadius: "50%",
+            overflow: "hidden",
+            flexShrink: 0,
+            border: "2px solid #F8FAFC",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+          }}
+        >
+          <img
+            src={data.hrAvatar === "man" ? AVATAR_MAN : AVATAR_WOMAN}
+            alt={hrName}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        </div>
+        <div style={{ flex: 1 }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              marginBottom: 3,
+            }}
+          >
+            <span
+              style={{
+                fontSize: 13,
+                fontWeight: 700,
+                color: "#0f172a",
+                letterSpacing: "-0.01em",
+              }}
+            >
+              {hrName}
+            </span>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 4,
+                padding: "3px 8px 3px 6px",
+                borderRadius: 6,
+                background: companyInfo.color,
+                boxShadow: `0 2px 8px ${companyInfo.color}40`,
+              }}
+            >
+              <Building2
+                size={10}
+                color={companyInfo.textColor}
+                strokeWidth={2.5}
+                style={{ opacity: 0.9 }}
+              />
+              <span
+                style={{
+                  fontSize: 9.5,
+                  fontWeight: 800,
+                  color: companyInfo.textColor,
+                  letterSpacing: "0.05em",
+                  textTransform: "uppercase",
+                }}
+              >
+                {companyInfo.name}
+              </span>
+            </div>
+          </div>
+          <div style={{ fontSize: 11.5, color: "#64748b", fontWeight: 500 }}>
+            {hrRole}
+          </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 4,
+            padding: "4px 10px",
+            borderRadius: 8,
+            background: "#F0FDF4",
+            border: "1px solid #BBF7D0",
+          }}
+        >
+          <div
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: "50%",
+              background: "#16a34a",
+              boxShadow: "0 0 0 2px rgba(22,163,74,0.2)",
+            }}
+          />
+          <span
+            style={{
+              fontSize: 10,
+              fontWeight: 700,
+              color: "#16a34a",
+              letterSpacing: "0.04em",
+              textTransform: "uppercase",
+            }}
+          >
+            Verified
+          </span>
+        </div>
+      </div>
+
+      <div style={{ position: "relative" }}>
+        <p
+          style={{
+            fontSize: 13.5,
+            color: "#334155",
+            lineHeight: 1.6,
+            margin: 0,
+            fontStyle: "italic",
+            letterSpacing: "-0.01em",
+          }}
+        >
+          "{hrQuote}"
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
 function RightInsightPanel({
   section,
   level,
@@ -2705,12 +2671,12 @@ function RightInsightPanel({
   selectedRole: string | null;
 }) {
   const data = PANEL_DATA[section][level];
-  const roleData = getRoleLevelData(
-    selectedRole,
-    "developing",
-  ); /* [UX FIX - Fix 8] */
+  const roleData = getRoleLevelData(selectedRole, level);
   // Override HR data and checklist with role-specific content
-  const hrQuote = roleData.hrQuotes[section as keyof typeof roleData.hrQuotes] || roleData.hrQuotes.experience;
+  const hrQuote =
+    (roleData as any).hrQuotes?.[section] ||
+    (roleData as any).hrQuote ||
+    data.hrQuote;
   const hrName = roleData.hrName;
   const hrRole = roleData.hrRole;
   const hrCompany = roleData.hrCompany;
@@ -2728,8 +2694,21 @@ function RightInsightPanel({
   const allChecked = stageIndex === 3;
   const companyInfo = COMPANY_INFO[hrCompany];
 
+  // [PROMPT WIRING - Step 4] Get the dynamic prompt for current role and section
+  const currentPrompt = getPromptForSection(selectedRole, section);
+
   const handleCopy = () => {
-    navigator.clipboard.writeText(data.aiPrompt).catch(() => {});
+    // [PROMPT WIRING - Step 4] Copy the dynamic prompt
+    navigator.clipboard.writeText(currentPrompt).catch(() => {});
+
+    // [PROMPT WIRING - Step 5] Track prompt copy event with role and section
+    trackEvent("prompt_copied", {
+      role: selectedRole || "Unknown",
+      prompt_key:
+        ROLE_TO_PROMPT_KEY[selectedRole || ""] ?? "Product Management (PM)",
+      section: section,
+    });
+
     setCopied(true);
     setTimeout(() => setCopied(false), 2200);
   };
@@ -2748,23 +2727,11 @@ function RightInsightPanel({
           handleScrollDepthTracking(e, "Screen3Workspace_HRPanel")
         }
         style={{
-          width: "40%",
-          position: "absolute",
-          right: 0,
-          top: 0,
-          bottom: 0,
-          transform: section ? "translateX(0)" : "translateX(100%)",
-          opacity: section ? 1 : 0,
-          pointerEvents: section ? "auto" : "none",
-          transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+          width: "50%",
           overflowY: "auto",
-          background: "rgba(255, 255, 255, 0.85)",
-          backdropFilter: "blur(24px)",
-          borderLeft: "1px solid rgba(226, 232, 240, 0.8)",
-          boxShadow: "-20px 0 40px rgba(0,0,0,0.06)",
+          background: "white",
           display: "flex",
           flexDirection: "column",
-          zIndex: 50,
         }}
       >
         <AnimatePresence mode="wait">
@@ -2963,13 +2930,6 @@ function RightInsightPanel({
                 background: allChecked
                   ? "linear-gradient(135deg, rgba(14,86,250,0.03) 0%, rgba(109,40,217,0.04) 100%)"
                   : "linear-gradient(135deg, rgba(148,163,184,0.06) 0%, rgba(203,213,225,0.08) 100%)",
-                // [UX FIX - Change 3]
-                border: allChecked
-                  ? "none"
-                  : "2px solid rgba(14, 86, 250, 0.4)",
-                boxShadow: allChecked
-                  ? "none"
-                  : "0 0 16px rgba(14, 86, 250, 0.12)",
                 transition: "background 0.5s",
               }}
             >
@@ -3017,8 +2977,7 @@ function RightInsightPanel({
                       boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
                     }}
                   >
-                    {/* [UX FIX - Change 3] */}
-                    <Lock size={28} color="#94a3b8" strokeWidth={2} />
+                    <Lock size={24} color="#94a3b8" strokeWidth={2} />
                   </div>
                   <h3
                     style={{
@@ -3044,7 +3003,7 @@ function RightInsightPanel({
                     <strong style={{ color: "#0E56FA" }}>
                       3/3 checklist items
                     </strong>{" "}
-                    above to unlock the premium AI rewrite prompt.
+                    above to unlock the your AI rewrite prompt.
                   </p>
                   <div
                     style={{
@@ -3053,9 +3012,8 @@ function RightInsightPanel({
                       gap: 4,
                       padding: "4px 10px",
                       borderRadius: 99,
-                      // [UX FIX - Change 3]
-                      background: "#0E56FA",
-                      border: "1px solid #0E56FA",
+                      background: "rgba(14,86,250,0.08)",
+                      border: "1px solid rgba(14,86,250,0.15)",
                       marginTop: 6,
                     }}
                   >
@@ -3063,7 +3021,7 @@ function RightInsightPanel({
                       style={{
                         fontSize: 10,
                         fontWeight: 700,
-                        color: "white",
+                        color: "#0E56FA",
                         letterSpacing: "0.02em",
                       }}
                     >
@@ -3140,30 +3098,40 @@ function RightInsightPanel({
                       Unlocked
                     </span>
                   </div>
-                  <p
+                  {/* [PROMPT WIRING - Step 4] Display dynamic prompt data */}
+                  <div
                     style={{
-                      fontSize: 12,
-                      color: "#64748b",
-                      lineHeight: 1.6,
-                      margin: "0 0 14px",
-                      letterSpacing: "-0.01em",
+                      maxHeight: 200,
+                      overflowY: "auto",
+                      background: "rgba(255,255,255,0.6)",
+                      border: "1px solid rgba(14,86,250,0.15)",
+                      borderRadius: 8,
+                      padding: 12,
+                      marginBottom: 14,
                     }}
                   >
-                    Copy the AI prompt below ? paste into your AI tool with your
-                    CV bullet ? watch it transform ?
-                  </p>
+                    <pre
+                      style={{
+                        margin: 0,
+                        whiteSpace: "pre-wrap",
+                        fontFamily: "'Fira Code', 'Menlo', monospace",
+                        fontSize: 13,
+                        lineHeight: 1.5,
+                        color: "#334155",
+                      }}
+                    >
+                      {currentPrompt}
+                    </pre>
+                  </div>
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.97 }}
                     onClick={(e) => {
-                      trackEvent("prompt_copied");
                       handleCopy();
                     }}
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "center",
-                      width: "100%",
                       gap: 7,
                       padding: "9px 18px",
                       borderRadius: 9,
@@ -3186,7 +3154,7 @@ function RightInsightPanel({
                       <Sparkles size={14} strokeWidth={2.5} />
                     )}
                     {copied
-                      ? "Copied! paste into your AI tool →"
+                      ? "Copied! Paste into your AI →"
                       : "✨ Copy AI Prompt Template"}
                   </motion.button>
                   {copied && (
@@ -3200,8 +3168,7 @@ function RightInsightPanel({
                         fontWeight: 500,
                       }}
                     >
-                      Paste this into your AI tool along with your raw bullet
-                      points.
+                      Paste this into your AI along with your raw bullet points.
                     </motion.p>
                   )}
                 </motion.div>
@@ -3209,49 +3176,46 @@ function RightInsightPanel({
             </div>
 
             {/* ── Continue ── */}
-            <div
-              style={{
-                borderTop: "1px solid #F1F5F9",
-                paddingTop: 18,
-                display: "flex",
-                justifyContent: "flex-end",
-              }}
-            >
-              <AnimatePresence>
-                {allChecked && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    transition={{ duration: 0.25 }}
+            <AnimatePresence>
+              {allChecked && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                  animate={{ opacity: 1, height: "auto", marginTop: 18 }}
+                  exit={{ opacity: 0, height: 0 }}
+                  style={{
+                    borderTop: "1px solid #F1F5F9",
+                    paddingTop: 18,
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    overflow: "hidden",
+                  }}
+                >
+                  <motion.button
+                    whileHover={{ scale: 1.02, x: 2 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={onContinue}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 6,
+                      padding: "8px 18px",
+                      borderRadius: 9,
+                      background: "#020818",
+                      border: "none",
+                      color: "white",
+                      fontSize: 12,
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      boxShadow: "0 2px 10px rgba(2,8,24,0.18)",
+                      letterSpacing: "-0.01em",
+                    }}
                   >
-                    <motion.button
-                      whileHover={{ scale: 1.02, x: 2 }}
-                      whileTap={{ scale: 0.97 }}
-                      onClick={onContinue}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 6,
-                        padding: "8px 18px",
-                        borderRadius: 9,
-                        background: "#020818",
-                        border: "none",
-                        color: "white",
-                        fontSize: 12,
-                        fontWeight: 700,
-                        cursor: "pointer",
-                        boxShadow: "0 2px 10px rgba(2,8,24,0.18)",
-                        letterSpacing: "-0.01em",
-                      }}
-                    >
-                      Continue to Final Summary
-                      <ArrowRight size={13} strokeWidth={2.5} />
-                    </motion.button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+                    Continue to iterate?
+                    <ArrowRight size={13} strokeWidth={2.5} />
+                  </motion.button>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
         </AnimatePresence>
       </div>
@@ -3265,8 +3229,8 @@ interface Screen3Props {
   level: DiagnosticLevel;
   onSetLevel: (l: DiagnosticLevel) => void;
   selectedRole: string | null;
-  onComplete: (bullet: string) => void;
   onBack?: () => void;
+  onComplete: (bullet: string, aiPrompt?: string) => void;
 }
 
 export function Screen3Workspace({
@@ -3276,68 +3240,6 @@ export function Screen3Workspace({
   onComplete,
   onBack,
 }: Screen3Props) {
-  // [UX FIX - Change 3] - Add Speech Bubble Styles
-  useEffect(() => {
-    if (
-      typeof document !== "undefined" &&
-      !document.getElementById("speech-bubble-styles")
-    ) {
-      const style = document.createElement("style");
-      style.id = "speech-bubble-styles";
-      style.innerHTML = `
-        .speech-bubble-desktop {
-          display: none;
-        }
-        .speech-bubble-mobile {
-          display: none;
-        }
-        @media (min-width: 1024px) {
-          .speech-bubble-desktop { display: flex !important; position: fixed;
-            top: 50%;
-            left: calc(100% + 16px);
-            width: 300px;
-            z-index: 1000;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
-            padding: 16px;
-            flex-direction: column;
-            gap: 12px;
-            cursor: default;
-          }
-          .speech-bubble-desktop::before {
-            content: '';
-            position: absolute;
-              right: auto; left: 32px;
-              top: -8px;
-              transform: none;
-              border-top: none;
-              border-bottom: 8px solid white;
-              border-left: 8px solid transparent; border-right: 8px solid transparent;
-          }
-        }
-        @media (max-width: 1023px) {
-          .speech-bubble-mobile {
-            display: flex !important;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: white;
-            border-radius: 20px 20px 0 0;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.12);
-            padding: 24px 20px;
-            padding-bottom: max(24px, env(safe-area-inset-bottom));
-            flex-direction: column;
-            gap: 12px;
-            cursor: default;
-          }
-        }
-      `;
-      document.head.appendChild(style);
-    }
-  }, []);
   const [activeSection, setActiveSection] = useState<CVSection>("experience");
   const [hoveredSection, setHoveredSection] = useState<CVSection | null>(null);
   const [checks, setChecks] = useState<[boolean, boolean, boolean]>([
@@ -3385,23 +3287,9 @@ export function Screen3Workspace({
         if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
         setMicroToast({ key: Date.now(), step: i });
         toastTimerRef.current = setTimeout(() => setMicroToast(null), 2600);
-
-        posthog.capture("cv_builder_checkbox_ticked", {
-          section: activeSection,
-          item_index: i,
-        }); // [ANALYTICS]
         break;
       }
     }
-
-    const wasAllChecked = checks.filter(Boolean).length === 3;
-    const isAllChecked = newChecks.filter(Boolean).length === 3;
-    if (!wasAllChecked && isAllChecked) {
-      posthog.capture("cv_builder_ai_prompt_unlocked", {
-        section: activeSection,
-      }); // [ANALYTICS]
-    }
-
     setChecks(newChecks);
   };
 
@@ -3415,8 +3303,10 @@ export function Screen3Workspace({
   };
 
   const handleContinue = () => {
+    const aiPrompt = getPromptForSection(selectedRole, activeSection);
     onComplete(
       "Led cross-functional team to redesign onboarding flow, reducing drop-off by 23%",
+      aiPrompt,
     );
   };
 
@@ -3436,20 +3326,10 @@ export function Screen3Workspace({
         level={level}
         onSetLevel={onSetLevel}
         onBack={onBack}
-        /* [UX FIX - Fix 2] */ onDownload={handleContinue}
+        onDownload={handleContinue}
       />
 
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          overflow: "hidden",
-          position: "relative",
-          backgroundColor: "#FAFBFF",
-          backgroundImage: "radial-gradient(#CBD5E1 1px, transparent 1px)",
-          backgroundSize: "24px 24px",
-        }}
-      >
+      <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
         <LeftCVColumn
           level={level}
           activeSection={activeSection}

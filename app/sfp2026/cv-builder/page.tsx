@@ -17,6 +17,7 @@ export default function App() {
   const [workspaceLevel, setWorkspaceLevel] =
     useState<DiagnosticLevel>("developing");
   const [builtBullet, setBuiltBullet] = useState<string>("");
+  const [aiPrompt, setAiPrompt] = useState<string>("");
   const [showMobile, setShowMobile] = useState(false);
 
   // Analytics: Track Traffic Source & Time on Page
@@ -41,8 +42,9 @@ export default function App() {
     };
   }, []);
 
-  const handleBulletComplete = (bullet: string) => {
+  const handleBulletComplete = (bullet: string, prompt?: string) => {
     setBuiltBullet(bullet);
+    if (prompt) setAiPrompt(prompt);
     setScreen(4);
   };
 
@@ -51,6 +53,7 @@ export default function App() {
     setSelectedPillar(null);
     setSelectedRole(null);
     setBuiltBullet("");
+    setAiPrompt("");
   };
 
   return (
@@ -172,7 +175,11 @@ export default function App() {
             transition={{ duration: 0.35 }}
           >
             <Screen4Finish
-              onBack={() => setScreen(3)} bullet={builtBullet} onRestart={handleRestart} />
+              onBack={() => setScreen(3)}
+              bullet={builtBullet}
+              aiPrompt={aiPrompt}
+              onRestart={handleRestart}
+            />
           </motion.div>
         )}
       </AnimatePresence>
