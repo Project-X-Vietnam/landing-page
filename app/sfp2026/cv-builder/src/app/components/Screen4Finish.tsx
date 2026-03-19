@@ -21,14 +21,12 @@ interface Piece {
 }
 
 const CONFETTI_COLORS = [
-  "#0E56FA",
-  "#3B82F6",
-  "#22c55e",
-  "#f59e0b",
-  "#ec4899",
-  "#a855f7",
-  "#020818",
-  "#06b6d4",
+  "#A6192E", // Crimson Red
+  "#C41E3A", // Lighter Red
+  "#002D62", // Navy
+  "#1A3FA8", // Lighter Blue
+  "#E6E7E8", // Light Gray
+  "#F8F9FA", // Near white
 ];
 
 function ConfettiCanvas() {
@@ -152,7 +150,7 @@ interface Props {
 }
 
 // Build combined master prompt from all 3 CV sections
-function buildCombinedPrompt(role: string | null): string {
+export function buildCombinedPrompt(role: string | null): string {
   const safeRole = role || "Product Management (PM)";
   const promptKey = ROLE_TO_PROMPT_KEY[safeRole] ?? "Product Management (PM)";
   const sectionData = PROMPTS_DATA[promptKey];
@@ -165,22 +163,13 @@ function buildCombinedPrompt(role: string | null): string {
 
 // ── Main Screen ───────────────────────────────────────────────────
 
-export function Screen4Finish({ aiPrompt, bullet, onRestart, onBack, selectedRole }: Props) {
-  const combinedPrompt = buildCombinedPrompt(selectedRole ?? null);
-  const currentPrompt = combinedPrompt || aiPrompt || "Prompt not available — please restart.";
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(currentPrompt);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
+export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
   return (
     <div
       style={{
         minHeight: "100vh",
-        background: "#FAFBFF",
+        background: "#F8F9FA",
+        fontFamily: "'Inter', sans-serif",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -248,7 +237,7 @@ export function Screen4Finish({ aiPrompt, bullet, onRestart, onBack, selectedRol
           <span
             style={{
               fontSize: 11,
-              color: "#0E56FA",
+              color: "#002D62",
               fontWeight: 700,
               marginLeft: 6,
               letterSpacing: "0.05em",
@@ -273,11 +262,11 @@ export function Screen4Finish({ aiPrompt, bullet, onRestart, onBack, selectedRol
             width: 88,
             height: 88,
             borderRadius: "50%",
-            background: "linear-gradient(135deg, #0E56FA 0%, #3B82F6 100%)",
+            background: "linear-gradient(135deg, #A6192E 0%, #C41E3A 100%)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            boxShadow: "0 8px 32px rgba(14,86,250,0.4)",
+            boxShadow: "0 8px 32px rgba(166,25,46,0.4)",
             marginBottom: 28,
             fontSize: 40,
           }}
@@ -299,43 +288,44 @@ export function Screen4Finish({ aiPrompt, bullet, onRestart, onBack, selectedRol
               gap: 6,
               padding: "5px 14px",
               borderRadius: 99,
-              background: "#F0FDF4",
-              border: "1px solid #BBF7D0",
+              background: "#F8F9FA",
+              border: "1px solid #E6E7E8",
               marginBottom: 16,
             }}
           >
-            <Check size={12} color="#16a34a" strokeWidth={3} />
+            <Check size={12} color="#002D62" strokeWidth={3} />
             <span
               style={{
                 fontSize: 11,
                 fontWeight: 700,
-                color: "#16a34a",
+                color: "#002D62",
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
+                fontFamily: "'Outfit', sans-serif",
               }}
             >
-              CV Sections Optimized!
+              Toolkit Completed!
             </span>
           </div>
 
           <h1
             style={{
-              fontSize: "clamp(30px, 5vw, 48px)",
+              fontSize: "clamp(30px, 5vw, 42px)",
               fontWeight: 800,
-              color: "#020818",
+              color: "#002D62",
+              fontFamily: "'Outfit', sans-serif",
               letterSpacing: "-0.04em",
               lineHeight: 1.05,
               marginBottom: 14,
             }}
           >
-            Your AI rewrite prompt is
-            <br />
-            <span style={{ color: "#0E56FA" }}>ready 🎯</span>
+            You are ready to build a<br />
+            <span style={{ color: "#A6192E" }}>top-tier tech CV</span>
           </h1>
 
-          <p style={{ fontSize: 15, color: "#64748b", lineHeight: 1.6 }}>
-            Your complete CV prompt package is ready — covering Summary, Experience, and Projects.
-            <br />Paste each part into ChatGPT, Claude, or Gemini to rewrite your full CV.
+          <p style={{ fontSize: 15, color: "#4A5568", lineHeight: 1.6 }}>
+            Download the official PJX CV Guidelines & Template package for 2026.
+            <br />Apply the master prompt you just unlocked and start iterating!
           </p>
         </motion.div>
 
@@ -351,85 +341,39 @@ export function Screen4Finish({ aiPrompt, bullet, onRestart, onBack, selectedRol
             gap: 12,
           }}
         >
-          {/* Ghost button */}
-          <button
-            style={{
-              width: "100%",
-              padding: "14px 24px",
-              borderRadius: 14,
-              border: "1px solid #E2E8F0",
-              background: "white",
-              color: "#020818",
-              fontSize: 14,
-              fontWeight: 600,
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 9,
-              letterSpacing: "-0.02em",
-              boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
-              transition: "all 0.18s",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.borderColor =
-                "#CBD5E1";
-              (e.currentTarget as HTMLButtonElement).style.boxShadow =
-                "0 4px 12px rgba(0,0,0,0.08)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.borderColor =
-                "#E2E8F0";
-              (e.currentTarget as HTMLButtonElement).style.boxShadow =
-                "0 1px 4px rgba(0,0,0,0.04)";
-            }}
-          >
-            <Download size={15} strokeWidth={2} />
-            Download Full PJX CV Template &amp; Action Verb Checklist
-          </button>
-
-          
-          {/* Primary CTA */}
-          <button
-            onClick={handleCopy}
+          {/* Primary CTA (Download PDF) */}
+          <a
+            href="/PJX_CV_Guide_2026.pdf"
+            download
             style={{
               width: "100%",
               padding: "20px 32px",
               borderRadius: 12,
-              background: copied ? "#22C55E" : "#0E56FA",
+              background: "#A6192E",
               color: "white",
-              fontSize: 18,
+              fontSize: 17,
               fontWeight: 700,
+              fontFamily: "'Outfit', sans-serif",
+              textDecoration: "none",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              gap: 8,
+              gap: 10,
               border: "none",
-              boxShadow: "0 8px 24px rgba(14,86,250,0.25)",
-              transition: "all 0.2s ease-in-out",
+              boxShadow: "0 8px 24px rgba(166,25,46,0.3)",
+              transition: "transform 0.2sease-in-out, box-shadow 0.2s",
             }}
             onMouseOver={(e) => {
-              if(!copied) Object.assign(e.currentTarget.style, { transform: 'translateY(-2px)', boxShadow: '0 12px 32px rgba(14,86,250,0.35)' });
+              Object.assign(e.currentTarget.style, { transform: 'translateY(-2px)', boxShadow: '0 12px 32px rgba(166,25,46,0.45)' });
             }}
             onMouseOut={(e) => {
-              if(!copied) Object.assign(e.currentTarget.style, { transform: 'translateY(0)', boxShadow: '0 8px 24px rgba(14,86,250,0.25)' });
+              Object.assign(e.currentTarget.style, { transform: 'translateY(0)', boxShadow: '0 8px 24px rgba(166,25,46,0.3)' });
             }}
           >
-            {copied ? "Copied! ✓" : "Copy Your AI Rewrite Prompt ✨"}
-          </button>
-
-          <div
-            style={{
-              fontSize: 12,
-              color: "#6B7280",
-              textAlign: "center",
-              marginTop: 4,
-            }}
-          >
-            Works with ChatGPT, Claude, Gemini & more
-          </div>
-
+            <Download size={18} strokeWidth={2.5} />
+            Download Full PJX CV Guide 2026
+          </a>
         </motion.div>
 
         {/* Actions row: Back & Restart */}
@@ -464,7 +408,7 @@ export function Screen4Finish({ aiPrompt, bullet, onRestart, onBack, selectedRol
                 transition: "color 0.15s",
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.color = "#0E56FA";
+                (e.currentTarget as HTMLButtonElement).style.color = "#002D62";
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLButtonElement).style.color = "#94a3b8";
@@ -513,13 +457,14 @@ export function Screen4Finish({ aiPrompt, bullet, onRestart, onBack, selectedRol
             marginTop: 48,
             padding: "16px 24px",
             borderRadius: 14,
-            background: "rgba(14,86,250,0.04)",
-            border: "1px solid rgba(14,86,250,0.08)",
+            background: "white",
+            border: "1px solid #E6E7E8",
             textAlign: "center",
+            boxShadow: "0 2px 8px rgba(0,45,98,0.03)",
           }}
         >
-          <p style={{ fontSize: 12, color: "#64748b", lineHeight: 1.6 }}>
-            <strong style={{ color: "#020818" }}>Career Survival Kit</strong> ·
+          <p style={{ fontSize: 12, color: "#4A5568", lineHeight: 1.6 }}>
+            <strong style={{ color: "#002D62", fontFamily: "'Outfit', sans-serif" }}>Career Survival Kit</strong> ·
             Built for university students and early-career professionals
             applying for tech roles in 2026.
           </p>

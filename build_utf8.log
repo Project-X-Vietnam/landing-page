@@ -1,0 +1,20 @@
+app/sfp2026/cv-builder/src/app/components/ExperiencePopover.tsx(130,27): error TS2339: Property 'method' does not exist on type 'FormulaState'.
+app/sfp2026/cv-builder/src/app/components/ExperiencePopover.tsx(192,36): error TS2339: Property 'method' does not exist on type 'FormulaState'.
+app/sfp2026/cv-builder/src/app/components/ExperiencePopover.tsx(197,13): error TS2339: Property 'method' does not exist on type 'FormulaState'.
+app/sfp2026/cv-builder/src/app/components/ExperiencePopover.tsx(197,57): error TS2339: Property 'method' does not exist on type 'FormulaState'.
+app/sfp2026/cv-builder/src/app/components/ExperiencePopover.tsx(198,79): error TS2339: Property 'method' does not exist on type 'FormulaState'.
+app/sfp2026/cv-builder/src/app/components/ExperiencePopover.tsx(306,30): error TS2339: Property 'method' does not exist on type 'FormulaState'.
+app/sfp2026/cv-builder/src/app/components/ExperiencePopover.tsx(307,48): error TS2345: Argument of type '"method"' is not assignable to parameter of type 'keyof FormulaState'.
+app/sfp2026/cv-builder/src/app/components/ExperiencePopover.tsx(362,68): error TS2339: Property 'method' does not exist on type 'FormulaState'.
+app/sfp2026/cv-builder/src/app/components/ExperiencePopover.tsx(368,100): error TS2339: Property 'method' does not exist on type 'FormulaState'.
+app/sfp2026/cv-builder/src/app/components/GuidePanel.tsx(115,34): error TS2339: Property 'method' does not exist on type 'FormulaState'.
+app/sfp2026/cv-builder/src/app/components/GuidePanel.tsx(124,56): error TS2339: Property 'method' does not exist on type 'FormulaState'.
+app/sfp2026/cv-builder/src/app/components/GuidePanel.tsx(128,17): error TS2339: Property 'method' does not exist on type 'FormulaState'.
+app/sfp2026/cv-builder/src/app/components/GuidePanel.tsx(128,58): error TS2339: Property 'method' does not exist on type 'FormulaState'.
+app/sfp2026/cv-builder/src/app/components/GuidePanel.tsx(278,28): error TS2339: Property 'method' does not exist on type 'FormulaState'.
+app/sfp2026/cv-builder/src/app/components/GuidePanel.tsx(279,46): error TS2345: Argument of type '"method"' is not assignable to parameter of type 'keyof FormulaState'.
+app/sfp2026/cv-builder/src/app/components/GuidePanel.tsx(325,48): error TS2339: Property 'method' does not exist on type 'FormulaState'.
+app/sfp2026/cv-builder/src/app/components/GuidePanel.tsx(328,30): error TS2339: Property 'method' does not exist on type 'FormulaState'.
+app/sfp2026/cv-builder/src/app/components/GuidePanel.tsx(329,67): error TS2339: Property 'method' does not exist on type 'FormulaState'.
+app/sfp2026/cv-builder/src/app/components/GuidePanel.tsx(381,72): error TS2339: Property 'method' does not exist on type 'FormulaState'.
+app/sfp2026/cv-builder/src/app/components/WorkspaceScreen.tsx(42,5): error TS2353: Object literal may only specify known properties, and 'method' does not exist in type 'FormulaState | (() => FormulaState)'.

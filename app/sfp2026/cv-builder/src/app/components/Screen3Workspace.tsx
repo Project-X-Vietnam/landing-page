@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { DiagnosticLevel } from "../types";
 import { CV_TEMPLATES, TRANSFORM_TEMPLATES, CVData, ExperienceEntry, ProjectEntry } from "../../data/cvTemplates";
+import { buildCombinedPrompt } from "./Screen4Finish"; // Provide full prompt
 
 // [PROMPT WIRING - Step 3] Helper to get dynamic prompt
 const getPromptForSection = (role: string | null, section: string): string => {
@@ -85,7 +86,7 @@ const TOUR_CONTENT = [
 ];
 
 const MICRO_REACTIONS = [
-  { emoji: "💪", text: "Action verb upgraded!", color: "#0E56FA" },
+  { emoji: "💪", text: "Action verb upgraded!", color: "#A6192E" },
   { emoji: "🎯", text: "Context & scope added!", color: "#7c3aed" },
   { emoji: "📈", text: "Impact quantified — HR-ready!", color: "#16a34a" },
 ];
@@ -345,7 +346,7 @@ function TransformBullet({
             ? "#FFF5F5"
             : isFinal
               ? "rgba(22,163,74,0.04)"
-              : "rgba(14,86,250,0.03)",
+              : "rgba(166,25,46,0.03)",
           border: `1.5px solid ${isBad ? "#FECACA" : isFinal ? "#BBF7D0" : "#DBEAFE"}`,
           marginBottom: isBad ? 6 : 10,
           position: "relative",
@@ -372,7 +373,7 @@ function TransformBullet({
               letterSpacing: "0.06em",
               textTransform: "uppercase",
               background: isBad ? "#FEE2E2" : isFinal ? "#DCFCE7" : "#DBEAFE",
-              color: isBad ? "#dc2626" : isFinal ? "#16a34a" : "#0E56FA",
+              color: isBad ? "#dc2626" : isFinal ? "#16a34a" : "#A6192E",
               border: `1px solid ${isBad ? "#FECACA" : isFinal ? "#BBF7D0" : "#BFDBFE"}`,
             }}
           >
@@ -393,7 +394,7 @@ function TransformBullet({
             <span
               style={{
                 fontSize: 9.5,
-                color: isBad ? "#ef4444" : isFinal ? "#16a34a" : "#0E56FA",
+                color: isBad ? "#ef4444" : isFinal ? "#16a34a" : "#A6192E",
                 fontWeight: 700,
                 marginTop: 2,
                 flexShrink: 0,
@@ -419,7 +420,7 @@ function TransformBullet({
               const segColor = isBad
                 ? "#ef4444"
                 : seg.flash === "blue"
-                  ? "#0E56FA"
+                  ? "#A6192E"
                   : seg.flash === "green"
                     ? "#16a34a"
                     : "#334155";
@@ -524,7 +525,7 @@ function SpotlightTour({
   const { tx, ty } = tooltips[step];
   const content = TOUR_CONTENT[step];
   const isLast = step === 2;
-  const DIM = "rgba(2,8,24,0.82)";
+  const DIM = "rgba(0,45,98,0.82)";
 
   return (
     <motion.div
@@ -589,9 +590,9 @@ function SpotlightTour({
           width: sw + 10,
           height: sh + 10,
           borderRadius: 16,
-          border: "2.5px solid rgba(14,86,250,0.85)",
+          border: "2.5px solid rgba(166,25,46,0.85)",
           boxShadow:
-            "0 0 0 6px rgba(14,86,250,0.12), 0 0 48px rgba(14,86,250,0.3)",
+            "0 0 0 6px rgba(166,25,46,0.12), 0 0 48px rgba(166,25,46,0.3)",
           pointerEvents: "none",
         }}
       />
@@ -616,7 +617,7 @@ function SpotlightTour({
           borderRadius: 16,
           background: "white",
           boxShadow:
-            "0 8px 52px rgba(2,8,24,0.4), 0 2px 10px rgba(2,8,24,0.12)",
+            "0 8px 52px rgba(0,45,98,0.4), 0 2px 10px rgba(0,45,98,0.12)",
           zIndex: 10000,
         }}
       >
@@ -637,7 +638,7 @@ function SpotlightTour({
                 width: i === step ? 22 : 6,
                 borderRadius: 99,
                 background:
-                  i < step ? "#16a34a" : i === step ? "#0E56FA" : "#E2E8F0",
+                  i < step ? "#16a34a" : i === step ? "#A6192E" : "#E2E8F0",
                 transition: "all 0.3s",
               }}
             />
@@ -659,7 +660,7 @@ function SpotlightTour({
           style={{
             fontSize: 14,
             fontWeight: 800,
-            color: "#020818",
+            color: "#002D62",
             letterSpacing: "-0.03em",
             margin: "0 0 7px",
           }}
@@ -706,7 +707,7 @@ function SpotlightTour({
             style={{
               padding: "7px 20px",
               borderRadius: 9,
-              background: isLast ? "#16a34a" : "#0E56FA",
+              background: isLast ? "#16a34a" : "#A6192E",
               color: "white",
               border: "none",
               fontSize: 12.5,
@@ -715,7 +716,7 @@ function SpotlightTour({
               letterSpacing: "-0.01em",
               boxShadow: isLast
                 ? "0 3px 14px rgba(22,163,74,0.45)"
-                : "0 3px 14px rgba(14,86,250,0.45)",
+                : "0 3px 14px rgba(166,25,46,0.45)",
             }}
           >
             {content.buttonText}
@@ -777,10 +778,10 @@ function LevelSwitcher({
                 style={{
                   position: "absolute",
                   inset: 0,
-                  background: "#0E56FA",
+                  background: "#A6192E",
                   borderRadius: 7,
                   zIndex: -1,
-                  boxShadow: "0 2px 10px rgba(14,86,250,0.32)",
+                  boxShadow: "0 2px 10px rgba(166,25,46,0.32)",
                 }}
                 transition={{ type: "spring", stiffness: 420, damping: 36 }}
               />
@@ -853,12 +854,12 @@ function TopNav({
             width: 28,
             height: 28,
             borderRadius: 8,
-            background: "#020818",
+            background: "#002D62",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexShrink: 0,
-            boxShadow: "0 2px 6px rgba(2,8,24,0.2)",
+            boxShadow: "0 2px 6px rgba(0,45,98,0.2)",
           }}
         >
           <span
@@ -879,7 +880,7 @@ function TopNav({
           style={{
             fontSize: 13,
             fontWeight: 600,
-            color: "#020818",
+            color: "#002D62",
             letterSpacing: "-0.02em",
           }}
         >
@@ -903,15 +904,15 @@ function TopNav({
             marginLeft: 6,
             padding: "2px 9px",
             borderRadius: 99,
-            background: "rgba(14,86,250,0.07)",
-            border: "1px solid rgba(14,86,250,0.13)",
+            background: "rgba(166,25,46,0.07)",
+            border: "1px solid rgba(166,25,46,0.13)",
           }}
         >
           <span
             style={{
               fontSize: 10,
               fontWeight: 700,
-              color: "#0E56FA",
+              color: "#A6192E",
               letterSpacing: "0.06em",
               textTransform: "uppercase",
             }}
@@ -956,14 +957,14 @@ function CVSectionBlock({
         cursor: "pointer",
         padding: "12px 14px",
         border: isActive
-          ? "1.5px solid #0E56FA"
+          ? "1.5px solid #A6192E"
           : isHovered
             ? "1.5px solid #BFDBFE"
             : "1.5px solid transparent",
         background: isActive
-          ? "rgba(14,86,250,0.04)"
+          ? "rgba(166,25,46,0.04)"
           : isHovered
-            ? "rgba(14,86,250,0.015)"
+            ? "rgba(166,25,46,0.015)"
             : "transparent",
         transition: "all 0.18s",
         marginBottom: 10,
@@ -977,7 +978,7 @@ function CVSectionBlock({
               fontWeight: 800,
               padding: "2px 8px",
               borderRadius: 99,
-              background: "#0E56FA",
+              background: "#A6192E",
               color: "white",
               letterSpacing: "0.07em",
               textTransform: "uppercase",
@@ -996,7 +997,7 @@ function CVSectionBlock({
               padding: "2px 8px",
               borderRadius: 99,
               background: "#E0EAFF",
-              color: "#0E56FA",
+              color: "#A6192E",
             }}
           >
             Click to explore
@@ -1023,7 +1024,7 @@ function SectionDivider({ text, active }: { text: string; active?: boolean }) {
           fontSize: 9,
           fontWeight: 800,
           letterSpacing: "0.14em",
-          color: active ? "#0E56FA" : "#94a3b8",
+          color: active ? "#A6192E" : "#94a3b8",
           textTransform: "uppercase",
           whiteSpace: "nowrap",
           transition: "color 0.2s",
@@ -1396,7 +1397,7 @@ function LeftCVColumn({
         <span
           key={i}
           style={{
-            color: isVerb ? "#0E56FA" : isMet ? "#16a34a" : "#334155",
+            color: isVerb ? "#A6192E" : isMet ? "#16a34a" : "#334155",
             fontWeight: isVerb || isMet ? 700 : 400,
           }}
         >
@@ -1414,8 +1415,8 @@ function LeftCVColumn({
         .cv-left-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
         @keyframes segFlashBlue {
-          0%   { background-color: #0E56FA; color: white; border-radius: 4px; padding: 1px 4px; }
-          45%  { background-color: rgba(14,86,250,0.18); color: #0E56FA; border-radius: 4px; padding: 1px 4px; }
+          0%   { background-color: #A6192E; color: white; border-radius: 4px; padding: 1px 4px; }
+          45%  { background-color: rgba(166,25,46,0.18); color: #A6192E; border-radius: 4px; padding: 1px 4px; }
           100% { background-color: rgba(0, 0, 0, 0); padding: 0; }
         }
         @keyframes segFlashGreen {
@@ -1461,7 +1462,7 @@ function LeftCVColumn({
               width: 6,
               height: 6,
               borderRadius: "50%",
-              background: "#0E56FA",
+              background: "#A6192E",
               flexShrink: 0,
             }}
           />
@@ -1486,7 +1487,7 @@ function LeftCVColumn({
           <div
             style={{
               height: 3,
-              background: "linear-gradient(90deg, #020818 0%, #0E56FA 100%)",
+              background: "linear-gradient(90deg, #002D62 0%, #A6192E 100%)",
             }}
           />
           <div style={{ padding: "26px 32px 32px" }}>
@@ -1502,7 +1503,7 @@ function LeftCVColumn({
                 style={{
                   fontSize: 19,
                   fontWeight: 800,
-                  color: "#020818",
+                  color: "#002D62",
                   letterSpacing: "-0.04em",
                   marginBottom: 3,
                 }}
@@ -1709,7 +1710,7 @@ function LeftCVColumn({
                             style={{
                               fontSize: 11.5,
                               fontWeight: 700,
-                              color: "#020818",
+                              color: "#002D62",
                               letterSpacing: "-0.02em",
                             }}
                           >
@@ -1751,7 +1752,7 @@ function LeftCVColumn({
                                 fontSize: 9.5,
                                 color:
                                   activeSection === "experience"
-                                    ? "#0E56FA"
+                                    ? "#A6192E"
                                     : "#CBD5E1",
                                 fontWeight: 700,
                                 marginTop: 1.5,
@@ -1853,7 +1854,7 @@ function LeftCVColumn({
                           style={{
                             fontSize: 11.5,
                             fontWeight: 700,
-                            color: "#020818",
+                            color: "#002D62",
                             letterSpacing: "-0.02em",
                           }}
                         >
@@ -1884,7 +1885,7 @@ function LeftCVColumn({
                                 fontSize: 9.5,
                                 color:
                                   activeSection === "projects"
-                                    ? "#0E56FA"
+                                    ? "#A6192E"
                                     : "#CBD5E1",
                                 fontWeight: 700,
                                 marginTop: 1.5,
@@ -1923,7 +1924,7 @@ function LeftCVColumn({
             }}
           >
             {[
-              { color: "#0E56FA", label: "Action Verb" },
+              { color: "#A6192E", label: "Action Verb" },
               { color: "#16a34a", label: "Metric" },
             ].map(({ color, label }) => (
               <div
@@ -1999,7 +2000,7 @@ function StepChecklist({
               padding: "10px 12px",
               borderRadius: 10,
               border: `1.5px solid ${done ? "#BBF7D0" : enabled ? "#F1F5F9" : "#F8FAFC"}`,
-              background: done ? "#F0FDF4" : enabled ? "#FAFBFF" : "#FAFBFF",
+              background: done ? "#F0FDF4" : enabled ? "#F8F9FA" : "#F8F9FA",
               cursor: enabled ? "pointer" : "not-allowed",
               textAlign: "left",
               transition: "all 0.2s",
@@ -2129,15 +2130,15 @@ function StepChecklist({
 function RightInsightPanel({
   section,
   level,
-  checks,
-  onChecksChange,
+  sectionChecks,
+  onSectionChecksChange,
   onContinue,
   selectedRole,
 }: {
   section: CVSection;
   level: DiagnosticLevel;
-  checks: [boolean, boolean, boolean];
-  onChecksChange: (c: [boolean, boolean, boolean]) => void;
+  sectionChecks: Record<string, boolean[]>;
+  onSectionChecksChange: (c: [boolean, boolean, boolean]) => void;
   onContinue: (prompt: string) => void;
   selectedRole: string | null;
 }) {
@@ -2169,12 +2170,19 @@ function RightInsightPanel({
   const panelKey = `${section}-${level}-${cvKey}`;
   const [copied, setCopied] = useState(false);
   const [feedback, setFeedback] = useState<"helpful" | "love" | null>(null);
+  
+  const checks = (sectionChecks[section] || [false, false, false]) as [boolean, boolean, boolean];
+  const totalChecked = 
+    (sectionChecks.summary?.filter(Boolean).length || 0) + 
+    (sectionChecks.experience?.filter(Boolean).length || 0) + 
+    (sectionChecks.projects?.filter(Boolean).length || 0);
+  
   const stageIndex = checks.filter(Boolean).length;
-  const allChecked = stageIndex === 3;
+  const allChecked = totalChecked === 9;
   const companyInfo = COMPANY_INFO[hrCompany];
 
-  // [PROMPT WIRING - Step 4] Get the dynamic prompt for current role and section
-  const currentPrompt = getPromptForSection(selectedRole, section);
+  // [PROMPT WIRING - Step 4] Get the dynamic master prompt when unlocked
+  const currentPrompt = allChecked ? buildCombinedPrompt(selectedRole ?? null) : getPromptForSection(selectedRole, section);
 
   const handleCopy = () => {
     // [PROMPT WIRING - Step 4] Copy the dynamic prompt
@@ -2233,7 +2241,7 @@ function RightInsightPanel({
               style={{
                 fontSize: 20,
                 fontWeight: 800,
-                color: "#020818",
+                color: "#002D62",
                 letterSpacing: "-0.04em",
                 margin: 0,
                 lineHeight: 1.2,
@@ -2257,20 +2265,20 @@ function RightInsightPanel({
                     width: 20,
                     height: 20,
                     borderRadius: 6,
-                    background: "rgba(14,86,250,0.1)",
+                    background: "rgba(166,25,46,0.1)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     flexShrink: 0,
                   }}
                 >
-                  <Check size={11} color="#0E56FA" strokeWidth={3} />
+                  <Check size={11} color="#A6192E" strokeWidth={3} />
                 </div>
                 <span
                   style={{
                     fontSize: 13,
                     fontWeight: 700,
-                    color: "#020818",
+                    color: "#002D62",
                     letterSpacing: "-0.02em",
                   }}
                 >
@@ -2326,7 +2334,7 @@ function RightInsightPanel({
                   transform.checklistItems
                 }
                 checks={checks}
-                onChange={onChecksChange}
+                onChange={onSectionChecksChange}
               />
 
               {/* All-done celebration */}
@@ -2372,7 +2380,7 @@ function RightInsightPanel({
                 position: "relative",
                 overflow: "hidden",
                 background: allChecked
-                  ? "linear-gradient(135deg, rgba(14,86,250,0.03) 0%, rgba(109,40,217,0.04) 100%)"
+                  ? "linear-gradient(135deg, rgba(166,25,46,0.03) 0%, rgba(109,40,217,0.04) 100%)"
                   : "linear-gradient(135deg, rgba(148,163,184,0.06) 0%, rgba(203,213,225,0.08) 100%)",
                 transition: "background 0.5s",
               }}
@@ -2385,7 +2393,7 @@ function RightInsightPanel({
                   borderRadius: 14,
                   padding: 1.5,
                   background: allChecked
-                    ? "linear-gradient(135deg, rgba(14,86,250,0.35), rgba(109,40,217,0.35))"
+                    ? "linear-gradient(135deg, rgba(166,25,46,0.35), rgba(109,40,217,0.35))"
                     : "linear-gradient(135deg, rgba(148,163,184,0.25), rgba(203,213,225,0.25))",
                   WebkitMask:
                     "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
@@ -2427,7 +2435,7 @@ function RightInsightPanel({
                     style={{
                       fontSize: 14,
                       fontWeight: 800,
-                      color: "#020818",
+                      color: "#002D62",
                       letterSpacing: "-0.02em",
                       margin: "0 0 8px",
                     }}
@@ -2444,10 +2452,10 @@ function RightInsightPanel({
                     }}
                   >
                     Complete{" "}
-                    <strong style={{ color: "#0E56FA" }}>
-                      3/3 checklist items
+                    <strong style={{ color: "#A6192E" }}>
+                      9/9 checklist items
                     </strong>{" "}
-                    above to unlock the your AI rewrite prompt.
+                    across all sections (Summary, Experience, Projects) to unlock your master AI prompt.
                   </p>
                   <div
                     style={{
@@ -2456,8 +2464,8 @@ function RightInsightPanel({
                       gap: 4,
                       padding: "4px 10px",
                       borderRadius: 99,
-                      background: "rgba(14,86,250,0.08)",
-                      border: "1px solid rgba(14,86,250,0.15)",
+                      background: "rgba(166,25,46,0.08)",
+                      border: "1px solid rgba(166,25,46,0.15)",
                       marginTop: 6,
                     }}
                   >
@@ -2465,11 +2473,11 @@ function RightInsightPanel({
                       style={{
                         fontSize: 10,
                         fontWeight: 700,
-                        color: "#0E56FA",
+                        color: "#A6192E",
                         letterSpacing: "0.02em",
                       }}
                     >
-                      {stageIndex}/3 Completed
+                      {totalChecked}/9 Completed
                     </span>
                   </div>
                 </motion.div>
@@ -2521,11 +2529,11 @@ function RightInsightPanel({
                       style={{
                         fontSize: 14,
                         fontWeight: 800,
-                        color: "#020818",
+                        color: "#002D62",
                         letterSpacing: "-0.02em",
                       }}
                     >
-                      {data.aiTitle}
+                      Master AI Prompt Unlocked!
                     </span>
                     <span
                       style={{
@@ -2548,7 +2556,7 @@ function RightInsightPanel({
                       maxHeight: 200,
                       overflowY: "auto",
                       background: "rgba(255,255,255,0.6)",
-                      border: "1px solid rgba(14,86,250,0.15)",
+                      border: "1px solid rgba(166,25,46,0.15)",
                       borderRadius: 8,
                       padding: 12,
                       marginBottom: 14,
@@ -2579,7 +2587,7 @@ function RightInsightPanel({
                       gap: 7,
                       padding: "9px 18px",
                       borderRadius: 9,
-                      background: copied ? "#16a34a" : "#0E56FA",
+                      background: copied ? "#16a34a" : "#A6192E",
                       border: "none",
                       color: "white",
                       fontSize: 12.5,
@@ -2587,7 +2595,7 @@ function RightInsightPanel({
                       cursor: "pointer",
                       boxShadow: copied
                         ? "0 3px 12px rgba(22,163,74,0.35)"
-                        : "0 3px 12px rgba(14,86,250,0.35)",
+                        : "0 3px 12px rgba(166,25,46,0.35)",
                       transition: "background 0.2s, box-shadow 0.2s",
                       letterSpacing: "-0.01em",
                     }}
@@ -2642,13 +2650,13 @@ function RightInsightPanel({
                     gap: 7,
                     padding: "10px 20px",
                     borderRadius: 10,
-                    background: "linear-gradient(135deg, #0E56FA 0%, #3B82F6 100%)",
+                    background: "linear-gradient(135deg, #A6192E 0%, #C41E3A 100%)",
                     border: "none",
                     color: "white",
                     fontSize: 13,
                     fontWeight: 700,
                     cursor: "pointer",
-                    boxShadow: "0 4px 16px rgba(14,86,250,0.35)",
+                    boxShadow: "0 4px 16px rgba(166,25,46,0.35)",
                     letterSpacing: "-0.01em",
                   }}
                 >
@@ -2683,11 +2691,11 @@ export function Screen3Workspace({
 }: Screen3Props) {
   const [activeSection, setActiveSection] = useState<CVSection>("experience");
   const [hoveredSection, setHoveredSection] = useState<CVSection | null>(null);
-  const [checks, setChecks] = useState<[boolean, boolean, boolean]>([
-    false,
-    false,
-    false,
-  ]);
+  const [sectionChecks, setSectionChecks] = useState<Record<string, boolean[]>>({
+    summary: [false, false, false],
+    experience: [false, false, false],
+    projects: [false, false, false],
+  });
 
   // ── HR Quote Bubble state (FIX 1, FIX 2) ───────────────────────────────────
   const [bubbleVisible, setBubbleVisible] = useState(true);
@@ -2750,21 +2758,29 @@ export function Screen3Workspace({
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleChecksChange = (newChecks: [boolean, boolean, boolean]) => {
+    const currentSectionChecks = sectionChecks[activeSection] || [false, false, false];
     for (let i = 0; i < 3; i++) {
-      if (newChecks[i] && !checks[i]) {
+      if (newChecks[i] && !currentSectionChecks[i]) {
         if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
         setMicroToast({ key: Date.now(), step: i });
         toastTimerRef.current = setTimeout(() => setMicroToast(null), 2600);
         break;
       }
     }
-    setChecks(newChecks);
+    setSectionChecks(prev => ({
+      ...prev,
+      [activeSection]: newChecks
+    }));
   };
 
-  // Reset checks whenever section or level changes
+  // Reset checks only when the diagnostic level changes (not when activeSection changes!)
   useEffect(() => {
-    setChecks([false, false, false]);
-  }, [activeSection, level]);
+    setSectionChecks({
+      summary: [false, false, false],
+      experience: [false, false, false],
+      projects: [false, false, false],
+    });
+  }, [level]);
 
   // FIX 1 — Activate section and capture clicked element's rect for bubble positioning
   const handleActivate = (id: CVSection, rect: DOMRect) => {
@@ -2783,7 +2799,7 @@ export function Screen3Workspace({
         display: "flex",
         flexDirection: "column",
         height: "100vh",
-        background: "#FAFBFF",
+        background: "#F8F9FA",
         fontFamily:
           "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
         WebkitFontSmoothing: "antialiased",
@@ -2803,14 +2819,14 @@ export function Screen3Workspace({
           hoveredSection={hoveredSection}
           onHover={setHoveredSection}
           onActivate={handleActivate}
-          checks={checks}
+          checks={((sectionChecks as any)[activeSection] || [false, false, false]) as [boolean, boolean, boolean]}
           selectedRole={selectedRole}
         />
         <RightInsightPanel
           section={activeSection}
           level={level}
-          checks={checks}
-          onChecksChange={handleChecksChange}
+          sectionChecks={sectionChecks}
+          onSectionChecksChange={handleChecksChange}
           onContinue={handleContinue}
           selectedRole={selectedRole}
         />

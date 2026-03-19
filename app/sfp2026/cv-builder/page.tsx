@@ -17,8 +17,6 @@ export default function App() {
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [workspaceLevel, setWorkspaceLevel] =
     useState<DiagnosticLevel>("developing");
-  const [builtBullet, setBuiltBullet] = useState<string>("");
-  const [aiPrompt, setAiPrompt] = useState<string>("");
   const [showMobile, setShowMobile] = useState(false);
 
   // Analytics: Track Traffic Source & Time on Page
@@ -44,8 +42,6 @@ export default function App() {
   }, []);
 
   const handleBulletComplete = (bullet: string, prompt?: string) => {
-    setBuiltBullet(bullet);
-    if (prompt) setAiPrompt(prompt);
     setScreen(4);
   };
 
@@ -53,15 +49,13 @@ export default function App() {
     setScreen(1);
     setSelectedPillar(null);
     setSelectedRole(null);
-    setBuiltBullet("");
-    setAiPrompt("");
   };
 
   return (
     <div
       style={{
         minHeight: "100vh",
-        background: "#FAFBFF",
+        background: "#F8F9FA",
         fontFamily:
           "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
         WebkitFontSmoothing: "antialiased",
@@ -189,8 +183,6 @@ export default function App() {
           >
             <Screen4Finish
               onBack={() => setScreen(3)}
-              bullet={builtBullet}
-              aiPrompt={aiPrompt}
               onRestart={handleRestart}
               selectedRole={selectedRole}
             />
