@@ -8,5 +8,4 @@ export interface FormulaState {
   action: string;
   context: string;
   impact: string;
-  method: string;
 }

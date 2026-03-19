@@ -152,7 +152,7 @@ export function Screen2Diagnostic({ checks, onToggle, onEnter, onBack }: Props) 
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          {[1, 2, 3].map((s) => (
+          {[1, 2, 3, 4].map((s) => (
             <div
               key={s}
               style={{
@@ -172,7 +172,7 @@ export function Screen2Diagnostic({ checks, onToggle, onEnter, onBack }: Props) 
               marginLeft: 6,
             }}
           >
-            1 of 3
+            2 of 4
           </span>
         </div>
       </div>
@@ -213,7 +213,7 @@ export function Screen2Diagnostic({ checks, onToggle, onEnter, onBack }: Props) 
               textTransform: "uppercase",
             }}
           >
-            {/* // [FEEDBACK FIX] - Change 1 */}\n            Step 1 of 3
+            Step 2 of 4
           </span>
         </div>
 
@@ -578,5 +578,3 @@ export function Screen2Diagnostic({ checks, onToggle, onEnter, onBack }: Props) 
     </div>
   );
 }
-
-

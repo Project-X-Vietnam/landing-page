@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { Code2, LayoutGrid, Briefcase, BrainCircuit, ArrowRight, ChevronRight } from "lucide-react";
+import { Code2, LayoutGrid, Briefcase, HelpCircle, ArrowRight, ChevronRight } from "lucide-react";
 
 // ── Data ──────────────────────────────────────────────────────────
 
@@ -7,7 +7,7 @@ const PILLARS = [
   {
     id: "engineering",
     icon: Code2,
-    title: "Engineering",
+    title: "Engineering Track",
     subtitle: "Build systems that scale",
     emoji: "⚙️",
     color: "#059669",
@@ -15,12 +15,18 @@ const PILLARS = [
     bg: "#F0FDF4",
     tagBg: "rgba(5,150,105,0.08)",
     tagColor: "#059669",
-    roles: ["Frontend Engineer", "Backend Engineer", "Full Stack", "DevOps / Platform", "Mobile Engineer", "Systems Engineer"],
+    roles: [
+      "Software Engineering (SWE)",
+      "Artificial Intelligence (AI) / Machine Learning (ML)",
+      "Data Analytics (DA) & Business Intelligence (BI)",
+      "Data Engineering",
+      "Cloud Engineering / DevOps",
+    ],
   },
   {
     id: "product",
     icon: LayoutGrid,
-    title: "Product & Analytics",
+    title: "Product & Analytics Track",
     subtitle: "Define what gets built",
     emoji: "🧩",
     color: "#6D28D9",
@@ -28,7 +34,12 @@ const PILLARS = [
     bg: "#F5F3FF",
     tagBg: "rgba(109,40,217,0.08)",
     tagColor: "#6D28D9",
-    roles: ["Product Manager", "Business Analyst", "Growth Analyst", "UX Researcher", "Strategy Lead", "Data PM"],
+    roles: [
+      "Product Management (PM)",
+      "Product Growth / Growth PM",
+      "Business Analytics (BA)",
+      "UI/UX / Product Design",
+    ],
   },
   {
     id: "business",
@@ -41,20 +52,25 @@ const PILLARS = [
     bg: "#FFFBEB",
     tagBg: "rgba(217,119,6,0.08)",
     tagColor: "#D97706",
-    roles: ["Business Development", "Consulting", "Operations", "FinTech Associate", "EdTech Lead", "Partnerships"],
+    roles: [
+      "Project Management (Tech Projects)",
+      "Business Development (Tech Industry)",
+      "Digital Marketing (Tech-focused)",
+      "Operations (Tech Operations / Process Automation)",
+    ],
   },
   {
-    id: "ai",
-    icon: BrainCircuit,
-    title: "AI Applications",
-    subtitle: "Shape the frontier",
-    emoji: "🤖",
-    color: "#0284C7",
-    borderActive: "#0284C7",
-    bg: "#EFF6FF",
-    tagBg: "rgba(2,132,199,0.08)",
-    tagColor: "#0284C7",
-    roles: ["ML Engineer", "Data Scientist", "AI Researcher", "Prompt Engineer", "AI Product Manager", "MLOps Engineer"],
+    id: "other",
+    icon: HelpCircle,
+    title: "Other",
+    subtitle: "Something else? We've got you",
+    emoji: "✨",
+    color: "#64748b",
+    borderActive: "#64748b",
+    bg: "#F8FAFC",
+    tagBg: "rgba(100,116,139,0.08)",
+    tagColor: "#64748b",
+    roles: ["Other (Please Specify)"],
   },
 ];
 
@@ -207,6 +223,10 @@ function PillarCard({
                         cursor: "pointer",
                         transition: "all 0.15s",
                         letterSpacing: "-0.01em",
+                        textAlign: "center",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                       }}
                     >
                       {role}
@@ -300,7 +320,7 @@ export function Screen1Pillars({
             gap: 6,
           }}
         >
-          {[1, 2, 3].map((s) => (
+          {[1, 2, 3, 4].map((s) => (
             <div
               key={s}
               style={{
@@ -320,7 +340,7 @@ export function Screen1Pillars({
               marginLeft: 6,
             }}
           >
-            1 of 3
+            1 of 4
           </span>
         </div>
       </div>
@@ -366,8 +386,7 @@ export function Screen1Pillars({
               textTransform: "uppercase",
             }}
           >
-              {/* // [UX FIX - Change 1] */}
-            ● STEP 1 OF 3
+            Step 1 of 4
           </span>
         </div>
 
@@ -500,5 +519,3 @@ export function Screen1Pillars({
     </div>
   );
 }
-
-

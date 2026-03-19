@@ -1,37 +1,37 @@
-const fs = require("fs");
+﻿const fs = require('fs');
+const path = require('path');
+const file = 'D:/ProjectX_Package-CV/landing-page-repo/app/sfp2026/cv-builder/src/app/components/Screen3Workspace.tsx';
+let txt = fs.readFileSync(file, 'utf8');
 
-function processFile(file) {
-  if (!fs.existsSync(file)) {
-    console.log("Not found:", file);
-    return;
-  }
-  let code = fs.readFileSync(file, "utf8");
+// Step 1: Add id prop to the outer div of CVSectionBlock so we can query it
+txt = txt.replace(
+  '    <div\n      onMouseEnter={() => onHover(id)}\n      onMouseLeave={() => onHover(null)}\n      onClick={() => onClick(id)}',
+  '    <div\n      id={cv-section-\}\n      onMouseEnter={() => onHover(id)}\n      onMouseLeave={() => onHover(null)}\n      onClick={() => onClick(id)}'
+);
 
-  // 1. Remove HR Quote Block 1 from RightInsightPanel
-  // Fix the block replacement using the comments
-  const s1 = code.indexOf("HR Quote with Company Logo");
-  if (s1 !== -1) {
-    let toReplaceStart = code.lastIndexOf("{/*", s1);
+// Step 2: In LeftCVColumn, remove <HRQuoteBubble />
+txt = txt.replace(
+  '<AnimatePresence mode="wait">\n          <HRQuoteBubble\n            key={activeSection + level}\n            section={activeSection}\n            level={level}\n            selectedRole={selectedRole}\n          />\n        </AnimatePresence>',
+  ''
+);
 
-    let s2 = code.indexOf("Step Checklist", s1);
-    let toReplaceEnd = code.lastIndexOf("{/*", s2);
+// Step 3: Inject <HRQuoteBubble /> into Screen3Workspace directly
+txt = txt.replace(
+  '          <RightInsightPanel\n            section={activeSection}',
+  '          <RightInsightPanel\n            section={activeSection}'
+);
 
-    if (
-      toReplaceStart !== -1 &&
-      toReplaceEnd !== -1 &&
-      !code.substring(toReplaceStart, toReplaceEnd).includes("HRQuoteBubble")
-    ) {
-      code = code.substring(0, toReplaceStart) + code.substring(toReplaceEnd);
-      console.log("Removed Block 1");
-    }
-  }
+// We need to insert <HRQuoteBubble activeSection={activeSection} ... /> inside Screen3Workspace, right after handleContinue
+// Let's modify Screen3Workspace
+txt = txt.replace(
+  '<TourOverlay\n            step={tourStep}\n            onNext={handleTourNext}\n            onSkip={handleTourSkip}\n          />\n        )}',
+  '<TourOverlay\n            step={tourStep}\n            onNext={handleTourNext}\n            onSkip={handleTourSkip}\n          />\n        )}\n\n        <HRQuoteBubble \n          section={activeSection} \n          level={level} \n          selectedRole={selectedRole} \n        />'
+);
 
-  // 2. Add HRQuoteBubble component if not exists
-  if (!code.includes("HRQuoteBubble")) {
-    const hrBubbleCode = `
-// ─── HR Quote Floating Bubble ──────────────────────────────────────────────────
+// Step 4: Update HRQuoteBubble to use fixed positioning and event listeners
+// Let's replace the whole HRQuoteBubble component
 
-function HRQuoteBubble({
+const newHRQuoteBubble = unction HRQuoteBubble({
   section,
   level,
   selectedRole,
@@ -51,231 +51,112 @@ function HRQuoteBubble({
   const hrCompany = roleData.hrCompany;
   const companyInfo = COMPANY_INFO[hrCompany];
 
+  const [pos, setPos] = useState<{ top: number; left: number; isMobile: boolean, visible: boolean }>({
+    top: 0,
+    left: 0,
+    isMobile: false,
+    visible: false
+  });
+
+  useEffect(() => {
+    const updatePos = () => {
+      if (window.innerWidth < 768) {
+        setPos({ top: 0, left: 0, isMobile: true, visible: true });
+        return;
+      }
+      
+      const el = document.getElementById(\cv-section-\\);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        
+        let calculatedTop = Math.max(80, rect.top);
+        // clamp to screen bottom
+        if (calculatedTop + 240 > window.innerHeight) {
+          calculatedTop = window.innerHeight - 260;
+        }
+
+        let calculatedLeft = rect.right + 16;
+        if (calculatedLeft + 440 > window.innerWidth) {
+            calculatedLeft = rect.left - 440 - 16; // flip to left side
+            if(calculatedLeft < 10) calculatedLeft = 10;
+        }
+
+        setPos({
+          top: calculatedTop,
+          left: calculatedLeft,
+          isMobile: false,
+          visible: true
+        });
+      }
+    };
+
+    updatePos();
+    window.addEventListener('resize', updatePos);
+    
+    // Add scroll listener if the container scrolls independently
+    const container = document.querySelector('.cv-scroll-container'); // Need to check if there is one
+    if (container) container.addEventListener('scroll', updatePos);
+    
+    return () => {
+      window.removeEventListener('resize', updatePos);
+      if (container) container.removeEventListener('scroll', updatePos);
+    };
+  }, [section]);
+
+  if (!pos.visible) return null;
+
   return (
-    <motion.div
-      key={section + level}
-      initial={{ opacity: 0, y: 12, scale: 0.96 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.32, ease: "easeOut" }}
-      style={{
-        position: "absolute",
-        bottom: 24,
-        left: 24,
-        width: 440,
-        zIndex: 50,
-        borderRadius: 16,
-        border: "1px solid rgba(226, 232, 240, 0.8)",
-        background: "white",
-        padding: "20px 22px",
-        boxShadow: "0 12px 40px rgba(2, 8, 24, 0.08), 0 4px 12px rgba(2, 8, 24, 0.04)",
-      }}
-    >
-      {/* Speech bubble tail */}
-      <div 
-        style={{
-          position: 'absolute',
-          top: -10,
-          left: 36,
-          width: 0,
-          height: 0,
-          borderLeft: '10px solid transparent',
-          borderRight: '10px solid transparent',
-          borderBottom: '11px solid white',
-          filter: 'drop-shadow(0 -2px 1px rgba(0,0,0,0.05))'
-        }}
-      />
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-          marginBottom: 14,
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={section + level}
+        initial={pos.isMobile ? { y: '100%' } : { opacity: 0, y: 12, scale: 0.96 }}
+        animate={pos.isMobile ? { y: 0 } : { opacity: 1, y: 0, scale: 1 }}
+        exit={pos.isMobile ? { y: '100%' } : { opacity: 0, y: 12, scale: 0.96 }}
+        transition={{ duration: 0.32, ease: "easeOut" }}
+        style={pos.isMobile ? {
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 9999,
+          background: "white",
+          padding: "20px 22px",
+          borderTopLeftRadius: 24,
+          borderTopRightRadius: 24,
+          boxShadow: "0 -4px 24px rgba(0,0,0,0.1)",
+        } : {
+          position: "fixed",
+          top: pos.top,
+          left: pos.left,
+          zIndex: 9999,
+          width: 440,
+          borderRadius: 16,
+          border: "1px solid rgba(226, 232, 240, 0.8)",
+          background: "white",
+          padding: "20px 22px",
+          boxShadow: "0 12px 40px rgba(2, 8, 24, 0.08), 0 4px 12px rgba(2, 8, 24, 0.04)",
+          transition: "top 200ms ease, left 200ms ease" // smooth movement
         }}
       >
-        <div
-          style={{
-            width: 44,
-            height: 44,
-            borderRadius: "50%",
-            overflow: "hidden",
-            flexShrink: 0,
-            border: "2px solid #F8FAFC",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.05)"
-          }}
-        >
-          <img
-            src={data.hrAvatar === "man" ? AVATAR_MAN : AVATAR_WOMAN}
-            alt={hrName}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-          />
-        </div>
-        <div style={{ flex: 1 }}>
+        {/* Speech bubble tail - only show on desktop and if positioned on right */}
+        {!pos.isMobile && pos.left > 200 && (
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              marginBottom: 3,
-            }}
-          >
-            <span
-              style={{
-                fontSize: 13,
-                fontWeight: 700,
-                color: "#0f172a",
-                letterSpacing: "-0.01em",
-              }}
-            >
-              {hrName}
-            </span>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 4,
-                padding: "3px 8px 3px 6px",
-                borderRadius: 6,
-                background: companyInfo.color,
-                boxShadow: \`0 2px 8px \${companyInfo.color}40\`,
-              }}
-            >
-              <Building2
-                size={10}
-                color={companyInfo.textColor}
-                strokeWidth={2.5}
-                style={{ opacity: 0.9 }}
-              />
-              <span
-                style={{
-                  fontSize: 9.5,
-                  fontWeight: 800,
-                  color: companyInfo.textColor,
-                  letterSpacing: "0.05em",
-                  textTransform: "uppercase",
-                }}
-              >
-                {companyInfo.name}
-              </span>
-            </div>
-          </div>
-          <div style={{ fontSize: 11.5, color: "#64748b", fontWeight: 500 }}>
-            {hrRole}
-          </div>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 4,
-            padding: "4px 10px",
-            borderRadius: 8,
-            background: "#F0FDF4",
-            border: "1px solid #BBF7D0",
-          }}
-        >
-          <div
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: "#16a34a",
-              boxShadow: "0 0 0 2px rgba(22,163,74,0.2)"
+              position: "absolute",
+              top: 24, // Align slightly down
+              left: -10, // pointing left to the CV
+              width: 0,
+              height: 0,
+              borderTop: "8px solid transparent",
+              borderBottom: "8px solid transparent",
+              borderRight: "10px solid white",
+              filter: "drop-shadow(-2px 0px 1px rgba(226, 232, 240, 0.8))"
             }}
           />
-          <span
-            style={{
-              fontSize: 10,
-              fontWeight: 700,
-              color: "#16a34a",
-              letterSpacing: "0.04em",
-              textTransform: "uppercase",
-            }}
-          >
-            Verified
-          </span>
-        </div>
-      </div>
-      
-      <div style={{ position: "relative" }}>
-        <p
-          style={{
-            fontSize: 13.5,
-            color: "#334155",
-            lineHeight: 1.6,
-            margin: 0,
-            fontStyle: "italic",
-            letterSpacing: "-0.01em",
-          }}
-        >
-          "{hrQuote}"
-        </p>
-      </div>
-    </motion.div>
-  );
-}
-`;
-    // Insert before RightInsightPanel
-    let leftColStart = code.lastIndexOf("function RightInsightPanel");
-    if (leftColStart !== -1) {
-      code =
-        code.substring(0, leftColStart) +
-        hrBubbleCode +
-        "\n" +
-        code.substring(leftColStart);
-    }
-  }
+        )};
 
-  // 3. Render HRQuoteBubble in LeftCVColumn
-  // Make wrapper relative
-  const wrapperTarget = `      <div
-        className="cv-left-scroll"
-        style={{
-          width: "50%",`;
-
-  if (
-    code.includes(wrapperTarget) &&
-    !code.includes(
-      `flexDirection: "column" }}>\n      <div\n        className="cv-left-scroll"`,
-    )
-  ) {
-    code = code.replace(
-      wrapperTarget,
-      `      <div style={{ position: "relative", width: "50%", display: "flex", flexDirection: "column" }}>
-      <div
-        className="cv-left-scroll"
-        style={{
-          flex: 1,
-          width: "100%",`,
-    );
-
-    // Close the new wrapper div and add HRQuoteBubble
-    const endOfLeftCol = `          </div>
-        </div>
-      </div>
-    </>
-  );
-}`;
-    const leftCVEndFix = `          </div>
-        </div>
-      </div>
-      <AnimatePresence mode="wait">
-        <HRQuoteBubble key={activeSection+level} section={activeSection} level={level} selectedRole={selectedRole} />
-      </AnimatePresence>
-      </div>
-    </>
-  );
-}`;
-    code = code.replace(endOfLeftCol, leftCVEndFix);
-  }
-
-  fs.writeFileSync(file, code);
-  console.log("Processed " + file);
-}
-
-processFile(
-  "d:\\ProjectX_Package-CV\\landing-page-repo\\app\\sfp2026\\cv-builder\\src\\app\\components\\Screen3Workspace.tsx",
-);
+// replace the old one
+let startIdx = txt.indexOf('function HRQuoteBubble({');
+let endIdx = txt.indexOf('} // End of Screen3Workspace ? No wait');
+// We need a precise way to slice it out.
+// Wait, replacing it with regex...

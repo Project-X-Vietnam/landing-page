@@ -4,12 +4,13 @@ import { AnimatePresence, motion } from "motion/react";
 import { Screen1Pillars } from "./src/app/components/Screen1Pillars";
 import { Screen3Workspace } from "./src/app/components/Screen3Workspace";
 import { Screen4Finish } from "./src/app/components/Screen4Finish";
+import { WelcomePage } from "./src/app/components/WelcomePage";
 import { MobileWorkspacePreview } from "./src/app/components/MobileWorkspacePreview";
 import { DiagnosticLevel } from "./src/app/types";
 import { trackEvent } from "./src/utils/analytics";
 
 export default function App() {
-  const [screen, setScreen] = useState<1 | 3 | 4>(1);
+  const [screen, setScreen] = useState<0 | 1 | 3 | 4>(0);
   const [selectedPillar, setSelectedPillar] = useState<string | null>(
     "product",
   );
@@ -117,6 +118,18 @@ export default function App() {
       )}
 
       <AnimatePresence mode="wait">
+        {screen === 0 && (
+          <motion.div
+            key="screen-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.28 }}
+          >
+            <WelcomePage onStart={() => setScreen(1)} />
+          </motion.div>
+        )}
+
         {screen === 1 && (
           <motion.div
             key="screen-1"
@@ -179,6 +192,7 @@ export default function App() {
               bullet={builtBullet}
               aiPrompt={aiPrompt}
               onRestart={handleRestart}
+              selectedRole={selectedRole}
             />
           </motion.div>
         )}

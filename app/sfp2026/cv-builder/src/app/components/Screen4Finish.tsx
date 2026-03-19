@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
-import posthog from "posthog-js"; // [ANALYTICS]
-import { Download, ExternalLink, RotateCcw, Check } from "lucide-react";
+import { Download, ExternalLink, RotateCcw, Check, ArrowLeft } from "lucide-react";
+import { PROMPTS_DATA, SectionPrompts } from "../../data/promptsData";
+import { ROLE_TO_PROMPT_KEY } from "../../data/rolePromptMapping";
 
 // ── Confetti Canvas ────────────────────────────────────────────────
 
@@ -147,20 +148,32 @@ interface Props {
   bullet?: string;
   onRestart: () => void;
   onBack?: () => void;
+  selectedRole?: string | null;
+}
+
+// Build combined master prompt from all 3 CV sections
+function buildCombinedPrompt(role: string | null): string {
+  const safeRole = role || "Product Management (PM)";
+  const promptKey = ROLE_TO_PROMPT_KEY[safeRole] ?? "Product Management (PM)";
+  const sectionData = PROMPTS_DATA[promptKey];
+  if (!sectionData) return "Prompt not available.";
+  const summary = sectionData["summary" as keyof SectionPrompts] ?? "";
+  const experience = sectionData["experience" as keyof SectionPrompts] ?? "";
+  const projects = sectionData["projects" as keyof SectionPrompts] ?? "";
+  return `=== YOUR COMPLETE CV REWRITE PROMPT FOR: ${safeRole.toUpperCase()} ===\n\n--- PART 1: PROFESSIONAL SUMMARY ---\n${summary}\n\n--- PART 2: EXPERIENCE BULLETS ---\n${experience}\n\n--- PART 3: PROJECTS SECTION ---\n${projects}\n\n=== END OF PROMPT ===\nPaste each section into ChatGPT, Claude, or Gemini individually for best results.`;
 }
 
 // ── Main Screen ───────────────────────────────────────────────────
 
-export function Screen4Finish({ aiPrompt, bullet, onRestart }: Props) {
-  const currentPrompt = aiPrompt || "Prompt not available — please restart.";
+export function Screen4Finish({ aiPrompt, bullet, onRestart, onBack, selectedRole }: Props) {
+  const combinedPrompt = buildCombinedPrompt(selectedRole ?? null);
+  const currentPrompt = combinedPrompt || aiPrompt || "Prompt not available — please restart.";
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(currentPrompt).then(() => {
-      setCopied(true);
-      posthog.capture("cv_builder_prompt_copied"); // [ANALYTICS]
-      setTimeout(() => setCopied(false), 2000);
-    });
+    navigator.clipboard.writeText(currentPrompt);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -305,7 +318,6 @@ export function Screen4Finish({ aiPrompt, bullet, onRestart }: Props) {
             </span>
           </div>
 
-          {/* [UX FIX - Change 5] Header & Copy */}
           <h1
             style={{
               fontSize: "clamp(30px, 5vw, 48px)",
@@ -321,13 +333,13 @@ export function Screen4Finish({ aiPrompt, bullet, onRestart }: Props) {
             <span style={{ color: "#0E56FA" }}>ready 🎯</span>
           </h1>
 
-          <p style={{ fontSize: 16, color: "#475569", lineHeight: 1.6 }}>
-            Copy the prompt below → paste into any AI tool → get a stronger CV
-            bullet in seconds
+          <p style={{ fontSize: 15, color: "#64748b", lineHeight: 1.6 }}>
+            Your complete CV prompt package is ready — covering Summary, Experience, and Projects.
+            <br />Paste each part into ChatGPT, Claude, or Gemini to rewrite your full CV.
           </p>
         </motion.div>
 
-        {/* [UX FIX - Change 5] Action Buttons (Updated Hierarchy) */}
+        {/* Action Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -339,8 +351,45 @@ export function Screen4Finish({ aiPrompt, bullet, onRestart }: Props) {
             gap: 12,
           }}
         >
-          {/* Primary CTA (Massive Copy Prompt) */}
+          {/* Ghost button */}
+          <button
+            style={{
+              width: "100%",
+              padding: "14px 24px",
+              borderRadius: 14,
+              border: "1px solid #E2E8F0",
+              background: "white",
+              color: "#020818",
+              fontSize: 14,
+              fontWeight: 600,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 9,
+              letterSpacing: "-0.02em",
+              boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+              transition: "all 0.18s",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.borderColor =
+                "#CBD5E1";
+              (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                "0 4px 12px rgba(0,0,0,0.08)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.borderColor =
+                "#E2E8F0";
+              (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                "0 1px 4px rgba(0,0,0,0.04)";
+            }}
+          >
+            <Download size={15} strokeWidth={2} />
+            Download Full PJX CV Template &amp; Action Verb Checklist
+          </button>
 
+          
+          {/* Primary CTA */}
           <button
             onClick={handleCopy}
             style={{
@@ -381,79 +430,79 @@ export function Screen4Finish({ aiPrompt, bullet, onRestart }: Props) {
             Works with ChatGPT, Claude, Gemini & more
           </div>
 
-
-          {/* [FIX - Change 3] Update Download button */}
-          <button
-            style={{
-              width: "100%",
-              padding: "14px 24px",
-              borderRadius: 14,
-              border: "1px solid #E2E8F0",
-              background: "white",
-              color: "#475569",
-              fontSize: 14,
-              fontWeight: 600,
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 9,
-              letterSpacing: "-0.02em",
-              boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
-              transition: "all 0.18s",
-            }}
-            onClick={() => {
-              const link = document.createElement("a");
-              link.href = "/PJX_CV_Guide_2026.pdf";
-              link.download = "PJX_CV_Guide_2026.pdf";
-              link.click();
-              posthog.capture("checklist_downloaded");
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "#CBD5E1";
-              e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.08)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "#E2E8F0";
-              e.currentTarget.style.boxShadow = "0 1px 4px rgba(0,0,0,0.04)";
-            }}
-          >
-            <Download size={15} strokeWidth={2} />
-            Download CV Checklist (PDF)
-          </button>
         </motion.div>
 
-        {/* Restart */}
-        <motion.button
+        {/* Actions row: Back & Restart */}
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          onClick={onRestart}
           style={{
             marginTop: 24,
             display: "flex",
             alignItems: "center",
-            gap: 6,
-            padding: "8px 14px",
-            borderRadius: 99,
-            border: "none",
-            background: "transparent",
-            color: "#94a3b8",
-            fontSize: 12,
-            fontWeight: 500,
-            cursor: "pointer",
-            transition: "color 0.15s",
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.color = "#64748b";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.color = "#94a3b8";
+            gap: 24,
+            justifyContent: "center"
           }}
         >
-          <RotateCcw size={12} />
-          Start over
-        </motion.button>
+          {/* Back to edit */}
+          {onBack && (
+            <button
+              onClick={onBack}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "8px 14px",
+                borderRadius: 99,
+                border: "none",
+                background: "transparent",
+                color: "#94a3b8",
+                fontSize: 13,
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "color 0.15s",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.color = "#0E56FA";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.color = "#94a3b8";
+              }}
+            >
+              <ArrowLeft size={14} />
+              Back to edit
+            </button>
+          )}
+
+          {/* Start over */}
+          <button
+            onClick={onRestart}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "8px 14px",
+              borderRadius: 99,
+              border: "none",
+              background: "transparent",
+              color: "#94a3b8",
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: "pointer",
+              transition: "color 0.15s",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.color = "#ef4444";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.color = "#94a3b8";
+            }}
+          >
+            <RotateCcw size={14} />
+            Start over
+          </button>
+        </motion.div>
 
         {/* Footer */}
         <motion.div
