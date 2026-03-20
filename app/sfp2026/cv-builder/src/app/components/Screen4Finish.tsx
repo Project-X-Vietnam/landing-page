@@ -254,8 +254,10 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
           </span>
         </motion.div>
 
-        {/* Trophy icon */}
-        <motion.div
+        {/* Logo */}
+        <motion.img
+          src="/favicon.svg"
+          alt="PJX Logo"
           initial={{ scale: 0, rotate: -20 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{
@@ -267,18 +269,12 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
           style={{
             width: 88,
             height: 88,
-            borderRadius: "50%",
-            background: "linear-gradient(135deg, #0E56FA 0%, #17CAFA 100%)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            boxShadow: "0 8px 32px rgba(14,86,250,0.4)",
+            borderRadius: 20,
+            objectFit: "cover",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
             marginBottom: 28,
-            fontSize: 40,
           }}
-        >
-          🎯
-        </motion.div>
+        />
 
         {/* Headline */}
         <motion.div
