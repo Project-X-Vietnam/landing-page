@@ -822,7 +822,7 @@ export const CV_TEMPLATES: Record<string, any> = {
     },
     "developing": {
       "name": "Duc Khanh Tran",
-      "title": "Associate Product Manager",
+      "title": "Product Management Intern",
       "email": "duckhanh@gmail.com",
       "location": "Ho Chi Minh City, Vietnam",
       "linkedin": "linkedin.com/in/duckhanh-pm",
@@ -830,7 +830,7 @@ export const CV_TEMPLATES: Record<string, any> = {
       "experience": [
         {
           "company": "Tiki E-Commerce",
-          "role": "Associate Product Manager",
+          "role": "Product Management Intern",
           "dates": "Feb 2023 – Present",
           "bullets": [
             "Owned the Buyer Onboarding squad; redesigned the 5-step flow using Mixpanel data, cutting drop-off by 30%",
@@ -959,7 +959,7 @@ export const CV_TEMPLATES: Record<string, any> = {
     },
     "developing": {
       "name": "Duc Khanh Tran",
-      "title": "Associate Product Manager",
+      "title": "Product Management Intern",
       "email": "duckhanh@gmail.com",
       "location": "Ho Chi Minh City, Vietnam",
       "linkedin": "linkedin.com/in/duckhanh-pm",
@@ -967,7 +967,7 @@ export const CV_TEMPLATES: Record<string, any> = {
       "experience": [
         {
           "company": "Tiki E-Commerce",
-          "role": "Associate Product Manager",
+          "role": "Product Management Intern",
           "dates": "Feb 2023 – Present",
           "bullets": [
             "Owned the Buyer Onboarding squad; redesigned the 5-step flow using Mixpanel data, cutting drop-off by 30%",
@@ -1368,7 +1368,7 @@ export const CV_TEMPLATES: Record<string, any> = {
     },
     "developing": {
       "name": "Duc Khanh Tran",
-      "title": "Associate Product Manager",
+      "title": "Product Management Intern",
       "email": "duckhanh@gmail.com",
       "location": "Ho Chi Minh City, Vietnam",
       "linkedin": "linkedin.com/in/duckhanh-pm",
@@ -1376,7 +1376,7 @@ export const CV_TEMPLATES: Record<string, any> = {
       "experience": [
         {
           "company": "Tiki E-Commerce",
-          "role": "Associate Product Manager",
+          "role": "Product Management Intern",
           "dates": "Feb 2023 – Present",
           "bullets": [
             "Owned the Buyer Onboarding squad; redesigned the 5-step flow using Mixpanel data, cutting drop-off by 30%",
@@ -1505,7 +1505,7 @@ export const CV_TEMPLATES: Record<string, any> = {
     },
     "developing": {
       "name": "Duc Khanh Tran",
-      "title": "Associate Product Manager",
+      "title": "Product Management Intern",
       "email": "duckhanh@gmail.com",
       "location": "Ho Chi Minh City, Vietnam",
       "linkedin": "linkedin.com/in/duckhanh-pm",
@@ -1513,7 +1513,7 @@ export const CV_TEMPLATES: Record<string, any> = {
       "experience": [
         {
           "company": "Tiki E-Commerce",
-          "role": "Associate Product Manager",
+          "role": "Product Management Intern",
           "dates": "Feb 2023 – Present",
           "bullets": [
             "Owned the Buyer Onboarding squad; redesigned the 5-step flow using Mixpanel data, cutting drop-off by 30%",
@@ -1642,7 +1642,7 @@ export const CV_TEMPLATES: Record<string, any> = {
     },
     "developing": {
       "name": "Duc Khanh Tran",
-      "title": "Associate Product Manager",
+      "title": "Product Management Intern",
       "email": "duckhanh@gmail.com",
       "location": "Ho Chi Minh City, Vietnam",
       "linkedin": "linkedin.com/in/duckhanh-pm",
@@ -1650,7 +1650,7 @@ export const CV_TEMPLATES: Record<string, any> = {
       "experience": [
         {
           "company": "Tiki E-Commerce",
-          "role": "Associate Product Manager",
+          "role": "Product Management Intern",
           "dates": "Feb 2023 – Present",
           "bullets": [
             "Owned the Buyer Onboarding squad; redesigned the 5-step flow using Mixpanel data, cutting drop-off by 30%",
@@ -1779,7 +1779,7 @@ export const CV_TEMPLATES: Record<string, any> = {
     },
     "developing": {
       "name": "Duc Khanh Tran",
-      "title": "Associate Product Manager",
+      "title": "Product Management Intern",
       "email": "duckhanh@gmail.com",
       "location": "Ho Chi Minh City, Vietnam",
       "linkedin": "linkedin.com/in/duckhanh-pm",
@@ -1787,7 +1787,7 @@ export const CV_TEMPLATES: Record<string, any> = {
       "experience": [
         {
           "company": "Tiki E-Commerce",
-          "role": "Associate Product Manager",
+          "role": "Product Management Intern",
           "dates": "Feb 2023 – Present",
           "bullets": [
             "Owned the Buyer Onboarding squad; redesigned the 5-step flow using Mixpanel data, cutting drop-off by 30%",
@@ -1916,7 +1916,7 @@ export const CV_TEMPLATES: Record<string, any> = {
     },
     "developing": {
       "name": "Duc Khanh Tran",
-      "title": "Associate Product Manager",
+      "title": "Product Management Intern",
       "email": "duckhanh@gmail.com",
       "location": "Ho Chi Minh City, Vietnam",
       "linkedin": "linkedin.com/in/duckhanh-pm",
@@ -1924,7 +1924,7 @@ export const CV_TEMPLATES: Record<string, any> = {
       "experience": [
         {
           "company": "Tiki E-Commerce",
-          "role": "Associate Product Manager",
+          "role": "Product Management Intern",
           "dates": "Feb 2023 – Present",
           "bullets": [
             "Owned the Buyer Onboarding squad; redesigned the 5-step flow using Mixpanel data, cutting drop-off by 30%",

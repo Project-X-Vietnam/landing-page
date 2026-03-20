@@ -759,7 +759,7 @@ export const EXPANDED_CV_TEMPLATES: Record<string, any> =
   "Product Management (PM)": {
     "starter": {
       "name": "Sam Hoang",
-      "title": "Associate Product Manager (APM)",
+      "title": "Product Management Intern",
       "email": "sam.hoang@gmail.com",
       "location": "Ho Chi Minh City, Vietnam",
       "linkedin": "linkedin.com/in/samhoang-pm",
@@ -808,7 +808,7 @@ export const EXPANDED_CV_TEMPLATES: Record<string, any> =
     },
     "developing": {
       "name": "Sam Hoang",
-      "title": "Associate Product Manager",
+      "title": "Product Management Intern",
       "email": "sam.hoang.pm@gmail.com",
       "location": "Ho Chi Minh City, Vietnam",
       "linkedin": "linkedin.com/in/samhoang-pm",
@@ -816,7 +816,7 @@ export const EXPANDED_CV_TEMPLATES: Record<string, any> =
       "experience": [
         {
           "company": "Tiki E-Commerce",
-          "role": "Associate Product Manager",
+          "role": "Product Management Intern",
           "dates": "Jan 2023–Present",
           "bullets": [
             "Owned Buyer Onboarding squad; redesigned 5-step registration flow using Mixpanel cohort data — cut drop-off 30%, adding 18k monthly activated buyers",

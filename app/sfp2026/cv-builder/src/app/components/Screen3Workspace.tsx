@@ -191,7 +191,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
       aiTitle: "Need help with your summary?",
       aiSubtext:
         "Use this prompt to generate a crisp, professional 2-line summary tailored for entry-level tech roles.",
-      aiPrompt: `Act as an expert CV writer for entry-level tech candidates.\n\nWrite a 2–3 sentence professional summary for a student applying for PM/tech roles.\n\nInput:\n- Degree & university: [e.g., BSc CS at VinUni]\n- Graduation year: [e.g., 2025]\n- Key experiences: [e.g., led product club, did data internship]\n- Target role: [e.g., Associate Product Manager]\n\nRequirements:\n- Line 1: degree, university, graduation year\n- Line 2: strongest experience or project\n- Line 3: specific career goal\n- No "I" or "my"\n- Max 60 words`,
+      aiPrompt: `Act as an expert CV writer for entry-level tech candidates.\n\nWrite a 2–3 sentence professional summary for a student applying for PM/tech roles.\n\nInput:\n- Degree & university: [e.g., BSc CS at VinUni]\n- Graduation year: [e.g., 2025]\n- Key experiences: [e.g., led product club, did data internship]\n- Target role: [e.g., Product Management Intern]\n\nRequirements:\n- Line 1: degree, university, graduation year\n- Line 2: strongest experience or project\n- Line 3: specific career goal\n- No "I" or "my"\n- Max 60 words`,
     },
     developing: {
       hrQuote:
@@ -305,7 +305,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
       aiTitle: "Need help listing your skills?",
       aiSubtext:
         "Use this prompt to generate a structured list of skills relevant to your target role.",
-      aiPrompt: `Act as an expert CV coach for entry-level tech candidates.\n\nGenerate a list of 5-7 key skills for a [TARGET ROLE] candidate.\n\nContext:\n- Target role: [e.g., Associate Product Manager]\n- Key projects/coursework: [e.g., built a mobile app, took data science course]\n- Tools/languages you know: [e.g., Python, SQL, Figma]\n\nRequirements:\n- Categorize skills (e.g., Technical, Product, Soft)\n- Include 1-2 examples of how you applied each skill if possible.\n- Focus on skills directly relevant to the target role.`,
+      aiPrompt: `Act as an expert CV coach for entry-level tech candidates.\n\nGenerate a list of 5-7 key skills for a [TARGET ROLE] candidate.\n\nContext:\n- Target role: [e.g., Product Management Intern]\n- Key projects/coursework: [e.g., built a mobile app, took data science course]\n- Tools/languages you know: [e.g., Python, SQL, Figma]\n\nRequirements:\n- Categorize skills (e.g., Technical, Product, Soft)\n- Include 1-2 examples of how you applied each skill if possible.\n- Focus on skills directly relevant to the target role.`,
     },
     developing: {
       hrQuote:

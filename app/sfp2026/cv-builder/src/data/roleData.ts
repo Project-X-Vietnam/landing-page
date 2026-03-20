@@ -726,7 +726,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "developing": {
-      "cvTitle": "Associate Product Manager (APM)",
+      "cvTitle": "Product Management Intern",
       "cvSummary": "APM with 1 year experience driving specific B2B SaaS features. Owned the initial user onboarding flow, achieving a 10% increase in activation rate by aggressively removing friction.",
       "experienceChecklist": [
         "Prove business impact: 'Supported feature X launch, driving positive user feedback'",
