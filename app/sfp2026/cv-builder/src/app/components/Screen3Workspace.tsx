@@ -1401,35 +1401,7 @@ function HRQuoteBubble({
             >
               {hrName}
             </span>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 4,
-                padding: "3px 8px 3px 6px",
-                borderRadius: 6,
-                background: companyInfo?.color || "#94a3b8",
-                boxShadow: `0 2px 8px ${companyInfo?.color || "#94a3b8"}40`,
-              }}
-            >
-              <Building2
-                size={10}
-                color={companyInfo?.textColor || "white"}
-                strokeWidth={2.5}
-                style={{ opacity: 0.9 }}
-              />
-              <span
-                style={{
-                  fontSize: 9.5,
-                  fontWeight: 800,
-                  color: companyInfo?.textColor || "white",
-                  letterSpacing: "0.05em",
-                  textTransform: "uppercase",
-                }}
-              >
-                {companyInfo?.name || "Expert"}
-              </span>
-            </div>
+
           </div>
           <div style={{ fontSize: 11.5, color: "#01001F", fontWeight: 500 }}>
             {hrRole}
