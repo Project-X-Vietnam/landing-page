@@ -102,17 +102,11 @@ const AVATAR_MAN =
 const AVATAR_WOMAN =
   "https://images.unsplash.com/photo-1649193137571-2fd26d073790?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=80&q=80";
 
-// Company logos - using simple badges to represent companies
 const COMPANY_INFO: Record<
   string,
   { name: string; color: string; textColor: string }
 > = {
-  shopee: { name: "Shopee", color: "#EE4D2D", textColor: "white" },
-  google: { name: "Google", color: "#4285F4", textColor: "white" },
-  grab: { name: "Grab", color: "#00B14F", textColor: "white" },
-  vng: { name: "VNG", color: "#009FE8", textColor: "white" },
-  startup: { name: "Series B", color: "#6366f1", textColor: "white" },
-  scaleup: { name: "ScaleUp", color: "#8b5cf6", textColor: "white" },
+  expert: { name: "HR Expert", color: "#0E56FA", textColor: "white" },
 };
 
 const LEVEL_OPTS: { id: DiagnosticLevel; emoji: string; label: string }[] = [
@@ -147,7 +141,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "No full-time experience? Completely fine. Club projects, internships, and coursework all count — if framed with ownership. 'I helped with the project' is weak. 'Led a team of 3 to build and launch an MVP' is strong. Show me initiative.",
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
-      hrCompany: "shopee",
+      hrCompany: "expert",
       hrAvatar: "woman",
       aiTitle: "Struggling to write this?",
       aiSubtext:
@@ -159,7 +153,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "For Mid-level roles, I don't want a list of daily tasks. I scan for data-driven results and business impact. Show me the numbers — percentages, dollar values, user counts. Give me a reason to forward your CV in the first 6 seconds.",
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
-      hrCompany: "google",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "Struggling to write this?",
       aiSubtext:
@@ -171,7 +165,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "At senior level, I'm not reading your CV — I'm scanning for company-scale impact. Tell me the ARR you influenced, the org you led, the strategic bets you made. If I can't see the business outcome in 6 seconds, it's a no.",
       hrName: "David Kim",
       hrRole: "VP Engineering",
-      hrCompany: "scaleup",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "Struggling to elevate this?",
       aiSubtext:
@@ -185,7 +179,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "As a student, your summary should tell me what you're studying, what you're passionate about, and what problem you want to solve. Keep it to 2–3 sentences. Honesty and specificity beats buzzwords every time.",
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
-      hrCompany: "shopee",
+      hrCompany: "expert",
       hrAvatar: "woman",
       aiTitle: "Need help with your summary?",
       aiSubtext:
@@ -197,7 +191,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "Your summary is your 30-second pitch. I need seniority, domain, and your biggest win — all in 2 lines. 'PM with 2 years experience' tells me nothing. '2 years scaling onboarding to 50K users, growing NPS 34→61' tells me everything.",
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
-      hrCompany: "google",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "Struggling to summarise yourself?",
       aiSubtext:
@@ -209,7 +203,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "For senior roles, your summary should read like an investment memo. I want the size of your playing field — revenue scale, org impact, market context. One anchor number is worth three paragraphs of soft skills.",
       hrName: "David Kim",
       hrRole: "VP Engineering",
-      hrCompany: "scaleup",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "Need a senior-level summary?",
       aiSubtext:
@@ -223,7 +217,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "For students, a strong projects section replaces work experience. I don't need a real company — I need to see you define a problem, build something, and measure the outcome. A Figma prototype with 5 test users counts if you frame it right.",
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
-      hrCompany: "shopee",
+      hrCompany: "expert",
       hrAvatar: "woman",
       aiTitle: "Need to frame your project better?",
       aiSubtext:
@@ -235,7 +229,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "Projects are underrated by mid-level candidates. A well-framed initiative shows hunger and initiative that standard experience sections often miss. Scannable: problem, what you built, what happened — with numbers.",
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
-      hrCompany: "google",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "Want to make your project shine?",
       aiSubtext:
@@ -247,7 +241,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "At senior level, I expect initiatives, not projects. Tell me the strategic bet you championed, the cross-org investment you secured, the platform you architected. These entries should feel like mini case studies in leadership.",
       hrName: "David Kim",
       hrRole: "VP Engineering",
-      hrCompany: "scaleup",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "Need to elevate your initiatives?",
       aiSubtext:
@@ -261,7 +255,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "Don't just write 'Student'. Write 'Aspiring Product Manager' or 'CS Student · PM Track'. It signals intent immediately and helps me route your CV to the right hiring manager — before I've read a single bullet.",
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
-      hrCompany: "shopee",
+      hrCompany: "expert",
       hrAvatar: "woman",
       aiTitle: "Not sure how to title yourself?",
       aiSubtext:
@@ -273,7 +267,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "I see hundreds of generic 'Product Manager' headers weekly. 'Growth PM — B2B SaaS & Analytics' takes 3 seconds and tells me you're specialised. That specificity alone gets you a second look at 4am screening.",
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
-      hrCompany: "google",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "Want a sharper header?",
       aiSubtext:
@@ -285,7 +279,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "For senior candidates, your header should scream credibility before I read a bullet. 'Senior Product Lead · $18M ARR · Series C' as a subtitle is more powerful than any buzzword summary. Anchor seniority with scope.",
       hrName: "David Kim",
       hrRole: "VP Engineering",
-      hrCompany: "scaleup",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "Positioning yourself as a senior leader?",
       aiSubtext:
@@ -299,7 +293,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "For entry-level, I look for foundational skills and eagerness to learn. List relevant tools, languages, and any certifications. Don't just say 'proficient' — show me what you've built with them.",
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
-      hrCompany: "shopee",
+      hrCompany: "expert",
       hrAvatar: "woman",
       aiTitle: "Need help listing your skills?",
       aiSubtext:
@@ -311,7 +305,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "Mid-level skills should demonstrate depth and application. Instead of just listing 'SQL', tell me 'SQL for A/B testing and data analysis'. Show me how your skills drive product outcomes.",
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
-      hrCompany: "google",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "Want to showcase your skills effectively?",
       aiSubtext:
@@ -323,7 +317,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "At senior level, skills are less about individual tools and more about strategic capabilities. 'Leadership', 'Cross-functional Alignment', 'Market Analysis' — these are the skills that matter. Frame them with business context.",
       hrName: "David Kim",
       hrRole: "VP Engineering",
-      hrCompany: "scaleup",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "Elevate your skills to a strategic level?",
       aiSubtext:
@@ -337,7 +331,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "For students, education is paramount. List your degree, university, graduation date, and any relevant coursework or honors. If your GPA is strong, include it!",
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
-      hrCompany: "shopee",
+      hrCompany: "expert",
       hrAvatar: "woman",
       aiTitle: "Need to optimize your education section?",
       aiSubtext:
@@ -349,7 +343,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "For mid-level, education is still important but less prominent than experience. Keep it concise: Degree, University, Year. Only add details if they directly support your career trajectory or specializations.",
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
-      hrCompany: "google",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "How to best present your education?",
       aiSubtext:
@@ -361,7 +355,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "At senior level, education is a formality. List your highest degree and institution. Executive education or relevant certifications can be included if they bolster your leadership profile.",
       hrName: "David Kim",
       hrRole: "VP Engineering",
-      hrCompany: "scaleup",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "Streamline your education for executive roles?",
       aiSubtext:
@@ -375,7 +369,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "Awards and competitions speak louder than anything else on an entry-level CV. Top 10% in a national hackathon? That's one line that beats 3 bullet points of generic coursework. If you have them, flaunt them — precisely.",
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
-      hrCompany: "shopee",
+      hrCompany: "expert",
       hrAvatar: "woman",
       aiTitle: "Want to polish your awards section?",
       aiSubtext:
@@ -387,7 +381,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "Mid-level candidates often forget to update their awards section. If you've won a company hackathon, led a winning pitch, or secured a grant — those belong here. Quantify the competition scale whenever possible.",
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
-      hrCompany: "google",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "Showcase your track record?",
       aiSubtext:
@@ -399,7 +393,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "At senior level, I look for industry recognition — speaking slots, published articles, board positions, notable grants. If you've spoken at a 1,000-person conference or been featured in Forbes, lead with that.",
       hrName: "David Kim",
       hrRole: "VP Engineering",
-      hrCompany: "scaleup",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "Elevate your recognition section?",
       aiSubtext:
@@ -413,7 +407,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "Extracurriculars are your personality on paper. A club president or event organizer shows leadership that coursework can't. Don't just list the club name — tell me what you actually did and at what scale.",
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
-      hrCompany: "shopee",
+      hrCompany: "expert",
       hrAvatar: "woman",
       aiTitle: "Turn activities into powerful bullets?",
       aiSubtext:
@@ -425,7 +419,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "By mid-level, extracurriculars should demonstrate strategic thinking outside your day job. Mentoring junior developers, organizing industry meetups, or contributing to open-source all signal growth mindset and community leadership.",
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
-      hrCompany: "google",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "Make your activities stand out?",
       aiSubtext:
@@ -437,7 +431,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "Senior candidates with strong advisory, board, or open-source leadership roles stand out dramatically. If you've served on an advisory board, led an industry working group, or built a community of 10,000+ — that's executive-level proof of influence beyond your org.",
       hrName: "David Kim",
       hrRole: "VP Engineering",
-      hrCompany: "scaleup",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "Present your external influence?",
       aiSubtext:
@@ -451,7 +445,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "Awards and competitions speak louder than anything else on an entry-level CV. Top 10% in a national hackathon? That beats three bullet points of generic coursework. If you have them, flaunt them — precisely.",
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
-      hrCompany: "shopee",
+      hrCompany: "expert",
       hrAvatar: "woman",
       aiTitle: "Polish your awards section?",
       aiSubtext:
@@ -463,7 +457,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "Mid-level candidates often forget to update their awards section. Company hackathon win, winning pitch, grant secured — those belong here. Quantify the competition scale whenever possible.",
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
-      hrCompany: "google",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "Showcase your track record?",
       aiSubtext:
@@ -475,7 +469,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "At senior level, I look for industry recognition — speaking slots, published articles, board positions, notable grants. If you've spoken at a 1,000-person conference or been featured in Forbes, lead with that.",
       hrName: "David Kim",
       hrRole: "VP Engineering",
-      hrCompany: "scaleup",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "Elevate your recognition section?",
       aiSubtext:
@@ -489,7 +483,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "Extracurriculars are your personality on paper. A club president or event organizer shows leadership that coursework can't. Don't just list the club name — tell me what you actually did and at what scale.",
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
-      hrCompany: "shopee",
+      hrCompany: "expert",
       hrAvatar: "woman",
       aiTitle: "Turn activities into powerful bullets?",
       aiSubtext:
@@ -501,7 +495,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "By mid-level, extracurriculars should demonstrate strategic thinking outside your day job. Mentoring junior developers, organizing industry meetups, or contributing to open-source — these signal growth mindset and community leadership.",
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
-      hrCompany: "google",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "Make your activities stand out?",
       aiSubtext:
@@ -513,7 +507,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "Senior candidates with strong advisory, board, or open-source leadership roles stand out dramatically. If you've served on an advisory board or built a community of 10,000+ — that's executive-level proof of influence beyond your org.",
       hrName: "David Kim",
       hrRole: "VP Engineering",
-      hrCompany: "scaleup",
+      hrCompany: "expert",
       hrAvatar: "man",
       aiTitle: "Present your external influence?",
       aiSubtext:
@@ -3233,7 +3227,7 @@ function RightInsightPanel({
                     letterSpacing: "-0.01em",
                   }}
                 >
-                  Get My AI Prompt
+                  Your Final Step
                   <ArrowRight size={14} strokeWidth={2.5} />
                 </motion.button>
               </motion.div>
