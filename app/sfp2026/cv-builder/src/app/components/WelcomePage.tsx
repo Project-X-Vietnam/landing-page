@@ -30,13 +30,16 @@ export function WelcomePage({ onStart }: Props) {
             width: 32,
             height: 32,
             borderRadius: 8,
-            background: "#01001F",
+            background: "#FFFFFF",
+            border: "1px solid #E2E8F0",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+            flexShrink: 0,
           }}
         >
-          <span style={{ color: "white", fontSize: 10, fontWeight: 900, fontFamily: "'Plus Jakarta Sans', sans-serif", letterSpacing: "-0.05em" }}>PJX</span>
+          <img src="/favicon.svg" alt="Project X Logo" style={{ width: 22, height: 22, objectFit: "contain" }} />
         </div>
         <span style={{ fontSize: 15, fontWeight: 700, color: "#01001F", letterSpacing: "-0.02em", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
           Career Survival Kit
@@ -93,13 +96,13 @@ export function WelcomePage({ onStart }: Props) {
           transition={{ duration: 0.45, delay: 0.08 }}
           style={{
             fontFamily: "'Plus Jakarta Sans', sans-serif",
-            fontSize: "clamp(48px, 8vw, 88px)",
+            fontSize: "clamp(36px, 6vw, 72px)", // slightly smaller to prevent extreme overlap if resized
             fontWeight: 800,
             color: "#01001F",
             letterSpacing: "-0.04em",
             lineHeight: 1.0,
             margin: "0 0 20px",
-            maxWidth: 700,
+            whiteSpace: "nowrap", // Keep on one line
           }}
         >
           Career Survival Kit

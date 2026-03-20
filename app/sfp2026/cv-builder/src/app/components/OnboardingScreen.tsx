@@ -144,8 +144,8 @@ export function OnboardingScreen({
         {/* Brand + step indicator */}
         <div className="flex items-center justify-between mb-10">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#020818" }}>
-              <span className="text-white font-black tracking-tighter" style={{ fontSize: 10 }}>CV</span>
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center border" style={{ background: "#FFFFFF", borderColor: "#E2E8F0", boxShadow: "0 2px 5px rgba(0,0,0,0.04)" }}>
+              <img src="/favicon.svg" alt="Project X Logo" style={{ width: 20, height: 20, objectFit: "contain" }} />
             </div>
             <span className="text-sm font-semibold" style={{ color: "#020818" }}>Survival Kit</span>
           </div>

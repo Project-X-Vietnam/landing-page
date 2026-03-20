@@ -1167,7 +1167,7 @@ function RightInsightPanel1() {
 function ImageMarcusLee() {
   return (
     <div className="h-[36.25px] relative shrink-0 w-full" data-name="Image (Marcus Lee)">
-      <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImageMarcusLee as any} />
+      <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImageMarcusLee} />
     </div>
   );
 }

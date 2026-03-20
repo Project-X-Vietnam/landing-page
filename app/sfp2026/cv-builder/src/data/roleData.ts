@@ -1991,10 +1991,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
 };
 
 export function getRoleData(role: string | null): RoleData {
-  if (!role) return ROLE_DATA['__default__'];
-  return ROLE_DATA[role] ?? ROLE_DATA['__default__'];
+  const fallback = ROLE_DATA["Software Engineering (SWE)"];
+  if (!role) return fallback;
+  return ROLE_DATA[role] ?? fallback;
 }
 
 export function getRoleLevelData(role: string | null, level: Level): RoleLevelData {
-  return getRoleData(role)[level];
+  const data = getRoleData(role);
+  return data[level];
 }

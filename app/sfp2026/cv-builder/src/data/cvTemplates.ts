@@ -9,6 +9,9 @@ export type ExperienceEntry = {
 
 export type ProjectEntry = { name: string; type: string; bullets: string[] };
 
+export type AwardEntry = { name: string; issuer: string; date: string; description?: string };
+export type ActivityEntry = { organisation: string; role: string; dates: string; bullets?: string[] };
+
 export type CVData = {
   name: string;
   title: string;
@@ -18,6 +21,8 @@ export type CVData = {
   summary: string;
   experience: ExperienceEntry[];
   projects: ProjectEntry[];
+  awards?: AwardEntry[];
+  activities?: ActivityEntry[];
 };
 
 export type TransformData = {

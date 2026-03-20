@@ -108,23 +108,15 @@ export function PJXTrackSelection({
               width: 36,
               height: 36,
               borderRadius: 10,
-              background: "#020818",
+              background: "#FFFFFF",
+              border: "1.5px solid #E2E8F0",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              boxShadow: "0 4px 12px rgba(2,8,24,0.25)",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
             }}
           >
-            <span
-              style={{
-                color: "white",
-                fontSize: 14,
-                fontWeight: 900,
-                letterSpacing: "-0.04em",
-              }}
-            >
-              PJ
-            </span>
+            <img src="/favicon.svg" alt="Project X Logo" style={{ width: 24, height: 24, objectFit: "contain" }} />
           </div>
           <span
             style={{

@@ -123,13 +123,15 @@ export function Screen2Diagnostic({ checks, onToggle, onEnter, onBack }: Props) 
               width: 28,
               height: 28,
               borderRadius: 9,
-              background: "#020818",
+              background: "#FFFFFF",
+              border: "1.5px solid #E2E8F0",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              boxShadow: "0 2px 5px rgba(0,0,0,0.04)",
             }}
           >
-            <ProjectXLogo size={14} color="#FFFFFF" />
+            <img src="/favicon.svg" alt="Project X Logo" style={{ width: 18, height: 18, objectFit: "contain" }} />
           </div>
           <span
             style={{

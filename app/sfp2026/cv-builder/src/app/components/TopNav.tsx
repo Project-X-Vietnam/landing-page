@@ -231,28 +231,19 @@ export function TopNav({ level, onSetLevel, track, onSetTrack }: Props) {
         {/* Project X Logo mark */}
         <div
           style={{
-            width: 30,
-            height: 30,
+            width: 32,
+            height: 32,
             borderRadius: 9,
-            background: "#020818",
+            background: "#FFFFFF",
+            border: "1.5px solid #E2E8F0",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexShrink: 0,
-            boxShadow: "0 2px 6px rgba(2,8,24,0.25)",
+            boxShadow: "0 2px 5px rgba(0,0,0,0.04)",
           }}
         >
-          <span
-            style={{
-              color: "white",
-              fontSize: 14,
-              fontWeight: 900,
-              letterSpacing: "-0.06em",
-              lineHeight: 1,
-            }}
-          >
-            X
-          </span>
+          <img src="/favicon.svg" alt="Project X Logo" style={{ width: 22, height: 22, objectFit: "contain" }} />
         </div>
 
         <div style={{ width: 1, height: 18, background: "#E2E8F0", flexShrink: 0 }} />

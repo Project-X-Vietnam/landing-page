@@ -23,7 +23,7 @@ import {
   Building2,
 } from "lucide-react";
 import { DiagnosticLevel } from "../types";
-import { CV_TEMPLATES, TRANSFORM_TEMPLATES, CVData, ExperienceEntry, ProjectEntry, generateFallbackCV } from "../../data/cvTemplates";
+import { CV_TEMPLATES, TRANSFORM_TEMPLATES, CVData, ExperienceEntry, ProjectEntry, AwardEntry, ActivityEntry, generateFallbackCV } from "../../data/cvTemplates";
 import { EXPANDED_CV_TEMPLATES } from "../../data/expandedCvData";
 import { buildCombinedPrompt } from "./Screen4Finish"; // Provide full prompt
 
@@ -41,7 +41,7 @@ const getPromptForSection = (role: string | null, section: string): string => {
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-export type CVSection = "header" | "summary" | "experience" | "projects" | "achievements" | "activities" | "skills" | "education";
+export type CVSection = "header" | "summary" | "experience" | "projects" | "skills" | "education" | "awards" | "activities";
 
 import { ProjectXLogo } from "./ProjectXLogo";
 
@@ -70,22 +70,22 @@ export type PanelData = {
 
 const TOUR_CONTENT = [
   {
-    title: "📄 Your CV",
+    title: "📄 Your Sample CV",
     description:
-      "Click any section on the CV to discover what HR is really looking for.",
-    buttonText: "Next →",
-  },
-  {
-    title: "⚡ Level Switcher",
-    description:
-      "Switch levels here to see how HR standards shift at each career stage.",
+      "On the left is a real CV sample matched to your chosen role — with actual bullet points, metrics, and layout. Click any section (Summary, Experience, Projects) to explore it. Watch it highlight!",
     buttonText: "Next →",
   },
   {
     title: "✅ Self-Audit Checklist",
     description:
-      "Self-audit your CV and unlock a special AI prompt when you complete all 3 items.",
-    buttonText: "Got it! 🎉",
+      "When you click a section, 3 quality checkboxes appear on the right. Each one is a standard HR expects. Tick them after honestly checking your own CV against the sample.",
+    buttonText: "Next →",
+  },
+  {
+    title: "🔓 Unlock Your Master AI Prompt",
+    description:
+      "Complete all 9 checklist items (3 per section). Once you hit 9/9, a Master AI Prompt unlocks. Copy it, paste it with your CV into ChatGPT or Claude, and get professional rewrites instantly!",
+    buttonText: "Let's Start! 🎉",
   },
 ];
 
@@ -102,11 +102,12 @@ const AVATAR_MAN =
 const AVATAR_WOMAN =
   "https://images.unsplash.com/photo-1649193137571-2fd26d073790?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=80&q=80";
 
+// Company logos - using simple badges to represent companies
 const COMPANY_INFO: Record<
   string,
   { name: string; color: string; textColor: string }
 > = {
-  expert: { name: "HR Expert", color: "#0E56FA", textColor: "white" },
+  expert: { name: "HR Expert", color: "#0f172a", textColor: "white" },
 };
 
 const LEVEL_OPTS: { id: DiagnosticLevel; emoji: string; label: string }[] = [
@@ -126,10 +127,10 @@ const SECTION_LABEL: Record<CVSection, string> = {
   summary: "Summary",
   experience: "Experience",
   projects: "Projects",
-  achievements: "Awards & Achievements",
-  activities: "Activities & Extracurriculars",
   skills: "Skills",
   education: "Education",
+  awards: "Honors & Awards",
+  activities: "Extracurriculars",
 };
 
 // The generic CV Data and Transform templates are now imported from cvTemplates.ts
@@ -141,7 +142,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "No full-time experience? Completely fine. Club projects, internships, and coursework all count — if framed with ownership. 'I helped with the project' is weak. 'Led a team of 3 to build and launch an MVP' is strong. Show me initiative.",
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
-      hrCompany: "expert",
+      hrCompany: "shopee",
       hrAvatar: "woman",
       aiTitle: "Struggling to write this?",
       aiSubtext:
@@ -153,7 +154,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "For Mid-level roles, I don't want a list of daily tasks. I scan for data-driven results and business impact. Show me the numbers — percentages, dollar values, user counts. Give me a reason to forward your CV in the first 6 seconds.",
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
-      hrCompany: "expert",
+      hrCompany: "google",
       hrAvatar: "man",
       aiTitle: "Struggling to write this?",
       aiSubtext:
@@ -165,7 +166,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "At senior level, I'm not reading your CV — I'm scanning for company-scale impact. Tell me the ARR you influenced, the org you led, the strategic bets you made. If I can't see the business outcome in 6 seconds, it's a no.",
       hrName: "David Kim",
       hrRole: "VP Engineering",
-      hrCompany: "expert",
+      hrCompany: "scaleup",
       hrAvatar: "man",
       aiTitle: "Struggling to elevate this?",
       aiSubtext:
@@ -179,7 +180,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "As a student, your summary should tell me what you're studying, what you're passionate about, and what problem you want to solve. Keep it to 2–3 sentences. Honesty and specificity beats buzzwords every time.",
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
-      hrCompany: "expert",
+      hrCompany: "shopee",
       hrAvatar: "woman",
       aiTitle: "Need help with your summary?",
       aiSubtext:
@@ -191,7 +192,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "Your summary is your 30-second pitch. I need seniority, domain, and your biggest win — all in 2 lines. 'PM with 2 years experience' tells me nothing. '2 years scaling onboarding to 50K users, growing NPS 34→61' tells me everything.",
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
-      hrCompany: "expert",
+      hrCompany: "google",
       hrAvatar: "man",
       aiTitle: "Struggling to summarise yourself?",
       aiSubtext:
@@ -203,7 +204,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "For senior roles, your summary should read like an investment memo. I want the size of your playing field — revenue scale, org impact, market context. One anchor number is worth three paragraphs of soft skills.",
       hrName: "David Kim",
       hrRole: "VP Engineering",
-      hrCompany: "expert",
+      hrCompany: "scaleup",
       hrAvatar: "man",
       aiTitle: "Need a senior-level summary?",
       aiSubtext:
@@ -217,7 +218,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "For students, a strong projects section replaces work experience. I don't need a real company — I need to see you define a problem, build something, and measure the outcome. A Figma prototype with 5 test users counts if you frame it right.",
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
-      hrCompany: "expert",
+      hrCompany: "shopee",
       hrAvatar: "woman",
       aiTitle: "Need to frame your project better?",
       aiSubtext:
@@ -229,7 +230,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "Projects are underrated by mid-level candidates. A well-framed initiative shows hunger and initiative that standard experience sections often miss. Scannable: problem, what you built, what happened — with numbers.",
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
-      hrCompany: "expert",
+      hrCompany: "google",
       hrAvatar: "man",
       aiTitle: "Want to make your project shine?",
       aiSubtext:
@@ -241,7 +242,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "At senior level, I expect initiatives, not projects. Tell me the strategic bet you championed, the cross-org investment you secured, the platform you architected. These entries should feel like mini case studies in leadership.",
       hrName: "David Kim",
       hrRole: "VP Engineering",
-      hrCompany: "expert",
+      hrCompany: "scaleup",
       hrAvatar: "man",
       aiTitle: "Need to elevate your initiatives?",
       aiSubtext:
@@ -255,7 +256,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "Don't just write 'Student'. Write 'Aspiring Product Manager' or 'CS Student · PM Track'. It signals intent immediately and helps me route your CV to the right hiring manager — before I've read a single bullet.",
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
-      hrCompany: "expert",
+      hrCompany: "shopee",
       hrAvatar: "woman",
       aiTitle: "Not sure how to title yourself?",
       aiSubtext:
@@ -267,7 +268,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "I see hundreds of generic 'Product Manager' headers weekly. 'Growth PM — B2B SaaS & Analytics' takes 3 seconds and tells me you're specialised. That specificity alone gets you a second look at 4am screening.",
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
-      hrCompany: "expert",
+      hrCompany: "google",
       hrAvatar: "man",
       aiTitle: "Want a sharper header?",
       aiSubtext:
@@ -279,7 +280,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "For senior candidates, your header should scream credibility before I read a bullet. 'Senior Product Lead · $18M ARR · Series C' as a subtitle is more powerful than any buzzword summary. Anchor seniority with scope.",
       hrName: "David Kim",
       hrRole: "VP Engineering",
-      hrCompany: "expert",
+      hrCompany: "scaleup",
       hrAvatar: "man",
       aiTitle: "Positioning yourself as a senior leader?",
       aiSubtext:
@@ -293,7 +294,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "For entry-level, I look for foundational skills and eagerness to learn. List relevant tools, languages, and any certifications. Don't just say 'proficient' — show me what you've built with them.",
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
-      hrCompany: "expert",
+      hrCompany: "shopee",
       hrAvatar: "woman",
       aiTitle: "Need help listing your skills?",
       aiSubtext:
@@ -305,7 +306,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "Mid-level skills should demonstrate depth and application. Instead of just listing 'SQL', tell me 'SQL for A/B testing and data analysis'. Show me how your skills drive product outcomes.",
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
-      hrCompany: "expert",
+      hrCompany: "google",
       hrAvatar: "man",
       aiTitle: "Want to showcase your skills effectively?",
       aiSubtext:
@@ -317,7 +318,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "At senior level, skills are less about individual tools and more about strategic capabilities. 'Leadership', 'Cross-functional Alignment', 'Market Analysis' — these are the skills that matter. Frame them with business context.",
       hrName: "David Kim",
       hrRole: "VP Engineering",
-      hrCompany: "expert",
+      hrCompany: "scaleup",
       hrAvatar: "man",
       aiTitle: "Elevate your skills to a strategic level?",
       aiSubtext:
@@ -331,7 +332,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "For students, education is paramount. List your degree, university, graduation date, and any relevant coursework or honors. If your GPA is strong, include it!",
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
-      hrCompany: "expert",
+      hrCompany: "shopee",
       hrAvatar: "woman",
       aiTitle: "Need to optimize your education section?",
       aiSubtext:
@@ -343,7 +344,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "For mid-level, education is still important but less prominent than experience. Keep it concise: Degree, University, Year. Only add details if they directly support your career trajectory or specializations.",
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
-      hrCompany: "expert",
+      hrCompany: "google",
       hrAvatar: "man",
       aiTitle: "How to best present your education?",
       aiSubtext:
@@ -355,7 +356,7 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
         "At senior level, education is a formality. List your highest degree and institution. Executive education or relevant certifications can be included if they bolster your leadership profile.",
       hrName: "David Kim",
       hrRole: "VP Engineering",
-      hrCompany: "expert",
+      hrCompany: "scaleup",
       hrAvatar: "man",
       aiTitle: "Streamline your education for executive roles?",
       aiSubtext:
@@ -363,156 +364,68 @@ const PANEL_DATA: Record<CVSection, Record<DiagnosticLevel, PanelData>> = {
       aiPrompt: `Act as an executive headhunter for senior Product leadership.\n\nStreamline the following education details for a Director/VP-level CV.\n\nContext:\n- Highest Degree: [e.g., PhD in AI Ethics]\n- Institution: [e.g., Stanford University]\n- Year: [e.g., 2015]\n- Executive Education: [e.g., Harvard Business School Executive Program]\n\nRequirements:\n- List only highest degree and institution.\n- Include relevant executive education or certifications that enhance leadership credibility.\n- Keep it extremely concise.`,
     },
   },
-  achievements: {
+  awards: {
     starter: {
-      hrQuote:
-        "Awards and competitions speak louder than anything else on an entry-level CV. Top 10% in a national hackathon? That's one line that beats 3 bullet points of generic coursework. If you have them, flaunt them — precisely.",
+      hrQuote: "At the starter level, relevant awards establish credibility and highlight excellence. Focus on scholarships, hackathons, or academic honors.",
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
-      hrCompany: "expert",
+      hrCompany: "shopee",
       hrAvatar: "woman",
-      aiTitle: "Want to polish your awards section?",
-      aiSubtext:
-        "Use this prompt to format your raw list of awards into a clean, HR-ready section.",
-      aiPrompt: `You are a strict CV coach. Format my raw list of awards and achievements into a clean, professional CV section.\n\nTarget Role: [YOUR ROLE HERE]\n\nRaw list:\n[PASTE YOUR AWARDS HERE]\n\nFormat each item as:\n[Award Name] — [Issuing Org], [Year] ([Brief context/metric, e.g. Top 5% of 2,000 participants])\n\nRules:\n- Sort newest first.\n- Remove basic participation certificates — keep only merit-based or competitive awards.\n- If competition scale is available, highlight ranking (e.g. Top 0.1%).\n- Be concise. One line per award.`,
+      aiTitle: "How to showcase your academic honors?",
+      aiSubtext: "Use this prompt to cleanly present your awards, focusing on context and selectivity.",
+      aiPrompt: "Act as a CV coach for an entry-level tech candidate.\n\nFormat the following award/honor to be clean and impactful:\n- Award Name: [e.g., First Place Hackathon]\n- Issuer: [e.g., Tech Startup Club]\n- Date: [e.g., 2023]\n- Context/Description (optional): [e.g., Out of 50 teams, built an AI tool in 48 hours]\n\nRequirements:\n- Emphasize the prestige or selectivity if notable.\n- Keep description under 1 short sentence.",
     },
     developing: {
-      hrQuote:
-        "Mid-level candidates often forget to update their awards section. If you've won a company hackathon, led a winning pitch, or secured a grant — those belong here. Quantify the competition scale whenever possible.",
+      hrQuote: "For mid-level, only include awards that are highly relevant to your career or showcase exceptional leadership/technical recognition.",
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
-      hrCompany: "expert",
+      hrCompany: "google",
       hrAvatar: "man",
-      aiTitle: "Showcase your track record?",
-      aiSubtext:
-        "Use this prompt to turn your raw achievement list into a compelling, formatted awards section.",
-      aiPrompt: `You are an expert CV coach for mid-level professionals. Format my achievements into a concise, impactful awards section.\n\nTarget Role: [YOUR ROLE HERE]\n\nRaw list:\n[PASTE YOUR AWARDS / ACHIEVEMENTS HERE]\n\nFormat each as:\n[Award Name] — [Org], [Year] ([Scale / Context])\n\nPrioritize: competitive wins > leadership recognitions > certifications.\nDelete any basic participation or attendance certificates.`,
+      aiTitle: "Which awards matter now?",
+      aiSubtext: "Use this prompt to curate and format professional awards that highlight your growing domain expertise.",
+      aiPrompt: "Act as an expert CV writer for mid-level tech professionals.\n\nCondense and impact-focus the following professional recognition:\n- Award Name: [e.g., Q3 Innovator Award]\n- Issuer: [e.g., Company Name]\n- Date: [e.g., 2022]\n- Description: [e.g., Recognized for migrating core services with zero downtime]\n\nRequirements:\n- Focus entirely on the professional outcome that earned the award.\n- Keep it highly concise (1 line max).",
     },
     ready: {
-      hrQuote:
-        "At senior level, I look for industry recognition — speaking slots, published articles, board positions, notable grants. If you've spoken at a 1,000-person conference or been featured in Forbes, lead with that.",
+      hrQuote: "At the senior level, awards should represent industry-wide recognition, major patents, or significant structural contributions. Omit standard internal awards.",
       hrName: "David Kim",
       hrRole: "VP Engineering",
-      hrCompany: "expert",
+      hrCompany: "scaleup",
       hrAvatar: "man",
-      aiTitle: "Elevate your recognition section?",
-      aiSubtext:
-        "Use this prompt to present senior-level recognition, publications, and industry awards.",
-      aiPrompt: `You are an executive CV consultant. Format my professional recognition for a Director/VP-level CV.\n\nTarget Role: [YOUR ROLE]\n\nRaw recognition:\n[PASTE YOUR AWARDS, SPEAKING SLOTS, PUBLICATIONS, BOARD POSITIONS]\n\nPrioritize: industry recognition > company-wide awards > academic achievements.\nFor each, format as: [Recognition] — [Context/Venue], [Year]\nRemove anything below industry-level significance.`,
+      aiTitle: "Highlighting industry recognition?",
+      aiSubtext: "Use this prompt to frame executive-level accolades or major industry patents.",
+      aiPrompt: "Act as an executive headhunter.\n\nRefine the following major accolade/patent for a Director-level CV:\n- Title: [e.g., Patent: Machine Learning method for X]\n- Issuer/Organization: [e.g., US Patent Office]\n- Year: [e.g., 2021]\n- Impact: [e.g., Deployed across enterprise serving 2M users]\n\nRequirements:\n- Make it sound executive and industry-leading.\n- Keep it to a single, powerful line.",
     },
   },
   activities: {
     starter: {
-      hrQuote:
-        "Extracurriculars are your personality on paper. A club president or event organizer shows leadership that coursework can't. Don't just list the club name — tell me what you actually did and at what scale.",
+      hrQuote: "Extracurriculars are vital for students. They show me you can collaborate, take initiative, and manage time. Leadership roles in clubs are a massive plus.",
       hrName: "Sarah Thompson",
       hrRole: "HR Lead",
-      hrCompany: "expert",
+      hrCompany: "shopee",
       hrAvatar: "woman",
-      aiTitle: "Turn activities into powerful bullets?",
-      aiSubtext:
-        "Use this prompt to transform your raw activities into professional, impact-driven bullet points.",
-      aiPrompt: `You are a CV coach specializing in entry-level tech candidates. Convert my extracurricular activities into 1-2 powerful CV bullet points per activity.\n\nTarget Role: [YOUR ROLE]\n\nRaw activities:\n[PASTE YOUR ACTIVITIES / VOLUNTEERING / CLUB ROLES HERE]\n\nApply the Golden Formula for each: Action Verb → Context → Measured Outcome.\nFocus on: leadership, initiative, team size managed, funds/members/events handled.\nNo pronouns. No vague statements like 'participated in'.`,
+      aiTitle: "Maximizing club involvement?",
+      aiSubtext: "Use this prompt to turn club participation into a demonstration of soft skills and leadership.",
+      aiPrompt: "Act as an expert CV coach for entry-level tech candidates.\n\nReframe the following extracurricular activity into 1-2 professional bullet points:\n- Organization: [e.g., University Tech Club]\n- Role: [e.g., Event Coordinator]\n- Dates: [e.g., 2023-2024]\n- What you did: [e.g., Organized 3 workshops, managed social media, grew membership by 20%]\n\nRequirements:\n- Use strong action verbs.\n- Treat this like professional experience, focusing on numbers, leadership, and outcomes.",
     },
     developing: {
-      hrQuote:
-        "By mid-level, extracurriculars should demonstrate strategic thinking outside your day job. Mentoring junior developers, organizing industry meetups, or contributing to open-source all signal growth mindset and community leadership.",
+      hrQuote: "If you include activities at the mid-level, they better be relevant community contributions. Think open-source maintainer, meetup organizer, or tech speaker.",
       hrName: "Marcus Lee",
       hrRole: "Tech Lead",
-      hrCompany: "expert",
+      hrCompany: "google",
       hrAvatar: "man",
-      aiTitle: "Make your activities stand out?",
-      aiSubtext:
-        "Use this prompt to frame your outside-of-work contributions as strategic, leadership-driven achievements.",
-      aiPrompt: `You are an expert CV coach for mid-level professionals. Transform my extracurricular and voluntary work into impactful CV bullets.\n\nTarget Role: [YOUR ROLE]\n\nRaw activities:\n[PASTE YOUR ACTIVITIES HERE]\n\nFor each, create 1-2 bullets using: Action Verb → Scope → Impact.\nHighlight: leadership, strategic contribution, community scale, business relevance.\nTreat these like professional experience — quantify where possible.`,
+      aiTitle: "Curating your professional community work?",
+      aiSubtext: "Use this prompt to format relevant community leadership and open-source contributions.",
+      aiPrompt: "Act as an expert CV writer for mid-level professionals.\n\nFormat the following community involvement into a professional entry:\n- Organization/Project: [e.g., ReactJS Vietnam Group]\n- Role/Contribution: [e.g., Core Contributor / Speaker]\n- Dates: [e.g., 2022 - Present]\n- Impact: [e.g., Spoke at 2 meetups for 200+ devs]\n\nRequirements:\n- Emphasize knowledge sharing and community impact.\n- Keep it highly scannable.",
     },
     ready: {
-      hrQuote:
-        "Senior candidates with strong advisory, board, or open-source leadership roles stand out dramatically. If you've served on an advisory board, led an industry working group, or built a community of 10,000+ — that's executive-level proof of influence beyond your org.",
+      hrQuote: "For senior leaders, activities usually mean board memberships, advisory roles, or high-profile industry speaking engagements. Everything else is noise.",
       hrName: "David Kim",
       hrRole: "VP Engineering",
-      hrCompany: "expert",
+      hrCompany: "scaleup",
       hrAvatar: "man",
-      aiTitle: "Present your external influence?",
-      aiSubtext:
-        "Use this prompt to frame your advisory, board, and community roles as executive-level leadership proof.",
-      aiPrompt: `You are an executive CV consultant. Frame my external roles and community involvement for a Director/VP-level CV.\n\nTarget Role: [YOUR ROLE]\n\nRaw involvement:\n[PASTE YOUR ADVISORY ROLES, BOARD POSITIONS, COMMUNITY LEADERSHIP, OPEN-SOURCE CONTRIBUTIONS]\n\nFor each, write 1 concise line: [Role] — [Organization/Community], [Year–Present].\nAdd a brief impact note if quantifiable (e.g. community of 15,000 members, mentored 50+ professionals).\nPrioritize industry influence > company volunteering > general community.`,
-    },
-  },
-  achievements: {
-    starter: {
-      hrQuote:
-        "Awards and competitions speak louder than anything else on an entry-level CV. Top 10% in a national hackathon? That beats three bullet points of generic coursework. If you have them, flaunt them — precisely.",
-      hrName: "Sarah Thompson",
-      hrRole: "HR Lead",
-      hrCompany: "expert",
-      hrAvatar: "woman",
-      aiTitle: "Polish your awards section?",
-      aiSubtext:
-        "Use this prompt to format your raw list of awards into a clean, HR-ready section.",
-      aiPrompt: `You are a strict CV coach. Format my raw list of awards and achievements into a clean, professional CV section.\n\nTarget Role: [YOUR ROLE HERE]\n\nRaw list:\n[PASTE YOUR AWARDS HERE]\n\nFormat each item as:\n[Award Name] — [Issuing Org], [Year] ([Brief context/metric])\n\nRules:\n- Sort newest first.\n- Remove basic participation certificates — keep only merit-based or competitive awards.\n- If competition scale is available, highlight ranking (e.g. Top 0.1%).\n- Be concise. One line per award.`,
-    },
-    developing: {
-      hrQuote:
-        "Mid-level candidates often forget to update their awards section. Company hackathon win, winning pitch, grant secured — those belong here. Quantify the competition scale whenever possible.",
-      hrName: "Marcus Lee",
-      hrRole: "Tech Lead",
-      hrCompany: "expert",
-      hrAvatar: "man",
-      aiTitle: "Showcase your track record?",
-      aiSubtext:
-        "Use this prompt to turn your raw achievement list into a compelling formatted awards section.",
-      aiPrompt: `You are an expert CV coach for mid-level professionals. Format my achievements into a concise, impactful awards section.\n\nTarget Role: [YOUR ROLE HERE]\n\nRaw list:\n[PASTE YOUR AWARDS / ACHIEVEMENTS HERE]\n\nFormat each as:\n[Award Name] — [Org], [Year] ([Scale / Context])\n\nPrioritize: competitive wins > leadership recognitions > certifications.\nDelete any basic participation or attendance certificates.`,
-    },
-    ready: {
-      hrQuote:
-        "At senior level, I look for industry recognition — speaking slots, published articles, board positions, notable grants. If you've spoken at a 1,000-person conference or been featured in Forbes, lead with that.",
-      hrName: "David Kim",
-      hrRole: "VP Engineering",
-      hrCompany: "expert",
-      hrAvatar: "man",
-      aiTitle: "Elevate your recognition section?",
-      aiSubtext:
-        "Use this prompt to present senior-level recognition, publications, and industry awards.",
-      aiPrompt: `You are an executive CV consultant. Format my professional recognition for a Director/VP-level CV.\n\nTarget Role: [YOUR ROLE]\n\nRaw recognition:\n[PASTE YOUR AWARDS, SPEAKING SLOTS, PUBLICATIONS, BOARD POSITIONS]\n\nPrioritize: industry recognition > company-wide awards > academic achievements.\nFor each, format as: [Recognition] — [Context/Venue], [Year]\nRemove anything below industry-level significance.`,
-    },
-  },
-  activities: {
-    starter: {
-      hrQuote:
-        "Extracurriculars are your personality on paper. A club president or event organizer shows leadership that coursework can't. Don't just list the club name — tell me what you actually did and at what scale.",
-      hrName: "Sarah Thompson",
-      hrRole: "HR Lead",
-      hrCompany: "expert",
-      hrAvatar: "woman",
-      aiTitle: "Turn activities into powerful bullets?",
-      aiSubtext:
-        "Use this prompt to transform your raw activities into professional, impact-driven bullet points.",
-      aiPrompt: `You are a CV coach specializing in entry-level tech candidates. Convert my extracurricular activities into 1-2 powerful CV bullet points per activity.\n\nTarget Role: [YOUR ROLE]\n\nRaw activities:\n[PASTE YOUR ACTIVITIES / VOLUNTEERING / CLUB ROLES HERE]\n\nApply the Golden Formula for each: Action Verb → Context → Measured Outcome.\nFocus on: leadership, initiative, team size managed, funds/members/events handled.\nNo pronouns. No vague statements like 'participated in'.`,
-    },
-    developing: {
-      hrQuote:
-        "By mid-level, extracurriculars should demonstrate strategic thinking outside your day job. Mentoring junior developers, organizing industry meetups, or contributing to open-source — these signal growth mindset and community leadership.",
-      hrName: "Marcus Lee",
-      hrRole: "Tech Lead",
-      hrCompany: "expert",
-      hrAvatar: "man",
-      aiTitle: "Make your activities stand out?",
-      aiSubtext:
-        "Use this prompt to frame your outside-of-work contributions as strategic, leadership-driven achievements.",
-      aiPrompt: `You are an expert CV coach for mid-level professionals. Transform my extracurricular and voluntary work into impactful CV bullets.\n\nTarget Role: [YOUR ROLE]\n\nRaw activities:\n[PASTE YOUR ACTIVITIES HERE]\n\nFor each, create 1-2 bullets using: Action Verb → Scope → Impact.\nHighlight: leadership, strategic contribution, community scale, business relevance.\nTreat these like professional experience — quantify where possible.`,
-    },
-    ready: {
-      hrQuote:
-        "Senior candidates with strong advisory, board, or open-source leadership roles stand out dramatically. If you've served on an advisory board or built a community of 10,000+ — that's executive-level proof of influence beyond your org.",
-      hrName: "David Kim",
-      hrRole: "VP Engineering",
-      hrCompany: "expert",
-      hrAvatar: "man",
-      aiTitle: "Present your external influence?",
-      aiSubtext:
-        "Use this prompt to frame your advisory, board, and community roles as executive-level leadership proof.",
-      aiPrompt: `You are an executive CV consultant. Frame my external roles and community involvement for a Director/VP-level CV.\n\nTarget Role: [YOUR ROLE]\n\nRaw involvement:\n[PASTE YOUR ADVISORY ROLES, BOARD POSITIONS, COMMUNITY LEADERSHIP, OPEN-SOURCE CONTRIBUTIONS]\n\nFor each, write 1 concise line: [Role] — [Organization/Community], [Year–Present].\nAdd a brief impact note if quantifiable (e.g. community of 15,000 members, mentored 50+ professionals).\nPrioritize industry influence > company volunteering > general community.`,
+      aiTitle: "Structuring board and advisory roles?",
+      aiSubtext: "Use this prompt to present your executive-level community and advisory engagements.",
+      aiPrompt: "Act as an executive CV consultant.\n\nFrame the following advisory or board role for a senior leader's CV:\n- Entity: [e.g., Tech Startup Hub / Non-Profit]\n- Role: [e.g., Advisory Board Member]\n- Dates: [e.g., 2020 - Present]\n- Contribution: [e.g., Mentored 5 startup founders on product strategy]\n\nRequirements:\n- Highlight strategic guidance and mentorship.\n- Keep it sophisticated and concise.",
     },
   },
 };
@@ -528,19 +441,29 @@ function TransformBullet({
   stages: [Stage, Stage, Stage, Stage];
   stageIndex: number;
 }) {
-  const currentStage = stages[Math.min(stageIndex, 3)];
+  // CRITICAL CRASH FIX: Guard against malformed or missing stages data
+  const safeStages = Array.isArray(stages) && stages.length > 0 ? stages : [[{ id: "fallback", text: "Loading representation..." } as TextSeg]];
+  const safeIndex = Math.min(Math.max(0, stageIndex), safeStages.length - 1);
+  const currentStage = safeStages[safeIndex];
+  
   const isBad = stageIndex === 0;
-  const isFinal = stageIndex === 3;
+  const isFinal = stageIndex >= 3;
   const containerRef = useRef<HTMLSpanElement>(null);
   const prevIndexRef = useRef(stageIndex);
-  const prevIdsRef = useRef(new Set(currentStage.map((s) => s.id)));
+  
+  // Safe mapping to prevent "cannot read properties of undefined (reading map)"
+  const currentIds = Array.isArray(currentStage) ? currentStage.map((s) => s?.id || "") : [];
+  const prevIdsRef = useRef(new Set(currentIds));
 
   useEffect(() => {
     if (stageIndex === prevIndexRef.current) return;
-    const newIds = new Set(currentStage.map((s) => s.id));
+    if (!Array.isArray(currentStage)) return;
+    
+    const newIds = new Set(currentStage.map((s) => s?.id || ""));
     const addedIds = [...newIds].filter((id) => !prevIdsRef.current.has(id));
 
     if (containerRef.current && addedIds.length > 0) {
+
       // Small delay ensures DOM has updated
       requestAnimationFrame(() => {
         addedIds.forEach((id) => {
@@ -728,28 +651,63 @@ function SpotlightTour({
 
   const { w, h } = dims;
 
-  const spots = [
-    // Step 0: Left CV panel
-    { x: 12, y: 68, sw: w * 0.5 - 24, sh: h - 80 },
-    // Step 1: Level Switcher in TopBar (center)
-    { x: w * 0.5 - 148, y: 8, sw: 296, sh: 42 },
-    // Step 2: Checklist area (right panel lower portion)
-    {
-      x: w * 0.5 + 10,
-      y: Math.round(h * 0.44),
-      sw: w * 0.5 - 24,
-      sh: Math.round(h * 0.46),
-    },
+  const [spots, setSpots] = useState(() => [
+    // Default fallbacks while DOM measures
+    { x: 0, y: 68, sw: Math.floor(dims.w / 2), sh: dims.h - 68 },
+    { x: Math.floor(dims.w / 2), y: 68, sw: dims.w - Math.floor(dims.w / 2), sh: Math.round((dims.h - 68) * 0.62) },
+    { x: Math.floor(dims.w / 2), y: 68 + Math.round((dims.h - 68) * 0.62), sw: dims.w - Math.floor(dims.w / 2), sh: Math.round((dims.h - 68) * 0.38) }
+  ]);
+
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const half = Math.floor(w / 2);
+      const navH = 68;
+
+      const newSpots = [
+        { x: 0, y: navH, sw: half, sh: h - navH },
+        { x: half, y: navH, sw: w - half, sh: Math.round((h - navH) * 0.62) },
+        { x: half, y: navH + Math.round((h - navH) * 0.62), sw: w - half, sh: Math.round((h - navH) * 0.38) }
+      ];
+
+      const chk = document.getElementById("tour-checklist");
+      if (chk) {
+        const rect = chk.getBoundingClientRect();
+        newSpots[1] = { x: rect.left - 16, y: rect.top - 16, sw: rect.width + 32, sh: rect.height + 32 };
+      }
+
+      const prmpt = document.getElementById("tour-prompt");
+      if (prmpt) {
+        const rect = prmpt.getBoundingClientRect();
+        // The bottom card should be properly framed
+        newSpots[2] = { x: rect.left - 16, y: rect.top - 16, sw: rect.width + 32, sh: rect.height + 32 };
+      }
+
+      setSpots(newSpots);
+    };
+
+    update();
+    // Use a small timeout to let the entrance animations settle before measuring DOM
+    setTimeout(update, 350);
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, [step]);
+
+
+  const HALF = Math.floor(w / 2);
+  const tooltips = [
+    // Step 0: Spotlight on LEFT CV panel → show tooltip card in the RIGHT side
+    { tx: HALF + 24, ty: Math.round(h * 0.28) },
+    // Step 1: Spotlight on RIGHT top (checklist) → show tooltip card on the LEFT side
+    { tx: 20, ty: Math.round(h * 0.28) },
+    // Step 2: Spotlight on RIGHT bottom (AI prompt) → show tooltip card on the LEFT side
+    { tx: 20, ty: Math.round(h * 0.30) },
   ];
 
-  const tooltips = [
-    // Step 0: tooltip on the right panel side
-    { tx: w * 0.5 + 24, ty: Math.round(h * 0.5) - 110 },
-    // Step 1: tooltip below the switcher
-    { tx: w * 0.5 - 155, ty: 60 },
-    // Step 2: tooltip above the checklist, left area
-    { tx: 20, ty: Math.round(h * 0.44) - 185 },
-  ];
+  if (step < 0 || step >= TOUR_CONTENT.length || !spots[step] || !tooltips[step]) {
+    return null;
+  }
 
   const { x, y, sw, sh } = spots[step];
   const { tx, ty } = tooltips[step];
@@ -1079,19 +1037,22 @@ function TopNav({
             </svg>
           </motion.button>
         )}
-        <img
-          src="/preview_icon.png"
-          alt="Project X"
+        <div
           style={{
             width: 28,
             height: 28,
             borderRadius: 8,
-            objectFit: "cover",
+            background: "#FFFFFF",
+            border: "1.5px solid #E2E8F0",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             flexShrink: 0,
-            boxShadow: "0 2px 6px rgba(1,0,31,0.2)",
-            display: "block",
+            boxShadow: "0 2px 5px rgba(0,0,0,0.04)",
           }}
-        />
+        >
+          <img src="/favicon.svg" alt="Project X Logo" style={{ width: 18, height: 18, objectFit: "contain" }} />
+        </div>
         <div
           style={{ width: 1, height: 16, background: "#17CAFA", flexShrink: 0 }}
         />
@@ -1292,8 +1253,8 @@ function HRQuoteBubble({
     data.hrQuote;
   const hrName = roleData.hrName;
   const hrRole = roleData.hrRole;
-  const hrCompany = roleData.hrCompany;
-  const companyInfo = COMPANY_INFO[hrCompany];
+  const hrCompany = roleData?.hrCompany || "expert";
+  const companyInfo = COMPANY_INFO[hrCompany] || COMPANY_INFO.expert;
 
   // ── Position calculation (FIX 1 + FIX 3) ──────────────────────────────────
   const BUBBLE_WIDTH = 440;
@@ -1314,13 +1275,12 @@ function HRQuoteBubble({
       zIndex: 9999,
     };
   } else if (anchorRect) {
-    // FIX 1 — position: fixed, anchored to clicked element
+    // Position bubble to the right of the clicked CV section
     let top = anchorRect.top + window.scrollY;
-    // Right edge of CV left panel + GAP
     const cvPanelRightEdge = anchorRect.right;
     let left = cvPanelRightEdge + GAP;
 
-    // FIX 3 — Clamp: if bubble goes off the right edge, flip to left side of CV panel
+    // Clamp: if bubble goes off the right edge, flip to left side of CV panel
     if (left + BUBBLE_WIDTH > window.innerWidth - 8) {
       left = Math.max(8, anchorRect.left - BUBBLE_WIDTH - GAP);
     }
@@ -1337,7 +1297,6 @@ function HRQuoteBubble({
       left,
       width: BUBBLE_WIDTH,
       zIndex: 9999,
-      // FIX 4 — Smooth repositioning (no remount, just transition)
       transition: "top 200ms ease, left 200ms ease",
     };
   } else {
@@ -1522,12 +1481,10 @@ function HRQuoteBubble({
   );
 }
 
-// Maps a role string to a key inside CV_TEMPLATES / TRANSFORM_TEMPLATES.
-// Since templates are now keyed by exact role name, we try the direct key first,
-// then fall back to a sensible generic bucket.
-export const getCVTemplateKey = (role: string | null): string => {
+// Maps a role string to a key inside EXPANDED_CV_TEMPLATES.
+// Routes every role to the correct personalized CV bucket.
+const getCVTemplateKey = (role: string | null): string => {
   const safeRole = role || "";
-  if (CV_TEMPLATES[safeRole]) return safeRole;
 
   // ── Explicit role-name mappings (Screen1Pillars roles) ──────────────────────
   const ROLE_MAP: Record<string, string> = {
@@ -1578,7 +1535,7 @@ export const getCVTemplateKey = (role: string | null): string => {
   return "Product Management (PM)";
 };
 // Keep old name as alias for any external consumers
-export const getTrackForRole = getCVTemplateKey;
+const getTrackForRole = getCVTemplateKey;
 
 function LeftCVColumn({
   level,
@@ -1599,7 +1556,10 @@ function LeftCVColumn({
   selectedRole: string | null;
 }) {
   const cvKey = getCVTemplateKey(selectedRole);
-  const cv: CVData = (EXPANDED_CV_TEMPLATES[cvKey]?.[level]) ?? generateFallbackCV(selectedRole || "Product Manager", level);
+  // EXPANDED_CV_TEMPLATES is keyed by exact role name - look it up directly first
+  const cv: CVData = (EXPANDED_CV_TEMPLATES[selectedRole || ""]?.[level])
+    ?? (EXPANDED_CV_TEMPLATES[cvKey]?.[level])
+    ?? generateFallbackCV(selectedRole || "Product Manager", level);
   const TRANSFORM = TRANSFORM_TEMPLATES[cvKey] ?? TRANSFORM_TEMPLATES["Product Management (PM)"];
   const roleData = getRoleLevelData(selectedRole, level);
   const stageIndex = checks.filter(Boolean).length;
@@ -1671,13 +1631,15 @@ function LeftCVColumn({
         .seg-flash-green { animation: segFlashGreen 1.3s ease forwards; }
       `}</style>
 
-      <div style={{ position: "relative", width: "50%", display: "flex", flexDirection: "column" }}>
+      <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <div
         className="cv-left-scroll"
         style={{
           flex: 1,
+          minHeight: 0,
           width: "100%",
           overflowY: "auto",
+          overflowX: "hidden",
           background: "#FFFFFF",
           borderRight: "1px solid #17CAFA",
           padding: "28px 24px 60px",
@@ -1725,6 +1687,7 @@ function LeftCVColumn({
             boxShadow:
               "0 1px 3px rgba(0,0,0,0.04), 0 6px 20px rgba(0,0,0,0.07), 0 24px 56px rgba(0,0,0,0.07)",
             overflow: "hidden",
+            flexShrink: 0,
           }}
         >
           <div
@@ -1782,7 +1745,7 @@ function LeftCVColumn({
                 ))}
               </div>
               {/* Transform demo for header */}
-              {activeSection === "header" && (
+              {activeSection === "header" && TRANSFORM?.header?.[level]?.stages && (
                 <div style={{ marginTop: 10 }}>
                   <div
                     style={{
@@ -1817,7 +1780,7 @@ function LeftCVColumn({
                 text="Professional Summary"
                 active={activeSection === "summary"}
               />
-              {activeSection === "summary" && (
+              {activeSection === "summary" && TRANSFORM?.summary?.[level]?.stages && (
                 <div style={{ marginBottom: 8 }}>
                   <div
                     style={{
@@ -1883,7 +1846,7 @@ function LeftCVColumn({
                 text="Experience"
                 active={activeSection === "experience"}
               />
-              {activeSection === "experience" && (
+              {activeSection === "experience" && TRANSFORM?.experience?.[level]?.stages && (
                 <div style={{ marginBottom: 10 }}>
                   <div
                     style={{
@@ -2035,7 +1998,7 @@ function LeftCVColumn({
                 text="Projects"
                 active={activeSection === "projects"}
               />
-              {activeSection === "projects" && (
+              {activeSection === "projects" && TRANSFORM?.projects?.[level]?.stages && (
                 <div style={{ marginBottom: 10 }}>
                   <div
                     style={{
@@ -2156,159 +2119,178 @@ function LeftCVColumn({
               </AnimatePresence>
             </CVSectionBlock>
 
-            {/* ── AWARDS & ACHIEVEMENTS ── */}
-            <CVSectionBlock
-              id="achievements"
-              isActive={activeSection === "achievements"}
-              isHovered={hoveredSection === "achievements"}
-              onHover={onHover}
-              onClick={onActivate}
-            >
-              <SectionDivider
-                text="Awards & Achievements"
-                active={activeSection === "achievements"}
-              />
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`ach-${level}-${selectedRole}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.22 }}
-                >
-                  {[
-                    level === "starter" && "Dean's List — Top 10% of cohort, 2023",
-                    level === "starter" && "1st Place — National Tech Hackathon (1,200 participants), 2022",
-                    level === "developing" && "Employee of the Quarter — Q3 2023 · TechCorp Ltd",
-                    level === "developing" && "Runner-Up — Regional PM Case Competition (Top 5%)",
-                    level === "ready" && "Top 50 Product Thinkers — ProductHunt Awards 2023",
-                    level === "ready" && "Speaker — ProductCon 2023 · 2,400 attendees",
-                  ].filter(Boolean).map((item, idx) => (
-                    <div
-                      key={idx}
-                      style={{
-                        display: "flex",
-                        gap: 6,
-                        alignItems: "flex-start",
-                        marginBottom: 5,
-                        paddingLeft: 10,
-                        borderLeft: "2px solid #17CAFA",
-                      }}
-                    >
-                      <span
+            {/* ── AWARDS ── */}
+            {cv.awards && cv.awards.length > 0 && (
+              <CVSectionBlock
+                id="awards"
+                isActive={activeSection === "awards"}
+                isHovered={hoveredSection === "awards"}
+                onHover={onHover}
+                onClick={onActivate}
+              >
+                <SectionDivider
+                  text="Honors & Awards"
+                  active={activeSection === "awards"}
+                />
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={`awd-${level}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.22 }}
+                  >
+                    {cv.awards.map((award: AwardEntry, idx: number) => (
+                      <div
+                        key={idx}
                         style={{
-                          fontSize: 9.5,
-                          color: activeSection === "achievements" ? "#0E56FA" : "#CBD5E1",
-                          fontWeight: 700,
-                          marginTop: 1.5,
-                          flexShrink: 0,
-                          transition: "color 0.2s",
+                          marginBottom: idx < cv.awards!.length - 1 ? 10 : 0,
+                          paddingLeft: 10,
+                          borderLeft: "2px solid #17CAFA",
                         }}
                       >
-                        🏆
-                      </span>
-                      <div style={{ fontSize: 10.5, lineHeight: 1.55, letterSpacing: "-0.01em", color: "#01001F" }}>
-                        {String(item)}
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "baseline",
+                            gap: 5,
+                            marginBottom: 2,
+                          }}
+                        >
+                          <span
+                            style={{
+                              fontSize: 11.5,
+                              fontWeight: 700,
+                              color: "#01001F",
+                              letterSpacing: "-0.02em",
+                            }}
+                          >
+                            {award.name}
+                          </span>
+                          <span style={{ fontSize: 10, color: "#01001F" }}>
+                            · {award.issuer} ({award.date})
+                          </span>
+                        </div>
+                        {award.description && (
+                          <div
+                            style={{
+                              fontSize: 10.5,
+                              lineHeight: 1.55,
+                              letterSpacing: "-0.01em",
+                              color: "#01001F",
+                              marginTop: 2,
+                            }}
+                          >
+                            {renderHighlighted(award.description)}
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  ))}
-                </motion.div>
-              </AnimatePresence>
-              {activeSection === "achievements" && (
-                <div
-                  style={{
-                    marginTop: 10,
-                    padding: "8px 12px",
-                    borderRadius: 8,
-                    background: "rgba(14,86,250,0.05)",
-                    border: "1px dashed rgba(14,86,250,0.2)",
-                    fontSize: 9.5,
-                    color: "#0E56FA",
-                    fontWeight: 600,
-                  }}
-                >
-                  💡 Click to get your AI prompt for cleaning up this section →
-                </div>
-              )}
-            </CVSectionBlock>
+                    ))}
+                  </motion.div>
+                </AnimatePresence>
+              </CVSectionBlock>
+            )}
 
-            {/* ── ACTIVITIES & EXTRACURRICULARS ── */}
-            <CVSectionBlock
-              id="activities"
-              isActive={activeSection === "activities"}
-              isHovered={hoveredSection === "activities"}
-              onHover={onHover}
-              onClick={onActivate}
-            >
-              <SectionDivider
-                text="Activities & Extracurriculars"
-                active={activeSection === "activities"}
-              />
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`act-${level}-${selectedRole}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.22 }}
-                >
-                  {[
-                    level === "starter" && "VP of Events — Tech Club · 200+ members · organized 12 workshops",
-                    level === "starter" && "Volunteer Tutor — Code for Kids · taught Python to 30 students",
-                    level === "developing" && "Organizer — ProductMeetup HCM · 350 avg. attendees/session",
-                    level === "developing" && "Mentor — Google Developer Student Club · 15 mentees",
-                    level === "ready" && "Advisory Board Member — VN Tech Alliance, 2022–Present",
-                    level === "ready" && "Open-Source Contributor — 1,200+ GitHub stars · 40+ PRs merged",
-                  ].filter(Boolean).map((item, idx) => (
-                    <div
-                      key={idx}
-                      style={{
-                        display: "flex",
-                        gap: 6,
-                        alignItems: "flex-start",
-                        marginBottom: 5,
-                        paddingLeft: 10,
-                        borderLeft: "2px solid #17CAFA",
-                      }}
-                    >
-                      <span
+            {/* ── ACTIVITIES ── */}
+            {cv.activities && cv.activities.length > 0 && (
+              <CVSectionBlock
+                id="activities"
+                isActive={activeSection === "activities"}
+                isHovered={hoveredSection === "activities"}
+                onHover={onHover}
+                onClick={onActivate}
+              >
+                <SectionDivider
+                  text="Extracurriculars"
+                  active={activeSection === "activities"}
+                />
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={`act-${level}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.22 }}
+                  >
+                    {cv.activities.map((act: ActivityEntry, idx: number) => (
+                      <div
+                        key={idx}
                         style={{
-                          fontSize: 9.5,
-                          color: activeSection === "activities" ? "#0E56FA" : "#CBD5E1",
-                          fontWeight: 700,
-                          marginTop: 1.5,
-                          flexShrink: 0,
-                          transition: "color 0.2s",
+                          marginBottom: idx < cv.activities!.length - 1 ? 14 : 0,
+                          paddingLeft: 10,
+                          borderLeft: "2px solid #17CAFA",
                         }}
                       >
-                        ⚡
-                      </span>
-                      <div style={{ fontSize: 10.5, lineHeight: 1.55, letterSpacing: "-0.01em", color: "#01001F" }}>
-                        {String(item)}
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "baseline",
+                            justifyContent: "space-between",
+                            marginBottom: 4,
+                          }}
+                        >
+                          <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+                            <span
+                              style={{
+                                fontSize: 11.5,
+                                fontWeight: 700,
+                                color: "#01001F",
+                                letterSpacing: "-0.02em",
+                              }}
+                            >
+                              {act.organisation}
+                            </span>
+                            <span style={{ fontSize: 11, fontWeight: 500, color: "#0E56FA" }}>
+                              {act.role}
+                            </span>
+                          </div>
+                          <span style={{ fontSize: 9.5, fontWeight: 600, color: "#94a3b8" }}>
+                            {act.dates}
+                          </span>
+                        </div>
+                        {act.bullets && act.bullets.length > 0 && (
+                          <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                            {act.bullets.map((bullet: string, bi: number) => (
+                              <div
+                                key={bi}
+                                style={{
+                                  display: "flex",
+                                  gap: 5,
+                                  alignItems: "flex-start",
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    fontSize: 9.5,
+                                    color: activeSection === "activities" ? "#0E56FA" : "#CBD5E1",
+                                    fontWeight: 700,
+                                    marginTop: 1.5,
+                                    flexShrink: 0,
+                                    transition: "color 0.2s",
+                                  }}
+                                >
+                                  ▸
+                                </span>
+                                <div
+                                  style={{
+                                    fontSize: 10.5,
+                                    lineHeight: 1.55,
+                                    letterSpacing: "-0.01em",
+                                  }}
+                                >
+                                  {renderHighlighted(bullet)}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  ))}
-                </motion.div>
-              </AnimatePresence>
-              {activeSection === "activities" && (
-                <div
-                  style={{
-                    marginTop: 10,
-                    padding: "8px 12px",
-                    borderRadius: 8,
-                    background: "rgba(14,86,250,0.05)",
-                    border: "1px dashed rgba(14,86,250,0.2)",
-                    fontSize: 9.5,
-                    color: "#0E56FA",
-                    fontWeight: 600,
-                  }}
-                >
-                  💡 Click to get your AI prompt for strengthening this section →
-                </div>
-              )}
-            </CVSectionBlock>
+                    ))}
+                  </motion.div>
+                </AnimatePresence>
+              </CVSectionBlock>
+            )}
           </div>
-
           {/* Legend */}
           <div
             style={{
@@ -2394,8 +2376,8 @@ function StepChecklist({
               gap: 10,
               padding: "10px 12px",
               borderRadius: 10,
-              border: `1.5px solid ${done ? "#BBF7D0" : enabled ? "#FFFFFF" : "#F8FAFC"}`,
-              background: done ? "#F0FDF4" : enabled ? "#FFFFFF" : "#FFFFFF",
+              border: `1.5px solid ${done ? "#BBF7D0" : enabled ? "#E2E8F0" : "#F8FAFC"}`,
+              background: done ? "#F0FDF4" : enabled ? "#F8FAFF" : "#FFFFFF",
               cursor: enabled ? "pointer" : "not-allowed",
               textAlign: "left",
               transition: "all 0.2s",
@@ -2543,10 +2525,10 @@ function RightInsightPanel({
   const hrQuote =
     (roleData as any).hrQuotes?.[section] ||
     (roleData as any).hrQuote ||
-    data.hrQuote;
-  const hrName = roleData.hrName;
-  const hrRole = roleData.hrRole;
-  const hrCompany = roleData.hrCompany;
+    data?.hrQuote || "Great job structuring this section. Keep it up.";
+  const hrName = roleData.hrName || data?.hrName || "Career Coach";
+  const hrRole = roleData.hrRole || data?.hrRole || "Reviewer";
+  const hrCompany = roleData.hrCompany || data?.hrCompany || "startup";
   const cvKey = getCVTemplateKey(selectedRole);
   const TRANSFORM = TRANSFORM_TEMPLATES[cvKey] ?? TRANSFORM_TEMPLATES["Product Management (PM)"];
   
@@ -2555,12 +2537,39 @@ function RightInsightPanel({
   const transformAtLevel =
     sectionTransform?.[level] ?? sectionTransform?.["starter"] ?? sectionTransform ?? null;
 
-  const checklistItems =
+  // Always guarantee a valid 3-tuple to prevent crashes when switching sections
+  const DEFAULT_SUMMARY_CHECKLIST: [string, string, string] = [
+    "Keep it under 3 sentences",
+    "Highlight your most impressive metric or domain",
+    "Remove cliches like 'hard-working' or 'team player'",
+  ];
+
+  const DEFAULT_PROJECTS_CHECKLIST: [string, string, string] = [
+    "State the problem your project solved",
+    "List the exact technical stack or tools used",
+    "Include a measurable outcome (users, speed, accuracy)",
+  ];
+
+  const DEFAULT_EXPERIENCE_CHECKLIST: [string, string, string] = [
+    "Open with an outcome-oriented action verb",
+    "Reference cross-functional scope or team size",
+    "Close with a commercial or engagement metric (%, $, users)",
+  ];
+
+  const FALLBACK_CHECKLIST = section === "summary" ? DEFAULT_SUMMARY_CHECKLIST : section === "projects" ? DEFAULT_PROJECTS_CHECKLIST : DEFAULT_EXPERIENCE_CHECKLIST;
+
+  const checklistItems: [string, string, string] =
     section === "experience"
-      ? roleData.experienceChecklist
+      ? (Array.isArray(roleData.experienceChecklist) && roleData.experienceChecklist.length === 3
+          ? roleData.experienceChecklist as [string, string, string]
+          : FALLBACK_CHECKLIST)
       : section === "summary"
-        ? roleData.summaryChecklist
-        : transformAtLevel?.checklistItems ?? [];
+        ? (Array.isArray(roleData.summaryChecklist) && roleData.summaryChecklist.length === 3
+            ? roleData.summaryChecklist as [string, string, string]
+            : FALLBACK_CHECKLIST)
+        : (Array.isArray(transformAtLevel?.checklistItems) && transformAtLevel!.checklistItems.length === 3
+            ? transformAtLevel!.checklistItems as [string, string, string]
+            : FALLBACK_CHECKLIST);
   const transform = transformAtLevel;
   const panelKey = `${section}-${level}-${cvKey}`;
   const [copied, setCopied] = useState(false);
@@ -2702,250 +2711,163 @@ function RightInsightPanel({
               style={{
                 fontSize: 20,
                 fontWeight: 800,
-                color: "#01001F",
                 letterSpacing: "-0.04em",
                 margin: 0,
                 lineHeight: 1.2,
+                background: "linear-gradient(90deg, #01001F 0%, #0E56FA 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
               }}
             >
-              {section === "achievements" || section === "activities" ? "Optimising " : "Mastering "}{SECTION_LABEL[section]}
+              Mastering {SECTION_LABEL[section]}
             </h2>
 
-            {/* ── For supplementary sections (achievements/activities): show HR quote + direct prompt ─ */}
-            {(section === "achievements" || section === "activities") && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-                {/* HR Quote */}
-                <div
-                  style={{
-                    background: "rgba(14,86,250,0.04)",
-                    border: "1px solid rgba(14,86,250,0.12)",
-                    borderRadius: 12,
-                    padding: "16px 18px",
-                  }}
-                >
-                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-                    <img
-                      src={data.hrAvatar === "man" ? AVATAR_MAN : AVATAR_WOMAN}
-                      alt={data.hrName}
-                      style={{ width: 36, height: 36, borderRadius: "50%", objectFit: "cover", border: "2px solid #0E56FA" }}
-                    />
-                    <div>
-                      <div style={{ fontSize: 12, fontWeight: 700, color: "#01001F" }}>{data.hrName}</div>
-                      <div style={{ fontSize: 10, color: "#94a3b8" }}>{data.hrRole}</div>
-                    </div>
-                  </div>
-                  <p style={{ fontSize: 12.5, color: "#475569", lineHeight: 1.65, margin: 0, fontStyle: "italic" }}>
-                    "{data.hrQuote}"
-                  </p>
-                </div>
-
-                {/* Direct AI Prompt Box */}
-                <div
-                  style={{
-                    borderRadius: 14,
-                    padding: "18px 20px",
-                    position: "relative",
-                    overflow: "hidden",
-                    background: "linear-gradient(135deg, rgba(14,86,250,0.03) 0%, rgba(109,40,217,0.04) 100%)",
-                    border: "1.5px solid rgba(14,86,250,0.18)",
-                  }}
-                >
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-                    <Sparkles size={14} color="#0E56FA" />
-                    <span style={{ fontSize: 12, fontWeight: 700, color: "#0E56FA", letterSpacing: "0.03em", textTransform: "uppercase" }}>
-                      AI Prompt — Ready to use
-                    </span>
-                  </div>
-                  <p style={{ fontSize: 12, color: "#01001F", fontWeight: 600, margin: "0 0 8px" }}>{data.aiTitle}</p>
-                  <p style={{ fontSize: 11.5, color: "#64748b", margin: "0 0 14px", lineHeight: 1.6 }}>{data.aiSubtext}</p>
-                  <div
-                    style={{
-                      background: "#F8FAFC",
-                      borderRadius: 8,
-                      padding: "12px 14px",
-                      marginBottom: 14,
-                      fontFamily: "monospace",
-                      fontSize: 11,
-                      color: "#334155",
-                      lineHeight: 1.65,
-                      whiteSpace: "pre-wrap",
-                      maxHeight: 160,
-                      overflowY: "auto",
-                      border: "1px solid #E2E8F0",
-                    }}
-                  >
-                    {getPromptForSection(selectedRole, section)}
-                  </div>
-                  <motion.button
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={handleCopy}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 8,
-                      padding: "10px 18px",
-                      borderRadius: 10,
-                      background: copied
-                        ? "linear-gradient(135deg, #16a34a 0%, #22c55e 100%)"
-                        : "linear-gradient(135deg, #0E56FA 0%, #17CAFA 100%)",
-                      border: "none",
-                      color: "white",
-                      fontSize: 13,
-                      fontWeight: 700,
-                      cursor: "pointer",
-                      boxShadow: copied
-                        ? "0 4px 16px rgba(22,163,74,0.35)"
-                        : "0 4px 16px rgba(14,86,250,0.35)",
-                      letterSpacing: "-0.01em",
-                      transition: "background 0.3s, box-shadow 0.3s",
-                    }}
-                  >
-                    {copied ? <CheckCheck size={14} strokeWidth={2.5} /> : <Sparkles size={14} strokeWidth={2.5} />}
-                    {copied ? "Copied!" : "Copy AI Prompt"}
-                  </motion.button>
-                </div>
-              </div>
-            )}
-
-            {/* ── Core sections checklist block ── */}
-            {section !== "achievements" && section !== "activities" && (
+            {/* ── Block 2: Step Checklist (only for core sections) ── */}
+            {["summary", "experience", "projects"].includes(section) ? (
+          <div
+            id="tour-checklist"
+            style={{
+              background: "rgba(14, 86, 250, 0.07)",
+              padding: "16px",
+              borderRadius: "16px",
+              border: "1px solid rgba(14, 86, 250, 0.15)",
+              marginBottom: "16px",
+            }}
+          >
               <div
                 style={{
-                  borderRadius: 12,
-                  border: "1.5px solid rgba(14,86,250,0.1)",
-                  padding: "16px 18px",
                   display: "flex",
-                  flexDirection: "column",
-                  gap: 12,
+                  alignItems: "center",
+                  gap: 7,
+                  marginBottom: 8,
                 }}
               >
-                {/* Header row */}
                 <div
                   style={{
+                    width: 20,
+                    height: 20,
+                    borderRadius: 6,
+                    background: "rgba(14,86,250,0.1)",
                     display: "flex",
                     alignItems: "center",
-                    gap: 7,
+                    justifyContent: "center",
+                    flexShrink: 0,
                   }}
                 >
-                  <div
-                    style={{
-                      width: 20,
-                      height: 20,
-                      borderRadius: 6,
-                      background: "rgba(14,86,250,0.1)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                    }}
-                  >
-                    <Check size={11} color="#0E56FA" strokeWidth={3} />
+                  <Check size={11} color="#0E56FA" strokeWidth={3} />
+                </div>
+                <span
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 700,
+                    color: "#01001F",
+                    letterSpacing: "-0.02em",
+                  }}
+                >
+                  Self-Audit Checklist
+                </span>
+                {/* Progress indicator */}
+                <div
+                  style={{
+                    marginLeft: "auto",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 5,
+                  }}
+                >
+                  <div style={{ display: "flex", gap: 3 }}>
+                    {[0, 1, 2].map((i) => (
+                      <div
+                        key={i}
+                        style={{
+                          width: 7,
+                          height: 7,
+                          borderRadius: 2,
+                          background: checks[i] ? "#16a34a" : "#17CAFA",
+                          transition: "background 0.3s",
+                        }}
+                      />
+                    ))}
                   </div>
                   <span
                     style={{
-                      fontSize: 13,
-                      fontWeight: 700,
-                      color: "#01001F",
-                      letterSpacing: "-0.02em",
+                      fontSize: 10,
+                      fontWeight: 600,
+                      color: stageIndex === 3 ? "#16a34a" : "#94a3b8",
                     }}
                   >
-                    Self-Audit Checklist
+                    {stageIndex}/3
                   </span>
-                  {/* Progress indicator */}
-                  <div
+                </div>
+              </div>
+              <p
+                style={{
+                  fontSize: 11.5,
+                  color: "#01001F",
+                  margin: "0 0 10px",
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                Tick each step — watch the CV bullet transform on the left ←
+              </p>
+              <StepChecklist
+                items={checklistItems}
+                checks={checks}
+                onChange={onSectionChecksChange}
+              />
+
+              {/* All-done celebration */}
+              <AnimatePresence>
+                {stageIndex === 3 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{
+                      duration: 0.28,
+                      type: "spring",
+                      stiffness: 400,
+                    }}
                     style={{
-                      marginLeft: "auto",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 5,
+                      marginTop: 10,
+                      padding: "10px 14px",
+                      borderRadius: 10,
+                      background: "linear-gradient(135deg, #F0FDF4, #DCFCE7)",
+                      border: "1px solid #BBF7D0",
                     }}
                   >
-                    <div style={{ display: "flex", gap: 3 }}>
-                      {[0, 1, 2].map((i) => (
-                        <div
-                          key={i}
-                          style={{
-                            width: 7,
-                            height: 7,
-                            borderRadius: 2,
-                            background: checks[i] ? "#16a34a" : "#17CAFA",
-                            transition: "background 0.3s",
-                          }}
-                        />
-                      ))}
-                    </div>
                     <span
                       style={{
-                        fontSize: 10,
-                        fontWeight: 600,
-                        color: stageIndex === 3 ? "#16a34a" : "#94a3b8",
+                        fontSize: 12,
+                        fontWeight: 700,
+                        color: "#16a34a",
                       }}
                     >
-                      {stageIndex}/3
+                      🎉 Perfect! All 3 improvements applied. Your bullet is now
+                      HR-ready.
                     </span>
-                  </div>
-                </div>
-                <p
-                  style={{
-                    fontSize: 11.5,
-                    color: "#01001F",
-                    margin: "0 0 2px",
-                    letterSpacing: "-0.01em",
-                  }}
-                >
-                  Tick each step — watch the CV bullet transform on the left ←
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>) : (
+              /* Info panel for non-core sections (header, awards, activities) */
+              <div style={{ padding: "14px 18px", borderRadius: 12, background: "rgba(14,86,250,0.04)", border: "1px solid rgba(14,86,250,0.12)" }}>
+                <p style={{ fontSize: 12.5, color: "#01001F", lineHeight: 1.6, margin: 0 }}>
+                  💡 <strong>Tip:</strong> Use the AI prompt below to generate strong, role-specific content for this section. Paste it into ChatGPT or Claude with your CV details.
                 </p>
-                <StepChecklist
-                  items={
-                    (checklistItems as [string, string, string]) ||
-                    transform?.checklistItems || ["Finish Step 1", "Finish Step 2", "Finish Step 3"]
-                  }
-                  checks={checks}
-                  onChange={onSectionChecksChange}
-                />
-                {/* All-done celebration */}
-                <AnimatePresence>
-                  {stageIndex === 3 && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{
-                        duration: 0.28,
-                        type: "spring",
-                        stiffness: 400,
-                      }}
-                      style={{
-                        padding: "10px 14px",
-                        borderRadius: 10,
-                        background: "linear-gradient(135deg, #F0FDF4, #DCFCE7)",
-                        border: "1px solid #BBF7D0",
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontSize: 12,
-                          fontWeight: 700,
-                          color: "#16a34a",
-                        }}
-                      >
-                        🎉 Perfect! All 3 improvements applied. Your bullet is now HR-ready.
-                      </span>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
               </div>
             )}
 
-
             {/* ── Block 3: AI Prompt (Locked/Unlocked Progressive Disclosure) ── */}
             <div
+              id="tour-prompt"
               style={{
                 borderRadius: 14,
                 padding: "18px 20px",
                 position: "relative",
                 overflow: "hidden",
+                minHeight: 200,
                 background: allChecked
                   ? "linear-gradient(135deg, rgba(14,86,250,0.03) 0%, rgba(109,40,217,0.04) 100%)"
                   : "linear-gradient(135deg, rgba(148,163,184,0.06) 0%, rgba(203,213,225,0.08) 100%)",
@@ -3227,7 +3149,7 @@ function RightInsightPanel({
                     letterSpacing: "-0.01em",
                   }}
                 >
-                  Your Final Step
+                  Get My AI Prompt
                   <ArrowRight size={14} strokeWidth={2.5} />
                 </motion.button>
               </motion.div>
@@ -3398,7 +3320,7 @@ export function Screen3Workspace({
 
       {/* ── HR Quote Bubble (FIX 1-5) ── */}
       <AnimatePresence>
-        {bubbleVisible && (
+        {bubbleVisible && !["header", "awards", "activities"].includes(activeSection) && (
           <div ref={bubbleRef}>
             <HRQuoteBubble
               section={activeSection}

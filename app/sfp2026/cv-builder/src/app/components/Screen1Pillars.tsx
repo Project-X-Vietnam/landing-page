@@ -2,11 +2,16 @@ import { motion, AnimatePresence } from "motion/react";
 import { Code2, LayoutGrid, Briefcase, HelpCircle, ArrowRight, ChevronRight, Layers, Cpu, ChevronLeft, ArrowLeft } from "lucide-react";
 import { ProjectXLogo } from "./ProjectXLogo";
 
-// ─── BRANDING CONSTANTS ───────────────────────────────────────────────────────
-const NAVY = "#01001F";
-const CRIMSON = "#0E56FA";
-const GRAY_BG = "#FFFFFF";
-const BORDER_COLOR = "#17CAFA";
+// ─── PROJECT X BRAND CONSTANTS ────────────────────────────────────────────────
+const NAVY = "#010B2D";        // PJX dark navy (kept for accents only)
+const NAVY_CARD = "#F8FAFC";   // Light card background
+const BLUE = "#0E56FA";        // PJX electric blue (primary CTA)
+const CYAN = "#17CAFA";        // PJX cyan (accent / subhead)
+const WHITE = "#01001F";       // Dark text on light bg
+const MUTED = "rgba(1,0,31,0.45)";
+const BORDER = "rgba(14,86,250,0.15)";
+const ACTIVE_BG = "rgba(14,86,250,0.06)";
+const SCREEN_BG = "#FAFBFF";   // Light background
 
 // ─── PILLAR DATA ──────────────────────────────────────────────────────────────
 
@@ -19,7 +24,7 @@ const PILLARS = [
     title: "Engineering",
     subtitle: "Build systems that scale",
     roles: ["Frontend Engineer", "Backend Engineer", "Full Stack Dev", "DevOps", "Mobile Dev"],
-    accent: NAVY,
+    accent: BLUE,
   },
   {
     id: "product",
@@ -29,7 +34,7 @@ const PILLARS = [
     title: "Product & Analytics",
     subtitle: "Define what gets built",
     roles: ["Product Management (PM)", "Product Growth / Growth PM", "Business Analytics (BA)", "UI/UX / Product Design"],
-    accent: CRIMSON,
+    accent: BLUE,
   },
   {
     id: "business",
@@ -39,7 +44,7 @@ const PILLARS = [
     title: "Tech-Enabled Business",
     subtitle: "Drive commercial impact",
     roles: ["Sales Engineer", "Solutions Architect", "Partnerships Lead", "Operations"],
-    accent: NAVY,
+    accent: BLUE,
   },
   {
     id: "ai",
@@ -49,18 +54,8 @@ const PILLARS = [
     title: "AI Applications",
     subtitle: "Shape the frontier",
     roles: ["AI/ML Engineer", "AI Product Manager", "Prompt Engineer", "Data Scientist"],
-    accent: NAVY,
-  },
-  {
-    id: "other",
-    Icon: HelpCircle,
-    iconBg: "white",
-    iconColor: NAVY,
-    title: "Other",
-    subtitle: "Something else? We've got you",
-    roles: ["Other (Please Specify)"],
-    accent: NAVY,
-  },
+    accent: BLUE,
+  }
 ];
 
 // ── Props ─────────────────────────────────────────────────────────
@@ -99,12 +94,12 @@ function PillarCard({
       transition={{ duration: 0.18 }}
       style={{
         borderRadius: 12,
-        border: `1.5px solid ${isActive ? ac : BORDER_COLOR}`,
-        background: isActive ? (pillar.id === "product" ? "#Fdf2f4" : "white") : "white",
+        border: `1.5px solid ${isActive ? BLUE : "#E2E8F0"}`,
+        background: isActive ? ACTIVE_BG : "#FFFFFF",
         overflow: "hidden",
         boxShadow: isActive
-          ? `0 0 0 3px ${ac}15, 0 4px 16px rgba(0,0,0,0.06)`
-          : "0 1px 4px rgba(0,0,0,0.04)",
+          ? `0 0 0 2px ${BLUE}20, 0 4px 16px rgba(14,86,250,0.12)`
+          : "0 1px 4px rgba(1,0,31,0.06)",
         transition: "background 0.2s, box-shadow 0.2s",
         cursor: "pointer",
       }}
@@ -123,8 +118,8 @@ function PillarCard({
             width: 44,
             height: 44,
             borderRadius: 12,
-            background: isActive ? ac : pillar.iconBg,
-            border: isActive ? "none" : `1px solid ${BORDER_COLOR}`,
+            background: isActive ? BLUE : "rgba(14,86,250,0.06)",
+            border: isActive ? "none" : `1px solid rgba(14,86,250,0.15)`,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -134,7 +129,7 @@ function PillarCard({
         >
           <Icon
             size={20}
-            color={isActive ? "white" : pillar.iconColor}
+            color={isActive ? "white" : BLUE}
             strokeWidth={1.8}
           />
         </div>
@@ -144,7 +139,7 @@ function PillarCard({
             style={{
               fontSize: 15,
               fontWeight: 700,
-              color: NAVY,
+              color: "#01001F",
               letterSpacing: "-0.02em",
               marginBottom: 2,
               fontFamily: "'Plus Jakarta Sans', sans-serif",
@@ -152,7 +147,7 @@ function PillarCard({
           >
             {pillar.title}
           </div>
-          <div style={{ fontSize: 12, color: "#6B7280", fontWeight: 400, fontFamily: "'Inter', sans-serif" }}>
+          <div style={{ fontSize: 12, color: MUTED, fontWeight: 400, fontFamily: "'Inter', sans-serif" }}>
             {pillar.subtitle}
           </div>
         </div>
@@ -254,19 +249,15 @@ function StatusBar({ dark = false, step = 1, onBack }: { dark?: boolean; step?: 
           display: "flex", alignItems: "center", gap: 2,
           background: "none", border: "none", cursor: "pointer", padding: 0,
         }}>
-          <ChevronLeft size={18} color={CRIMSON} strokeWidth={2.5} />
-          <span style={{ fontSize: 15, fontWeight: 500, color: CRIMSON, letterSpacing: "-0.02em", fontFamily: "'Inter', sans-serif" }}>Back</span>
+          <ChevronLeft size={18} color={BLUE} strokeWidth={2.5} />
+          <span style={{ fontSize: 15, fontWeight: 500, color: BLUE, letterSpacing: "-0.02em", fontFamily: "'Inter', sans-serif" }}>Back</span>
         </button>
       ) : (
         <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-          <div style={{
-            width: 26, height: 26, borderRadius: 6,
-            background: NAVY,
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}>
-            <span style={{ fontSize: 9.5, fontWeight: 900, color: "white", letterSpacing: "-0.05em", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>PJX</span>
+          <div style={{ width: 32, height: 32, borderRadius: 8, background: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(0,0,0,0.08)", border: "1px solid #E2E8F0" }}>
+            <img src="/favicon.svg" alt="Project X Logo" style={{ width: 22, height: 22, objectFit: "contain" }} />
           </div>
-          <span style={{ fontSize: 13, fontWeight: 700, color: NAVY, letterSpacing: "-0.02em", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <span style={{ fontSize: 13, fontWeight: 700, color: WHITE, letterSpacing: "-0.02em", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             Career Survival Kit
           </span>
         </div>
@@ -278,7 +269,7 @@ function StatusBar({ dark = false, step = 1, onBack }: { dark?: boolean; step?: 
           {[1, 2, 3, 4].map(i => (
             <div key={i} style={{
               width: i === step ? 16 : 6, height: 6, borderRadius: 99,
-              background: i <= step ? CRIMSON : BORDER_COLOR,
+              background: i <= step ? BLUE : BORDER,
               transition: "all 0.3s",
             }} />
           ))}
@@ -314,7 +305,7 @@ export function Screen1Pillars({
     <div
       style={{
         minHeight: "100vh",
-        background: GRAY_BG,
+        background: SCREEN_BG,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -339,20 +330,21 @@ export function Screen1Pillars({
               width: 28,
               height: 28,
               borderRadius: 9,
-              background: NAVY,
+              background: "#FFFFFF",
+              border: "1.5px solid #E2E8F0",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              boxShadow: "0 2px 6px rgba(1,0,31,0.2)",
+              boxShadow: "0 2px 5px rgba(0,0,0,0.04)",
             }}
           >
-            <ProjectXLogo size={14} color="#FFFFFF" />
+            <img src="/favicon.svg" alt="Project X Logo" style={{ width: 18, height: 18, objectFit: "contain" }} />
           </div>
           <span
             style={{
               fontSize: 13,
               fontWeight: 600,
-              color: NAVY,
+              color: "#01001F",
               letterSpacing: "-0.02em",
               fontFamily: "'Plus Jakarta Sans', sans-serif",
             }}
@@ -442,7 +434,7 @@ export function Screen1Pillars({
           style={{
             fontSize: "clamp(28px, 4vw, 42px)",
             fontWeight: 800,
-            color: "#020818",
+            color: "#01001F",
             letterSpacing: "-0.035em",
             lineHeight: 1.1,
             marginBottom: 14,
@@ -453,7 +445,7 @@ export function Screen1Pillars({
         <p
           style={{
             fontSize: 16,
-            color: "#01001F",
+            color: "#64748b",
             lineHeight: 1.6,
             maxWidth: 480,
           }}
@@ -528,7 +520,7 @@ export function Screen1Pillars({
                 {selectedRole} — Role selected
               </motion.div>
             ) : (
-              <span style={{ fontSize: 13, color: "#CBD5E1" }}>
+              <span style={{ fontSize: 13, color: "#94a3b8" }}>
                 {!selectedPillar
                   ? "Click a pillar to get started"
                   : "Now pick a specific role"}
@@ -547,7 +539,7 @@ export function Screen1Pillars({
               padding: "13px 26px",
               borderRadius: 12,
               background: canProceed ? "#0E56FA" : "#17CAFA",
-              color: canProceed ? "white" : "#94a3b8",
+              color: "white",
               fontSize: 14,
               fontWeight: 700,
               border: "none",
