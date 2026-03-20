@@ -451,12 +451,12 @@ function TransformBullet({
   const safeStages = Array.isArray(stages) && stages.length > 0 ? stages : [[{ id: "fallback", text: "Loading representation..." } as TextSeg]];
   const safeIndex = Math.min(Math.max(0, stageIndex), safeStages.length - 1);
   const currentStage = safeStages[safeIndex];
-  
+
   const isBad = stageIndex === 0;
   const isFinal = stageIndex >= 3;
   const containerRef = useRef<HTMLSpanElement>(null);
   const prevIndexRef = useRef(stageIndex);
-  
+
   // Safe mapping to prevent "cannot read properties of undefined (reading map)"
   const currentIds = Array.isArray(currentStage) ? currentStage.map((s) => s?.id || "") : [];
   const prevIdsRef = useRef(new Set(currentIds));
@@ -464,7 +464,7 @@ function TransformBullet({
   useEffect(() => {
     if (stageIndex === prevIndexRef.current) return;
     if (!Array.isArray(currentStage)) return;
-    
+
     const newIds = new Set(currentStage.map((s) => s?.id || ""));
     const addedIds = [...newIds].filter((id) => !prevIdsRef.current.has(id));
 
@@ -1039,15 +1039,26 @@ function TopNav({
             }}
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M9 2L4 7L9 12" stroke="#01001F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M9 2L4 7L9 12" stroke="#01001F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </motion.button>
         )}
-        <img
-          src="/favicon.svg"
-          alt="PJX Logo"
-          style={{ width: 32, height: 32, borderRadius: 8, objectFit: "cover" }}
-        />
+        <div
+          style={{
+            width: 28,
+            height: 28,
+            borderRadius: 8,
+            background: "#FFFFFF",
+            border: "1.5px solid #E2E8F0",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexShrink: 0,
+            boxShadow: "0 2px 5px rgba(0,0,0,0.04)",
+          }}
+        >
+          <img src="/favicon.svg" alt="Project X Logo" style={{ width: 18, height: 18, objectFit: "contain" }} />
+        </div>
         <div
           style={{ width: 1, height: 16, background: "#17CAFA", flexShrink: 0 }}
         />
@@ -1329,7 +1340,7 @@ function HRQuoteBubble({
       }}
     >
       {/* Speech bubble tail */}
-      <div 
+      <div
         style={{
           position: 'absolute',
           top: -10,
@@ -1457,7 +1468,7 @@ function HRQuoteBubble({
           </span>
         </div>
       </div>
-      
+
       <div style={{ position: "relative" }}>
         <p
           style={{
@@ -1483,24 +1494,24 @@ const getCVTemplateKey = (role: string | null): string => {
 
   // ── Explicit role-name mappings (Screen1Pillars roles) ──────────────────────
   const ROLE_MAP: Record<string, string> = {
-    "Frontend Engineer":    "Software Engineering (SWE)",
-    "Backend Engineer":     "Software Engineering (SWE)",
-    "Full Stack Dev":       "Software Engineering (SWE)",
-    "Full-Stack Dev":       "Software Engineering (SWE)",
-    "Mobile Dev":           "Software Engineering (SWE)",
-    "DevOps":               "Cloud Engineering / DevOps",
+    "Frontend Engineer": "Software Engineering (SWE)",
+    "Backend Engineer": "Software Engineering (SWE)",
+    "Full Stack Dev": "Software Engineering (SWE)",
+    "Full-Stack Dev": "Software Engineering (SWE)",
+    "Mobile Dev": "Software Engineering (SWE)",
+    "DevOps": "Cloud Engineering / DevOps",
     "Product Management (PM)": "Product Management (PM)",
     "Product Growth / Growth PM": "Product Growth / Growth PM",
     "Business Analytics (BA)": "Business Analytics (BA)",
     "UI/UX / Product Design": "UI/UX / Product Design",
-    "Sales Engineer":       "Business Development (Tech Industry)",
-    "Solutions Architect":  "Software Engineering (SWE)",
-    "Partnerships Lead":    "Business Development (Tech Industry)",
-    "Operations":           "Operations (Tech Operations / Process Automation)",
-    "AI/ML Engineer":       "Artificial Intelligence (AI) / Machine Learning (ML)",
-    "AI Product Manager":   "Artificial Intelligence (AI) / Machine Learning (ML)",
-    "Prompt Engineer":      "Artificial Intelligence (AI) / Machine Learning (ML)",
-    "Data Scientist":       "Data Analytics (DA) & Business Intelligence (BI)",
+    "Sales Engineer": "Business Development (Tech Industry)",
+    "Solutions Architect": "Software Engineering (SWE)",
+    "Partnerships Lead": "Business Development (Tech Industry)",
+    "Operations": "Operations (Tech Operations / Process Automation)",
+    "AI/ML Engineer": "Artificial Intelligence (AI) / Machine Learning (ML)",
+    "AI Product Manager": "Artificial Intelligence (AI) / Machine Learning (ML)",
+    "Prompt Engineer": "Artificial Intelligence (AI) / Machine Learning (ML)",
+    "Data Scientist": "Data Analytics (DA) & Business Intelligence (BI)",
   };
   if (ROLE_MAP[safeRole]) return ROLE_MAP[safeRole];
 
@@ -1627,591 +1638,267 @@ function LeftCVColumn({
       `}</style>
 
       <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-      <div
-        className="cv-left-scroll"
-        style={{
-          flex: 1,
-          minHeight: 0,
-          width: "100%",
-          overflowY: "auto",
-          overflowX: "hidden",
-          background: "#FFFFFF",
-          borderRight: "1px solid #17CAFA",
-          padding: "28px 24px 60px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        {/* Instruction chip */}
         <div
+          className="cv-left-scroll"
           style={{
-            marginBottom: 18,
+            flex: 1,
+            minHeight: 0,
+            width: "100%",
+            overflowY: "auto",
+            overflowX: "hidden",
+            background: "#FFFFFF",
+            borderRight: "1px solid #17CAFA",
+            padding: "28px 24px 60px",
             display: "flex",
+            flexDirection: "column",
             alignItems: "center",
-            gap: 6,
-            padding: "5px 12px",
-            borderRadius: 99,
-            background: "white",
-            border: "1px solid #17CAFA",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
           }}
         >
+          {/* Instruction chip */}
           <div
             style={{
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: "#0E56FA",
+              marginBottom: 18,
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "5px 12px",
+              borderRadius: 99,
+              background: "white",
+              border: "1px solid #17CAFA",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
+            }}
+          >
+            <div
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                background: "#0E56FA",
+                flexShrink: 0,
+              }}
+            />
+            <span style={{ fontSize: 11, fontWeight: 500, color: "#01001F" }}>
+              Click any section → check items on the right → watch it transform ✨
+            </span>
+          </div>
+
+          {/* A4 Paper */}
+          <div
+            style={{
+              background: "white",
+              width: "100%",
+              maxWidth: 520,
+              border: "1px solid #17CAFA",
+              borderRadius: 6,
+              boxShadow:
+                "0 1px 3px rgba(0,0,0,0.04), 0 6px 20px rgba(0,0,0,0.07), 0 24px 56px rgba(0,0,0,0.07)",
+              overflow: "hidden",
               flexShrink: 0,
             }}
-          />
-          <span style={{ fontSize: 11, fontWeight: 500, color: "#01001F" }}>
-            Click any section → check items on the right → watch it transform ✨
-          </span>
-        </div>
-
-        {/* A4 Paper */}
-        <div
-          style={{
-            background: "white",
-            width: "100%",
-            maxWidth: 520,
-            border: "1px solid #17CAFA",
-            borderRadius: 6,
-            boxShadow:
-              "0 1px 3px rgba(0,0,0,0.04), 0 6px 20px rgba(0,0,0,0.07), 0 24px 56px rgba(0,0,0,0.07)",
-            overflow: "hidden",
-            flexShrink: 0,
-          }}
-        >
-          <div
-            style={{
-              height: 3,
-              background: "linear-gradient(90deg, #01001F 0%, #0E56FA 100%)",
-            }}
-          />
-          <div style={{ padding: "26px 32px 32px" }}>
-            {/* ── HEADER ── */}
-            <CVSectionBlock
-              id="header"
-              isActive={activeSection === "header"}
-              isHovered={hoveredSection === "header"}
-              onHover={onHover}
-              onClick={onActivate}
-            >
-              <div
-                style={{
-                  fontSize: 19,
-                  fontWeight: 800,
-                  color: "#01001F",
-                  letterSpacing: "-0.04em",
-                  marginBottom: 3,
-                }}
+          >
+            <div
+              style={{
+                height: 3,
+                background: "linear-gradient(90deg, #01001F 0%, #0E56FA 100%)",
+              }}
+            />
+            <div style={{ padding: "26px 32px 32px" }}>
+              {/* ── HEADER ── */}
+              <CVSectionBlock
+                id="header"
+                isActive={activeSection === "header"}
+                isHovered={hoveredSection === "header"}
+                onHover={onHover}
+                onClick={onActivate}
               >
-                {cv.name}
-              </div>
-              <div
-                style={{
-                  fontSize: 12,
-                  fontWeight: 500,
-                  color: "#01001F",
-                  marginBottom: 8,
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                {roleData.cvTitle}
-              </div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
-                {[
-                  { icon: Mail, text: cv.email },
-                  { icon: MapPin, text: cv.location },
-                  { icon: ExternalLink, text: cv.linkedin },
-                ].map(({ icon: Icon, text }, i) => (
-                  <div
-                    key={i}
-                    style={{ display: "flex", alignItems: "center", gap: 4 }}
-                  >
-                    <Icon size={9} color="#94a3b8" strokeWidth={2} />
-                    <span style={{ fontSize: 10, color: "#01001F" }}>
-                      {text}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              {/* Transform demo for header */}
-              {activeSection === "header" && TRANSFORM?.header?.[level]?.stages && (
-                <div style={{ marginTop: 10 }}>
-                  <div
-                    style={{
-                      fontSize: 9,
-                      fontWeight: 700,
-                      color: "#94a3b8",
-                      letterSpacing: "0.06em",
-                      textTransform: "uppercase",
-                      marginBottom: 6,
-                    }}
-                  >
-                    {TRANSFORM.header[level].demoLabel}
-                  </div>
-                  <TransformBullet
-                    section="header"
-                    stages={TRANSFORM.header[level].stages}
-                    stageIndex={stageIndex}
-                  />
-                </div>
-              )}
-            </CVSectionBlock>
-
-            {/* ── SUMMARY ── */}
-            <CVSectionBlock
-              id="summary"
-              isActive={activeSection === "summary"}
-              isHovered={hoveredSection === "summary"}
-              onHover={onHover}
-              onClick={onActivate}
-            >
-              <SectionDivider
-                text="Professional Summary"
-                active={activeSection === "summary"}
-              />
-              {activeSection === "summary" && TRANSFORM?.summary?.[level]?.stages && (
-                <div style={{ marginBottom: 8 }}>
-                  <div
-                    style={{
-                      fontSize: 9,
-                      fontWeight: 700,
-                      color: "#94a3b8",
-                      letterSpacing: "0.06em",
-                      textTransform: "uppercase",
-                      marginBottom: 6,
-                    }}
-                  >
-                    {TRANSFORM.summary[level].demoLabel}
-                  </div>
-                  <TransformBullet
-                    section="summary"
-                    stages={TRANSFORM.summary[level].stages}
-                    stageIndex={stageIndex}
-                  />
-                  <div
-                    style={{
-                      fontSize: 9,
-                      fontWeight: 600,
-                      color: "#CBD5E1",
-                      marginBottom: 6,
-                      marginTop: 8,
-                      letterSpacing: "0.05em",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    Good Examples ↓
-                  </div>
-                </div>
-              )}
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={`sum-${level}-${selectedRole}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.22 }}
+                <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 19,
+                    fontWeight: 800,
                     color: "#01001F",
-                    lineHeight: 1.65,
-                    margin: 0,
-                    paddingLeft: 2,
+                    letterSpacing: "-0.04em",
+                    marginBottom: 3,
                   }}
                 >
-                  {roleData.cvSummary}
-                </motion.p>
-              </AnimatePresence>
-            </CVSectionBlock>
-
-            {/* ── EXPERIENCE ── */}
-            <CVSectionBlock
-              id="experience"
-              isActive={activeSection === "experience"}
-              isHovered={hoveredSection === "experience"}
-              onHover={onHover}
-              onClick={onActivate}
-            >
-              <SectionDivider
-                text="Experience"
-                active={activeSection === "experience"}
-              />
-              {activeSection === "experience" && TRANSFORM?.experience?.[level]?.stages && (
-                <div style={{ marginBottom: 10 }}>
-                  <div
-                    style={{
-                      fontSize: 9,
-                      fontWeight: 700,
-                      color: "#94a3b8",
-                      letterSpacing: "0.06em",
-                      textTransform: "uppercase",
-                      marginBottom: 6,
-                    }}
-                  >
-                    {TRANSFORM.experience[level].demoLabel}
-                  </div>
-                  <TransformBullet
-                    section="experience"
-                    stages={TRANSFORM.experience[level].stages}
-                    stageIndex={stageIndex}
-                  />
-                  <div
-                    style={{
-                      fontSize: 9,
-                      fontWeight: 600,
-                      color: "#CBD5E1",
-                      marginBottom: 8,
-                      marginTop: 8,
-                      letterSpacing: "0.05em",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    Good Examples ↓
-                  </div>
+                  {cv.name}
                 </div>
-              )}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`exp-${level}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.22 }}
+                <div
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 500,
+                    color: "#01001F",
+                    marginBottom: 8,
+                    letterSpacing: "-0.01em",
+                  }}
                 >
-                  {cv.experience.map((entry: ExperienceEntry, idx: number) => (
+                  {roleData.cvTitle}
+                </div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+                  {[
+                    { icon: Mail, text: cv.email },
+                    { icon: MapPin, text: cv.location },
+                    { icon: ExternalLink, text: cv.linkedin },
+                  ].map(({ icon: Icon, text }, i) => (
                     <div
-                      key={idx}
-                      style={{
-                        marginBottom: idx < cv.experience.length - 1 ? 14 : 0,
-                        paddingLeft: 10,
-                        borderLeft: "2px solid #17CAFA",
-                      }}
+                      key={i}
+                      style={{ display: "flex", alignItems: "center", gap: 4 }}
                     >
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "baseline",
-                          marginBottom: 1,
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "baseline",
-                            gap: 5,
-                          }}
-                        >
-                          <span
-                            style={{
-                              fontSize: 11.5,
-                              fontWeight: 700,
-                              color: "#01001F",
-                              letterSpacing: "-0.02em",
-                            }}
-                          >
-                            {entry.role}
-                          </span>
-                          <span style={{ fontSize: 10, color: "#01001F" }}>
-                            · {entry.company}
-                          </span>
-                        </div>
-                        <span
-                          style={{
-                            fontSize: 9,
-                            color: "#CBD5E1",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          {entry.dates}
-                        </span>
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: 3,
-                          marginTop: 5,
-                        }}
-                      >
-                        {entry.bullets.map((bullet: string, bi: number) => (
-                          <div
-                            key={bi}
-                            style={{
-                              display: "flex",
-                              gap: 5,
-                              alignItems: "flex-start",
-                            }}
-                          >
-                            <span
-                              style={{
-                                fontSize: 9.5,
-                                color:
-                                  activeSection === "experience"
-                                    ? "#0E56FA"
-                                    : "#CBD5E1",
-                                fontWeight: 700,
-                                marginTop: 1.5,
-                                flexShrink: 0,
-                                transition: "color 0.2s",
-                              }}
-                            >
-                              ▸
-                            </span>
-                            <div
-                              style={{
-                                fontSize: 10.5,
-                                lineHeight: 1.55,
-                                letterSpacing: "-0.01em",
-                              }}
-                            >
-                              {renderHighlighted(bullet)}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
+                      <Icon size={9} color="#94a3b8" strokeWidth={2} />
+                      <span style={{ fontSize: 10, color: "#01001F" }}>
+                        {text}
+                      </span>
                     </div>
                   ))}
-                </motion.div>
-              </AnimatePresence>
-            </CVSectionBlock>
-
-            {/* ── PROJECTS ── */}
-            <CVSectionBlock
-              id="projects"
-              isActive={activeSection === "projects"}
-              isHovered={hoveredSection === "projects"}
-              onHover={onHover}
-              onClick={onActivate}
-            >
-              <SectionDivider
-                text="Projects"
-                active={activeSection === "projects"}
-              />
-              {activeSection === "projects" && TRANSFORM?.projects?.[level]?.stages && (
-                <div style={{ marginBottom: 10 }}>
-                  <div
-                    style={{
-                      fontSize: 9,
-                      fontWeight: 700,
-                      color: "#94a3b8",
-                      letterSpacing: "0.06em",
-                      textTransform: "uppercase",
-                      marginBottom: 6,
-                    }}
-                  >
-                    {TRANSFORM.projects[level].demoLabel}
-                  </div>
-                  <TransformBullet
-                    section="projects"
-                    stages={TRANSFORM.projects[level].stages}
-                    stageIndex={stageIndex}
-                  />
-                  <div
-                    style={{
-                      fontSize: 9,
-                      fontWeight: 600,
-                      color: "#CBD5E1",
-                      marginBottom: 8,
-                      marginTop: 8,
-                      letterSpacing: "0.05em",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    Good Examples ↓
-                  </div>
                 </div>
-              )}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`proj-${level}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.22 }}
-                >
-                  {cv.projects.map((proj: ProjectEntry, idx: number) => (
+                {/* Transform demo for header */}
+                {activeSection === "header" && TRANSFORM?.header?.[level]?.stages && (
+                  <div style={{ marginTop: 10 }}>
                     <div
-                      key={idx}
                       style={{
-                        paddingLeft: 10,
-                        borderLeft: "2px solid #17CAFA",
+                        fontSize: 9,
+                        fontWeight: 700,
+                        color: "#94a3b8",
+                        letterSpacing: "0.06em",
+                        textTransform: "uppercase",
+                        marginBottom: 6,
                       }}
                     >
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "baseline",
-                          gap: 5,
-                          marginBottom: 5,
-                        }}
-                      >
-                        <span
-                          style={{
-                            fontSize: 11.5,
-                            fontWeight: 700,
-                            color: "#01001F",
-                            letterSpacing: "-0.02em",
-                          }}
-                        >
-                          {proj.name}
-                        </span>
-                        <span style={{ fontSize: 10, color: "#01001F" }}>
-                          · {proj.type}
-                        </span>
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: 3,
-                        }}
-                      >
-                        {proj.bullets.map((bullet: string, bi: number) => (
-                          <div
-                            key={bi}
-                            style={{
-                              display: "flex",
-                              gap: 5,
-                              alignItems: "flex-start",
-                            }}
-                          >
-                            <span
-                              style={{
-                                fontSize: 9.5,
-                                color:
-                                  activeSection === "projects"
-                                    ? "#0E56FA"
-                                    : "#CBD5E1",
-                                fontWeight: 700,
-                                marginTop: 1.5,
-                                flexShrink: 0,
-                                transition: "color 0.2s",
-                              }}
-                            >
-                              ▸
-                            </span>
-                            <div
-                              style={{
-                                fontSize: 10.5,
-                                lineHeight: 1.55,
-                                letterSpacing: "-0.01em",
-                              }}
-                            >
-                              {renderHighlighted(bullet)}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
+                      {TRANSFORM.header[level].demoLabel}
                     </div>
-                  ))}
-                </motion.div>
-              </AnimatePresence>
-            </CVSectionBlock>
+                    <TransformBullet
+                      section="header"
+                      stages={TRANSFORM.header[level].stages}
+                      stageIndex={stageIndex}
+                    />
+                  </div>
+                )}
+              </CVSectionBlock>
 
-            {/* ── AWARDS ── */}
-            {cv.awards && cv.awards.length > 0 && (
+              {/* ── SUMMARY ── */}
               <CVSectionBlock
-                id="awards"
-                isActive={activeSection === "awards"}
-                isHovered={hoveredSection === "awards"}
+                id="summary"
+                isActive={activeSection === "summary"}
+                isHovered={hoveredSection === "summary"}
                 onHover={onHover}
                 onClick={onActivate}
               >
                 <SectionDivider
-                  text="Honors & Awards"
-                  active={activeSection === "awards"}
+                  text="Professional Summary"
+                  active={activeSection === "summary"}
                 />
+                {activeSection === "summary" && TRANSFORM?.summary?.[level]?.stages && (
+                  <div style={{ marginBottom: 8 }}>
+                    <div
+                      style={{
+                        fontSize: 9,
+                        fontWeight: 700,
+                        color: "#94a3b8",
+                        letterSpacing: "0.06em",
+                        textTransform: "uppercase",
+                        marginBottom: 6,
+                      }}
+                    >
+                      {TRANSFORM.summary[level].demoLabel}
+                    </div>
+                    <TransformBullet
+                      section="summary"
+                      stages={TRANSFORM.summary[level].stages}
+                      stageIndex={stageIndex}
+                    />
+                    <div
+                      style={{
+                        fontSize: 9,
+                        fontWeight: 600,
+                        color: "#CBD5E1",
+                        marginBottom: 6,
+                        marginTop: 8,
+                        letterSpacing: "0.05em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Good Examples ↓
+                    </div>
+                  </div>
+                )}
                 <AnimatePresence mode="wait">
-                  <motion.div
-                    key={`awd-${level}`}
+                  <motion.p
+                    key={`sum-${level}-${selectedRole}`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.22 }}
+                    style={{
+                      fontSize: 11,
+                      color: "#01001F",
+                      lineHeight: 1.65,
+                      margin: 0,
+                      paddingLeft: 2,
+                    }}
                   >
-                    {cv.awards.map((award: AwardEntry, idx: number) => (
-                      <div
-                        key={idx}
-                        style={{
-                          marginBottom: idx < cv.awards!.length - 1 ? 10 : 0,
-                          paddingLeft: 10,
-                          borderLeft: "2px solid #17CAFA",
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "baseline",
-                            gap: 5,
-                            marginBottom: 2,
-                          }}
-                        >
-                          <span
-                            style={{
-                              fontSize: 11.5,
-                              fontWeight: 700,
-                              color: "#01001F",
-                              letterSpacing: "-0.02em",
-                            }}
-                          >
-                            {award.name}
-                          </span>
-                          <span style={{ fontSize: 10, color: "#01001F" }}>
-                            · {award.issuer} ({award.date})
-                          </span>
-                        </div>
-                        {award.description && (
-                          <div
-                            style={{
-                              fontSize: 10.5,
-                              lineHeight: 1.55,
-                              letterSpacing: "-0.01em",
-                              color: "#01001F",
-                              marginTop: 2,
-                            }}
-                          >
-                            {renderHighlighted(award.description)}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </motion.div>
+                    {roleData.cvSummary}
+                  </motion.p>
                 </AnimatePresence>
               </CVSectionBlock>
-            )}
 
-            {/* ── ACTIVITIES ── */}
-            {cv.activities && cv.activities.length > 0 && (
+              {/* ── EXPERIENCE ── */}
               <CVSectionBlock
-                id="activities"
-                isActive={activeSection === "activities"}
-                isHovered={hoveredSection === "activities"}
+                id="experience"
+                isActive={activeSection === "experience"}
+                isHovered={hoveredSection === "experience"}
                 onHover={onHover}
                 onClick={onActivate}
               >
                 <SectionDivider
-                  text="Extracurriculars"
-                  active={activeSection === "activities"}
+                  text="Experience"
+                  active={activeSection === "experience"}
                 />
+                {activeSection === "experience" && TRANSFORM?.experience?.[level]?.stages && (
+                  <div style={{ marginBottom: 10 }}>
+                    <div
+                      style={{
+                        fontSize: 9,
+                        fontWeight: 700,
+                        color: "#94a3b8",
+                        letterSpacing: "0.06em",
+                        textTransform: "uppercase",
+                        marginBottom: 6,
+                      }}
+                    >
+                      {TRANSFORM.experience[level].demoLabel}
+                    </div>
+                    <TransformBullet
+                      section="experience"
+                      stages={TRANSFORM.experience[level].stages}
+                      stageIndex={stageIndex}
+                    />
+                    <div
+                      style={{
+                        fontSize: 9,
+                        fontWeight: 600,
+                        color: "#CBD5E1",
+                        marginBottom: 8,
+                        marginTop: 8,
+                        letterSpacing: "0.05em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Good Examples ↓
+                    </div>
+                  </div>
+                )}
                 <AnimatePresence mode="wait">
                   <motion.div
-                    key={`act-${level}`}
+                    key={`exp-${level}`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.22 }}
                   >
-                    {cv.activities.map((act: ActivityEntry, idx: number) => (
+                    {cv.experience.map((entry: ExperienceEntry, idx: number) => (
                       <div
                         key={idx}
                         style={{
-                          marginBottom: idx < cv.activities!.length - 1 ? 14 : 0,
+                          marginBottom: idx < cv.experience.length - 1 ? 14 : 0,
                           paddingLeft: 10,
                           borderLeft: "2px solid #17CAFA",
                         }}
@@ -2219,12 +1906,18 @@ function LeftCVColumn({
                         <div
                           style={{
                             display: "flex",
-                            alignItems: "baseline",
                             justifyContent: "space-between",
-                            marginBottom: 4,
+                            alignItems: "baseline",
+                            marginBottom: 1,
                           }}
                         >
-                          <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "baseline",
+                              gap: 5,
+                            }}
+                          >
                             <span
                               style={{
                                 fontSize: 11.5,
@@ -2233,94 +1926,412 @@ function LeftCVColumn({
                                 letterSpacing: "-0.02em",
                               }}
                             >
-                              {act.organisation}
+                              {entry.role}
                             </span>
-                            <span style={{ fontSize: 11, fontWeight: 500, color: "#0E56FA" }}>
-                              {act.role}
+                            <span style={{ fontSize: 10, color: "#01001F" }}>
+                              · {entry.company}
                             </span>
                           </div>
-                          <span style={{ fontSize: 9.5, fontWeight: 600, color: "#94a3b8" }}>
-                            {act.dates}
+                          <span
+                            style={{
+                              fontSize: 9,
+                              color: "#CBD5E1",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {entry.dates}
                           </span>
                         </div>
-                        {act.bullets && act.bullets.length > 0 && (
-                          <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                            {act.bullets.map((bullet: string, bi: number) => (
-                              <div
-                                key={bi}
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 3,
+                            marginTop: 5,
+                          }}
+                        >
+                          {entry.bullets.map((bullet: string, bi: number) => (
+                            <div
+                              key={bi}
+                              style={{
+                                display: "flex",
+                                gap: 5,
+                                alignItems: "flex-start",
+                              }}
+                            >
+                              <span
                                 style={{
-                                  display: "flex",
-                                  gap: 5,
-                                  alignItems: "flex-start",
+                                  fontSize: 9.5,
+                                  color:
+                                    activeSection === "experience"
+                                      ? "#0E56FA"
+                                      : "#CBD5E1",
+                                  fontWeight: 700,
+                                  marginTop: 1.5,
+                                  flexShrink: 0,
+                                  transition: "color 0.2s",
                                 }}
                               >
-                                <span
-                                  style={{
-                                    fontSize: 9.5,
-                                    color: activeSection === "activities" ? "#0E56FA" : "#CBD5E1",
-                                    fontWeight: 700,
-                                    marginTop: 1.5,
-                                    flexShrink: 0,
-                                    transition: "color 0.2s",
-                                  }}
-                                >
-                                  ▸
-                                </span>
-                                <div
-                                  style={{
-                                    fontSize: 10.5,
-                                    lineHeight: 1.55,
-                                    letterSpacing: "-0.01em",
-                                  }}
-                                >
-                                  {renderHighlighted(bullet)}
-                                </div>
+                                ▸
+                              </span>
+                              <div
+                                style={{
+                                  fontSize: 10.5,
+                                  lineHeight: 1.55,
+                                  letterSpacing: "-0.01em",
+                                }}
+                              >
+                                {renderHighlighted(bullet)}
                               </div>
-                            ))}
-                          </div>
-                        )}
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     ))}
                   </motion.div>
                 </AnimatePresence>
               </CVSectionBlock>
-            )}
-          </div>
-          {/* Legend */}
-          <div
-            style={{
-              padding: "8px 32px 12px",
-              borderTop: "1px solid #F8FAFC",
-              display: "flex",
-              gap: 14,
-            }}
-          >
-            {[
-              { color: "#0E56FA", label: "Action Verb" },
-              { color: "#16a34a", label: "Metric" },
-            ].map(({ color, label }) => (
-              <div
-                key={label}
-                style={{ display: "flex", alignItems: "center", gap: 4 }}
+
+              {/* ── PROJECTS ── */}
+              <CVSectionBlock
+                id="projects"
+                isActive={activeSection === "projects"}
+                isHovered={hoveredSection === "projects"}
+                onHover={onHover}
+                onClick={onActivate}
               >
-                <div
-                  style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: 2,
-                    background: color,
-                  }}
+                <SectionDivider
+                  text="Projects"
+                  active={activeSection === "projects"}
                 />
-                <span
-                  style={{ fontSize: 9, color: "#94a3b8", fontWeight: 500 }}
+                {activeSection === "projects" && TRANSFORM?.projects?.[level]?.stages && (
+                  <div style={{ marginBottom: 10 }}>
+                    <div
+                      style={{
+                        fontSize: 9,
+                        fontWeight: 700,
+                        color: "#94a3b8",
+                        letterSpacing: "0.06em",
+                        textTransform: "uppercase",
+                        marginBottom: 6,
+                      }}
+                    >
+                      {TRANSFORM.projects[level].demoLabel}
+                    </div>
+                    <TransformBullet
+                      section="projects"
+                      stages={TRANSFORM.projects[level].stages}
+                      stageIndex={stageIndex}
+                    />
+                    <div
+                      style={{
+                        fontSize: 9,
+                        fontWeight: 600,
+                        color: "#CBD5E1",
+                        marginBottom: 8,
+                        marginTop: 8,
+                        letterSpacing: "0.05em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Good Examples ↓
+                    </div>
+                  </div>
+                )}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={`proj-${level}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.22 }}
+                  >
+                    {cv.projects.map((proj: ProjectEntry, idx: number) => (
+                      <div
+                        key={idx}
+                        style={{
+                          paddingLeft: 10,
+                          borderLeft: "2px solid #17CAFA",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "baseline",
+                            gap: 5,
+                            marginBottom: 5,
+                          }}
+                        >
+                          <span
+                            style={{
+                              fontSize: 11.5,
+                              fontWeight: 700,
+                              color: "#01001F",
+                              letterSpacing: "-0.02em",
+                            }}
+                          >
+                            {proj.name}
+                          </span>
+                          <span style={{ fontSize: 10, color: "#01001F" }}>
+                            · {proj.type}
+                          </span>
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 3,
+                          }}
+                        >
+                          {proj.bullets.map((bullet: string, bi: number) => (
+                            <div
+                              key={bi}
+                              style={{
+                                display: "flex",
+                                gap: 5,
+                                alignItems: "flex-start",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  fontSize: 9.5,
+                                  color:
+                                    activeSection === "projects"
+                                      ? "#0E56FA"
+                                      : "#CBD5E1",
+                                  fontWeight: 700,
+                                  marginTop: 1.5,
+                                  flexShrink: 0,
+                                  transition: "color 0.2s",
+                                }}
+                              >
+                                ▸
+                              </span>
+                              <div
+                                style={{
+                                  fontSize: 10.5,
+                                  lineHeight: 1.55,
+                                  letterSpacing: "-0.01em",
+                                }}
+                              >
+                                {renderHighlighted(bullet)}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </motion.div>
+                </AnimatePresence>
+              </CVSectionBlock>
+
+              {/* ── AWARDS ── */}
+              {cv.awards && cv.awards.length > 0 && (
+                <CVSectionBlock
+                  id="awards"
+                  isActive={activeSection === "awards"}
+                  isHovered={hoveredSection === "awards"}
+                  onHover={onHover}
+                  onClick={onActivate}
                 >
-                  {label}
-                </span>
-              </div>
-            ))}
+                  <SectionDivider
+                    text="Honors & Awards"
+                    active={activeSection === "awards"}
+                  />
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={`awd-${level}`}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.22 }}
+                    >
+                      {cv.awards.map((award: AwardEntry, idx: number) => (
+                        <div
+                          key={idx}
+                          style={{
+                            marginBottom: idx < cv.awards!.length - 1 ? 10 : 0,
+                            paddingLeft: 10,
+                            borderLeft: "2px solid #17CAFA",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "baseline",
+                              gap: 5,
+                              marginBottom: 2,
+                            }}
+                          >
+                            <span
+                              style={{
+                                fontSize: 11.5,
+                                fontWeight: 700,
+                                color: "#01001F",
+                                letterSpacing: "-0.02em",
+                              }}
+                            >
+                              {award.name}
+                            </span>
+                            <span style={{ fontSize: 10, color: "#01001F" }}>
+                              · {award.issuer} ({award.date})
+                            </span>
+                          </div>
+                          {award.description && (
+                            <div
+                              style={{
+                                fontSize: 10.5,
+                                lineHeight: 1.55,
+                                letterSpacing: "-0.01em",
+                                color: "#01001F",
+                                marginTop: 2,
+                              }}
+                            >
+                              {renderHighlighted(award.description)}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </motion.div>
+                  </AnimatePresence>
+                </CVSectionBlock>
+              )}
+
+              {/* ── ACTIVITIES ── */}
+              {cv.activities && cv.activities.length > 0 && (
+                <CVSectionBlock
+                  id="activities"
+                  isActive={activeSection === "activities"}
+                  isHovered={hoveredSection === "activities"}
+                  onHover={onHover}
+                  onClick={onActivate}
+                >
+                  <SectionDivider
+                    text="Extracurriculars"
+                    active={activeSection === "activities"}
+                  />
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={`act-${level}`}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.22 }}
+                    >
+                      {cv.activities.map((act: ActivityEntry, idx: number) => (
+                        <div
+                          key={idx}
+                          style={{
+                            marginBottom: idx < cv.activities!.length - 1 ? 14 : 0,
+                            paddingLeft: 10,
+                            borderLeft: "2px solid #17CAFA",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "baseline",
+                              justifyContent: "space-between",
+                              marginBottom: 4,
+                            }}
+                          >
+                            <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+                              <span
+                                style={{
+                                  fontSize: 11.5,
+                                  fontWeight: 700,
+                                  color: "#01001F",
+                                  letterSpacing: "-0.02em",
+                                }}
+                              >
+                                {act.organisation}
+                              </span>
+                              <span style={{ fontSize: 11, fontWeight: 500, color: "#0E56FA" }}>
+                                {act.role}
+                              </span>
+                            </div>
+                            <span style={{ fontSize: 9.5, fontWeight: 600, color: "#94a3b8" }}>
+                              {act.dates}
+                            </span>
+                          </div>
+                          {act.bullets && act.bullets.length > 0 && (
+                            <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                              {act.bullets.map((bullet: string, bi: number) => (
+                                <div
+                                  key={bi}
+                                  style={{
+                                    display: "flex",
+                                    gap: 5,
+                                    alignItems: "flex-start",
+                                  }}
+                                >
+                                  <span
+                                    style={{
+                                      fontSize: 9.5,
+                                      color: activeSection === "activities" ? "#0E56FA" : "#CBD5E1",
+                                      fontWeight: 700,
+                                      marginTop: 1.5,
+                                      flexShrink: 0,
+                                      transition: "color 0.2s",
+                                    }}
+                                  >
+                                    ▸
+                                  </span>
+                                  <div
+                                    style={{
+                                      fontSize: 10.5,
+                                      lineHeight: 1.55,
+                                      letterSpacing: "-0.01em",
+                                    }}
+                                  >
+                                    {renderHighlighted(bullet)}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </motion.div>
+                  </AnimatePresence>
+                </CVSectionBlock>
+              )}
+            </div>
+            {/* Legend */}
+            <div
+              style={{
+                padding: "8px 32px 12px",
+                borderTop: "1px solid #F8FAFC",
+                display: "flex",
+                gap: 14,
+              }}
+            >
+              {[
+                { color: "#0E56FA", label: "Action Verb" },
+                { color: "#16a34a", label: "Metric" },
+              ].map(({ color, label }) => (
+                <div
+                  key={label}
+                  style={{ display: "flex", alignItems: "center", gap: 4 }}
+                >
+                  <div
+                    style={{
+                      width: 6,
+                      height: 6,
+                      borderRadius: 2,
+                      background: color,
+                    }}
+                  />
+                  <span
+                    style={{ fontSize: 9, color: "#94a3b8", fontWeight: 500 }}
+                  >
+                    {label}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
       </div>
     </>
   );
@@ -2526,7 +2537,7 @@ function RightInsightPanel({
   const hrCompany = roleData.hrCompany || data?.hrCompany || "startup";
   const cvKey = getCVTemplateKey(selectedRole);
   const TRANSFORM = TRANSFORM_TEMPLATES[cvKey] ?? TRANSFORM_TEMPLATES["Product Management (PM)"];
-  
+
   const sectionTransform = TRANSFORM?.[section];
   // Per-level data — some sections (header, projects) may have only one level
   const transformAtLevel =
@@ -2556,26 +2567,26 @@ function RightInsightPanel({
   const checklistItems: [string, string, string] =
     section === "experience"
       ? (Array.isArray(roleData.experienceChecklist) && roleData.experienceChecklist.length === 3
-          ? roleData.experienceChecklist as [string, string, string]
-          : FALLBACK_CHECKLIST)
+        ? roleData.experienceChecklist as [string, string, string]
+        : FALLBACK_CHECKLIST)
       : section === "summary"
         ? (Array.isArray(roleData.summaryChecklist) && roleData.summaryChecklist.length === 3
-            ? roleData.summaryChecklist as [string, string, string]
-            : FALLBACK_CHECKLIST)
+          ? roleData.summaryChecklist as [string, string, string]
+          : FALLBACK_CHECKLIST)
         : (Array.isArray(transformAtLevel?.checklistItems) && transformAtLevel!.checklistItems.length === 3
-            ? transformAtLevel!.checklistItems as [string, string, string]
-            : FALLBACK_CHECKLIST);
+          ? transformAtLevel!.checklistItems as [string, string, string]
+          : FALLBACK_CHECKLIST);
   const transform = transformAtLevel;
   const panelKey = `${section}-${level}-${cvKey}`;
   const [copied, setCopied] = useState(false);
   const [feedback, setFeedback] = useState<"helpful" | "love" | null>(null);
-  
+
   const checks = (sectionChecks[section] || [false, false, false]) as [boolean, boolean, boolean];
-  const totalChecked = 
-    (sectionChecks.summary?.filter(Boolean).length || 0) + 
-    (sectionChecks.experience?.filter(Boolean).length || 0) + 
+  const totalChecked =
+    (sectionChecks.summary?.filter(Boolean).length || 0) +
+    (sectionChecks.experience?.filter(Boolean).length || 0) +
     (sectionChecks.projects?.filter(Boolean).length || 0);
-  
+
   const stageIndex = checks.filter(Boolean).length;
   const allChecked = totalChecked === 9;
   const companyInfo = COMPANY_INFO[hrCompany];
@@ -2585,7 +2596,7 @@ function RightInsightPanel({
 
   const handleCopy = () => {
     // [PROMPT WIRING - Step 4] Copy the dynamic prompt
-    navigator.clipboard.writeText(currentPrompt).catch(() => {});
+    navigator.clipboard.writeText(currentPrompt).catch(() => { });
 
     // [PROMPT WIRING - Step 5] Track prompt copy event with role and section
     trackEvent("prompt_copied", {
@@ -2720,132 +2731,132 @@ function RightInsightPanel({
 
             {/* ── Block 2: Step Checklist (only for core sections) ── */}
             {["summary", "experience", "projects"].includes(section) ? (
-          <div
-            id="tour-checklist"
-            style={{
-              background: "rgba(14, 86, 250, 0.07)",
-              padding: "16px",
-              borderRadius: "16px",
-              border: "1px solid rgba(14, 86, 250, 0.15)",
-              marginBottom: "16px",
-            }}
-          >
               <div
+                id="tour-checklist"
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 7,
-                  marginBottom: 8,
+                  background: "rgba(14, 86, 250, 0.07)",
+                  padding: "16px",
+                  borderRadius: "16px",
+                  border: "1px solid rgba(14, 86, 250, 0.15)",
+                  marginBottom: "16px",
                 }}
               >
                 <div
                   style={{
-                    width: 20,
-                    height: 20,
-                    borderRadius: 6,
-                    background: "rgba(14,86,250,0.1)",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
+                    gap: 7,
+                    marginBottom: 8,
                   }}
                 >
-                  <Check size={11} color="#0E56FA" strokeWidth={3} />
-                </div>
-                <span
-                  style={{
-                    fontSize: 13,
-                    fontWeight: 700,
-                    color: "#01001F",
-                    letterSpacing: "-0.02em",
-                  }}
-                >
-                  Self-Audit Checklist
-                </span>
-                {/* Progress indicator */}
-                <div
-                  style={{
-                    marginLeft: "auto",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 5,
-                  }}
-                >
-                  <div style={{ display: "flex", gap: 3 }}>
-                    {[0, 1, 2].map((i) => (
-                      <div
-                        key={i}
-                        style={{
-                          width: 7,
-                          height: 7,
-                          borderRadius: 2,
-                          background: checks[i] ? "#16a34a" : "#17CAFA",
-                          transition: "background 0.3s",
-                        }}
-                      />
-                    ))}
+                  <div
+                    style={{
+                      width: 20,
+                      height: 20,
+                      borderRadius: 6,
+                      background: "rgba(14,86,250,0.1)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Check size={11} color="#0E56FA" strokeWidth={3} />
                   </div>
                   <span
                     style={{
-                      fontSize: 10,
-                      fontWeight: 600,
-                      color: stageIndex === 3 ? "#16a34a" : "#94a3b8",
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: "#01001F",
+                      letterSpacing: "-0.02em",
                     }}
                   >
-                    {stageIndex}/3
+                    Self-Audit Checklist
                   </span>
-                </div>
-              </div>
-              <p
-                style={{
-                  fontSize: 11.5,
-                  color: "#01001F",
-                  margin: "0 0 10px",
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                Tick each step — watch the CV bullet transform on the left ←
-              </p>
-              <StepChecklist
-                items={checklistItems}
-                checks={checks}
-                onChange={onSectionChecksChange}
-              />
-
-              {/* All-done celebration */}
-              <AnimatePresence>
-                {stageIndex === 3 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{
-                      duration: 0.28,
-                      type: "spring",
-                      stiffness: 400,
-                    }}
+                  {/* Progress indicator */}
+                  <div
                     style={{
-                      marginTop: 10,
-                      padding: "10px 14px",
-                      borderRadius: 10,
-                      background: "linear-gradient(135deg, #F0FDF4, #DCFCE7)",
-                      border: "1px solid #BBF7D0",
+                      marginLeft: "auto",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 5,
                     }}
                   >
+                    <div style={{ display: "flex", gap: 3 }}>
+                      {[0, 1, 2].map((i) => (
+                        <div
+                          key={i}
+                          style={{
+                            width: 7,
+                            height: 7,
+                            borderRadius: 2,
+                            background: checks[i] ? "#16a34a" : "#17CAFA",
+                            transition: "background 0.3s",
+                          }}
+                        />
+                      ))}
+                    </div>
                     <span
                       style={{
-                        fontSize: 12,
-                        fontWeight: 700,
-                        color: "#16a34a",
+                        fontSize: 10,
+                        fontWeight: 600,
+                        color: stageIndex === 3 ? "#16a34a" : "#94a3b8",
                       }}
                     >
-                      🎉 Perfect! All 3 improvements applied. Your bullet is now
-                      HR-ready.
+                      {stageIndex}/3
                     </span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>) : (
+                  </div>
+                </div>
+                <p
+                  style={{
+                    fontSize: 11.5,
+                    color: "#01001F",
+                    margin: "0 0 10px",
+                    letterSpacing: "-0.01em",
+                  }}
+                >
+                  Tick each step — watch the CV bullet transform on the left ←
+                </p>
+                <StepChecklist
+                  items={checklistItems}
+                  checks={checks}
+                  onChange={onSectionChecksChange}
+                />
+
+                {/* All-done celebration */}
+                <AnimatePresence>
+                  {stageIndex === 3 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{
+                        duration: 0.28,
+                        type: "spring",
+                        stiffness: 400,
+                      }}
+                      style={{
+                        marginTop: 10,
+                        padding: "10px 14px",
+                        borderRadius: 10,
+                        background: "linear-gradient(135deg, #F0FDF4, #DCFCE7)",
+                        border: "1px solid #BBF7D0",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: 12,
+                          fontWeight: 700,
+                          color: "#16a34a",
+                        }}
+                      >
+                        🎉 Perfect! All 3 improvements applied. Your bullet is now
+                        HR-ready.
+                      </span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>) : (
               /* Info panel for non-core sections (header, awards, activities) */
               <div style={{ padding: "14px 18px", borderRadius: 12, background: "rgba(14,86,250,0.04)", border: "1px solid rgba(14,86,250,0.12)" }}>
                 <p style={{ fontSize: 12.5, color: "#01001F", lineHeight: 1.6, margin: 0 }}>
@@ -3144,7 +3155,7 @@ function RightInsightPanel({
                     letterSpacing: "-0.01em",
                   }}
                 >
-                  Get My AI Prompt
+                  Final Step
                   <ArrowRight size={14} strokeWidth={2.5} />
                 </motion.button>
               </motion.div>
