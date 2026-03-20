@@ -269,10 +269,8 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
           style={{
             width: 88,
             height: 88,
-            borderRadius: 20,
-            objectFit: "cover",
-            boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
             marginBottom: 28,
+            filter: "drop-shadow(0 8px 16px rgba(14,86,250,0.2))",
           }}
         />
 
