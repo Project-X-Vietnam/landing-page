@@ -324,8 +324,7 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
           </h1>
 
           <p style={{ fontSize: 15, color: "#01001F", lineHeight: 1.6 }}>
-            Download the official PJX CV Guidelines & Template package for 2026.
-            <br />Apply the master prompt you just unlocked and start iterating!
+            Apply the master prompt you just unlocked and start iterating!
           </p>
         </motion.div>
 
