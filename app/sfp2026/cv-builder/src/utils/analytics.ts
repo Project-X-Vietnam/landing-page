@@ -1,7 +1,6 @@
-/// <reference types="vite/client" />
 import { track } from '@vercel/analytics';
 
-const isDev = import.meta.env.DEV;
+const isDev = process.env.NODE_ENV === 'development';
 
 /**
  * Custom tracking wrapper mapping to Vercel Analytics custom events

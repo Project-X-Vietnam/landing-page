@@ -37,7 +37,7 @@ export const generateFallbackCV = (role: string, level: DiagnosticLevel): CVData
 
   const prefix = isStarter ? "Intern" : isReady ? "Senior" : "Junior";
   const years = isStarter ? "student" : isReady ? "4 years" : "1.5 years";
-  
+
   return {
     name: "Alex Nguyen",
     title: `${prefix} ${role}`,
@@ -139,7 +139,7 @@ export const CV_TEMPLATES: Record<string, any> = {
       "experience": [
         {
           "company": "Teko Vietnam",
-          "role": "Junior Backend Engineer",
+          "role": "Backend Engineer Intern",
           "dates": "Jan 2023 – Present",
           "bullets": [
             "Migrated 3 Express.js REST services to serverless AWS Lambda, reducing infra costs by 18%",
