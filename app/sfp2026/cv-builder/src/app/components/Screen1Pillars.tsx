@@ -1,11 +1,12 @@
 import { motion, AnimatePresence } from "motion/react";
-import { Code2, LayoutGrid, Briefcase, HelpCircle, ArrowRight, ChevronRight, Layers, Cpu, ChevronLeft } from "lucide-react";
+import { Code2, LayoutGrid, Briefcase, HelpCircle, ArrowRight, ChevronRight, Layers, Cpu, ChevronLeft, ArrowLeft } from "lucide-react";
+import { ProjectXLogo } from "./ProjectXLogo";
 
 // ─── BRANDING CONSTANTS ───────────────────────────────────────────────────────
-const NAVY = "#002D62";
-const CRIMSON = "#A6192E";
-const GRAY_BG = "#F8F9FA";
-const BORDER_COLOR = "#E6E7E8";
+const NAVY = "#01001F";
+const CRIMSON = "#0E56FA";
+const GRAY_BG = "#FFFFFF";
+const BORDER_COLOR = "#17CAFA";
 
 // ─── PILLAR DATA ──────────────────────────────────────────────────────────────
 
@@ -146,7 +147,7 @@ function PillarCard({
               color: NAVY,
               letterSpacing: "-0.02em",
               marginBottom: 2,
-              fontFamily: "'Outfit', sans-serif",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
             }}
           >
             {pillar.title}
@@ -263,9 +264,9 @@ function StatusBar({ dark = false, step = 1, onBack }: { dark?: boolean; step?: 
             background: NAVY,
             display: "flex", alignItems: "center", justifyContent: "center",
           }}>
-            <span style={{ fontSize: 9.5, fontWeight: 900, color: "white", letterSpacing: "-0.05em", fontFamily: "'Outfit', sans-serif" }}>PJX</span>
+            <span style={{ fontSize: 9.5, fontWeight: 900, color: "white", letterSpacing: "-0.05em", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>PJX</span>
           </div>
-          <span style={{ fontSize: 13, fontWeight: 700, color: NAVY, letterSpacing: "-0.02em", fontFamily: "'Outfit', sans-serif" }}>
+          <span style={{ fontSize: 13, fontWeight: 700, color: NAVY, letterSpacing: "-0.02em", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             Career Survival Kit
           </span>
         </div>
@@ -342,21 +343,10 @@ export function Screen1Pillars({
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              boxShadow: "0 2px 6px rgba(0,45,98,0.2)",
+              boxShadow: "0 2px 6px rgba(1,0,31,0.2)",
             }}
           >
-            <span
-              style={{
-                color: "white",
-                fontSize: 11,
-                fontWeight: 900,
-                letterSpacing: "-0.05em",
-                lineHeight: 1,
-                fontFamily: "'Outfit', sans-serif",
-              }}
-            >
-              SK
-            </span>
+            <ProjectXLogo size={14} color="#FFFFFF" />
           </div>
           <span
             style={{
@@ -364,7 +354,7 @@ export function Screen1Pillars({
               fontWeight: 600,
               color: NAVY,
               letterSpacing: "-0.02em",
-              fontFamily: "'Outfit', sans-serif",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
             }}
           >
             Career Survival Kit
@@ -385,7 +375,7 @@ export function Screen1Pillars({
                 width: s === 1 ? 24 : 6,
                 height: 6,
                 borderRadius: 99,
-                background: s === 1 ? "#0E56FA" : "#E2E8F0",
+                background: s === 1 ? "#0E56FA" : "#17CAFA",
                 transition: "all 0.3s",
               }}
             />
@@ -463,7 +453,7 @@ export function Screen1Pillars({
         <p
           style={{
             fontSize: 16,
-            color: "#64748b",
+            color: "#01001F",
             lineHeight: 1.6,
             maxWidth: 480,
           }}
@@ -556,7 +546,7 @@ export function Screen1Pillars({
               gap: 8,
               padding: "13px 26px",
               borderRadius: 12,
-              background: canProceed ? "#0E56FA" : "#E2E8F0",
+              background: canProceed ? "#0E56FA" : "#17CAFA",
               color: canProceed ? "white" : "#94a3b8",
               fontSize: 14,
               fontWeight: 700,

@@ -21,12 +21,12 @@ interface Piece {
 }
 
 const CONFETTI_COLORS = [
-  "#A6192E", // Crimson Red
-  "#C41E3A", // Lighter Red
-  "#002D62", // Navy
+  "#0E56FA", // Crimson Red
+  "#17CAFA", // Lighter Red
+  "#01001F", // Navy
   "#1A3FA8", // Lighter Blue
-  "#E6E7E8", // Light Gray
-  "#F8F9FA", // Near white
+  "#17CAFA", // Light Gray
+  "#FFFFFF", // Near white
 ];
 
 function ConfettiCanvas() {
@@ -149,16 +149,22 @@ interface Props {
   selectedRole?: string | null;
 }
 
-// Build combined master prompt from all 3 CV sections
 export function buildCombinedPrompt(role: string | null): string {
   const safeRole = role || "Product Management (PM)";
-  const promptKey = ROLE_TO_PROMPT_KEY[safeRole] ?? "Product Management (PM)";
-  const sectionData = PROMPTS_DATA[promptKey];
-  if (!sectionData) return "Prompt not available.";
-  const summary = sectionData["summary" as keyof SectionPrompts] ?? "";
-  const experience = sectionData["experience" as keyof SectionPrompts] ?? "";
-  const projects = sectionData["projects" as keyof SectionPrompts] ?? "";
-  return `=== YOUR COMPLETE CV REWRITE PROMPT FOR: ${safeRole.toUpperCase()} ===\n\n--- PART 1: PROFESSIONAL SUMMARY ---\n${summary}\n\n--- PART 2: EXPERIENCE BULLETS ---\n${experience}\n\n--- PART 3: PROJECTS SECTION ---\n${projects}\n\n=== END OF PROMPT ===\nPaste each section into ChatGPT, Claude, or Gemini individually for best results.`;
+  return `I want you to act like a strict but highly constructive HR/Recruitment Coordinator who has meticulously screened over 10,000 CVs in the tech industry. Your goal is to review my current CV draft and instantly point out missing information, weak verbs, or vague statements. Focus on making my CV sound “ready for impact” by tying my skills to quantifiable outcomes or clear value adds.
+
+Here is my target role: [ ${safeRole} ]
+
+Here is my current CV context:
+[ Insert your current CV details, bullets, and projects here ]
+
+Please do the following:
+1. Identify weak or passive verbs and rewrite them using strong, active language indicating ownership (e.g., spearheaded, architected, optimized).
+2. Highlight areas where metrics are missing and suggest specific types of metrics I should estimate or retrieve (%, $, hours, latency).
+3. Ensure absolute compliance with the Harvard CV format (no pronouns, clean structure, high scannability).
+4. Re-write my top 3 bullet points to follow the Golden Formula: 'Achieved [X] as measured by [Y] by doing [Z]'.
+
+Be brutal but highly actionable. Provide the fully re-written bullet points and summary at the end.`;
 }
 
 // ── Main Screen ───────────────────────────────────────────────────
@@ -168,7 +174,7 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
     <div
       style={{
         minHeight: "100vh",
-        background: "#F8F9FA",
+        background: "#FFFFFF",
         fontFamily: "'Inter', sans-serif",
         display: "flex",
         flexDirection: "column",
@@ -237,7 +243,7 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
           <span
             style={{
               fontSize: 11,
-              color: "#002D62",
+              color: "#01001F",
               fontWeight: 700,
               marginLeft: 6,
               letterSpacing: "0.05em",
@@ -262,11 +268,11 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
             width: 88,
             height: 88,
             borderRadius: "50%",
-            background: "linear-gradient(135deg, #A6192E 0%, #C41E3A 100%)",
+            background: "linear-gradient(135deg, #0E56FA 0%, #17CAFA 100%)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            boxShadow: "0 8px 32px rgba(166,25,46,0.4)",
+            boxShadow: "0 8px 32px rgba(14,86,250,0.4)",
             marginBottom: 28,
             fontSize: 40,
           }}
@@ -288,17 +294,17 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
               gap: 6,
               padding: "5px 14px",
               borderRadius: 99,
-              background: "#F8F9FA",
-              border: "1px solid #E6E7E8",
+              background: "#FFFFFF",
+              border: "1px solid #17CAFA",
               marginBottom: 16,
             }}
           >
-            <Check size={12} color="#002D62" strokeWidth={3} />
+            <Check size={12} color="#01001F" strokeWidth={3} />
             <span
               style={{
                 fontSize: 11,
                 fontWeight: 700,
-                color: "#002D62",
+                color: "#01001F",
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 fontFamily: "'Outfit', sans-serif",
@@ -312,7 +318,7 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
             style={{
               fontSize: "clamp(30px, 5vw, 42px)",
               fontWeight: 800,
-              color: "#002D62",
+              color: "#01001F",
               fontFamily: "'Outfit', sans-serif",
               letterSpacing: "-0.04em",
               lineHeight: 1.05,
@@ -320,10 +326,10 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
             }}
           >
             You are ready to build a<br />
-            <span style={{ color: "#A6192E" }}>top-tier tech CV</span>
+            <span style={{ color: "#0E56FA" }}>top-tier tech CV</span>
           </h1>
 
-          <p style={{ fontSize: 15, color: "#4A5568", lineHeight: 1.6 }}>
+          <p style={{ fontSize: 15, color: "#01001F", lineHeight: 1.6 }}>
             Download the official PJX CV Guidelines & Template package for 2026.
             <br />Apply the master prompt you just unlocked and start iterating!
           </p>
@@ -349,7 +355,7 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
               width: "100%",
               padding: "20px 32px",
               borderRadius: 12,
-              background: "#A6192E",
+              background: "#0E56FA",
               color: "white",
               fontSize: 17,
               fontWeight: 700,
@@ -361,14 +367,14 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
               justifyContent: "center",
               gap: 10,
               border: "none",
-              boxShadow: "0 8px 24px rgba(166,25,46,0.3)",
+              boxShadow: "0 8px 24px rgba(14,86,250,0.3)",
               transition: "transform 0.2sease-in-out, box-shadow 0.2s",
             }}
             onMouseOver={(e) => {
-              Object.assign(e.currentTarget.style, { transform: 'translateY(-2px)', boxShadow: '0 12px 32px rgba(166,25,46,0.45)' });
+              Object.assign(e.currentTarget.style, { transform: 'translateY(-2px)', boxShadow: '0 12px 32px rgba(14,86,250,0.45)' });
             }}
             onMouseOut={(e) => {
-              Object.assign(e.currentTarget.style, { transform: 'translateY(0)', boxShadow: '0 8px 24px rgba(166,25,46,0.3)' });
+              Object.assign(e.currentTarget.style, { transform: 'translateY(0)', boxShadow: '0 8px 24px rgba(14,86,250,0.3)' });
             }}
           >
             <Download size={18} strokeWidth={2.5} />
@@ -408,7 +414,7 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
                 transition: "color 0.15s",
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.color = "#002D62";
+                (e.currentTarget as HTMLButtonElement).style.color = "#01001F";
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLButtonElement).style.color = "#94a3b8";
@@ -458,13 +464,13 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
             padding: "16px 24px",
             borderRadius: 14,
             background: "white",
-            border: "1px solid #E6E7E8",
+            border: "1px solid #17CAFA",
             textAlign: "center",
-            boxShadow: "0 2px 8px rgba(0,45,98,0.03)",
+            boxShadow: "0 2px 8px rgba(1,0,31,0.03)",
           }}
         >
-          <p style={{ fontSize: 12, color: "#4A5568", lineHeight: 1.6 }}>
-            <strong style={{ color: "#002D62", fontFamily: "'Outfit', sans-serif" }}>Career Survival Kit</strong> ·
+          <p style={{ fontSize: 12, color: "#01001F", lineHeight: 1.6 }}>
+            <strong style={{ color: "#01001F", fontFamily: "'Outfit', sans-serif" }}>Career Survival Kit</strong> ·
             Built for university students and early-career professionals
             applying for tech roles in 2026.
           </p>

@@ -24,6 +24,7 @@ import {
   Cpu,
 } from "lucide-react";
 import { DiagnosticLevel } from "../types";
+import { ProjectXLogo } from "./ProjectXLogo";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -207,7 +208,7 @@ function BrandNav({
             background: "#020818",
             display: "flex", alignItems: "center", justifyContent: "center",
           }}>
-            <span style={{ fontSize: 9.5, fontWeight: 900, color: "white", letterSpacing: "-0.05em" }}>SK</span>
+            <ProjectXLogo size={13} color="#FFFFFF" />
           </div>
           <span style={{ fontSize: 12.5, fontWeight: 600, color: "#020818", letterSpacing: "-0.02em" }}>
             Career Survival Kit

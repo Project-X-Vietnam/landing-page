@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight, ArrowLeft, Check } from "lucide-react";
+import { ProjectXLogo } from "./ProjectXLogo";
 import { DiagnosticLevel } from "../types";
 
 // ── Data ──────────────────────────────────────────────────────────
@@ -128,16 +129,7 @@ export function Screen2Diagnostic({ checks, onToggle, onEnter, onBack }: Props) 
               justifyContent: "center",
             }}
           >
-            <span
-              style={{
-                color: "white",
-                fontSize: 11,
-                fontWeight: 900,
-                letterSpacing: "-0.05em",
-              }}
-            >
-              SK
-            </span>
+            <ProjectXLogo size={14} color="#FFFFFF" />
           </div>
           <span
             style={{

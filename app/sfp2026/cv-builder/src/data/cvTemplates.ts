@@ -26,6 +26,54 @@ export type TransformData = {
   demoLabel?: string;
 };
 
+export const generateFallbackCV = (role: string, level: DiagnosticLevel): CVData => {
+  const isStarter = level === "starter";
+  const isReady = level === "ready";
+
+  const prefix = isStarter ? "Intern" : isReady ? "Senior" : "Junior";
+  const years = isStarter ? "student" : isReady ? "4 years" : "1.5 years";
+  
+  return {
+    name: "Alex Nguyen",
+    title: `${prefix} ${role}`,
+    email: "alex.nguyen@example.com",
+    location: "Vietnam",
+    linkedin: `linkedin.com/in/alex-${role.toLowerCase().replace(/\s+/g, '-')}`,
+    summary: `${prefix} ${role} with ${years} experience. Passionate about driving impact and solving complex problems in the ${role} space. Let the data speak for itself.`,
+    experience: [
+      {
+        company: "Tech Innovators JSC",
+        role: `${prefix} ${role}`,
+        dates: isStarter ? "Jun 2024 - Aug 2024" : "Jan 2023 - Present",
+        bullets: [
+          `Spearheaded the core ${role} initiatives, delivering 25% faster time-to-market.`,
+          `Collaborated with cross-functional teams to align ${role} deliverables.`,
+          isStarter ? `Assisted senior members with daily ${role} tasks.` : `Mentored 2 junior members while owning the entire ${role} lifecycle.`
+        ]
+      },
+      {
+        company: "Local Startup",
+        role: `${role.split(' ')[0]} Associate`,
+        dates: isStarter ? "Jan 2023 - May 2023" : "Aug 2020 - Dec 2022",
+        bullets: [
+          `Optimized legacy systems specifically for the ${role} pipeline.`,
+          `Reduced overhead by 15% through strategic ${role} audits.`
+        ]
+      }
+    ],
+    projects: [
+      {
+        name: `${role} Portfolio Showcase`,
+        type: `Personal Project`,
+        bullets: [
+          `Architected a robust showcase of my skills as a ${role}.`,
+          `Deployed an MVP that actively handles test traffic.`
+        ]
+      }
+    ]
+  };
+};
+
 export const CV_TEMPLATES: Record<string, any> = {
   "Software Engineering (SWE)": {
     "starter": {
