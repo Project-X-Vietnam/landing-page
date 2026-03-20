@@ -25,22 +25,11 @@ export function WelcomePage({ onStart }: Props) {
           gap: 10,
         }}
       >
-        <div
-          style={{
-            width: 32,
-            height: 32,
-            borderRadius: 8,
-            background: "#FFFFFF",
-            border: "1px solid #E2E8F0",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-            flexShrink: 0,
-          }}
-        >
-          <img src="/favicon.svg" alt="Project X Logo" style={{ width: 22, height: 22, objectFit: "contain" }} />
-        </div>
+        <img
+          src="/favicon.svg"
+          alt="PJX Logo"
+          style={{ width: 32, height: 32, borderRadius: 8, objectFit: "cover" }}
+        />
         <span style={{ fontSize: 15, fontWeight: 700, color: "#01001F", letterSpacing: "-0.02em", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
           Career Survival Kit
         </span>

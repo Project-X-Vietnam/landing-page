@@ -107,7 +107,13 @@ const COMPANY_INFO: Record<
   string,
   { name: string; color: string; textColor: string }
 > = {
-  expert: { name: "HR Expert", color: "#0f172a", textColor: "white" },
+  expert: { name: "HR Expert", color: "#0E56FA", textColor: "white" },
+  shopee: { name: "Shopee", color: "#EE4D2D", textColor: "white" },
+  google: { name: "Google", color: "#4285F4", textColor: "white" },
+  grab: { name: "Grab", color: "#00B14F", textColor: "white" },
+  vng: { name: "VNG", color: "#F7941E", textColor: "white" },
+  startup: { name: "Startup", color: "#6366F1", textColor: "white" },
+  scaleup: { name: "Scaleup", color: "#8B5CF6", textColor: "white" },
 };
 
 const LEVEL_OPTS: { id: DiagnosticLevel; emoji: string; label: string }[] = [
@@ -1037,22 +1043,11 @@ function TopNav({
             </svg>
           </motion.button>
         )}
-        <div
-          style={{
-            width: 28,
-            height: 28,
-            borderRadius: 8,
-            background: "#FFFFFF",
-            border: "1.5px solid #E2E8F0",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexShrink: 0,
-            boxShadow: "0 2px 5px rgba(0,0,0,0.04)",
-          }}
-        >
-          <img src="/favicon.svg" alt="Project X Logo" style={{ width: 18, height: 18, objectFit: "contain" }} />
-        </div>
+        <img
+          src="/favicon.svg"
+          alt="PJX Logo"
+          style={{ width: 32, height: 32, borderRadius: 8, objectFit: "cover" }}
+        />
         <div
           style={{ width: 1, height: 16, background: "#17CAFA", flexShrink: 0 }}
         />
@@ -1402,13 +1397,13 @@ function HRQuoteBubble({
                 gap: 4,
                 padding: "3px 8px 3px 6px",
                 borderRadius: 6,
-                background: companyInfo.color,
-                boxShadow: `0 2px 8px ${companyInfo.color}40`,
+                background: companyInfo?.color || "#94a3b8",
+                boxShadow: `0 2px 8px ${companyInfo?.color || "#94a3b8"}40`,
               }}
             >
               <Building2
                 size={10}
-                color={companyInfo.textColor}
+                color={companyInfo?.textColor || "white"}
                 strokeWidth={2.5}
                 style={{ opacity: 0.9 }}
               />
@@ -1416,12 +1411,12 @@ function HRQuoteBubble({
                 style={{
                   fontSize: 9.5,
                   fontWeight: 800,
-                  color: companyInfo.textColor,
+                  color: companyInfo?.textColor || "white",
                   letterSpacing: "0.05em",
                   textTransform: "uppercase",
                 }}
               >
-                {companyInfo.name}
+                {companyInfo?.name || "Expert"}
               </span>
             </div>
           </div>
