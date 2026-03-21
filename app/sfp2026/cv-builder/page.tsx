@@ -7,6 +7,16 @@ import { Screen4Finish } from "@/components/cv-builder/Screen4Finish";
 import { WelcomePage } from "@/components/cv-builder/WelcomePage";
 import { DiagnosticLevel } from "@/lib/cv-builder/types";
 import { trackEvent } from "@/lib/cv-builder/utils/analytics";
+import { initPostHog } from "@/lib/cv-builder/utils/posthog";
+import {
+  trackFunnelLandingViewed,
+  trackFunnelStartClicked,
+  trackFunnelRoleSelected,
+  trackFunnelWorkspaceViewed,
+  trackFunnelBulletGenerated,
+  trackFunnelFinishViewed,
+  trackFunnelRestartClicked,
+} from "@/lib/cv-builder/utils/posthogFunnel";
 
 export default function App() {
   const [screen, setScreen] = useState<0 | 1 | 3 | 4>(0);
@@ -19,6 +29,8 @@ export default function App() {
 
   // Analytics: Track Traffic Source & Time on Page
   useEffect(() => {
+    initPostHog();
+    trackFunnelLandingViewed();
     // Track acquisition source
     const params = new URLSearchParams(window.location.search);
     const source = params.get("source") || params.get("utm_source");
@@ -40,14 +52,25 @@ export default function App() {
   }, []);
 
   const handleBulletComplete = (bullet: string, prompt?: string) => {
+    trackFunnelBulletGenerated(selectedRole, workspaceLevel);
     setScreen(4);
   };
 
   const handleRestart = () => {
+    trackFunnelRestartClicked(selectedRole);
     setScreen(1);
     setSelectedPillar(null);
     setSelectedRole(null);
   };
+
+  useEffect(() => {
+    if (screen === 3) {
+      trackFunnelWorkspaceViewed(selectedRole);
+    }
+    if (screen === 4) {
+      trackFunnelFinishViewed(selectedRole, workspaceLevel);
+    }
+  }, [screen, selectedRole, workspaceLevel]);
 
   return (
     <div
@@ -70,7 +93,12 @@ export default function App() {
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.28 }}
           >
-            <WelcomePage onStart={() => setScreen(1)} />
+            <WelcomePage
+              onStart={() => {
+                trackFunnelStartClicked();
+                setScreen(1);
+              }}
+            />
           </motion.div>
         )}
 
@@ -93,6 +121,7 @@ export default function App() {
                 setSelectedRole(r);
                 if (r) {
                   trackEvent("role_selected", { role: r });
+                  trackFunnelRoleSelected(r);
                 }
               }}
               onNext={() => setScreen(3)}
