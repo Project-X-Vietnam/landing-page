@@ -41,7 +41,7 @@ const TIMELINE_STEPS = [
     icon: <Search className="w-4 h-4" />,
     title: "Application Review",
     desc: "Our team carefully reviews every application.",
-    time: "After deadline",
+    time: "After form closed",
   },
   {
     icon: <Mail className="w-4 h-4" />,

@@ -40,17 +40,18 @@ import {
 type FormPhase = "early-bird" | "official" | "closed";
 
 const EARLY_BIRD_DEADLINE = new Date("2026-02-28T23:59:59+07:00");
-const OFFICIAL_DEADLINE = new Date("2026-03-13T23:59:59+07:00");
+const COUNTDOWN_DEADLINE = new Date("2026-03-13T23:59:59+07:00");
+const FORM_CLOSE_DEADLINE = new Date("2026-03-14T23:59:59+07:00");
 
 function getFormPhase(): FormPhase {
   const now = new Date();
   if (now <= EARLY_BIRD_DEADLINE) return "early-bird";
-  if (now <= OFFICIAL_DEADLINE) return "official";
+  if (now <= FORM_CLOSE_DEADLINE) return "official";
   return "closed";
 }
 
 function getDeadline(phase: FormPhase): Date {
-  return phase === "early-bird" ? EARLY_BIRD_DEADLINE : OFFICIAL_DEADLINE;
+  return phase === "early-bird" ? EARLY_BIRD_DEADLINE : COUNTDOWN_DEADLINE;
 }
 
 const STEP_LABELS = [
@@ -855,7 +856,15 @@ function RightPanel({ phase, deadline, currentStep, data, onExit }: {
 // ═══════════════════════════════════════════════════════════════
 
 export default function ApplyPage() {
-  const [phase] = useState<FormPhase>(() => getFormPhase());
+  const [phase, setPhase] = useState<FormPhase>(() => getFormPhase());
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      const current = getFormPhase();
+      setPhase((prev) => (prev !== current ? current : prev));
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<ApplicationFormData>(INITIAL_FORM);
   const [isSubmitting, setIsSubmitting] = useState(false);
