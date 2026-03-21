@@ -34,6 +34,7 @@ import { DiagnosticLevel } from "@/lib/cv-builder/types";
 import { CV_TEMPLATES, TRANSFORM_TEMPLATES, CVData, ExperienceEntry, ProjectEntry, AwardEntry, ActivityEntry, generateFallbackCV } from "@/lib/cv-builder/data/cvTemplates";
 import { EXPANDED_CV_TEMPLATES } from "@/lib/cv-builder/data/expandedCvData";
 import { buildCombinedPrompt } from "./Screen4Finish"; // Provide full prompt
+import { getRoleCvOverride } from "@/lib/cv-builder/data/roleCvOverrides";
 
 // [PROMPT WIRING - Step 3] Helper to get dynamic prompt
 const getPromptForSection = (role: string | null, section: string): string => {
@@ -1504,13 +1505,16 @@ const getCVTemplateKey = (role: string | null): string => {
     "Operations": "Operations (Tech Operations / Process Automation)",
     "AI/ML Engineer": "Artificial Intelligence (AI) / Machine Learning (ML)",
     "AI Product Manager": "Artificial Intelligence (AI) / Machine Learning (ML)",
+    "AI Product Management": "Artificial Intelligence (AI) / Machine Learning (ML)",
     "Prompt Engineer": "Artificial Intelligence (AI) / Machine Learning (ML)",
     "Data Scientist": "Data Analytics (DA) & Business Intelligence (BI)",
   };
   if (ROLE_MAP[safeRole]) return ROLE_MAP[safeRole];
 
   // ── Generic fallback by keyword ──────────────────────────────────────────────
-  if (safeRole.includes("AI") || safeRole.includes("Machine Learning") || safeRole.includes("Data Engineering"))
+  if (safeRole.includes("Data Engineering"))
+    return "Data Engineering";
+  if (safeRole.includes("AI") || safeRole.includes("Machine Learning"))
     return "Artificial Intelligence (AI) / Machine Learning (ML)";
   if (safeRole.includes("Data") || safeRole.includes("Analytics") || safeRole.includes("Business Intelligence"))
     return "Data Analytics (DA) & Business Intelligence (BI)";
@@ -1557,11 +1561,18 @@ function LeftCVColumn({
 }) {
   const cvKey = getCVTemplateKey(selectedRole);
   // EXPANDED_CV_TEMPLATES is keyed by exact role name - look it up directly first
-  const cv: CVData = (EXPANDED_CV_TEMPLATES[selectedRole || ""]?.[level])
+  const cvBase: CVData = (EXPANDED_CV_TEMPLATES[selectedRole || ""]?.[level])
     ?? (EXPANDED_CV_TEMPLATES[cvKey]?.[level])
     ?? generateFallbackCV(selectedRole || "Product Manager", level);
+  const override = getRoleCvOverride(selectedRole, cvKey, level, cvBase);
+  const cv: CVData = {
+    ...cvBase,
+    ...(override ?? {}),
+    experience: override?.experience ?? cvBase.experience,
+    projects: override?.projects ?? cvBase.projects,
+  };
   const TRANSFORM = TRANSFORM_TEMPLATES[cvKey] ?? TRANSFORM_TEMPLATES["Product Management (PM)"];
-  const roleData = getRoleLevelData(selectedRole, level);
+  const roleData = getRoleLevelData(cvKey, level);
   const stageIndex = checks.filter(Boolean).length;
 
   const ACTION_VERBS = new Set([
