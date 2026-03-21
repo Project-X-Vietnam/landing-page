@@ -374,12 +374,9 @@ export function Screen1Pillars({
               width: 28,
               height: 28,
               borderRadius: 9,
-              background: "#FFFFFF",
-              border: "1.5px solid #E2E8F0",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              boxShadow: "0 2px 5px rgba(0,0,0,0.04)",
             }}
           >
             <img src="/favicon.svg" alt="Project X Logo" style={{ width: 18, height: 18, objectFit: "contain" }} />
@@ -547,7 +544,7 @@ export function Screen1Pillars({
                 animate={{ opacity: 1, x: 0 }}
                 style={{
                   fontSize: 13,
-                  color: "#059669",
+                  color: "#0E56FA",
                   fontWeight: 600,
                   display: "flex",
                   alignItems: "center",
@@ -559,7 +556,7 @@ export function Screen1Pillars({
                     width: 6,
                     height: 6,
                     borderRadius: "50%",
-                    background: "#059669",
+                    background: "#0E56FA",
                   }}
                 />
                 {selectedRole} — Role selected
@@ -583,7 +580,7 @@ export function Screen1Pillars({
               gap: 8,
               padding: "13px 26px",
               borderRadius: 12,
-              background: canProceed ? "#0E56FA" : "#17CAFA",
+              background: canProceed ? "#0E56FA" : "#CBD5E1",
               color: "white",
               fontSize: 14,
               fontWeight: 700,
