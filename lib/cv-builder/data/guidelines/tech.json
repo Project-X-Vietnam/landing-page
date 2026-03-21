@@ -1,0 +1,51 @@
+[
+  {
+    "track": "Technology",
+    "industry": "Software Development",
+    "role": "Frontend Engineer",
+    "overview": "Frontend Engineers are expected to showcase strong UI/UX implementation skills, performance optimization, and deep knowledge of frameworks like React, Vue, or Angular.",
+    "actionVerbs": [
+      "Architected",
+      "Optimized",
+      "Spearheaded",
+      "Engineered",
+      "Redesigned",
+      "Migrated"
+    ],
+    "keySkills": [
+      "React.js",
+      "TypeScript",
+      "Next.js",
+      "Tailwind CSS",
+      "State Management (Redux/Zustand)",
+      "Web Performance (LCP, FID, CLS)"
+    ],
+    "resumeStructure": {
+      "summaryTips": [
+        "Keep it under 3-4 lines.",
+        "Highlight your years of experience, primary tech stack, and a major achievement."
+      ],
+      "experienceTips": [
+        "Use the XYZ formula: 'Accomplished [X] as measured by [Y], by doing [Z]'.",
+        "Quantify your impact (e.g., 'Improved load time by 40%').",
+        "Mention the specific technologies used in each bullet point."
+      ],
+      "projectTips": [
+        "Link to live demos or GitHub repositories.",
+        "Highlight complex technical challenges you solved (e.g., complex state, custom hooks, animations)."
+      ]
+    },
+    "dosAndDonts": {
+      "dos": [
+        "Do quantify achievements with metrics.",
+        "Do tailor your skills section to the job description.",
+        "Do include a link to your portfolio or GitHub."
+      ],
+      "donts": [
+        "Don't list basic skills like 'HTML/CSS' alone, focus on advanced concepts.",
+        "Don't use weak verbs like 'Helped' or 'Worked on'.",
+        "Don't include a photo unless in a specific geography that expects it."
+      ]
+    }
+  }
+]

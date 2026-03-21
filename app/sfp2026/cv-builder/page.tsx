@@ -1,0 +1,195 @@
+"use client";
+import { useState, useEffect, useRef } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { Screen1Pillars } from "@/components/cv-builder/Screen1Pillars";
+import { Screen3Workspace } from "@/components/cv-builder/Screen3Workspace";
+import { Screen4Finish } from "@/components/cv-builder/Screen4Finish";
+import { WelcomePage } from "@/components/cv-builder/WelcomePage";
+import { DiagnosticLevel } from "@/lib/cv-builder/types";
+import { trackEvent } from "@/lib/cv-builder/utils/analytics";
+import { initPostHog, registerSuperProperties } from "@/lib/cv-builder/utils/posthog";
+import {
+  trackFunnelLandingViewed,
+  trackFunnelStartClicked,
+  trackFunnelPillarSelected,
+  trackFunnelRoleSelected,
+  trackFunnelWorkspaceViewed,
+  trackFunnelWorkspaceCompleted,
+  trackFunnelFinishViewed,
+  trackFunnelRestartClicked,
+} from "@/lib/cv-builder/utils/posthogFunnel";
+
+export default function App() {
+  const [screen, setScreen] = useState<0 | 1 | 3 | 4>(0);
+  const [selectedPillar, setSelectedPillar] = useState<string | null>(
+    "product",
+  );
+  const [selectedRole, setSelectedRole] = useState<string | null>(null);
+  const [workspaceLevel, setWorkspaceLevel] =
+    useState<DiagnosticLevel>("developing");
+
+  const screenEnteredAtRef = useRef<number>(Date.now());
+
+  // Analytics: Track Traffic Source & Time on Page
+  useEffect(() => {
+    initPostHog();
+    trackFunnelLandingViewed();
+
+    const params = new URLSearchParams(window.location.search);
+    const source = params.get("source") || params.get("utm_source");
+    const utmMedium = params.get("utm_medium");
+    const utmCampaign = params.get("utm_campaign");
+
+    if (source) {
+      trackEvent("page_view_source", { source });
+    }
+
+    const superProps: Record<string, string> = {};
+    if (source) superProps.utm_source = source;
+    if (utmMedium) superProps.utm_medium = utmMedium;
+    if (utmCampaign) superProps.utm_campaign = utmCampaign;
+    if (Object.keys(superProps).length > 0) {
+      registerSuperProperties(superProps);
+    }
+
+    const startTime = Date.now();
+    const handleUnload = () => {
+      const timeSpent = Math.round((Date.now() - startTime) / 1000);
+      trackEvent("session_end", { time_on_page_seconds: timeSpent });
+    };
+
+    window.addEventListener("beforeunload", handleUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleUnload);
+    };
+  }, []);
+
+  const handleBulletComplete = (bullet: string, prompt?: string) => {
+    const timeInScreen = Math.round(
+      (Date.now() - screenEnteredAtRef.current) / 1000,
+    );
+    trackFunnelWorkspaceCompleted(selectedRole, workspaceLevel);
+    trackEvent("screen_timing", {
+      screen: "workspace",
+      seconds: timeInScreen,
+    });
+    setScreen(4);
+  };
+
+  const handleRestart = () => {
+    trackFunnelRestartClicked(selectedRole);
+    setScreen(1);
+    setSelectedPillar(null);
+    setSelectedRole(null);
+  };
+
+  useEffect(() => {
+    screenEnteredAtRef.current = Date.now();
+    if (screen === 3) {
+      trackFunnelWorkspaceViewed(selectedRole);
+    }
+    if (screen === 4) {
+      trackFunnelFinishViewed(selectedRole, workspaceLevel);
+    }
+  }, [screen, selectedRole, workspaceLevel]);
+
+  return (
+    <div
+      className="cv-builder-theme"
+      style={{
+        minHeight: "100vh",
+        background: "#F8F9FA",
+        fontFamily:
+          "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        WebkitFontSmoothing: "antialiased",
+      }}
+    >
+
+      <AnimatePresence mode="wait">
+        {screen === 0 && (
+          <motion.div
+            key="screen-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.28 }}
+          >
+            <WelcomePage
+              onStart={() => {
+                trackFunnelStartClicked();
+                setScreen(1);
+              }}
+            />
+          </motion.div>
+        )}
+
+        {screen === 1 && (
+          <motion.div
+            key="screen-1"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.28 }}
+          >
+            <Screen1Pillars
+              selectedPillar={selectedPillar}
+              selectedRole={selectedRole}
+              onSelectPillar={(p) => {
+                trackFunnelPillarSelected(p);
+                setSelectedPillar(p);
+                setSelectedRole(null);
+              }}
+              onSelectRole={(r) => {
+                setSelectedRole(r);
+                if (r) {
+                  trackEvent("role_selected", { role: r });
+                  trackFunnelRoleSelected(r);
+                }
+              }}
+              onNext={() => setScreen(3)}
+            />
+          </motion.div>
+        )}
+
+        {screen === 3 && (
+          <motion.div
+            key="screen-3"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              height: "100vh",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Screen3Workspace
+              onBack={() => setScreen(1)}
+              level={workspaceLevel}
+              onSetLevel={setWorkspaceLevel}
+              selectedRole={selectedRole}
+              onComplete={handleBulletComplete}
+            />
+          </motion.div>
+        )}
+
+        {screen === 4 && (
+          <motion.div
+            key="screen-4"
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35 }}
+          >
+            <Screen4Finish
+              onBack={() => setScreen(3)}
+              onRestart={handleRestart}
+              selectedRole={selectedRole}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
