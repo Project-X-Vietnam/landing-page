@@ -1,12 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Screen1Pillars } from "./src/app/components/Screen1Pillars";
-import { Screen3Workspace } from "./src/app/components/Screen3Workspace";
-import { Screen4Finish } from "./src/app/components/Screen4Finish";
-import { WelcomePage } from "./src/app/components/WelcomePage";
-import { DiagnosticLevel } from "./src/app/types";
-import { trackEvent } from "./src/utils/analytics";
+import { Screen1Pillars } from "@/components/cv-builder/Screen1Pillars";
+import { Screen3Workspace } from "@/components/cv-builder/Screen3Workspace";
+import { Screen4Finish } from "@/components/cv-builder/Screen4Finish";
+import { WelcomePage } from "@/components/cv-builder/WelcomePage";
+import { DiagnosticLevel } from "@/lib/cv-builder/types";
+import { trackEvent } from "@/lib/cv-builder/utils/analytics";
 
 export default function App() {
   const [screen, setScreen] = useState<0 | 1 | 3 | 4>(0);
