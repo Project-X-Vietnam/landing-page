@@ -51,6 +51,7 @@ export default function App() {
 
   return (
     <div
+      className="cv-builder-theme"
       style={{
         minHeight: "100vh",
         background: "#F8F9FA",
