@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Screen1Pillars } from "@/components/cv-builder/Screen1Pillars";
 import { Screen3Workspace } from "@/components/cv-builder/Screen3Workspace";
@@ -7,13 +7,14 @@ import { Screen4Finish } from "@/components/cv-builder/Screen4Finish";
 import { WelcomePage } from "@/components/cv-builder/WelcomePage";
 import { DiagnosticLevel } from "@/lib/cv-builder/types";
 import { trackEvent } from "@/lib/cv-builder/utils/analytics";
-import { initPostHog } from "@/lib/cv-builder/utils/posthog";
+import { initPostHog, registerSuperProperties } from "@/lib/cv-builder/utils/posthog";
 import {
   trackFunnelLandingViewed,
   trackFunnelStartClicked,
+  trackFunnelPillarSelected,
   trackFunnelRoleSelected,
   trackFunnelWorkspaceViewed,
-  trackFunnelBulletGenerated,
+  trackFunnelWorkspaceCompleted,
   trackFunnelFinishViewed,
   trackFunnelRestartClicked,
 } from "@/lib/cv-builder/utils/posthogFunnel";
@@ -27,18 +28,30 @@ export default function App() {
   const [workspaceLevel, setWorkspaceLevel] =
     useState<DiagnosticLevel>("developing");
 
+  const screenEnteredAtRef = useRef<number>(Date.now());
+
   // Analytics: Track Traffic Source & Time on Page
   useEffect(() => {
     initPostHog();
     trackFunnelLandingViewed();
-    // Track acquisition source
+
     const params = new URLSearchParams(window.location.search);
     const source = params.get("source") || params.get("utm_source");
+    const utmMedium = params.get("utm_medium");
+    const utmCampaign = params.get("utm_campaign");
+
     if (source) {
       trackEvent("page_view_source", { source });
     }
 
-    // Measure time on page
+    const superProps: Record<string, string> = {};
+    if (source) superProps.utm_source = source;
+    if (utmMedium) superProps.utm_medium = utmMedium;
+    if (utmCampaign) superProps.utm_campaign = utmCampaign;
+    if (Object.keys(superProps).length > 0) {
+      registerSuperProperties(superProps);
+    }
+
     const startTime = Date.now();
     const handleUnload = () => {
       const timeSpent = Math.round((Date.now() - startTime) / 1000);
@@ -52,7 +65,14 @@ export default function App() {
   }, []);
 
   const handleBulletComplete = (bullet: string, prompt?: string) => {
-    trackFunnelBulletGenerated(selectedRole, workspaceLevel);
+    const timeInScreen = Math.round(
+      (Date.now() - screenEnteredAtRef.current) / 1000,
+    );
+    trackFunnelWorkspaceCompleted(selectedRole, workspaceLevel);
+    trackEvent("screen_timing", {
+      screen: "workspace",
+      seconds: timeInScreen,
+    });
     setScreen(4);
   };
 
@@ -64,6 +84,7 @@ export default function App() {
   };
 
   useEffect(() => {
+    screenEnteredAtRef.current = Date.now();
     if (screen === 3) {
       trackFunnelWorkspaceViewed(selectedRole);
     }
@@ -114,6 +135,7 @@ export default function App() {
               selectedPillar={selectedPillar}
               selectedRole={selectedRole}
               onSelectPillar={(p) => {
+                trackFunnelPillarSelected(p);
                 setSelectedPillar(p);
                 setSelectedRole(null);
               }}

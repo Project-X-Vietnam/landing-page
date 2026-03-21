@@ -24,3 +24,8 @@ export function capturePostHogEvent(event: string, properties?: Record<string, u
   if (!initialized && !initPostHog()) return;
   posthog.capture(event, properties);
 }
+
+export function registerSuperProperties(properties: Record<string, unknown>) {
+  if (!initialized && !initPostHog()) return;
+  posthog.register(properties);
+}

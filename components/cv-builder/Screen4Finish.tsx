@@ -3,6 +3,10 @@ import { motion } from "motion/react";
 import { Download, ExternalLink, RotateCcw, Check, ArrowLeft } from "lucide-react";
 import { PROMPTS_DATA, SectionPrompts } from "@/lib/cv-builder/data/promptsData";
 import { ROLE_TO_PROMPT_KEY } from "@/lib/cv-builder/data/rolePromptMapping";
+import {
+  trackFunnelPdfDownloaded,
+  trackFunnelBackToEdit,
+} from "@/lib/cv-builder/utils/posthogFunnel";
 
 // ── Confetti Canvas ────────────────────────────────────────────────
 
@@ -344,6 +348,7 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
           <a
             href="/PJX_CV_Guide_2026.pdf"
             download
+            onClick={() => trackFunnelPdfDownloaded(selectedRole ?? null)}
             style={{
               width: "100%",
               padding: "20px 32px",
@@ -391,7 +396,10 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
           {/* Back to edit */}
           {onBack && (
             <button
-              onClick={onBack}
+              onClick={() => {
+                trackFunnelBackToEdit(selectedRole ?? null);
+                onBack();
+              }}
               style={{
                 display: "flex",
                 alignItems: "center",

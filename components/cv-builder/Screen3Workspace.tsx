@@ -3,6 +3,14 @@
 import { useState, useRef, useEffect } from "react";
 import { getRoleLevelData } from "@/lib/cv-builder/data/roleData";
 import { trackEvent, handleScrollDepthTracking } from "@/lib/cv-builder/utils/analytics";
+import {
+  trackFunnelSectionClicked,
+  trackFunnelChecklistToggled,
+  trackFunnelProgressMilestone,
+  trackFunnelPromptUnlocked,
+  trackFunnelTourCompleted,
+  trackFunnelWorkspaceBack,
+} from "@/lib/cv-builder/utils/posthogFunnel";
 import { PROMPTS_DATA, SectionPrompts } from "@/lib/cv-builder/data/promptsData"; // [PROMPT WIRING - Step 3]
 import { ROLE_TO_PROMPT_KEY } from "@/lib/cv-builder/data/rolePromptMapping"; // [PROMPT WIRING - Step 3]
 import { motion, AnimatePresence } from "motion/react";
@@ -3204,6 +3212,7 @@ export function Screen3Workspace({
   const handleTourNext = () => {
     if (tourStep === 2) {
       localStorage.setItem("cv_survival_tour_v1", "1");
+      trackFunnelTourCompleted(3, false);
       setTourStep(null);
     } else {
       setTourStep((s) => (s ?? 0) + 1);
@@ -3212,6 +3221,7 @@ export function Screen3Workspace({
 
   const handleTourSkip = () => {
     localStorage.setItem("cv_survival_tour_v1", "1");
+    trackFunnelTourCompleted((tourStep ?? 0), true);
     setTourStep(null);
   };
 
@@ -3222,20 +3232,52 @@ export function Screen3Workspace({
   } | null>(null);
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const prevTotalRef = useRef(0);
+
   const handleChecksChange = (newChecks: [boolean, boolean, boolean]) => {
     const currentSectionChecks = sectionChecks[activeSection] || [false, false, false];
+    let toggledIndex = -1;
     for (let i = 0; i < 3; i++) {
       if (newChecks[i] && !currentSectionChecks[i]) {
+        toggledIndex = i;
         if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
         setMicroToast({ key: Date.now(), step: i });
         toastTimerRef.current = setTimeout(() => setMicroToast(null), 2600);
         break;
       }
     }
-    setSectionChecks(prev => ({
-      ...prev,
-      [activeSection]: newChecks
-    }));
+
+    const nextChecks = { ...sectionChecks, [activeSection]: newChecks };
+    const newTotal =
+      (nextChecks.summary?.filter(Boolean).length || 0) +
+      (nextChecks.experience?.filter(Boolean).length || 0) +
+      (nextChecks.projects?.filter(Boolean).length || 0);
+
+    if (toggledIndex >= 0) {
+      trackFunnelChecklistToggled(
+        activeSection,
+        toggledIndex + 1,
+        `${newTotal}/9`,
+        selectedRole,
+      );
+
+      const milestones = [3, 6, 9];
+      for (const m of milestones) {
+        if (newTotal >= m && prevTotalRef.current < m) {
+          const completed = (["summary", "experience", "projects"] as const).filter(
+            (s) => (nextChecks[s]?.filter(Boolean).length || 0) === 3,
+          );
+          trackFunnelProgressMilestone(m, selectedRole, completed);
+        }
+      }
+
+      if (newTotal === 9 && prevTotalRef.current < 9) {
+        trackFunnelPromptUnlocked(selectedRole);
+      }
+    }
+
+    prevTotalRef.current = newTotal;
+    setSectionChecks(nextChecks);
   };
 
   // Reset checks only when the diagnostic level changes (not when activeSection changes!)
@@ -3249,6 +3291,7 @@ export function Screen3Workspace({
 
   // FIX 1 — Activate section and capture clicked element's rect for bubble positioning
   const handleActivate = (id: CVSection, rect: DOMRect) => {
+    trackFunnelSectionClicked(id, selectedRole, activeSection);
     setActiveSection(id);
     setBubbleAnchorRect(rect);
     setBubbleVisible(true);
@@ -3256,6 +3299,20 @@ export function Screen3Workspace({
 
   const handleContinue = (prompt: string) => {
     onComplete(prompt);
+  };
+
+  const getTotalChecked = () =>
+    (sectionChecks.summary?.filter(Boolean).length || 0) +
+    (sectionChecks.experience?.filter(Boolean).length || 0) +
+    (sectionChecks.projects?.filter(Boolean).length || 0);
+
+  const handleBack = () => {
+    trackFunnelWorkspaceBack(
+      selectedRole,
+      `${getTotalChecked()}/9`,
+      activeSection,
+    );
+    onBack?.();
   };
 
   return (
@@ -3273,7 +3330,7 @@ export function Screen3Workspace({
       <TopNav
         level={level}
         onSetLevel={onSetLevel}
-        onBack={onBack}
+        onBack={onBack ? handleBack : undefined}
         selectedRole={selectedRole}
       />
 
