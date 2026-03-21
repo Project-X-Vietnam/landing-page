@@ -324,7 +324,7 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
           </h1>
 
           <p style={{ fontSize: 15, color: "#01001F", lineHeight: 1.6 }}>
-            Apply the master prompt you just unlocked and start iterating!
+            Congratulations - apply the master prompt you just unlocked and start iterating!
           </p>
         </motion.div>
 
