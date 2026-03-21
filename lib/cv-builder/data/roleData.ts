@@ -71,7 +71,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "developing": {
-      "cvTitle": "Junior Software Engineer",
+      "cvTitle": "Software Engineer Fresher",
       "cvSummary": "Junior Software Engineer with 1+ years of experience contributing to high-traffic distributed systems. Reduced API latency by 15% and improved test coverage across core microservices.",
       "experienceChecklist": [
         "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
@@ -114,7 +114,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "ready": {
-      "cvTitle": "Software Engineer",
+      "cvTitle": "Early-career Software Engineer",
       "cvSummary": "Software Engineer with 3 years of experience orchestrating core platform features. Led a team of 3 junior engineers to successfully migrate a monolithic feature branch to an event-driven architecture.",
       "experienceChecklist": [
         "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
@@ -202,7 +202,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "developing": {
-      "cvTitle": "Junior Machine Learning Engineer",
+      "cvTitle": "ML Engineer Fresher",
       "cvSummary": "Junior ML Engineer with 1 year of experience deploying NLP models to production environments. Contributed to inference pipelines that reduced model latency by 20%.",
       "experienceChecklist": [
         "Lead with accurate outcomes: 'Identified drop-offs to increase retention by 5%'",
@@ -245,7 +245,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "ready": {
-      "cvTitle": "Machine Learning Engineer",
+      "cvTitle": "Early-career ML Engineer",
       "cvSummary": "ML Engineer with 2.5 years experience managing MLOps infrastructure. Spearheaded an initial LLM integration pilot, serving 10k daily active users with sub-150ms latency.",
       "experienceChecklist": [
         "Lead with accurate outcomes: 'Identified drop-offs to increase retention by 5%'",
@@ -333,7 +333,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "developing": {
-      "cvTitle": "Junior Data Analyst",
+      "cvTitle": "Data Analyst Fresher",
       "cvSummary": "Business Intelligence Analyst with 1.5 years experience building automated reporting pipelines. Uncovered product drop-off points that led to a 5% increase in initial user retention.",
       "experienceChecklist": [
         "Lead with accurate outcomes: 'Identified drop-offs to increase retention by 5%'",
@@ -376,7 +376,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "ready": {
-      "cvTitle": "Data Analyst",
+      "cvTitle": "Early-career Data Analyst",
       "cvSummary": "Data Analyst with 3 years experience shaping early analytics infrastructure. Designed the core startup data governance, unlocking significant operational efficiencies across the marketing team.",
       "experienceChecklist": [
         "Lead with accurate outcomes: 'Identified drop-offs to increase retention by 5%'",
@@ -464,7 +464,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "developing": {
-      "cvTitle": "Junior Data Engineer",
+      "cvTitle": "Data Engineer Fresher",
       "cvSummary": "Junior Data Engineer with 1 year experience supporting data lake operations. Assisted in reducing overnight batch processing times by 15% through optimized query structuring.",
       "experienceChecklist": [
         "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
@@ -507,7 +507,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "ready": {
-      "cvTitle": "Data Engineer",
+      "cvTitle": "Early-career Data Engineer",
       "cvSummary": "Data Engineer with 3 years experience architecting robust streaming platforms. Successfully transitioned a legacy daily-batch infrastructure into a near-real-time event streaming pipeline.",
       "experienceChecklist": [
         "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
@@ -595,7 +595,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "developing": {
-      "cvTitle": "Junior DevOps Engineer",
+      "cvTitle": "DevOps / Cloud Fresher",
       "cvSummary": "Junior DevOps Engineer with 1+ years experience supporting cloud environments. Assisted in decreasing deployment failure rates and identified missing tags that cut AWS costs by 10%.",
       "experienceChecklist": [
         "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
@@ -638,7 +638,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "ready": {
-      "cvTitle": "Cloud Engineer",
+      "cvTitle": "Early-career Cloud Engineer",
       "cvSummary": "Cloud Engineer with 3 years experience maintaining 99.9% uptime for early-stage SaaS platforms. Led the containerization strategy and established centralized FinOps practices.",
       "experienceChecklist": [
         "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
@@ -856,7 +856,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "developing": {
-      "cvTitle": "Junior Growth PM",
+      "cvTitle": "Growth PM Fresher",
       "cvSummary": "Junior Growth PM with 1.5 years executing A/B experiment programs. Co-launched viral referral loops and optimized paywall copy leading to a 10% uplift in customer lifetime value.",
       "experienceChecklist": [
         "Prove business impact: 'Supported feature X launch, driving positive user feedback'",
@@ -985,7 +985,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "developing": {
-      "cvTitle": "Junior Business Analyst",
+      "cvTitle": "Business Analyst Fresher",
       "cvSummary": "Junior BA with 1 year experience supporting digital operations. Translated routine business needs into agile backlogs, resulting in the successful rollout of an internal tracking tool.",
       "experienceChecklist": [
         "Quantify your commercial success: 'Exceeded strict quarterly quota by 110%'",
@@ -1116,7 +1116,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "developing": {
-      "cvTitle": "Junior Product Designer",
+      "cvTitle": "Product Designer Fresher",
       "cvSummary": "Junior Product Designer with 1.5 years experience building components for B2B applications. Assisted in establishing a scalable Figma design system and conducted early generative user research.",
       "experienceChecklist": [
         "Prove business impact: 'Supported feature X launch, driving positive user feedback'",
@@ -1247,7 +1247,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "developing": {
-      "cvTitle": "Junior Project Manager",
+      "cvTitle": "Project Manager Fresher",
       "cvSummary": "Junior PM with 1 year experience supporting software delivery lifecycles. Managed targeted project segments, flagged critical path blockers early, and consistently supported sprint goals.",
       "experienceChecklist": [
         "Quantify your commercial success: 'Exceeded strict quarterly quota by 110%'",
@@ -1378,7 +1378,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "developing": {
-      "cvTitle": "Junior Account Executive",
+      "cvTitle": "Business Development Fresher",
       "cvSummary": "Junior AE with 1.5 years supporting enterprise SaaS deals. Consistently met quarterly quotas, managed basic sales cycles, and assisted in driving early-stage ARR growth.",
       "experienceChecklist": [
         "Quantify your commercial success: 'Exceeded strict quarterly quota by 110%'",
@@ -1509,7 +1509,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "developing": {
-      "cvTitle": "Junior Performance Marketer",
+      "cvTitle": "Performance Marketer Fresher",
       "cvSummary": "Junior Performance Marketer with 1 year optimizing paid acquisition channels. Co-managed a targeted ad spend across Google, assisting in reducing overall Customer Acquisition Cost (CAC) by 10%.",
       "experienceChecklist": [
         "Quantify your commercial success: 'Exceeded strict quarterly quota by 110%'",
@@ -1640,7 +1640,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "developing": {
-      "cvTitle": "Junior Operations Manager",
+      "cvTitle": "Operations Fresher",
       "cvSummary": "Junior Operations Manager with 1.5 years supporting high-growth startup fulfillment. Assisted in redesigning logistics workflows, helping to cut delivery SLA breaches by 5%.",
       "experienceChecklist": [
         "Quantify your commercial success: 'Exceeded strict quarterly quota by 110%'",
@@ -1771,7 +1771,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "developing": {
-      "cvTitle": "Junior Professional",
+      "cvTitle": "Fresher Professional",
       "cvSummary": "Junior professional with 1+ years driving cross-functional initiatives. Consistently optimized internal processes and delivered high-quality outcomes under tight deadlines.",
       "experienceChecklist": [
         "Quantify the scale of your impact (budget, team, time saved)",
@@ -1902,7 +1902,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "developing": {
-      "cvTitle": "Junior Software Engineer",
+      "cvTitle": "Software Engineer Fresher",
       "cvSummary": "Junior Software Engineer with 1+ years of experience contributing to high-traffic distributed systems. Reduced API latency by 15% and improved test coverage across core microservices.",
       "experienceChecklist": [
         "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
@@ -1945,7 +1945,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "ready": {
-      "cvTitle": "Software Engineer",
+      "cvTitle": "Early-career Software Engineer",
       "cvSummary": "Software Engineer with 3 years of experience orchestrating core platform features. Led a team of 3 junior engineers to successfully migrate a monolithic feature branch to an event-driven architecture.",
       "experienceChecklist": [
         "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
