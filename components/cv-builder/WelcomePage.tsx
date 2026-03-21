@@ -26,13 +26,10 @@ export function WelcomePage({ onStart }: Props) {
         }}
       >
         <img
-          src="/favicon.svg"
-          alt="PJX Logo"
-          style={{ width: 32, height: 32, borderRadius: 8, objectFit: "cover" }}
+          src="/preview_icon.png"
+          alt="Project X Vietnam Logo"
+          style={{ height: 32, objectFit: "contain" }}
         />
-        <span style={{ fontSize: 15, fontWeight: 700, color: "#01001F", letterSpacing: "-0.02em", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-          Career Survival Kit
-        </span>
       </div>
 
       {/* Main Content */}
@@ -57,7 +54,7 @@ export function WelcomePage({ onStart }: Props) {
             alignItems: "center",
             gap: 8,
             background: "white",
-            border: "1px solid #17CAFA",
+            border: "1px solid #0E56FA",
             borderRadius: 99,
             padding: "6px 16px",
             marginBottom: 36,
