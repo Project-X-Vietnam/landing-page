@@ -1,12 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
-import { Download, ExternalLink, RotateCcw, Check, ArrowLeft } from "lucide-react";
-import { PROMPTS_DATA, SectionPrompts } from "@/lib/cv-builder/data/promptsData";
-import { ROLE_TO_PROMPT_KEY } from "@/lib/cv-builder/data/rolePromptMapping";
-import {
-  trackFunnelPdfDownloaded,
-  trackFunnelBackToEdit,
-} from "@/lib/cv-builder/utils/posthogFunnel";
+import { Copy, RotateCcw, Check, ArrowLeft } from "lucide-react";
+import { trackFunnelBackToEdit } from "@/lib/cv-builder/utils/posthogFunnel";
 
 // ── Confetti Canvas ────────────────────────────────────────────────
 
@@ -174,6 +169,22 @@ Be brutal but highly actionable. Provide the fully re-written bullet points and 
 // ── Main Screen ───────────────────────────────────────────────────
 
 export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
+  const [copied, setCopied] = useState(false);
+  const masterPrompt = useMemo(
+    () => buildCombinedPrompt(selectedRole ?? null),
+    [selectedRole]
+  );
+
+  const handleCopyMaster = async () => {
+    try {
+      await navigator.clipboard.writeText(masterPrompt);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2200);
+    } catch {
+      setCopied(false);
+    }
+  };
+
   return (
     <div
       style={{
@@ -328,11 +339,13 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
           </h1>
 
           <p style={{ fontSize: 15, color: "#01001F", lineHeight: 1.6 }}>
-            Congratulations - apply the master prompt you just unlocked and start iterating!
+            Congratulations - you finished the section-by-section audit. This last step is different: one
+            prompt for the{" "}
+            <strong>whole CV</strong> — layout, flow, balance, and how scannable it is for your track.
           </p>
         </motion.div>
 
-        {/* Action Buttons */}
+        {/* Holistic presentation prompt */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -344,40 +357,102 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
             gap: 12,
           }}
         >
-          {/* Primary CTA (Download PDF) */}
-          <a
-            href="/PJX_CV_Guide_2026.pdf"
-            download
-            onClick={() => trackFunnelPdfDownloaded(selectedRole ?? null)}
+          <div
             style={{
               width: "100%",
-              padding: "20px 32px",
+              padding: "14px 16px",
+              borderRadius: 12,
+              border: "1px solid rgba(14,86,250,0.2)",
+              background: "rgba(14,86,250,0.04)",
+            }}
+          >
+            <p
+              style={{
+                fontSize: 14,
+                fontWeight: 800,
+                letterSpacing: "-0.01em",
+                color: "#0E56FA",
+                marginBottom: 8,
+                fontFamily: "'Outfit', sans-serif",
+                textAlign: "center",
+                textShadow: "0 2px 12px rgba(14,86,250,0.18)",
+              }}
+            >
+              Ready to make your very best CV?
+            </p>
+            <p style={{ fontSize: 13, color: "#01001F", lineHeight: 1.5, margin: 0 }}>
+              Tailored to <strong>{selectedRole || "Product Management (PM)"}</strong>. Use it as the main instruction in a fresh LLM
+              session, then add your <strong>complete CV text</strong> in the same conversation so the model can
+              judge structure and presentation — not just individual bullets.
+            </p>
+          </div>
+
+          <textarea
+            readOnly
+            value={masterPrompt}
+            aria-label="Holistic CV presentation prompt"
+            style={{
+              width: "100%",
+              minHeight: 220,
+              padding: "14px 16px",
+              borderRadius: 12,
+              border: "1px solid #E2E8F0",
+              fontSize: 12,
+              lineHeight: 1.55,
+              fontFamily: "ui-monospace, 'Cascadia Code', 'Segoe UI Mono', monospace",
+              color: "#0f172a",
+              resize: "vertical",
+              background: "#F8FAFC",
+              boxSizing: "border-box",
+            }}
+          />
+
+          <button
+            type="button"
+            onClick={handleCopyMaster}
+            style={{
+              width: "100%",
+              padding: "18px 28px",
               borderRadius: 12,
               background: "#0E56FA",
               color: "white",
-              fontSize: 17,
+              fontSize: 16,
               fontWeight: 700,
               fontFamily: "'Outfit', sans-serif",
-              textDecoration: "none",
+              border: "none",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               gap: 10,
-              border: "none",
               boxShadow: "0 8px 24px rgba(14,86,250,0.3)",
-              transition: "transform 0.2sease-in-out, box-shadow 0.2s",
+              transition: "transform 0.2s ease, box-shadow 0.2s",
             }}
             onMouseOver={(e) => {
-              Object.assign(e.currentTarget.style, { transform: 'translateY(-2px)', boxShadow: '0 12px 32px rgba(14,86,250,0.45)' });
+              Object.assign(e.currentTarget.style, {
+                transform: "translateY(-2px)",
+                boxShadow: "0 12px 32px rgba(14,86,250,0.45)",
+              });
             }}
             onMouseOut={(e) => {
-              Object.assign(e.currentTarget.style, { transform: 'translateY(0)', boxShadow: '0 8px 24px rgba(14,86,250,0.3)' });
+              Object.assign(e.currentTarget.style, {
+                transform: "translateY(0)",
+                boxShadow: "0 8px 24px rgba(14,86,250,0.3)",
+              });
             }}
           >
-            <Download size={18} strokeWidth={2.5} />
-            Download Full PJX CV Guide 2026
-          </a>
+            {copied ? (
+              <>
+                <Check size={18} strokeWidth={2.5} />
+                Copied
+              </>
+            ) : (
+              <>
+                <Copy size={18} strokeWidth={2.5} />
+                Copy whole-CV prompt
+              </>
+            )}
+          </button>
         </motion.div>
 
         {/* Actions row: Back & Restart */}
