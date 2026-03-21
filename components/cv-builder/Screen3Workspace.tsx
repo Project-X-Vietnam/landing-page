@@ -846,7 +846,7 @@ function SpotlightTour({
                 width: i === step ? 22 : 6,
                 borderRadius: 99,
                 background:
-                  i < step ? "#16a34a" : i === step ? "#0E56FA" : "#17CAFA",
+                  i < step ? "#16a34a" : i === step ? "#0E56FA" : "#E2E8F0",
                 transition: "all 0.3s",
               }}
             />
@@ -1043,7 +1043,7 @@ function TopNav({
               height: 32,
               borderRadius: 8,
               background: "#F8FAFC",
-              border: "1px solid #17CAFA",
+              border: "1px solid #E2E8F0",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -1074,7 +1074,7 @@ function TopNav({
           <img src="/favicon.svg" alt="Project X Logo" style={{ width: 18, height: 18, objectFit: "contain" }} />
         </div>
         <div
-          style={{ width: 1, height: 16, background: "#17CAFA", flexShrink: 0 }}
+          style={{ width: 1, height: 16, background: "#E2E8F0", flexShrink: 0 }}
         />
         <span
           style={{
@@ -1633,7 +1633,7 @@ function LeftCVColumn({
             overflowY: "auto",
             overflowX: "hidden",
             background: "#FFFFFF",
-            borderRight: "1px solid #17CAFA",
+            borderRight: "1px solid #E2E8F0",
             padding: "28px 24px 60px",
             display: "flex",
             flexDirection: "column",
@@ -1650,7 +1650,7 @@ function LeftCVColumn({
               padding: "5px 12px",
               borderRadius: 99,
               background: "white",
-              border: "1px solid #17CAFA",
+              border: "1px solid #E2E8F0",
               boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
             }}
           >
@@ -1664,7 +1664,7 @@ function LeftCVColumn({
               }}
             />
             <span style={{ fontSize: 11, fontWeight: 500, color: "#01001F" }}>
-              Click any section → check items on the right → watch it transform ✨
+              Click any section → check items on the right → watch it transform
             </span>
           </div>
 
@@ -1674,7 +1674,7 @@ function LeftCVColumn({
               background: "white",
               width: "100%",
               maxWidth: 520,
-              border: "1px solid #17CAFA",
+              border: "1px solid #E2E8F0",
               borderRadius: 6,
               boxShadow:
                 "0 1px 3px rgba(0,0,0,0.04), 0 6px 20px rgba(0,0,0,0.07), 0 24px 56px rgba(0,0,0,0.07)",
@@ -1886,7 +1886,7 @@ function LeftCVColumn({
                         style={{
                           marginBottom: idx < cv.experience.length - 1 ? 14 : 0,
                           paddingLeft: 10,
-                          borderLeft: "2px solid #17CAFA",
+                          borderLeft: "2px solid #E2E8F0",
                         }}
                       >
                         <div
@@ -2037,7 +2037,7 @@ function LeftCVColumn({
                         key={idx}
                         style={{
                           paddingLeft: 10,
-                          borderLeft: "2px solid #17CAFA",
+                          borderLeft: "2px solid #E2E8F0",
                         }}
                       >
                         <div
@@ -2138,7 +2138,7 @@ function LeftCVColumn({
                           style={{
                             marginBottom: idx < cv.awards!.length - 1 ? 10 : 0,
                             paddingLeft: 10,
-                            borderLeft: "2px solid #17CAFA",
+                            borderLeft: "2px solid #E2E8F0",
                           }}
                         >
                           <div
@@ -2210,7 +2210,7 @@ function LeftCVColumn({
                           style={{
                             marginBottom: idx < cv.activities!.length - 1 ? 14 : 0,
                             paddingLeft: 10,
-                            borderLeft: "2px solid #17CAFA",
+                            borderLeft: "2px solid #E2E8F0",
                           }}
                         >
                           <div
@@ -2360,7 +2360,6 @@ function StepChecklist({
           <motion.button
             key={i}
             onClick={() => enabled && handleToggle(i)}
-            whileHover={enabled ? { x: 2 } : {}}
             whileTap={enabled ? { scale: 0.98 } : {}}
             style={{
               display: "flex",
@@ -2393,7 +2392,7 @@ function StepChecklist({
                   width: 22,
                   height: 22,
                   borderRadius: 7,
-                  border: `2px solid ${done ? "#16a34a" : enabled ? "#CBD5E1" : "#17CAFA"}`,
+                  border: `2px solid ${done ? "#16a34a" : enabled ? "#CBD5E1" : "#E2E8F0"}`,
                   background: done ? "#16a34a" : "white",
                   display: "flex",
                   alignItems: "center",
@@ -2429,18 +2428,6 @@ function StepChecklist({
                   )}
                 </AnimatePresence>
               </div>
-              {/* Connector line */}
-              {i < 2 && (
-                <div
-                  style={{
-                    width: 2,
-                    height: 8,
-                    background: done ? "#BBF7D0" : "#17CAFA",
-                    borderRadius: 99,
-                    transition: "background 0.3s",
-                  }}
-                />
-              )}
             </div>
 
             <div style={{ flex: 1, paddingTop: 1 }}>
@@ -2601,7 +2588,7 @@ function RightInsightPanel({
       <style>{`
         .cv-right-scroll::-webkit-scrollbar { width: 6px; }
         .cv-right-scroll::-webkit-scrollbar-track { background: #F8FAFC; border-radius: 99px; margin: 8px 0; }
-        .cv-right-scroll::-webkit-scrollbar-thumb { background: #17CAFA; border-radius: 99px; }
+        .cv-right-scroll::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 99px; }
         .cv-right-scroll::-webkit-scrollbar-thumb:hover { background: #CBD5E1; }
       `}</style>
       <div
@@ -2722,7 +2709,7 @@ function RightInsightPanel({
                 style={{
                   background: "rgba(14, 86, 250, 0.07)",
                   padding: "16px",
-                  borderRadius: "16px",
+                  borderRadius: "8px",
                   border: "1px solid rgba(14, 86, 250, 0.15)",
                   marginBottom: "16px",
                 }}
@@ -2776,7 +2763,7 @@ function RightInsightPanel({
                             width: 7,
                             height: 7,
                             borderRadius: 2,
-                            background: checks[i] ? "#16a34a" : "#17CAFA",
+                            background: checks[i] ? "#16a34a" : "#E2E8F0",
                             transition: "background 0.3s",
                           }}
                         />
@@ -2855,7 +2842,7 @@ function RightInsightPanel({
             <div
               id="tour-prompt"
               style={{
-                borderRadius: 14,
+                borderRadius: 8,
                 padding: "18px 20px",
                 position: "relative",
                 overflow: "hidden",
@@ -2871,7 +2858,7 @@ function RightInsightPanel({
                 style={{
                   position: "absolute",
                   inset: 0,
-                  borderRadius: 14,
+                  borderRadius: 8,
                   padding: 1.5,
                   background: allChecked
                     ? "linear-gradient(135deg, rgba(14,86,250,0.35), rgba(109,40,217,0.35))"
@@ -2905,7 +2892,7 @@ function RightInsightPanel({
                       width: 56,
                       height: 56,
                       borderRadius: "50%",
-                      background: "linear-gradient(135deg, #FFFFFF, #17CAFA)",
+                      background: "#F1F5F9",
                       marginBottom: 12,
                       boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
                     }}
@@ -2921,7 +2908,7 @@ function RightInsightPanel({
                       margin: "0 0 8px",
                     }}
                   >
-                    🔒 Exclusive AI Prompt — Locked
+                    Exclusive AI Prompt — Locked
                   </h3>
                   <p
                     style={{
@@ -2936,7 +2923,7 @@ function RightInsightPanel({
                     <strong style={{ color: "#0E56FA" }}>
                       9/9 checklist items
                     </strong>{" "}
-                    across all sections (Summary, Experience, Projects) to unlock your master AI prompt.
+                    across all sections (Summary, Experience, Projects) to unlock your master AI prompt to tailor your CV to any JD.
                   </p>
                   <div
                     style={{
@@ -3131,7 +3118,7 @@ function RightInsightPanel({
                     gap: 7,
                     padding: "10px 20px",
                     borderRadius: 10,
-                    background: "linear-gradient(135deg, #0E56FA 0%, #17CAFA 100%)",
+                    background: "linear-gradient(135deg, #0E56FA 0%, #E2E8F0 100%)",
                     border: "none",
                     color: "white",
                     fontSize: 13,
