@@ -3075,7 +3075,7 @@ function RightInsightPanel({
                     )}
                     {copied
                       ? "Copied! Paste into your AI →"
-                      : "✨ Copy AI Prompt Template"}
+                      : "Copy AI Prompt Template"}
                   </motion.button>
                   {copied && (
                     <motion.p
@@ -3118,7 +3118,7 @@ function RightInsightPanel({
                     gap: 7,
                     padding: "10px 20px",
                     borderRadius: 10,
-                    background: "linear-gradient(135deg, #0E56FA 0%, #E2E8F0 100%)",
+                    background: "#0E56FA",
                     border: "none",
                     color: "white",
                     fontSize: 13,
