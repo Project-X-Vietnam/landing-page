@@ -5,6 +5,7 @@ export interface RoleLevelData {
   cvSummary: string;
   experienceChecklist: [string, string, string];
   summaryChecklist: [string, string, string];
+  projectsChecklist: [string, string, string];
   actionVerbs: string[];
   keySkills: string[];
   hrQuote: string;
@@ -31,14 +32,19 @@ export const ROLE_DATA: Record<string, RoleData> = {
       "cvTitle": "Aspiring Software Engineer",
       "cvSummary": "Recent Computer Science graduate with internship experience building scalable web applications. Developed full-stack projects using React and Node.js with a strong focus on clean, testable code.",
       "experienceChecklist": [
-        "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
-        "Show system context: 'Contributed to microservices handling 5k+ RPM'",
-        "Clearly mention tooling context: 'Deployed on AWS using Terraform'"
+        "Intern-scale proof: what you shipped (PRs, components, endpoints) — not 'assisted generally'",
+        "Name stack + scope: React/Node, repo, team size, or users if you have a number",
+        "One measurable win if possible: % faster, fewer bugs, test coverage, or demo users"
       ],
       "summaryChecklist": [
-        "Lead with your strongest domains (Backend, Infra, Full Stack)",
-        "Cite heavy-hitting scalability or architectural contributions",
-        "Include only strictly factual technologies, avoid 'team player'"
+        "Say degree / grad year / target role in the first line",
+        "One strong proof: internship, capstone, or shipped project with a metric",
+        "List real tools (languages, frameworks) — skip empty adjectives"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Architected",
@@ -72,16 +78,21 @@ export const ROLE_DATA: Record<string, RoleData> = {
     },
     "developing": {
       "cvTitle": "Software Engineer Fresher",
-      "cvSummary": "Junior Software Engineer with 1+ years of experience contributing to high-traffic distributed systems. Reduced API latency by 15% and improved test coverage across core microservices.",
+      "cvSummary": "Software engineer fresher: completed a summer internship shipping UI and API fixes, plus capstone projects in React and Node. Comfortable with Git, code review, and writing unit tests; eager to grow in a product team.",
       "experienceChecklist": [
-        "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
-        "Show system context: 'Contributed to microservices handling 5k+ RPM'",
-        "Clearly mention tooling context: 'Deployed on AWS using Terraform'"
+        "Say what merged: tickets/PRs/small features — and that you went through review",
+        "Stack proof: languages, frameworks, tests/CI, staging or prod if true",
+        "One honest metric: bugs fixed, build time, coverage, pilot users — intern/first-role scale is fine"
       ],
       "summaryChecklist": [
-        "Lead with your strongest domains (Backend, Infra, Full Stack)",
-        "Cite heavy-hitting scalability or architectural contributions",
-        "Include only strictly factual technologies, avoid 'team player'"
+        "Line 1: target role + stack (Frontend / Backend / Full-stack)",
+        "One internship or capstone story: what shipped and who used it",
+        "3–5 real tools; drop empty adjectives"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Architected",
@@ -102,29 +113,34 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Docker",
         "Git/CI/CD"
       ],
-      "hrQuote": "Junior-level means you own complex feature tickets. 'Responsible for UI' means nothing. 'Architected a cache optimization reducing load time by 15%' gets you hired.",
+      "hrQuote": "For a fresher: I still want one ticket owned end-to-end — not chores. Show code that merged, tests you wrote, and a number if you have it. 'Responsible for UI' means nothing. 'Architected a cache optimization reducing load time by 15%' gets you hired.",
       "hrName": "David Kim",
       "hrRole": "VP Engineering",
       "hrCompany": "scaleup",
       "hrQuotes": {
-        "experience": "Junior-level means you own complex feature tickets. 'Responsible for UI' means nothing. 'Architected a cache optimization reducing load time by 15%' gets you hired.",
-        "summary": "Lead with the scale of the systems you've contributed to. Thousands of requests? Core microservices? Put that directly in the first line.",
-        "projects": "Highlight side projects that solve developer pain points (open source, CLI tools) - they show deep passion for craftsmanship outside of work hours.",
+        "experience": "Fresher bar: one slice you owned in review — a bug, small feature, or test gap closed. Show the PR or ticket, stack, and one honest metric (latency, bugs, coverage).",
+        "summary": "First line = target stack + internship/capstone proof. I should see languages, frameworks, and what shipped — not vague 'passionate learner'.",
+        "projects": "Projects matter: repo link, one architecture choice, and a metric or user count at intern scale. Trade-offs beat buzzwords.",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
       }
     },
     "ready": {
       "cvTitle": "Early-career Software Engineer",
-      "cvSummary": "Software Engineer with 3 years of experience orchestrating core platform features. Led a team of 3 junior engineers to successfully migrate a monolithic feature branch to an event-driven architecture.",
+      "cvSummary": "Early-career software engineer (~12–18 months combined internship + part-time): shipped features behind feature flags, improved test coverage on a core service, and paired with seniors on refactors. Ready to own small modules with support.",
       "experienceChecklist": [
-        "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
-        "Show system context: 'Contributed to microservices handling 5k+ RPM'",
-        "Clearly mention tooling context: 'Deployed on AWS using Terraform'"
+        "Own a slice: feature, module, or bug-bash theme — define what 'done' meant",
+        "Collaboration: pairing, reviews, docs, or on-call shadow you actually did",
+        "One quality/perf signal: tests, monitoring, latency, or reliability — with a number if you can"
       ],
       "summaryChecklist": [
-        "Lead with your strongest domains (Backend, Infra, Full Stack)",
-        "Cite heavy-hitting scalability or architectural contributions",
-        "Include only strictly factual technologies, avoid 'team player'"
+        "State ~12–18 months internship/part-time honestly — not 'senior'",
+        "Your strongest shipped win + metric (even hundreds of users counts)",
+        "What you want next: team type, stack, or problem space"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Architected",
@@ -145,14 +161,14 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Docker",
         "Git/CI/CD"
       ],
-      "hrQuote": "As a solid mid-level, you are a force multiplier. Show me how you improved junior developer velocity, drove architectural standards, and led technical initiatives.",
+      "hrQuote": "For early-career hires, show me momentum: a feature you owned, how you unblocked others, and one metric or quality bar you moved — without claiming you ran the whole org.",
       "hrName": "David Kim",
       "hrRole": "VP Engineering",
       "hrCompany": "scaleup",
       "hrQuotes": {
-        "experience": "As a solid mid-level, you are a force multiplier. Show me how you improved junior developer velocity, drove architectural standards, and led technical initiatives.",
-        "summary": "You are a seasoned engineer. Your summary must convey technical authority and your ability to align engineering architecture with business goals.",
-        "projects": "If you mention open source at this level, I expect you to be a steady contributor to a widely used framework or building impressive full-stack apps.",
+        "experience": "Early-career signal: ownership on a real slice, collaboration proof, and one crisp outcome — not 'led the company'.",
+        "summary": "Strong fresher / early-career: say months honestly, your strongest shipped win, and what you want next. Authority comes from specifics, not 'senior' adjectives.",
+        "projects": "Show depth on one project: problem, stack, tests/CI if any, and a real outcome — contributor to OSS is a plus, not required.",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
       }
     }
@@ -162,14 +178,19 @@ export const ROLE_DATA: Record<string, RoleData> = {
       "cvTitle": "Aspiring AI/ML Engineer",
       "cvSummary": "Recent graduate with strong foundations in statistical modeling and deep learning. Built and deployed experimental computer vision models utilizing PyTorch during a university research project.",
       "experienceChecklist": [
-        "Lead with accurate outcomes: 'Identified drop-offs to increase retention by 5%'",
-        "Detail your data volume/tools: 'Processed 5GB of log data using Apache Spark'",
-        "Focus on driving decisions: 'Built dashboard that guided team strategy'"
+        "Task + data: what you modeled, dataset source (Kaggle/campus/research is fine) and honest size",
+        "Method + metric: PyTorch/TF/sklearn, what you trained, what you measured vs a baseline",
+        "Artifact: notebook, script, or demo someone could rerun — not a bullet list of algorithms only"
       ],
       "summaryChecklist": [
-        "Start with your primary toolkit and business mindset",
-        "Highlight specific, real-world scale data modeling tasks",
-        "Tie your analysis directly back to tangible revenue or growth"
+        "Line 1: ML intern / research / junior MLE + strongest framework (PyTorch/TF/sklearn)",
+        "One build story: train → eval → what improved, even on toy or class data",
+        "Python + libs you truly used; skip 'transforming industries' fluff"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Trained",
@@ -190,29 +211,34 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "MLOps (MLflow)",
         "Docker/Kubernetes"
       ],
-      "hrQuote": "Show me you know how to clean your own data. Don't just list algorithms from school; tell me how you extracted insights and what action you drove from it.",
+      "hrQuote": "Show me you touched real data: labeling, cleaning, splits, or baselines — and what metric moved. School projects count if the eval is honest.",
       "hrName": "Sarah Thompson",
       "hrRole": "HR Lead",
       "hrCompany": "shopee",
       "hrQuotes": {
-        "experience": "Show me you know how to clean your own data. Don't just list algorithms from school; tell me how you extracted insights and what action you drove from it.",
-        "summary": "I want to read your summary and immediately know your analytical toolkit and the types of business problems you're trying to solve as a junior.",
-        "projects": "I look for a complete end-to-end data pipeline in your projects. Don't just show a Jupyter notebook; deploy it or build a local dashboard.",
+        "experience": "Show me you touched real data: labeling, cleaning, splits, or baselines — and what metric moved. School projects count if the eval is honest.",
+        "summary": "I should see frameworks + one modeling story in the first lines — not a generic 'passionate about AI'.",
+        "projects": "Notebook is fine if it's reproducible: data path, train/eval, and one clear failure mode you handled.",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
       }
     },
     "developing": {
       "cvTitle": "ML Engineer Fresher",
-      "cvSummary": "Junior ML Engineer with 1 year of experience deploying NLP models to production environments. Contributed to inference pipelines that reduced model latency by 20%.",
+      "cvSummary": "ML fresher: internship and coursework in PyTorch — fine-tuned small models, ran offline evals, and helped package a demo for stakeholders. Comfortable with notebooks, basic MLOps, and reading papers.",
       "experienceChecklist": [
-        "Lead with accurate outcomes: 'Identified drop-offs to increase retention by 5%'",
-        "Detail your data volume/tools: 'Processed 5GB of log data using Apache Spark'",
-        "Focus on driving decisions: 'Built dashboard that guided team strategy'"
+        "Internship deliverable: fine-tune, eval harness, packaging step, or demo you owned",
+        "Experiment hygiene: splits, seeds, logging — what made your numbers believable",
+        "Trade-off you can explain: accuracy vs latency, data vs model, cloud vs local"
       ],
       "summaryChecklist": [
-        "Start with your primary toolkit and business mindset",
-        "Highlight specific, real-world scale data modeling tasks",
-        "Tie your analysis directly back to tangible revenue or growth"
+        "Fresher MLE: internship + PyTorch/TF/sklearn focus in line 1",
+        "Strongest eval or stakeholder demo — metric before hype",
+        "MLOps you actually used (Docker, MLflow, CI tests) — omit if you didn't"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Trained",
@@ -233,29 +259,34 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "MLOps (MLflow)",
         "Docker/Kubernetes"
       ],
-      "hrQuote": "I want to see data driving real decisions. Tell me about the dashboard that saved operations 5 hours a week, or the A/B test that increased conversion by 2%.",
+      "hrQuote": "ML fresher: show me an experiment you ran — hypothesis, metric, and what you'd try next. Dashboards alone don't replace model rigor.",
       "hrName": "Sarah Thompson",
       "hrRole": "HR Lead",
       "hrCompany": "shopee",
       "hrQuotes": {
-        "experience": "I want to see data driving real decisions. Tell me about the dashboard that saved operations 5 hours a week, or the A/B test that increased conversion by 2%.",
-        "summary": "Your summary should bridge the technical and commercial. 'Data Analyst with 1.5 years experience unlocking initial revenue patterns for SaaS products'.",
-        "projects": "Show me projects that involve real-time data or complex statistical modeling that directly answers a complex business question.",
+        "experience": "I want model work: training setup, eval numbers, and a failure you debugged — not only slides about AI.",
+        "summary": "Bridge research and shipping: frameworks + one internship win + how you communicated uncertainty to non-ML folks.",
+        "projects": "End-to-end beats slides: data → train → eval → (optional) small deploy or API — show the weakest link you strengthened.",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
       }
     },
     "ready": {
       "cvTitle": "Early-career ML Engineer",
-      "cvSummary": "ML Engineer with 2.5 years experience managing MLOps infrastructure. Spearheaded an initial LLM integration pilot, serving 10k daily active users with sub-150ms latency.",
+      "cvSummary": "Early-career ML engineer: second internship + research assistantship — shipped a small model to staging, monitored drift, and documented reproducible training. Interested in reliable, explainable deployments.",
       "experienceChecklist": [
-        "Lead with accurate outcomes: 'Identified drop-offs to increase retention by 5%'",
-        "Detail your data volume/tools: 'Processed 5GB of log data using Apache Spark'",
-        "Focus on driving decisions: 'Built dashboard that guided team strategy'"
+        "Path to staging or prod: how others triggered or consumed the model — honest scope",
+        "Drift, monitoring, or rollback story — even a plan you documented counts",
+        "~12–18 months combined; no 'org-wide AI strategy' unless you really owned it"
       ],
       "summaryChecklist": [
-        "Start with your primary toolkit and business mindset",
-        "Highlight specific, real-world scale data modeling tasks",
-        "Tie your analysis directly back to tangible revenue or growth"
+        "Timeline honest: internships + research/part-time months",
+        "Reliability angle: reproducible training, monitoring, or handoff you improved",
+        "Next domain (CV, NLP, recsys) with realistic early-career scope"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Trained",
@@ -276,14 +307,14 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "MLOps (MLflow)",
         "Docker/Kubernetes"
       ],
-      "hrQuote": "Mid-level data people build solid pipelines. Tell me how you built the experimentation infrastructure or defined the data governance for your squad.",
+      "hrQuote": "Early-career ML: show how you made training reproducible and how you'd catch production issues — governance can be small and real.",
       "hrName": "Sarah Thompson",
       "hrRole": "HR Lead",
       "hrCompany": "shopee",
       "hrQuotes": {
-        "experience": "Mid-level data people build solid pipelines. Tell me how you built the experimentation infrastructure or defined the data governance for your squad.",
-        "summary": "Lead with your ability to democratize data across an organization and your experience building solid analytical foundations.",
-        "projects": "Projects here should be foundational - developing novel algorithms, deep-diving whitepapers, or creating widely adopted local data libraries.",
+        "experience": "I want staging-grade ML: versioning, evals, and what you'd monitor day two — not a research-only CV.",
+        "summary": "Strong intern/fresher arc: research + shipping + honest limits. I'm hiring judgment, not a keynote.",
+        "projects": "Novelty optional; reliability wins — show tests, containers, or a thin serving path if you built one.",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
       }
     }
@@ -293,14 +324,19 @@ export const ROLE_DATA: Record<string, RoleData> = {
       "cvTitle": "Aspiring Data Analyst",
       "cvSummary": "Detail-oriented entry-level Data Analyst adept at transforming raw data into actionable insights using SQL and Tableau. Passionate about product telemetry and user behavior analytics.",
       "experienceChecklist": [
-        "Lead with accurate outcomes: 'Identified drop-offs to increase retention by 5%'",
-        "Detail your data volume/tools: 'Processed 5GB of log data using Apache Spark'",
-        "Focus on driving decisions: 'Built dashboard that guided team strategy'"
+        "Business question first: funnel, cohort, ops metric — what you were asked to explain",
+        "SQL or spreadsheet proof: joins, filters, or viz tool — name the artifact (sheet, chart, query)",
+        "Decision link: what someone did differently because of your table or chart (even small)"
       ],
       "summaryChecklist": [
-        "Start with your primary toolkit and business mindset",
-        "Highlight specific, real-world scale data modeling tasks",
-        "Tie your analysis directly back to tangible revenue or growth"
+        "Line 1: aspiring analyst + SQL + one viz tool (Tableau/PowerBI/Looker/Sheets)",
+        "One internship, case comp, or class project where a stakeholder acted on your number",
+        "Messy data win: cleaning, definitions, or QA you owned — intern scale is fine"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Analyzed",
@@ -321,29 +357,34 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "A/B Testing",
         "Statistical Analysis"
       ],
-      "hrQuote": "Show me you know how to clean your own data. Don't just list algorithms from school; tell me how you extracted insights and what action you drove from it.",
+      "hrQuote": "Entry-level analyst: show the question, the query or sheet, and what changed because of your answer — not a list of courses.",
       "hrName": "Sarah Thompson",
       "hrRole": "HR Lead",
       "hrCompany": "shopee",
       "hrQuotes": {
-        "experience": "Show me you know how to clean your own data. Don't just list algorithms from school; tell me how you extracted insights and what action you drove from it.",
-        "summary": "I want to read your summary and immediately know your analytical toolkit and the types of business problems you're trying to solve as a junior.",
-        "projects": "I look for a complete end-to-end data pipeline in your projects. Don't just show a Jupyter notebook; deploy it or build a local dashboard.",
+        "experience": "I want SQL or viz proof and a stakeholder — PM, ops, or mentor — who used your output.",
+        "summary": "Toolkit + one concrete project in the first lines; I'm hiring curiosity with rigor, not buzzwords.",
+        "projects": "Dashboard or notebook is fine if I see data lineage: source, cleaning, and the metric you stood behind.",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
       }
     },
     "developing": {
       "cvTitle": "Data Analyst Fresher",
-      "cvSummary": "Business Intelligence Analyst with 1.5 years experience building automated reporting pipelines. Uncovered product drop-off points that led to a 5% increase in initial user retention.",
+      "cvSummary": "Data analyst fresher: internship building Looker/Sheets dashboards and SQL queries for product funnels; presented findings to PMs. Strong in SQL, spreadsheets, and turning messy exports into clear charts.",
       "experienceChecklist": [
-        "Lead with accurate outcomes: 'Identified drop-offs to increase retention by 5%'",
-        "Detail your data volume/tools: 'Processed 5GB of log data using Apache Spark'",
-        "Focus on driving decisions: 'Built dashboard that guided team strategy'"
+        "Funnel or metric you owned in the internship: definition, query, and chart",
+        "How you validated numbers: QA checks, reconciliations, or cross-team confirmation",
+        "One win at fresher scale: time saved, clearer decision, or bug in data you caught"
       ],
       "summaryChecklist": [
-        "Start with your primary toolkit and business mindset",
-        "Highlight specific, real-world scale data modeling tasks",
-        "Tie your analysis directly back to tangible revenue or growth"
+        "Fresher analyst: internship + SQL + primary viz stack",
+        "Story: PM/ops meeting where your analysis changed the next step",
+        "A/B or experiment exposure — only if you really touched setup or readout"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Analyzed",
@@ -370,23 +411,28 @@ export const ROLE_DATA: Record<string, RoleData> = {
       "hrCompany": "shopee",
       "hrQuotes": {
         "experience": "I want to see data driving real decisions. Tell me about the dashboard that saved operations 5 hours a week, or the A/B test that increased conversion by 2%.",
-        "summary": "Your summary should bridge the technical and commercial. 'Data Analyst with 1.5 years experience unlocking initial revenue patterns for SaaS products'.",
-        "projects": "Show me projects that involve real-time data or complex statistical modeling that directly answers a complex business question.",
+        "summary": "Bridge SQL and the business: internship + strongest funnel or ops story — avoid implying years you don't have; 'internship + projects' is honest.",
+        "projects": "Depth beats breadth: one messy dataset you tamed with clear definitions and a viz stakeholders trusted.",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
       }
     },
     "ready": {
       "cvTitle": "Early-career Data Analyst",
-      "cvSummary": "Data Analyst with 3 years experience shaping early analytics infrastructure. Designed the core startup data governance, unlocking significant operational efficiencies across the marketing team.",
+      "cvSummary": "Early-career analyst: ~12 months across internship + junior projects — standardized a few core metrics, documented definitions, and supported A/B readouts. Wants to deepen experimentation and attribution.",
       "experienceChecklist": [
-        "Lead with accurate outcomes: 'Identified drop-offs to increase retention by 5%'",
-        "Detail your data volume/tools: 'Processed 5GB of log data using Apache Spark'",
-        "Focus on driving decisions: 'Built dashboard that guided team strategy'"
+        "Metric definition you tightened: name, formula, and who signed off",
+        "Experiment or readout you supported: hypothesis, audience, and how you communicated uncertainty",
+        "Cross-functional: how you turned a vague ask into a measurable question"
       ],
       "summaryChecklist": [
-        "Start with your primary toolkit and business mindset",
-        "Highlight specific, real-world scale data modeling tasks",
-        "Tie your analysis directly back to tangible revenue or growth"
+        "~10–18 months internship + analyst work stated honestly — not 'mid-level'",
+        "Strongest experiment or funnel story with one number you stand behind",
+        "How you document definitions so the next hire trusts the dashboard"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Analyzed",
@@ -407,14 +453,14 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "A/B Testing",
         "Statistical Analysis"
       ],
-      "hrQuote": "Mid-level data people build solid pipelines. Tell me how you built the experimentation infrastructure or defined the data governance for your squad.",
+      "hrQuote": "Early-career analyst: show metric governance or experiment support you actually touched — small scope with clear ownership beats vague 'infrastructure'.",
       "hrName": "Sarah Thompson",
       "hrRole": "HR Lead",
       "hrCompany": "shopee",
       "hrQuotes": {
-        "experience": "Mid-level data people build solid pipelines. Tell me how you built the experimentation infrastructure or defined the data governance for your squad.",
-        "summary": "Lead with your ability to democratize data across an organization and your experience building solid analytical foundations.",
-        "projects": "Projects here should be foundational - developing novel algorithms, deep-diving whitepapers, or creating widely adopted local data libraries.",
+        "experience": "I want crisp definitions and trustworthy readouts — how you stopped the team from arguing about the same number twice.",
+        "summary": "Honest months + your strongest attribution or experiment win. I'm not hiring a director; I'm hiring someone who makes data legible.",
+        "projects": "Show a project where documentation or a metric spec mattered as much as the chart.",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
       }
     }
@@ -424,14 +470,19 @@ export const ROLE_DATA: Record<string, RoleData> = {
       "cvTitle": "Aspiring Data Engineer",
       "cvSummary": "Data-focused recent graduate with strong SQL and Python skills. Built automated ETL pipelines using Apache Airflow during a 6-month internship focused on cloud data warehousing.",
       "experienceChecklist": [
-        "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
-        "Show system context: 'Contributed to microservices handling 5k+ RPM'",
-        "Clearly mention tooling context: 'Deployed on AWS using Terraform'"
+        "Pipeline or SQL you wrote: source → transform → destination (even sample/campus data)",
+        "Tools named: Airflow/Prefect, dbt, warehouse (BigQuery/Snowflake), or plain Postgres",
+        "Reliability story: fixed a failing job, added a test/check, or cut runtime — intern scale"
       ],
       "summaryChecklist": [
-        "Lead with your strongest domains (Backend, Infra, Full Stack)",
-        "Cite heavy-hitting scalability or architectural contributions",
-        "Include only strictly factual technologies, avoid 'team player'"
+        "Degree + target (Data Engineer / Analytics Engineer) in line 1",
+        "One pipeline or internship deliverable with a concrete artifact (DAG, repo, dashboard)",
+        "List SQL + Python + one orchestration or warehouse tool you truly used"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Pipelines",
@@ -465,16 +516,21 @@ export const ROLE_DATA: Record<string, RoleData> = {
     },
     "developing": {
       "cvTitle": "Data Engineer Fresher",
-      "cvSummary": "Junior Data Engineer with 1 year experience supporting data lake operations. Assisted in reducing overnight batch processing times by 15% through optimized query structuring.",
+      "cvSummary": "Data engineering fresher: internship writing Airflow DAGs and SQL transforms; fixed failing jobs and added data quality checks. Learning Spark/warehouse patterns on the job.",
       "experienceChecklist": [
-        "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
-        "Show system context: 'Contributed to microservices handling 5k+ RPM'",
-        "Clearly mention tooling context: 'Deployed on AWS using Terraform'"
+        "DAG or job you touched: schedule, dependencies, and what broke/fixed",
+        "Data quality: tests, assertions, dedupe, or schema checks you added",
+        "Runtime/cost win: partition strategy, smaller batch, or query tweak with a before/after"
       ],
       "summaryChecklist": [
-        "Lead with your strongest domains (Backend, Infra, Full Stack)",
-        "Cite heavy-hitting scalability or architectural contributions",
-        "Include only strictly factual technologies, avoid 'team player'"
+        "Fresher headline: internship + stack (Airflow, SQL, warehouse)",
+        "One story: reliable daily load, backfill, or stakeholder dataset you supported",
+        "What you're learning next (Spark, streaming, dbt) — realistic for your level"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Pipelines",
@@ -495,29 +551,34 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Kafka",
         "AWS/GCP"
       ],
-      "hrQuote": "Junior-level means you own complex feature tickets. 'Responsible for UI' means nothing. 'Architected a cache optimization reducing load time by 15%' gets you hired.",
+      "hrQuote": "For a data fresher: show me a job you touched end-to-end — SQL transform, DAG task, or data check — with what broke and how you fixed it.",
       "hrName": "David Kim",
       "hrRole": "VP Engineering",
       "hrCompany": "scaleup",
       "hrQuotes": {
-        "experience": "Junior-level means you own complex feature tickets. 'Responsible for UI' means nothing. 'Architected a cache optimization reducing load time by 15%' gets you hired.",
-        "summary": "Lead with the scale of the systems you've contributed to. Thousands of requests? Core microservices? Put that directly in the first line.",
-        "projects": "Highlight side projects that solve developer pain points (open source, CLI tools) - they show deep passion for craftsmanship outside of work hours.",
+        "experience": "I want pipeline proof: a DAG, table, or job you changed that others rely on — not 'helped with data' with no artifact.",
+        "summary": "Lead with orchestration + warehouse + one reliability story (failed run, backfill, SLA). Skip frontend-style bragging.",
+        "projects": "Pipeline or analytics-engineering projects win: show data flow, tools, and how you measured success (freshness, runtime, row counts).",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
       }
     },
     "ready": {
       "cvTitle": "Early-career Data Engineer",
-      "cvSummary": "Data Engineer with 3 years experience architecting robust streaming platforms. Successfully transitioned a legacy daily-batch infrastructure into a near-real-time event streaming pipeline.",
+      "cvSummary": "Early-career data engineer: built reliable pipelines for internal stakeholders, cut a recurring batch runtime with partitioning, and documented SLAs. Comfortable with SQL, Python, and cloud basics.",
       "experienceChecklist": [
-        "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
-        "Show system context: 'Contributed to microservices handling 5k+ RPM'",
-        "Clearly mention tooling context: 'Deployed on AWS using Terraform'"
+        "End-to-end ownership: table/model consumers rely on — how you kept it trustworthy",
+        "Cross-team: PM, analytics, or eng — how you made requirements measurable",
+        "SLA or scale: latency, freshness, cost — one number, no fake 'petabyte' claims"
       ],
       "summaryChecklist": [
-        "Lead with your strongest domains (Backend, Infra, Full Stack)",
-        "Cite heavy-hitting scalability or architectural contributions",
-        "Include only strictly factual technologies, avoid 'team player'"
+        "~12–18 months combined experience stated clearly",
+        "Strongest pipeline win + who consumed the data",
+        "How you document and hand off (README, runbook, data dictionary)"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Pipelines",
@@ -538,14 +599,14 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Kafka",
         "AWS/GCP"
       ],
-      "hrQuote": "As a solid mid-level, you are a force multiplier. Show me how you improved junior developer velocity, drove architectural standards, and led technical initiatives.",
+      "hrQuote": "For early-career hires, show me momentum: a feature you owned, how you unblocked others, and one metric or quality bar you moved — without claiming you ran the whole org.",
       "hrName": "David Kim",
       "hrRole": "VP Engineering",
       "hrCompany": "scaleup",
       "hrQuotes": {
-        "experience": "As a solid mid-level, you are a force multiplier. Show me how you improved junior developer velocity, drove architectural standards, and led technical initiatives.",
-        "summary": "You are a seasoned engineer. Your summary must convey technical authority and your ability to align engineering architecture with business goals.",
-        "projects": "If you mention open source at this level, I expect you to be a steady contributor to a widely used framework or building impressive full-stack apps.",
+        "experience": "Early-career data: show stakeholder-facing tables or jobs you kept trustworthy — ownership without exaggerating scale.",
+        "summary": "~12–18 months honest timeline + strongest pipeline outcome + who consumed the data. Authority = specifics on freshness, cost, or quality.",
+        "projects": "Prefer projects with lineage, tests, or runbooks. I care that others could operate what you built.",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
       }
     }
@@ -555,14 +616,19 @@ export const ROLE_DATA: Record<string, RoleData> = {
       "cvTitle": "Aspiring Cloud Engineer",
       "cvSummary": "Systems-oriented graduate passionate about infrastructure as code. Built and deployed automated CI/CD pipelines using GitHub Actions and containerized applications with Docker for personal projects.",
       "experienceChecklist": [
-        "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
-        "Show system context: 'Contributed to microservices handling 5k+ RPM'",
-        "Clearly mention tooling context: 'Deployed on AWS using Terraform'"
+        "CI/CD or IaC you built: workflow file, Terraform module, or Docker image — link or describe",
+        "Environment: GitHub Actions, GitLab, Jenkins, or cloud console — what you actually ran",
+        "Outcome: faster deploy, fewer manual steps, or reproducible env for teammates"
       ],
       "summaryChecklist": [
-        "Lead with your strongest domains (Backend, Infra, Full Stack)",
-        "Cite heavy-hitting scalability or architectural contributions",
-        "Include only strictly factual technologies, avoid 'team player'"
+        "Target role (DevOps / Cloud / Platform intern) + Linux/CLI comfort",
+        "One homelab, hackathon, or internship infra project with artifacts",
+        "Name 3 tools: e.g. Docker, Terraform, AWS/GCP, Actions — only if true"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Automated",
@@ -596,16 +662,21 @@ export const ROLE_DATA: Record<string, RoleData> = {
     },
     "developing": {
       "cvTitle": "DevOps / Cloud Fresher",
-      "cvSummary": "Junior DevOps Engineer with 1+ years experience supporting cloud environments. Assisted in decreasing deployment failure rates and identified missing tags that cut AWS costs by 10%.",
+      "cvSummary": "DevOps fresher: internship helping CI pipelines, Terraform modules, and staging deploys; chased flaky tests and cost leaks (unused tags). Eager to deepen observability and incident practice.",
       "experienceChecklist": [
-        "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
-        "Show system context: 'Contributed to microservices handling 5k+ RPM'",
-        "Clearly mention tooling context: 'Deployed on AWS using Terraform'"
+        "Pipeline change you shipped: test gate, cache, deploy step, or secret handling",
+        "Infra as code: module, variable pattern, or state fix you contributed",
+        "Stability or cost: flaky test, rollback drill, tag cleanup, idle resource — pick one"
       ],
       "summaryChecklist": [
-        "Lead with your strongest domains (Backend, Infra, Full Stack)",
-        "Cite heavy-hitting scalability or architectural contributions",
-        "Include only strictly factual technologies, avoid 'team player'"
+        "Fresher DevOps: internship + primary cloud (AWS/GCP/Azure)",
+        "CI + containers or K8s basics — what you operated, not just read about",
+        "Safety mindset: least privilege, backups, or staging-first — mention if real"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Automated",
@@ -626,29 +697,34 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Linux",
         "Bash/Python"
       ],
-      "hrQuote": "Junior-level means you own complex feature tickets. 'Responsible for UI' means nothing. 'Architected a cache optimization reducing load time by 15%' gets you hired.",
+      "hrQuote": "For a DevOps fresher: one CI/CD or IaC change that merged — workflow, module, or image — plus how you verified it (tests, staging, rollback).",
       "hrName": "David Kim",
       "hrRole": "VP Engineering",
       "hrCompany": "scaleup",
       "hrQuotes": {
-        "experience": "Junior-level means you own complex feature tickets. 'Responsible for UI' means nothing. 'Architected a cache optimization reducing load time by 15%' gets you hired.",
-        "summary": "Lead with the scale of the systems you've contributed to. Thousands of requests? Core microservices? Put that directly in the first line.",
-        "projects": "Highlight side projects that solve developer pain points (open source, CLI tools) - they show deep passion for craftsmanship outside of work hours.",
+        "experience": "Show infra you actually ran: pipeline ID, Terraform resource type, or container you built — not vague 'supported cloud'.",
+        "summary": "Cloud + automation first line; then one story about deploy speed, flaky tests, or cost/tag cleanup at intern scale.",
+        "projects": "Homelab counts: Actions pipeline, Docker compose, small K8s manifest — link it and say what broke and how you fixed it.",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
       }
     },
     "ready": {
-      "cvTitle": "Early-career Cloud Engineer",
-      "cvSummary": "Cloud Engineer with 3 years experience maintaining 99.9% uptime for early-stage SaaS platforms. Led the containerization strategy and established centralized FinOps practices.",
+      "cvTitle": "Early-career Cloud / DevOps Engineer",
+      "cvSummary": "Early-career cloud engineer: supported on-call rotations with guardrails, improved Dockerfile patterns, and helped cut idle dev resources. Focus on safe, boring infrastructure.",
       "experienceChecklist": [
-        "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
-        "Show system context: 'Contributed to microservices handling 5k+ RPM'",
-        "Clearly mention tooling context: 'Deployed on AWS using Terraform'"
+        "Incident or risk: what you detected, how you mitigated, what you documented after",
+        "Platform improvement: image hardening, autoscaling tweak, or observability signal you added",
+        "Team enablement: runbook, template, or self-service path for other devs"
       ],
       "summaryChecklist": [
-        "Lead with your strongest domains (Backend, Infra, Full Stack)",
-        "Cite heavy-hitting scalability or architectural contributions",
-        "Include only strictly factual technologies, avoid 'team player'"
+        "~12–18 months combined; on-call shadow or pager duty only if true",
+        "Biggest reliability or cost win with a number",
+        "What boring infra you want to master next (SRE, K8s, FinOps)"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Automated",
@@ -669,14 +745,14 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Linux",
         "Bash/Python"
       ],
-      "hrQuote": "As a solid mid-level, you are a force multiplier. Show me how you improved junior developer velocity, drove architectural standards, and led technical initiatives.",
+      "hrQuote": "For early-career hires, show me momentum: a feature you owned, how you unblocked others, and one metric or quality bar you moved — without claiming you ran the whole org.",
       "hrName": "David Kim",
       "hrRole": "VP Engineering",
       "hrCompany": "scaleup",
       "hrQuotes": {
-        "experience": "As a solid mid-level, you are a force multiplier. Show me how you improved junior developer velocity, drove architectural standards, and led technical initiatives.",
-        "summary": "You are a seasoned engineer. Your summary must convey technical authority and your ability to align engineering architecture with business goals.",
-        "projects": "If you mention open source at this level, I expect you to be a steady contributor to a widely used framework or building impressive full-stack apps.",
+        "experience": "Early-career platform: incident or risk you handled with a runbook update, safer deploy path, or observability gap you closed.",
+        "summary": "Honest months on-call or shadow + biggest reliability/cost win. I want boring, safe infrastructure stories.",
+        "projects": "Templates, modules, or internal tools that speed other devs up — show how adoption or toil dropped.",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
       }
     }
@@ -694,6 +770,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Lead with domain expertise (B2B SaaS, FinTech, Mobile)",
         "State exactly how you achieved product-market fit or growth experiments",
         "Clarify your roadmap execution style"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Prioritized",
@@ -714,20 +795,20 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "SQL/Analytics",
         "Stakeholder Management"
       ],
-      "hrQuote": "For APM interns, your bullet points must prove you can herd cats. Show me you identified a real problem, aligned a team without authority, and shipped something tangible.",
+      "hrQuote": "For product manager interns, your bullet points must prove you can herd cats. Show me you identified a real problem, aligned a team without authority, and shipped something tangible.",
       "hrName": "Marcus Lee",
       "hrRole": "Head of Product",
       "hrCompany": "google",
       "hrQuotes": {
-        "experience": "For APM interns, your bullet points must prove you can herd cats. Show me you identified a real problem, aligned a team without authority, and shipped something tangible.",
+        "experience": "For product manager interns, your bullet points must prove you can herd cats. Show me you identified a real problem, aligned a team without authority, and shipped something tangible.",
         "summary": "Product is about solving problems. Use your summary to show you have a product mindset. Who are you building for and why do you care?",
         "projects": "Even side projects count heavily. Did you build a Shopify store? Did you launch a campus newsletter? Show me you can hustle from zero to one.",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
       }
     },
     "developing": {
-      "cvTitle": "Product Management Intern",
-      "cvSummary": "APM with 1 year experience driving specific B2B SaaS features. Owned the initial user onboarding flow, achieving a 10% increase in activation rate by aggressively removing friction.",
+      "cvTitle": "Product Manager Fresher",
+      "cvSummary": "Product manager fresher: internship owning a narrow onboarding experiment — wrote concise specs, tracked funnel metrics, and coordinated with design + eng in weekly rituals.",
       "experienceChecklist": [
         "Prove business impact: 'Supported feature X launch, driving positive user feedback'",
         "Show cross-functional leadership: 'Aligned 3 engineers and 1 designer'",
@@ -737,6 +818,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Lead with domain expertise (B2B SaaS, FinTech, Mobile)",
         "State exactly how you achieved product-market fit or growth experiments",
         "Clarify your roadmap execution style"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Prioritized",
@@ -769,8 +855,8 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "ready": {
-      "cvTitle": "Product Manager",
-      "cvSummary": "Product Manager with nearly 3 years of experience managing a core product line. Aligned engineering and marketing to successfully launch a flagship module that increased targeted ARR by 15%.",
+      "cvTitle": "Early-career Product Manager",
+      "cvSummary": "Early-career PM: ~12–18 months across internship + junior PM — shipped a scoped feature with clear success metrics, ran lightweight user interviews, and kept stakeholders aligned on trade-offs.",
       "experienceChecklist": [
         "Prove business impact: 'Supported feature X launch, driving positive user feedback'",
         "Show cross-functional leadership: 'Aligned 3 engineers and 1 designer'",
@@ -780,6 +866,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Lead with domain expertise (B2B SaaS, FinTech, Mobile)",
         "State exactly how you achieved product-market fit or growth experiments",
         "Clarify your roadmap execution style"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Prioritized",
@@ -826,6 +917,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "State exactly how you achieved product-market fit or growth experiments",
         "Clarify your roadmap execution style"
       ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
+      ],
       "actionVerbs": [
         "Experimented",
         "Acquired",
@@ -844,12 +940,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "SQL",
         "Funnel Analytics"
       ],
-      "hrQuote": "For APM interns, your bullet points must prove you can herd cats. Show me you identified a real problem, aligned a team without authority, and shipped something tangible.",
+      "hrQuote": "For product manager interns, your bullet points must prove you can herd cats. Show me you identified a real problem, aligned a team without authority, and shipped something tangible.",
       "hrName": "Marcus Lee",
       "hrRole": "Head of Product",
       "hrCompany": "google",
       "hrQuotes": {
-        "experience": "For APM interns, your bullet points must prove you can herd cats. Show me you identified a real problem, aligned a team without authority, and shipped something tangible.",
+        "experience": "For product manager interns, your bullet points must prove you can herd cats. Show me you identified a real problem, aligned a team without authority, and shipped something tangible.",
         "summary": "Product is about solving problems. Use your summary to show you have a product mindset. Who are you building for and why do you care?",
         "projects": "Even side projects count heavily. Did you build a Shopify store? Did you launch a campus newsletter? Show me you can hustle from zero to one.",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
@@ -857,7 +953,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
     },
     "developing": {
       "cvTitle": "Growth PM Fresher",
-      "cvSummary": "Junior Growth PM with 1.5 years executing A/B experiment programs. Co-launched viral referral loops and optimized paywall copy leading to a 10% uplift in customer lifetime value.",
+      "cvSummary": "Growth fresher: internship running cohort analyses and small A/B tests in Amplitude/Mixpanel; proposed copy and UX tweaks that improved activation in a student-side project.",
       "experienceChecklist": [
         "Prove business impact: 'Supported feature X launch, driving positive user feedback'",
         "Show cross-functional leadership: 'Aligned 3 engineers and 1 designer'",
@@ -867,6 +963,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Lead with domain expertise (B2B SaaS, FinTech, Mobile)",
         "State exactly how you achieved product-market fit or growth experiments",
         "Clarify your roadmap execution style"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Experimented",
@@ -898,8 +999,8 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "ready": {
-      "cvTitle": "Growth Product Manager",
-      "cvSummary": "Growth PM with 3 years accelerating early-stage SaaS platforms. Built the initial experiment infrastructure and defined North Star metrics that successfully lowered customer acquisition costs.",
+      "cvTitle": "Early-career Growth PM",
+      "cvSummary": "Early-career growth PM: helped stand up experiment hygiene (hypothesis templates, guardrail metrics) and supported referral experiments; data-first but still learning org politics.",
       "experienceChecklist": [
         "Prove business impact: 'Supported feature X launch, driving positive user feedback'",
         "Show cross-functional leadership: 'Aligned 3 engineers and 1 designer'",
@@ -909,6 +1010,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Lead with domain expertise (B2B SaaS, FinTech, Mobile)",
         "State exactly how you achieved product-market fit or growth experiments",
         "Clarify your roadmap execution style"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Experimented",
@@ -945,14 +1051,19 @@ export const ROLE_DATA: Record<string, RoleData> = {
       "cvTitle": "Business Analyst Intern",
       "cvSummary": "Detail-oriented junior analyst acting as the bridge between technical teams and stakeholders. Assisted in streamlining requirement gathering processes, improving visibility for engineering sprints.",
       "experienceChecklist": [
-        "Quantify your commercial success: 'Exceeded strict quarterly quota by 110%'",
-        "Show targeted impact: 'Managed targeted budget, achieving 5% under-spend'",
-        "Detail optimization wins: 'Halved onboarding time via Zapier automation'"
+        "Requirements artifact you touched: user story, acceptance criteria, or workshop notes — be specific",
+        "Tooling: Jira/Confluence/Sheets — what board, doc, or ticket type you updated",
+        "Stakeholder: who you translated for (PM, eng, ops) and what decision moved"
       ],
       "summaryChecklist": [
-        "State your Go-To-Market or operational domain",
-        "Lead with aggregate revenue or major regional clients won",
-        "Highlight strategic relationship building and hustle"
+        "Line 1: BA intern + domain hint (fintech, ops, internal tools)",
+        "Bridge story: messy ask → clearer tickets or specs",
+        "Tools: Jira/Confluence/SQL basics — only what you used"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Documented",
@@ -973,29 +1084,34 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Jira/Confluence",
         "Data Analysis"
       ],
-      "hrQuote": "Show me you know how to clean your own data. Don't just list algorithms from school; tell me how you extracted insights and what action you drove from it.",
+      "hrQuote": "BA intern: show me a requirement you helped clarify — before/after — and the ticket or doc where it landed.",
       "hrName": "Sarah Thompson",
       "hrRole": "HR Lead",
       "hrCompany": "shopee",
       "hrQuotes": {
-        "experience": "Show me you know how to clean your own data. Don't just list algorithms from school; tell me how you extracted insights and what action you drove from it.",
-        "summary": "I want to read your summary and immediately know your analytical toolkit and the types of business problems you're trying to solve as a junior.",
-        "projects": "I look for a complete end-to-end data pipeline in your projects. Don't just show a Jupyter notebook; deploy it or build a local dashboard.",
+        "experience": "I want traceability: workshop → decision → Jira/Confluence — not 'supported meetings' with no output.",
+        "summary": "Your summary should scream bridge role: stakeholders + structured specs + tools you actually clicked.",
+        "projects": "Case study or capstone: problem, process map or backlog slice, and what engineering could build from it.",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
       }
     },
     "developing": {
       "cvTitle": "Business Analyst Fresher",
-      "cvSummary": "Junior BA with 1 year experience supporting digital operations. Translated routine business needs into agile backlogs, resulting in the successful rollout of an internal tracking tool.",
+      "cvSummary": "Business analyst fresher: internship writing user stories, process maps, and acceptance criteria; facilitated stand-ups for a small squad and learned Jira/Confluence workflows.",
       "experienceChecklist": [
-        "Quantify your commercial success: 'Exceeded strict quarterly quota by 110%'",
-        "Show targeted impact: 'Managed targeted budget, achieving 5% under-spend'",
-        "Detail optimization wins: 'Halved onboarding time via Zapier automation'"
+        "User stories or AC you owned: epic link, edge cases, definition of done",
+        "Process or data flow you mapped — who signed off that it matched reality",
+        "Rework you reduced: fewer clarification pings, faster UAT, or clearer scope"
       ],
       "summaryChecklist": [
-        "State your Go-To-Market or operational domain",
-        "Lead with aggregate revenue or major regional clients won",
-        "Highlight strategic relationship building and hustle"
+        "Fresher BA: internship + Agile/Jira rhythm you lived in",
+        "Facilitation win: stand-up, refinement, or stakeholder session with an outcome",
+        "SQL or light analysis — only if it shows up in your bullets"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Documented",
@@ -1016,29 +1132,34 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Jira/Confluence",
         "Data Analysis"
       ],
-      "hrQuote": "I want to see data driving real decisions. Tell me about the dashboard that saved operations 5 hours a week, or the A/B test that increased conversion by 2%.",
+      "hrQuote": "I want crisp stories and acceptance criteria — evidence you can protect engineering from churn.",
       "hrName": "Sarah Thompson",
       "hrRole": "HR Lead",
       "hrCompany": "shopee",
       "hrQuotes": {
-        "experience": "I want to see data driving real decisions. Tell me about the dashboard that saved operations 5 hours a week, or the A/B test that increased conversion by 2%.",
-        "summary": "Your summary should bridge the technical and commercial. 'Data Analyst with 1.5 years experience unlocking initial revenue patterns for SaaS products'.",
-        "projects": "Show me projects that involve real-time data or complex statistical modeling that directly answers a complex business question.",
+        "experience": "I want crisp stories and acceptance criteria — evidence you can protect engineering from churn.",
+        "summary": "Bridge BA/PO tone: internship + strongest backlog or process win — don't borrow a Data Analyst headline.",
+        "projects": "Show a slice you could hand to eng tomorrow: scope, risks, and test scenarios.",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
       }
     },
     "ready": {
-      "cvTitle": "Business Analyst",
-      "cvSummary": "Business Analyst with 3 years driving cross-functional processes. Standardized agile documentation across 3 engineering squads, significantly reducing requirement ambiguity and technical debt.",
+      "cvTitle": "Early-career Business Analyst",
+      "cvSummary": "Early-career BA: standardized BRDs for two squads, reduced rework on requirements, and supported UAT for a billing module — strong facilitator, still deepening domain.",
       "experienceChecklist": [
-        "Quantify your commercial success: 'Exceeded strict quarterly quota by 110%'",
-        "Show targeted impact: 'Managed targeted budget, achieving 5% under-spend'",
-        "Detail optimization wins: 'Halved onboarding time via Zapier automation'"
+        "BRD/FRD or template you standardized — before/after on ambiguity or review cycles",
+        "UAT or rollout you supported: defects triaged, sign-off criteria, stakeholder comms",
+        "Cross-squad dependency you mapped and kept unblocked"
       ],
       "summaryChecklist": [
-        "State your Go-To-Market or operational domain",
-        "Lead with aggregate revenue or major regional clients won",
-        "Highlight strategic relationship building and hustle"
+        "~12–18 months internship + BA work stated honestly",
+        "Strongest documentation or facilitation win with a metric (time, defects, rework)",
+        "Domain you're building depth in (billing, onboarding, internal tools, etc.)"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Documented",
@@ -1059,14 +1180,14 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Jira/Confluence",
         "Data Analysis"
       ],
-      "hrQuote": "Mid-level data people build solid pipelines. Tell me how you built the experimentation infrastructure or defined the data governance for your squad.",
+      "hrQuote": "Early-career BA: show how your specs reduced rework or sped UAT — ownership without pretending you ran the company.",
       "hrName": "Sarah Thompson",
       "hrRole": "HR Lead",
       "hrCompany": "shopee",
       "hrQuotes": {
-        "experience": "Mid-level data people build solid pipelines. Tell me how you built the experimentation infrastructure or defined the data governance for your squad.",
-        "summary": "Lead with your ability to democratize data across an organization and your experience building solid analytical foundations.",
-        "projects": "Projects here should be foundational - developing novel algorithms, deep-diving whitepapers, or creating widely adopted local data libraries.",
+        "experience": "I want governance light: templates, traceability, and how you kept conflicting stakeholders aligned.",
+        "summary": "Honest tenure + your best BRD/UAT story. I'm hiring judgment on scope, not a CFO pitch.",
+        "projects": "Prefer projects with real stakeholders and change management — not a solo algorithm dive.",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
       }
     }
@@ -1084,6 +1205,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Lead with domain expertise (B2B SaaS, FinTech, Mobile)",
         "State exactly how you achieved product-market fit or growth experiments",
         "Clarify your roadmap execution style"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Designed",
@@ -1104,12 +1230,12 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Usability Testing",
         "HTML/CSS"
       ],
-      "hrQuote": "For APM interns, your bullet points must prove you can herd cats. Show me you identified a real problem, aligned a team without authority, and shipped something tangible.",
+      "hrQuote": "For product manager interns, your bullet points must prove you can herd cats. Show me you identified a real problem, aligned a team without authority, and shipped something tangible.",
       "hrName": "Marcus Lee",
       "hrRole": "Head of Product",
       "hrCompany": "google",
       "hrQuotes": {
-        "experience": "For APM interns, your bullet points must prove you can herd cats. Show me you identified a real problem, aligned a team without authority, and shipped something tangible.",
+        "experience": "For product manager interns, your bullet points must prove you can herd cats. Show me you identified a real problem, aligned a team without authority, and shipped something tangible.",
         "summary": "Product is about solving problems. Use your summary to show you have a product mindset. Who are you building for and why do you care?",
         "projects": "Even side projects count heavily. Did you build a Shopify store? Did you launch a campus newsletter? Show me you can hustle from zero to one.",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
@@ -1117,7 +1243,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
     },
     "developing": {
       "cvTitle": "Product Designer Fresher",
-      "cvSummary": "Junior Product Designer with 1.5 years experience building components for B2B applications. Assisted in establishing a scalable Figma design system and conducted early generative user research.",
+      "cvSummary": "Product design fresher: internship shipping UI in Figma, maintaining a small component library, and running 5 usability sessions that informed iteration on a B2B workflow.",
       "experienceChecklist": [
         "Prove business impact: 'Supported feature X launch, driving positive user feedback'",
         "Show cross-functional leadership: 'Aligned 3 engineers and 1 designer'",
@@ -1127,6 +1253,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Lead with domain expertise (B2B SaaS, FinTech, Mobile)",
         "State exactly how you achieved product-market fit or growth experiments",
         "Clarify your roadmap execution style"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Designed",
@@ -1159,8 +1290,8 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "ready": {
-      "cvTitle": "Product Designer",
-      "cvSummary": "Product Designer with 3 years experience guiding impactful interface decisions. Championed user-centric design cultures that directly influenced a major feature pivot, capturing positive user sentiment.",
+      "cvTitle": "Early-career Product Designer",
+      "cvSummary": "Early-career designer: led visual polish for a key flow, partnered with PM/eng on accessibility fixes, and contributed tokens to a growing design system.",
       "experienceChecklist": [
         "Prove business impact: 'Supported feature X launch, driving positive user feedback'",
         "Show cross-functional leadership: 'Aligned 3 engineers and 1 designer'",
@@ -1170,6 +1301,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Lead with domain expertise (B2B SaaS, FinTech, Mobile)",
         "State exactly how you achieved product-market fit or growth experiments",
         "Clarify your roadmap execution style"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Designed",
@@ -1216,6 +1352,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Lead with aggregate revenue or major regional clients won",
         "Highlight strategic relationship building and hustle"
       ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
+      ],
       "actionVerbs": [
         "Coordinated",
         "Delivered",
@@ -1247,8 +1388,8 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "developing": {
-      "cvTitle": "Project Manager Fresher",
-      "cvSummary": "Junior PM with 1 year experience supporting software delivery lifecycles. Managed targeted project segments, flagged critical path blockers early, and consistently supported sprint goals.",
+      "cvTitle": "Project Coordinator Fresher",
+      "cvSummary": "Project coordinator fresher: tracked milestones in Notion/Jira, chased dependencies, and communicated risks early for a 6-month internship squad shipping internal tools.",
       "experienceChecklist": [
         "Quantify your commercial success: 'Exceeded strict quarterly quota by 110%'",
         "Show targeted impact: 'Managed targeted budget, achieving 5% under-spend'",
@@ -1258,6 +1399,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "State your Go-To-Market or operational domain",
         "Lead with aggregate revenue or major regional clients won",
         "Highlight strategic relationship building and hustle"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Coordinated",
@@ -1290,8 +1436,8 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "ready": {
-      "cvTitle": "Technical Project Manager",
-      "cvSummary": "Technical PM with 3 years experience overseeing simultaneous software implementations. Aligned small engineering squads to deliver highly-requested features serving key B2B clients.",
+      "cvTitle": "Early-career Technical PM",
+      "cvSummary": "Early-career technical PM: coordinated two parallel workstreams, translated client asks into backlog slices, and improved estimation hygiene with eng leads.",
       "experienceChecklist": [
         "Quantify your commercial success: 'Exceeded strict quarterly quota by 110%'",
         "Show targeted impact: 'Managed targeted budget, achieving 5% under-spend'",
@@ -1301,6 +1447,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "State your Go-To-Market or operational domain",
         "Lead with aggregate revenue or major regional clients won",
         "Highlight strategic relationship building and hustle"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Coordinated",
@@ -1335,7 +1486,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
   },
   "Business Development (Tech Industry)": {
     "starter": {
-      "cvTitle": "Sales Development Representative",
+      "cvTitle": "Sales Development Fresher",
       "cvSummary": "Tenacious SDR with a strong outbound mindset. Generated 50+ qualified leads and secured initial discovery meetings during a recent heavy-outbound tech sales internship.",
       "experienceChecklist": [
         "Quantify your commercial success: 'Exceeded strict quarterly quota by 110%'",
@@ -1346,6 +1497,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "State your Go-To-Market or operational domain",
         "Lead with aggregate revenue or major regional clients won",
         "Highlight strategic relationship building and hustle"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Secured",
@@ -1378,8 +1534,8 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "developing": {
-      "cvTitle": "Business Development Fresher",
-      "cvSummary": "Junior AE with 1.5 years supporting enterprise SaaS deals. Consistently met quarterly quotas, managed basic sales cycles, and assisted in driving early-stage ARR growth.",
+      "cvTitle": "Sales / Account Fresher",
+      "cvSummary": "Sales fresher: SDR internship + light closing support — qualified inbound leads, maintained CRM hygiene, and shadowed AEs on discovery calls.",
       "experienceChecklist": [
         "Quantify your commercial success: 'Exceeded strict quarterly quota by 110%'",
         "Show targeted impact: 'Managed targeted budget, achieving 5% under-spend'",
@@ -1389,6 +1545,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "State your Go-To-Market or operational domain",
         "Lead with aggregate revenue or major regional clients won",
         "Highlight strategic relationship building and hustle"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Secured",
@@ -1421,8 +1582,8 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "ready": {
-      "cvTitle": "Business Development Manager",
-      "cvSummary": "BD Manager with 3 years executing targeted Go-To-Market strategies. Independently secured strategic regional partnerships and closed complex B2B sales cycles to build local market presence.",
+      "cvTitle": "Early-career Business Development",
+      "cvSummary": "Early-career biz dev: supported two regional partnership pilots, drafted outreach, and helped negotiate starter commercial terms with mentorship.",
       "experienceChecklist": [
         "Quantify your commercial success: 'Exceeded strict quarterly quota by 110%'",
         "Show targeted impact: 'Managed targeted budget, achieving 5% under-spend'",
@@ -1432,6 +1593,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "State your Go-To-Market or operational domain",
         "Lead with aggregate revenue or major regional clients won",
         "Highlight strategic relationship building and hustle"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Secured",
@@ -1478,6 +1644,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Lead with aggregate revenue or major regional clients won",
         "Highlight strategic relationship building and hustle"
       ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
+      ],
       "actionVerbs": [
         "Acquired",
         "Optimized",
@@ -1509,8 +1680,8 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "developing": {
-      "cvTitle": "Performance Marketer Fresher",
-      "cvSummary": "Junior Performance Marketer with 1 year optimizing paid acquisition channels. Co-managed a targeted ad spend across Google, assisting in reducing overall Customer Acquisition Cost (CAC) by 10%.",
+      "cvTitle": "Performance Marketing Fresher",
+      "cvSummary": "Marketing fresher: internship optimizing Google/Meta test campaigns, building UTMs, and reporting weekly ROAS to a lead; comfortable with spreadsheets and creative briefs.",
       "experienceChecklist": [
         "Quantify your commercial success: 'Exceeded strict quarterly quota by 110%'",
         "Show targeted impact: 'Managed targeted budget, achieving 5% under-spend'",
@@ -1520,6 +1691,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "State your Go-To-Market or operational domain",
         "Lead with aggregate revenue or major regional clients won",
         "Highlight strategic relationship building and hustle"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Acquired",
@@ -1552,8 +1728,8 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "ready": {
-      "cvTitle": "Digital Marketing Manager",
-      "cvSummary": "Marketing Manager with 3 years executing tech acquisition strategies. Orchestrated product-led marketing initiatives that resulted in a 40% surge in qualified inbound leads.",
+      "cvTitle": "Early-career Digital Marketer",
+      "cvSummary": "Early-career marketer: owned lifecycle emails for a launch, coordinated with product on messaging, and improved landing page conversion with iterative tests.",
       "experienceChecklist": [
         "Quantify your commercial success: 'Exceeded strict quarterly quota by 110%'",
         "Show targeted impact: 'Managed targeted budget, achieving 5% under-spend'",
@@ -1563,6 +1739,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "State your Go-To-Market or operational domain",
         "Lead with aggregate revenue or major regional clients won",
         "Highlight strategic relationship building and hustle"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Acquired",
@@ -1609,6 +1790,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Lead with aggregate revenue or major regional clients won",
         "Highlight strategic relationship building and hustle"
       ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
+      ],
       "actionVerbs": [
         "Streamlined",
         "Automated",
@@ -1641,7 +1827,7 @@ export const ROLE_DATA: Record<string, RoleData> = {
     },
     "developing": {
       "cvTitle": "Operations Fresher",
-      "cvSummary": "Junior Operations Manager with 1.5 years supporting high-growth startup fulfillment. Assisted in redesigning logistics workflows, helping to cut delivery SLA breaches by 5%.",
+      "cvSummary": "Operations fresher: internship mapping vendor SLAs, fixing recurring fulfillment errors in spreadsheets, and supporting weekly ops reviews.",
       "experienceChecklist": [
         "Quantify your commercial success: 'Exceeded strict quarterly quota by 110%'",
         "Show targeted impact: 'Managed targeted budget, achieving 5% under-spend'",
@@ -1651,6 +1837,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "State your Go-To-Market or operational domain",
         "Lead with aggregate revenue or major regional clients won",
         "Highlight strategic relationship building and hustle"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Streamlined",
@@ -1683,8 +1874,8 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "ready": {
-      "cvTitle": "Operations Manager",
-      "cvSummary": "Operations Leader with 3 years experience building scalable startup operations. Governed a tight operating budget and successfully supported the operational expansion into a new regional market.",
+      "cvTitle": "Early-career Operations Associate",
+      "cvSummary": "Early-career ops: helped open a second city playbook — vendor onboarding checklists, staffing ramp, and daily KPI dashboards for leadership.",
       "experienceChecklist": [
         "Quantify your commercial success: 'Exceeded strict quarterly quota by 110%'",
         "Show targeted impact: 'Managed targeted budget, achieving 5% under-spend'",
@@ -1694,6 +1885,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "State your Go-To-Market or operational domain",
         "Lead with aggregate revenue or major regional clients won",
         "Highlight strategic relationship building and hustle"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Streamlined",
@@ -1740,6 +1936,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Show evidence of massive scale or execution speed",
         "Define exactly what value you bring to the company"
       ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
+      ],
       "actionVerbs": [
         "Led",
         "Managed",
@@ -1771,8 +1972,8 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "developing": {
-      "cvTitle": "Fresher Professional",
-      "cvSummary": "Junior professional with 1+ years driving cross-functional initiatives. Consistently optimized internal processes and delivered high-quality outcomes under tight deadlines.",
+      "cvTitle": "Graduate (open track)",
+      "cvSummary": "Recent graduate with internship experience across admin and ops projects: organized cross-team meetings, tightened templates, and shipped small process wins.",
       "experienceChecklist": [
         "Quantify the scale of your impact (budget, team, time saved)",
         "Focus tightly on revenue generated or costs saved",
@@ -1782,6 +1983,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Cut the fluff: state exactly what you do in 5 seconds",
         "Show evidence of massive scale or execution speed",
         "Define exactly what value you bring to the company"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Led",
@@ -1814,8 +2020,8 @@ export const ROLE_DATA: Record<string, RoleData> = {
       }
     },
     "ready": {
-      "cvTitle": "Experienced Professional",
-      "cvSummary": "Professional with 3 years experience guiding strategic initiatives and managing complex portfolios. Renowned for turning early organizational chaos into stable, scalable systems.",
+      "cvTitle": "Strong graduate (multi-internship)",
+      "cvSummary": "Strong graduate profile: multiple internships — coordinated stakeholders, owned recurring reporting, and left playbooks behind for the next cohort.",
       "experienceChecklist": [
         "Quantify the scale of your impact (budget, team, time saved)",
         "Focus tightly on revenue generated or costs saved",
@@ -1825,6 +2031,11 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Cut the fluff: state exactly what you do in 5 seconds",
         "Show evidence of massive scale or execution speed",
         "Define exactly what value you bring to the company"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Led",
@@ -1862,14 +2073,19 @@ export const ROLE_DATA: Record<string, RoleData> = {
       "cvTitle": "Aspiring Software Engineer",
       "cvSummary": "Recent Computer Science graduate with internship experience building scalable web applications. Developed full-stack projects using React and Node.js with a strong focus on clean, testable code.",
       "experienceChecklist": [
-        "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
-        "Show system context: 'Contributed to microservices handling 5k+ RPM'",
-        "Clearly mention tooling context: 'Deployed on AWS using Terraform'"
+        "Intern-scale proof: what you shipped (PRs, components, endpoints) — not 'assisted generally'",
+        "Name stack + scope: React/Node, repo, team size, or users if you have a number",
+        "One measurable win if possible: % faster, fewer bugs, test coverage, or demo users"
       ],
       "summaryChecklist": [
-        "Lead with your strongest domains (Backend, Infra, Full Stack)",
-        "Cite heavy-hitting scalability or architectural contributions",
-        "Include only strictly factual technologies, avoid 'team player'"
+        "Say degree / grad year / target role in the first line",
+        "One strong proof: internship, capstone, or shipped project with a metric",
+        "List real tools (languages, frameworks) — skip empty adjectives"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Architected",
@@ -1903,16 +2119,21 @@ export const ROLE_DATA: Record<string, RoleData> = {
     },
     "developing": {
       "cvTitle": "Software Engineer Fresher",
-      "cvSummary": "Junior Software Engineer with 1+ years of experience contributing to high-traffic distributed systems. Reduced API latency by 15% and improved test coverage across core microservices.",
+      "cvSummary": "Software engineer fresher: completed a summer internship shipping UI and API fixes, plus capstone projects in React and Node. Comfortable with Git, code review, and writing unit tests; eager to grow in a product team.",
       "experienceChecklist": [
-        "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
-        "Show system context: 'Contributed to microservices handling 5k+ RPM'",
-        "Clearly mention tooling context: 'Deployed on AWS using Terraform'"
+        "Say what merged: tickets/PRs/small features — and that you went through review",
+        "Stack proof: languages, frameworks, tests/CI, staging or prod if true",
+        "One honest metric: bugs fixed, build time, coverage, pilot users — intern/first-role scale is fine"
       ],
       "summaryChecklist": [
-        "Lead with your strongest domains (Backend, Infra, Full Stack)",
-        "Cite heavy-hitting scalability or architectural contributions",
-        "Include only strictly factual technologies, avoid 'team player'"
+        "Line 1: target role + stack (Frontend / Backend / Full-stack)",
+        "One internship or capstone story: what shipped and who used it",
+        "3–5 real tools; drop empty adjectives"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Architected",
@@ -1933,29 +2154,34 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Docker",
         "Git/CI/CD"
       ],
-      "hrQuote": "Junior-level means you own complex feature tickets. 'Responsible for UI' means nothing. 'Architected a cache optimization reducing load time by 15%' gets you hired.",
+      "hrQuote": "For a fresher: I still want one ticket owned end-to-end — not chores. Show code that merged, tests you wrote, and a number if you have it. 'Responsible for UI' means nothing. 'Architected a cache optimization reducing load time by 15%' gets you hired.",
       "hrName": "David Kim",
       "hrRole": "VP Engineering",
       "hrCompany": "scaleup",
       "hrQuotes": {
-        "experience": "Junior-level means you own complex feature tickets. 'Responsible for UI' means nothing. 'Architected a cache optimization reducing load time by 15%' gets you hired.",
-        "summary": "Lead with the scale of the systems you've contributed to. Thousands of requests? Core microservices? Put that directly in the first line.",
-        "projects": "Highlight side projects that solve developer pain points (open source, CLI tools) - they show deep passion for craftsmanship outside of work hours.",
+        "experience": "Fresher bar: one slice you owned in review — a bug, small feature, or test gap closed. Show the PR or ticket, stack, and one honest metric (latency, bugs, coverage).",
+        "summary": "First line = target stack + internship/capstone proof. I should see languages, frameworks, and what shipped — not vague 'passionate learner'.",
+        "projects": "Projects matter: repo link, one architecture choice, and a metric or user count at intern scale. Trade-offs beat buzzwords.",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
       }
     },
     "ready": {
       "cvTitle": "Early-career Software Engineer",
-      "cvSummary": "Software Engineer with 3 years of experience orchestrating core platform features. Led a team of 3 junior engineers to successfully migrate a monolithic feature branch to an event-driven architecture.",
+      "cvSummary": "Early-career software engineer (~12–18 months combined internship + part-time): shipped features behind feature flags, improved test coverage on a core service, and paired with seniors on refactors. Ready to own small modules with support.",
       "experienceChecklist": [
-        "No generic tickets: 'Optimized PostgreSQL queries, reducing read latency by 15%'",
-        "Show system context: 'Contributed to microservices handling 5k+ RPM'",
-        "Clearly mention tooling context: 'Deployed on AWS using Terraform'"
+        "Own a slice: feature, module, or bug-bash theme — define what 'done' meant",
+        "Collaboration: pairing, reviews, docs, or on-call shadow you actually did",
+        "One quality/perf signal: tests, monitoring, latency, or reliability — with a number if you can"
       ],
       "summaryChecklist": [
-        "Lead with your strongest domains (Backend, Infra, Full Stack)",
-        "Cite heavy-hitting scalability or architectural contributions",
-        "Include only strictly factual technologies, avoid 'team player'"
+        "State ~12–18 months internship/part-time honestly — not 'senior'",
+        "Your strongest shipped win + metric (even hundreds of users counts)",
+        "What you want next: team type, stack, or problem space"
+      ],
+      "projectsChecklist": [
+        "State the exact problem your project solved for a user",
+        "Detail the technology stack and architecture decisions",
+        "Include a measurable outcome (stars, users, or performance)"
       ],
       "actionVerbs": [
         "Architected",
@@ -1976,14 +2202,14 @@ export const ROLE_DATA: Record<string, RoleData> = {
         "Docker",
         "Git/CI/CD"
       ],
-      "hrQuote": "As a solid mid-level, you are a force multiplier. Show me how you improved junior developer velocity, drove architectural standards, and led technical initiatives.",
+      "hrQuote": "For early-career hires, show me momentum: a feature you owned, how you unblocked others, and one metric or quality bar you moved — without claiming you ran the whole org.",
       "hrName": "David Kim",
       "hrRole": "VP Engineering",
       "hrCompany": "scaleup",
       "hrQuotes": {
-        "experience": "As a solid mid-level, you are a force multiplier. Show me how you improved junior developer velocity, drove architectural standards, and led technical initiatives.",
-        "summary": "You are a seasoned engineer. Your summary must convey technical authority and your ability to align engineering architecture with business goals.",
-        "projects": "If you mention open source at this level, I expect you to be a steady contributor to a widely used framework or building impressive full-stack apps.",
+        "experience": "Early-career signal: ownership on a real slice, collaboration proof, and one crisp outcome — not 'led the company'.",
+        "summary": "Strong fresher / early-career: say months honestly, your strongest shipped win, and what you want next. Authority comes from specifics, not 'senior' adjectives.",
+        "projects": "Show depth on one project: problem, stack, tests/CI if any, and a real outcome — contributor to OSS is a plus, not required.",
         "header": "Your header is the single most important 5 seconds of the CV. Keep it minimalist: Name, Role, Location, Top 2 Links."
       }
     }

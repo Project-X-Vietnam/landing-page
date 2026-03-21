@@ -274,9 +274,7 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
         </motion.div>
 
         {/* Logo */}
-        <motion.img
-          src="/favicon.svg"
-          alt="PJX Logo"
+        <motion.div
           initial={{ scale: 0, rotate: -20 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{
@@ -286,12 +284,31 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
             delay: 0.1,
           }}
           style={{
-            width: 88,
-            height: 88,
+            width: 240,
+            height: 92,
+            borderRadius: 0,
+            background: "transparent",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "none",
             marginBottom: 28,
-            filter: "drop-shadow(0 8px 16px rgba(14,86,250,0.2))",
+            border: "none",
+            padding: 0,
+            boxSizing: "border-box",
+            overflow: "hidden",
           }}
-        />
+        >
+          <img
+            src="/favicon.svg"
+            alt="Project X"
+            style={{
+              width: 220,
+              height: 80,
+              objectFit: "contain",
+            }}
+          />
+        </motion.div>
 
         {/* Headline */}
         <motion.div
@@ -323,7 +340,7 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
                 fontFamily: "'Outfit', sans-serif",
               }}
             >
-              Toolkit Completed!
+              Congratulation!
             </span>
           </div>
 
@@ -358,12 +375,11 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
             width: "100%",
             display: "flex",
             flexDirection: "column",
-            gap: 12,
+            gap: 14,
           }}
         >
           <div
             style={{
-              width: "100%",
               padding: "14px 16px",
               borderRadius: 12,
               border: "1px solid rgba(14,86,250,0.2)",

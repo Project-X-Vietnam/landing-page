@@ -38,7 +38,7 @@ import { getRoleCvOverride } from "@/lib/cv-builder/data/roleCvOverrides";
 
 // [PROMPT WIRING - Step 3] Helper to get dynamic prompt
 const getPromptForSection = (role: string | null, section: string): string => {
-  const safeRole = role || "Product Manager";
+  const safeRole = role || "Product Management (PM)";
   const promptKey = ROLE_TO_PROMPT_KEY[safeRole] ?? "Product Management (PM)";
   const sectionData = PROMPTS_DATA[promptKey];
   if (!sectionData) return "Prompt not available for this role.";
@@ -126,15 +126,15 @@ const COMPANY_INFO: Record<
 };
 
 const LEVEL_OPTS: { id: DiagnosticLevel; emoji: string; label: string }[] = [
-  { id: "starter", emoji: "🌱", label: "Beginner" },
-  { id: "developing", emoji: "🚀", label: "Mid-Level" },
-  { id: "ready", emoji: "🎯", label: "Expert" },
+  { id: "starter", emoji: "🌱", label: "Intern / Student" },
+  { id: "developing", emoji: "🚀", label: "Fresher" },
+  { id: "ready", emoji: "🎯", label: "Strong Fresher" },
 ];
 
 const LEVEL_LABEL: Record<DiagnosticLevel, string> = {
-  starter: "Beginner",
-  developing: "Mid-Level",
-  ready: "Expert",
+  starter: "Intern / Student",
+  developing: "Fresher",
+  ready: "Strong Fresher",
 };
 
 const EXPERIENCE_LEVEL_TAG: Record<DiagnosticLevel, string> = {
