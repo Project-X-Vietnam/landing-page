@@ -47,7 +47,7 @@ These events capture drop-off *within* the workspace.
 
 | Event | Properties | Trigger |
 |---|---|---|
-| `funnel_pdf_downloaded` | `role` | User clicks "Download Full PJX CV Guide 2026" |
+| `funnel_master_prompt_copied` | `role` | User clicks "Copy whole-CV prompt" (primary CTA) |
 | `funnel_back_to_edit` | `role` | User clicks "Back to edit" |
 
 ## Supplementary events

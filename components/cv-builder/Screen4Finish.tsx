@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Copy, RotateCcw, Check, ArrowLeft } from "lucide-react";
-import { trackFunnelBackToEdit } from "@/lib/cv-builder/utils/posthogFunnel";
+import {
+  trackFunnelMasterPromptCopied,
+  trackFunnelBackToEdit,
+} from "@/lib/cv-builder/utils/posthogFunnel";
 
 // ── Confetti Canvas ────────────────────────────────────────────────
 
@@ -178,6 +181,7 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
   const handleCopyMaster = async () => {
     try {
       await navigator.clipboard.writeText(masterPrompt);
+      trackFunnelMasterPromptCopied(selectedRole ?? null);
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2200);
     } catch {

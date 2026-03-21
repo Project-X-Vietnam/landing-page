@@ -21,7 +21,7 @@ export const FUNNEL_EVENTS = {
   WORKSPACE_BACK: "funnel_workspace_back",
 
   // Screen 4 — finish actions
-  PDF_DOWNLOADED: "funnel_pdf_downloaded",
+  MASTER_PROMPT_COPIED: "funnel_master_prompt_copied",
   BACK_TO_EDIT: "funnel_back_to_edit",
 } as const;
 
@@ -135,8 +135,8 @@ export function trackFunnelFinishViewed(role: string | null, level: string) {
   });
 }
 
-export function trackFunnelPdfDownloaded(role: string | null) {
-  capturePostHogEvent(FUNNEL_EVENTS.PDF_DOWNLOADED, {
+export function trackFunnelMasterPromptCopied(role: string | null) {
+  capturePostHogEvent(FUNNEL_EVENTS.MASTER_PROMPT_COPIED, {
     role: role ?? "unknown",
   });
 }
