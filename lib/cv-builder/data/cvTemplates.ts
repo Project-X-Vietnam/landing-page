@@ -37,7 +37,7 @@ export const generateFallbackCV = (role: string, level: DiagnosticLevel): CVData
 
   const prefix = isStarter ? "Intern" : isReady ? "Senior" : "Junior";
   const years = isStarter ? "student" : isReady ? "4 years" : "1.5 years";
-
+  
   return {
     name: "Alex Nguyen",
     title: `${prefix} ${role}`,
@@ -139,7 +139,7 @@ export const CV_TEMPLATES: Record<string, any> = {
       "experience": [
         {
           "company": "Teko Vietnam",
-          "role": "Backend Engineer Intern",
+          "role": "Junior Backend Engineer",
           "dates": "Jan 2023 – Present",
           "bullets": [
             "Migrated 3 Express.js REST services to serverless AWS Lambda, reducing infra costs by 18%",
@@ -2187,17 +2187,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I want a job in tech."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "Final-year [Degree] student at [University] with [X] relevant experiences. Seeking [Target Role]."
+              "id": "s_domain",
+              "text": "Specialised in high-performance backend systems and APIs.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in high-performance backend systems and APIs."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of scaling services to handle 10M+ daily requests.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in high-performance backend systems and APIs. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of scaling services to handle 10M+ daily requests. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to drive architectural excellence at scale.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "developing": {
         "demoLabel": "Summary Transform",
@@ -2205,17 +2244,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I have experience in this field."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role title] with [X] years in [domain]. Track record of [top metric]. Specialised in [area]."
+              "id": "s_domain",
+              "text": "Specialised in high-performance backend systems and APIs.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in high-performance backend systems and APIs."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of scaling services to handle 10M+ daily requests.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in high-performance backend systems and APIs. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of scaling services to handle 10M+ daily requests. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to drive architectural excellence at scale.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "ready": {
         "demoLabel": "Summary Transform",
@@ -2223,17 +2301,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I am senior in this area."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role] with [X] years scaling [domain]. Led [initiative] achieving [business outcome]. Now targeting [next level]."
+              "id": "s_domain",
+              "text": "Specialised in high-performance backend systems and APIs.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in high-performance backend systems and APIs."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of scaling services to handle 10M+ daily requests.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in high-performance backend systems and APIs. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of scaling services to handle 10M+ daily requests. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to drive architectural excellence at scale.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       }
     },
     "header": {
@@ -2256,15 +2373,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Made a website for tracking tasks."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Architected",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a task-tracking dashboard to resolve daily sync delays."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Architected"
+            },
+            {
+              "id": "p_prob",
+              "text": " a task-tracking dashboard to resolve daily sync delays"
+            },
+            {
+              "id": "p_stack",
+              "text": " using React, Node.js, and PostgreSQL",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Architected"
+            },
+            {
+              "id": "p_prob",
+              "text": " a task-tracking dashboard to resolve daily sync delays"
+            },
+            {
+              "id": "p_stack",
+              "text": " using React, Node.js, and PostgreSQL"
+            },
+            {
+              "id": "p_impact",
+              "text": ", reducing sync latency by 40%.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with a precision action verb (Architected, Deployed, Optimised)",
-          "Add technical context: stack, system scale, or architecture pattern",
-          "Close with a hard metric: latency ms, cost %, test coverage %, users"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "developing": {
@@ -2272,15 +2434,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Made a website for tracking tasks."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Architected",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a task-tracking dashboard to resolve daily sync delays."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Architected"
+            },
+            {
+              "id": "p_prob",
+              "text": " a task-tracking dashboard to resolve daily sync delays"
+            },
+            {
+              "id": "p_stack",
+              "text": " using React, Node.js, and PostgreSQL",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Architected"
+            },
+            {
+              "id": "p_prob",
+              "text": " a task-tracking dashboard to resolve daily sync delays"
+            },
+            {
+              "id": "p_stack",
+              "text": " using React, Node.js, and PostgreSQL"
+            },
+            {
+              "id": "p_impact",
+              "text": ", reducing sync latency by 40%.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with a precision action verb (Architected, Deployed, Optimised)",
-          "Add technical context: stack, system scale, or architecture pattern",
-          "Close with a hard metric: latency ms, cost %, test coverage %, users"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "ready": {
@@ -2288,15 +2495,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Made a website for tracking tasks."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Architected",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a task-tracking dashboard to resolve daily sync delays."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Architected"
+            },
+            {
+              "id": "p_prob",
+              "text": " a task-tracking dashboard to resolve daily sync delays"
+            },
+            {
+              "id": "p_stack",
+              "text": " using React, Node.js, and PostgreSQL",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Architected"
+            },
+            {
+              "id": "p_prob",
+              "text": " a task-tracking dashboard to resolve daily sync delays"
+            },
+            {
+              "id": "p_stack",
+              "text": " using React, Node.js, and PostgreSQL"
+            },
+            {
+              "id": "p_impact",
+              "text": ", reducing sync latency by 40%.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with a precision action verb (Architected, Deployed, Optimised)",
-          "Add technical context: stack, system scale, or architecture pattern",
-          "Close with a hard metric: latency ms, cost %, test coverage %, users"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       }
     }
@@ -2482,17 +2734,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I want a job in tech."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "Final-year [Degree] student at [University] with [X] relevant experiences. Seeking [Target Role]."
+              "id": "s_domain",
+              "text": "Specialised in deep learning and NLP architectures.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in deep learning and NLP architectures."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of deploying models with 95%+ inference accuracy.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in deep learning and NLP architectures. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of deploying models with 95%+ inference accuracy. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to deliver intelligent, scalable AI solutions.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "developing": {
         "demoLabel": "Summary Transform",
@@ -2500,17 +2791,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I have experience in this field."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role title] with [X] years in [domain]. Track record of [top metric]. Specialised in [area]."
+              "id": "s_domain",
+              "text": "Specialised in deep learning and NLP architectures.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in deep learning and NLP architectures."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of deploying models with 95%+ inference accuracy.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in deep learning and NLP architectures. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of deploying models with 95%+ inference accuracy. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to deliver intelligent, scalable AI solutions.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "ready": {
         "demoLabel": "Summary Transform",
@@ -2518,17 +2848,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I am senior in this area."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role] with [X] years scaling [domain]. Led [initiative] achieving [business outcome]. Now targeting [next level]."
+              "id": "s_domain",
+              "text": "Specialised in deep learning and NLP architectures.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in deep learning and NLP architectures."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of deploying models with 95%+ inference accuracy.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in deep learning and NLP architectures. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of deploying models with 95%+ inference accuracy. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to deliver intelligent, scalable AI solutions.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       }
     },
     "header": {
@@ -2551,15 +2920,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Built a model to guess user mood."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Deployed",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a machine learning pipeline to classify user sentiment."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Deployed"
+            },
+            {
+              "id": "p_prob",
+              "text": " a machine learning pipeline to classify user sentiment"
+            },
+            {
+              "id": "p_stack",
+              "text": " using PyTorch and AWS SageMaker",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Deployed"
+            },
+            {
+              "id": "p_prob",
+              "text": " a machine learning pipeline to classify user sentiment"
+            },
+            {
+              "id": "p_stack",
+              "text": " using PyTorch and AWS SageMaker"
+            },
+            {
+              "id": "p_impact",
+              "text": ", increasing triage accuracy by 35%.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with a precision action verb (Architected, Deployed, Optimised)",
-          "Add technical context: stack, system scale, or architecture pattern",
-          "Close with a hard metric: latency ms, cost %, test coverage %, users"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "developing": {
@@ -2567,15 +2981,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Built a model to guess user mood."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Deployed",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a machine learning pipeline to classify user sentiment."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Deployed"
+            },
+            {
+              "id": "p_prob",
+              "text": " a machine learning pipeline to classify user sentiment"
+            },
+            {
+              "id": "p_stack",
+              "text": " using PyTorch and AWS SageMaker",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Deployed"
+            },
+            {
+              "id": "p_prob",
+              "text": " a machine learning pipeline to classify user sentiment"
+            },
+            {
+              "id": "p_stack",
+              "text": " using PyTorch and AWS SageMaker"
+            },
+            {
+              "id": "p_impact",
+              "text": ", increasing triage accuracy by 35%.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with a precision action verb (Architected, Deployed, Optimised)",
-          "Add technical context: stack, system scale, or architecture pattern",
-          "Close with a hard metric: latency ms, cost %, test coverage %, users"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "ready": {
@@ -2583,15 +3042,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Built a model to guess user mood."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Deployed",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a machine learning pipeline to classify user sentiment."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Deployed"
+            },
+            {
+              "id": "p_prob",
+              "text": " a machine learning pipeline to classify user sentiment"
+            },
+            {
+              "id": "p_stack",
+              "text": " using PyTorch and AWS SageMaker",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Deployed"
+            },
+            {
+              "id": "p_prob",
+              "text": " a machine learning pipeline to classify user sentiment"
+            },
+            {
+              "id": "p_stack",
+              "text": " using PyTorch and AWS SageMaker"
+            },
+            {
+              "id": "p_impact",
+              "text": ", increasing triage accuracy by 35%.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with a precision action verb (Architected, Deployed, Optimised)",
-          "Add technical context: stack, system scale, or architecture pattern",
-          "Close with a hard metric: latency ms, cost %, test coverage %, users"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       }
     }
@@ -2777,17 +3281,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I want a job in tech."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "Final-year [Degree] student at [University] with [X] relevant experiences. Seeking [Target Role]."
+              "id": "s_domain",
+              "text": "Specialised in data visualization and actionable insights.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in data visualization and actionable insights."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of uncovering trends that boost revenue by 20%.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in data visualization and actionable insights. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of uncovering trends that boost revenue by 20%. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to drive data-informed business strategies.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "developing": {
         "demoLabel": "Summary Transform",
@@ -2795,17 +3338,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I have experience in this field."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role title] with [X] years in [domain]. Track record of [top metric]. Specialised in [area]."
+              "id": "s_domain",
+              "text": "Specialised in data visualization and actionable insights.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in data visualization and actionable insights."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of uncovering trends that boost revenue by 20%.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in data visualization and actionable insights. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of uncovering trends that boost revenue by 20%. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to drive data-informed business strategies.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "ready": {
         "demoLabel": "Summary Transform",
@@ -2813,17 +3395,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I am senior in this area."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role] with [X] years scaling [domain]. Led [initiative] achieving [business outcome]. Now targeting [next level]."
+              "id": "s_domain",
+              "text": "Specialised in data visualization and actionable insights.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in data visualization and actionable insights."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of uncovering trends that boost revenue by 20%.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in data visualization and actionable insights. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of uncovering trends that boost revenue by 20%. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to drive data-informed business strategies.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       }
     },
     "header": {
@@ -2846,15 +3467,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Made charts for business KPIs."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Engineered",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a suite of operational dashboards to monitor KPIs."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Engineered"
+            },
+            {
+              "id": "p_prob",
+              "text": " a suite of operational dashboards to monitor KPIs"
+            },
+            {
+              "id": "p_stack",
+              "text": " using SQL, Tableau, and dbt",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Engineered"
+            },
+            {
+              "id": "p_prob",
+              "text": " a suite of operational dashboards to monitor KPIs"
+            },
+            {
+              "id": "p_stack",
+              "text": " using SQL, Tableau, and dbt"
+            },
+            {
+              "id": "p_impact",
+              "text": ", cutting reporting time by 15 hours/week.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "developing": {
@@ -2862,15 +3528,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Made charts for business KPIs."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Engineered",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a suite of operational dashboards to monitor KPIs."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Engineered"
+            },
+            {
+              "id": "p_prob",
+              "text": " a suite of operational dashboards to monitor KPIs"
+            },
+            {
+              "id": "p_stack",
+              "text": " using SQL, Tableau, and dbt",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Engineered"
+            },
+            {
+              "id": "p_prob",
+              "text": " a suite of operational dashboards to monitor KPIs"
+            },
+            {
+              "id": "p_stack",
+              "text": " using SQL, Tableau, and dbt"
+            },
+            {
+              "id": "p_impact",
+              "text": ", cutting reporting time by 15 hours/week.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "ready": {
@@ -2878,15 +3589,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Made charts for business KPIs."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Engineered",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a suite of operational dashboards to monitor KPIs."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Engineered"
+            },
+            {
+              "id": "p_prob",
+              "text": " a suite of operational dashboards to monitor KPIs"
+            },
+            {
+              "id": "p_stack",
+              "text": " using SQL, Tableau, and dbt",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Engineered"
+            },
+            {
+              "id": "p_prob",
+              "text": " a suite of operational dashboards to monitor KPIs"
+            },
+            {
+              "id": "p_stack",
+              "text": " using SQL, Tableau, and dbt"
+            },
+            {
+              "id": "p_impact",
+              "text": ", cutting reporting time by 15 hours/week.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       }
     }
@@ -3072,17 +3828,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I want a job in tech."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "Final-year [Degree] student at [University] with [X] relevant experiences. Seeking [Target Role]."
+              "id": "s_domain",
+              "text": "Specialised in scalable ETL pipelines and data warehouses.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in scalable ETL pipelines and data warehouses."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of processing 5TB+ of daily telemetry data.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in scalable ETL pipelines and data warehouses. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of processing 5TB+ of daily telemetry data. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to build robust data infrastructure.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "developing": {
         "demoLabel": "Summary Transform",
@@ -3090,17 +3885,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I have experience in this field."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role title] with [X] years in [domain]. Track record of [top metric]. Specialised in [area]."
+              "id": "s_domain",
+              "text": "Specialised in scalable ETL pipelines and data warehouses.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in scalable ETL pipelines and data warehouses."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of processing 5TB+ of daily telemetry data.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in scalable ETL pipelines and data warehouses. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of processing 5TB+ of daily telemetry data. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to build robust data infrastructure.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "ready": {
         "demoLabel": "Summary Transform",
@@ -3108,17 +3942,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I am senior in this area."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role] with [X] years scaling [domain]. Led [initiative] achieving [business outcome]. Now targeting [next level]."
+              "id": "s_domain",
+              "text": "Specialised in scalable ETL pipelines and data warehouses.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in scalable ETL pipelines and data warehouses."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of processing 5TB+ of daily telemetry data.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in scalable ETL pipelines and data warehouses. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of processing 5TB+ of daily telemetry data. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to build robust data infrastructure.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       }
     },
     "header": {
@@ -3141,15 +4014,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Moved data from an API to a database."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Constructed",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " an automated ETL pipeline for marketing data."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Constructed"
+            },
+            {
+              "id": "p_prob",
+              "text": " an automated ETL pipeline for marketing data"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Apache Spark and Airflow",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Constructed"
+            },
+            {
+              "id": "p_prob",
+              "text": " an automated ETL pipeline for marketing data"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Apache Spark and Airflow"
+            },
+            {
+              "id": "p_impact",
+              "text": ", ensuring 99.9% data availability.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with a precision action verb (Architected, Deployed, Optimised)",
-          "Add technical context: stack, system scale, or architecture pattern",
-          "Close with a hard metric: latency ms, cost %, test coverage %, users"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "developing": {
@@ -3157,15 +4075,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Moved data from an API to a database."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Constructed",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " an automated ETL pipeline for marketing data."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Constructed"
+            },
+            {
+              "id": "p_prob",
+              "text": " an automated ETL pipeline for marketing data"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Apache Spark and Airflow",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Constructed"
+            },
+            {
+              "id": "p_prob",
+              "text": " an automated ETL pipeline for marketing data"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Apache Spark and Airflow"
+            },
+            {
+              "id": "p_impact",
+              "text": ", ensuring 99.9% data availability.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with a precision action verb (Architected, Deployed, Optimised)",
-          "Add technical context: stack, system scale, or architecture pattern",
-          "Close with a hard metric: latency ms, cost %, test coverage %, users"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "ready": {
@@ -3173,15 +4136,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Moved data from an API to a database."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Constructed",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " an automated ETL pipeline for marketing data."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Constructed"
+            },
+            {
+              "id": "p_prob",
+              "text": " an automated ETL pipeline for marketing data"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Apache Spark and Airflow",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Constructed"
+            },
+            {
+              "id": "p_prob",
+              "text": " an automated ETL pipeline for marketing data"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Apache Spark and Airflow"
+            },
+            {
+              "id": "p_impact",
+              "text": ", ensuring 99.9% data availability.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with a precision action verb (Architected, Deployed, Optimised)",
-          "Add technical context: stack, system scale, or architecture pattern",
-          "Close with a hard metric: latency ms, cost %, test coverage %, users"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       }
     }
@@ -3367,17 +4375,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I want a job in tech."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "Final-year [Degree] student at [University] with [X] relevant experiences. Seeking [Target Role]."
+              "id": "s_domain",
+              "text": "Specialised in resilient cloud infrastructure and CI/CD.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in resilient cloud infrastructure and CI/CD."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of maintaining 99.99% uptime for core services.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in resilient cloud infrastructure and CI/CD. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of maintaining 99.99% uptime for core services. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to optimize cloud operations and deployments.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "developing": {
         "demoLabel": "Summary Transform",
@@ -3385,17 +4432,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I have experience in this field."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role title] with [X] years in [domain]. Track record of [top metric]. Specialised in [area]."
+              "id": "s_domain",
+              "text": "Specialised in resilient cloud infrastructure and CI/CD.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in resilient cloud infrastructure and CI/CD."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of maintaining 99.99% uptime for core services.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in resilient cloud infrastructure and CI/CD. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of maintaining 99.99% uptime for core services. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to optimize cloud operations and deployments.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "ready": {
         "demoLabel": "Summary Transform",
@@ -3403,17 +4489,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I am senior in this area."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role] with [X] years scaling [domain]. Led [initiative] achieving [business outcome]. Now targeting [next level]."
+              "id": "s_domain",
+              "text": "Specialised in resilient cloud infrastructure and CI/CD.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in resilient cloud infrastructure and CI/CD."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of maintaining 99.99% uptime for core services.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in resilient cloud infrastructure and CI/CD. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of maintaining 99.99% uptime for core services. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to optimize cloud operations and deployments.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       }
     },
     "header": {
@@ -3436,15 +4561,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Put the app on AWS servers."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Provisioned",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " an auto-scaling cloud environment for microservices."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Provisioned"
+            },
+            {
+              "id": "p_prob",
+              "text": " an auto-scaling cloud environment for microservices"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Terraform, Docker, and AWS",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Provisioned"
+            },
+            {
+              "id": "p_prob",
+              "text": " an auto-scaling cloud environment for microservices"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Terraform, Docker, and AWS"
+            },
+            {
+              "id": "p_impact",
+              "text": ", reducing infrastructure costs by 25%.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with a precision action verb (Architected, Deployed, Optimised)",
-          "Add technical context: stack, system scale, or architecture pattern",
-          "Close with a hard metric: latency ms, cost %, test coverage %, users"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "developing": {
@@ -3452,15 +4622,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Put the app on AWS servers."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Provisioned",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " an auto-scaling cloud environment for microservices."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Provisioned"
+            },
+            {
+              "id": "p_prob",
+              "text": " an auto-scaling cloud environment for microservices"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Terraform, Docker, and AWS",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Provisioned"
+            },
+            {
+              "id": "p_prob",
+              "text": " an auto-scaling cloud environment for microservices"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Terraform, Docker, and AWS"
+            },
+            {
+              "id": "p_impact",
+              "text": ", reducing infrastructure costs by 25%.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with a precision action verb (Architected, Deployed, Optimised)",
-          "Add technical context: stack, system scale, or architecture pattern",
-          "Close with a hard metric: latency ms, cost %, test coverage %, users"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "ready": {
@@ -3468,15 +4683,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Put the app on AWS servers."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Provisioned",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " an auto-scaling cloud environment for microservices."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Provisioned"
+            },
+            {
+              "id": "p_prob",
+              "text": " an auto-scaling cloud environment for microservices"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Terraform, Docker, and AWS",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Provisioned"
+            },
+            {
+              "id": "p_prob",
+              "text": " an auto-scaling cloud environment for microservices"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Terraform, Docker, and AWS"
+            },
+            {
+              "id": "p_impact",
+              "text": ", reducing infrastructure costs by 25%.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with a precision action verb (Architected, Deployed, Optimised)",
-          "Add technical context: stack, system scale, or architecture pattern",
-          "Close with a hard metric: latency ms, cost %, test coverage %, users"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       }
     }
@@ -3662,17 +4922,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I want a job in tech."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "Final-year [Degree] student at [University] with [X] relevant experiences. Seeking [Target Role]."
+              "id": "s_domain",
+              "text": "Specialised in product strategy and user-centric roadmaps.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in product strategy and user-centric roadmaps."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of leading cross-functional teams to launch 5+ flagship products.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in product strategy and user-centric roadmaps. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of leading cross-functional teams to launch 5+ flagship products. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to elevate product vision and growth.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "developing": {
         "demoLabel": "Summary Transform",
@@ -3680,17 +4979,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I have experience in this field."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role title] with [X] years in [domain]. Track record of [top metric]. Specialised in [area]."
+              "id": "s_domain",
+              "text": "Specialised in product strategy and user-centric roadmaps.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in product strategy and user-centric roadmaps."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of leading cross-functional teams to launch 5+ flagship products.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in product strategy and user-centric roadmaps. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of leading cross-functional teams to launch 5+ flagship products. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to elevate product vision and growth.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "ready": {
         "demoLabel": "Summary Transform",
@@ -3698,17 +5036,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I am senior in this area."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role] with [X] years scaling [domain]. Led [initiative] achieving [business outcome]. Now targeting [next level]."
+              "id": "s_domain",
+              "text": "Specialised in product strategy and user-centric roadmaps.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in product strategy and user-centric roadmaps."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of leading cross-functional teams to launch 5+ flagship products.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in product strategy and user-centric roadmaps. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of leading cross-functional teams to launch 5+ flagship products. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to elevate product vision and growth.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       }
     },
     "header": {
@@ -3731,15 +5108,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Managed the team to build onboarding."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Spearheaded",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " the development of a user onboarding module."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Spearheaded"
+            },
+            {
+              "id": "p_prob",
+              "text": " the development of a user onboarding module"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Jira, Figma, and Agile methodologies",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Spearheaded"
+            },
+            {
+              "id": "p_prob",
+              "text": " the development of a user onboarding module"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Jira, Figma, and Agile methodologies"
+            },
+            {
+              "id": "p_impact",
+              "text": ", boosting user retention by 30% in Q1.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "developing": {
@@ -3747,15 +5169,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Managed the team to build onboarding."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Spearheaded",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " the development of a user onboarding module."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Spearheaded"
+            },
+            {
+              "id": "p_prob",
+              "text": " the development of a user onboarding module"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Jira, Figma, and Agile methodologies",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Spearheaded"
+            },
+            {
+              "id": "p_prob",
+              "text": " the development of a user onboarding module"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Jira, Figma, and Agile methodologies"
+            },
+            {
+              "id": "p_impact",
+              "text": ", boosting user retention by 30% in Q1.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "ready": {
@@ -3763,15 +5230,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Managed the team to build onboarding."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Spearheaded",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " the development of a user onboarding module."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Spearheaded"
+            },
+            {
+              "id": "p_prob",
+              "text": " the development of a user onboarding module"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Jira, Figma, and Agile methodologies",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Spearheaded"
+            },
+            {
+              "id": "p_prob",
+              "text": " the development of a user onboarding module"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Jira, Figma, and Agile methodologies"
+            },
+            {
+              "id": "p_impact",
+              "text": ", boosting user retention by 30% in Q1.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       }
     }
@@ -3957,17 +5469,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I want a job in tech."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "Final-year [Degree] student at [University] with [X] relevant experiences. Seeking [Target Role]."
+              "id": "s_domain",
+              "text": "Specialised in user acquisition and conversion rate optimization.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in user acquisition and conversion rate optimization."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of scaling active user bases by over 300%.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in user acquisition and conversion rate optimization. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of scaling active user bases by over 300%. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to drive explosive growth metrics.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "developing": {
         "demoLabel": "Summary Transform",
@@ -3975,17 +5526,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I have experience in this field."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role title] with [X] years in [domain]. Track record of [top metric]. Specialised in [area]."
+              "id": "s_domain",
+              "text": "Specialised in user acquisition and conversion rate optimization.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in user acquisition and conversion rate optimization."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of scaling active user bases by over 300%.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in user acquisition and conversion rate optimization. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of scaling active user bases by over 300%. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to drive explosive growth metrics.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "ready": {
         "demoLabel": "Summary Transform",
@@ -3993,17 +5583,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I am senior in this area."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role] with [X] years scaling [domain]. Led [initiative] achieving [business outcome]. Now targeting [next level]."
+              "id": "s_domain",
+              "text": "Specialised in user acquisition and conversion rate optimization.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in user acquisition and conversion rate optimization."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of scaling active user bases by over 300%.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in user acquisition and conversion rate optimization. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of scaling active user bases by over 300%. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to drive explosive growth metrics.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       }
     },
     "header": {
@@ -4026,15 +5655,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Ran a campaign to get more users."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Orchestrated",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a viral referral loop campaign."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Orchestrated"
+            },
+            {
+              "id": "p_prob",
+              "text": " a viral referral loop campaign"
+            },
+            {
+              "id": "p_stack",
+              "text": " utilizing A/B testing, Mixpanel, and Braze",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Orchestrated"
+            },
+            {
+              "id": "p_prob",
+              "text": " a viral referral loop campaign"
+            },
+            {
+              "id": "p_stack",
+              "text": " utilizing A/B testing, Mixpanel, and Braze"
+            },
+            {
+              "id": "p_impact",
+              "text": ", acquiring 50k+ new users in two months.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "developing": {
@@ -4042,15 +5716,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Ran a campaign to get more users."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Orchestrated",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a viral referral loop campaign."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Orchestrated"
+            },
+            {
+              "id": "p_prob",
+              "text": " a viral referral loop campaign"
+            },
+            {
+              "id": "p_stack",
+              "text": " utilizing A/B testing, Mixpanel, and Braze",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Orchestrated"
+            },
+            {
+              "id": "p_prob",
+              "text": " a viral referral loop campaign"
+            },
+            {
+              "id": "p_stack",
+              "text": " utilizing A/B testing, Mixpanel, and Braze"
+            },
+            {
+              "id": "p_impact",
+              "text": ", acquiring 50k+ new users in two months.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "ready": {
@@ -4058,15 +5777,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Ran a campaign to get more users."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Orchestrated",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a viral referral loop campaign."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Orchestrated"
+            },
+            {
+              "id": "p_prob",
+              "text": " a viral referral loop campaign"
+            },
+            {
+              "id": "p_stack",
+              "text": " utilizing A/B testing, Mixpanel, and Braze",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Orchestrated"
+            },
+            {
+              "id": "p_prob",
+              "text": " a viral referral loop campaign"
+            },
+            {
+              "id": "p_stack",
+              "text": " utilizing A/B testing, Mixpanel, and Braze"
+            },
+            {
+              "id": "p_impact",
+              "text": ", acquiring 50k+ new users in two months.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       }
     }
@@ -4252,17 +6016,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I want a job in tech."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "Final-year [Degree] student at [University] with [X] relevant experiences. Seeking [Target Role]."
+              "id": "s_domain",
+              "text": "Specialised in requirement gathering and process optimization.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in requirement gathering and process optimization."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of streamlining workflows to save 500+ manual hours.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in requirement gathering and process optimization. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of streamlining workflows to save 500+ manual hours. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to bridge technical and business objectives.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "developing": {
         "demoLabel": "Summary Transform",
@@ -4270,17 +6073,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I have experience in this field."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role title] with [X] years in [domain]. Track record of [top metric]. Specialised in [area]."
+              "id": "s_domain",
+              "text": "Specialised in requirement gathering and process optimization.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in requirement gathering and process optimization."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of streamlining workflows to save 500+ manual hours.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in requirement gathering and process optimization. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of streamlining workflows to save 500+ manual hours. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to bridge technical and business objectives.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "ready": {
         "demoLabel": "Summary Transform",
@@ -4288,17 +6130,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I am senior in this area."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role] with [X] years scaling [domain]. Led [initiative] achieving [business outcome]. Now targeting [next level]."
+              "id": "s_domain",
+              "text": "Specialised in requirement gathering and process optimization.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in requirement gathering and process optimization."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of streamlining workflows to save 500+ manual hours.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in requirement gathering and process optimization. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of streamlining workflows to save 500+ manual hours. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to bridge technical and business objectives.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       }
     },
     "header": {
@@ -4321,15 +6202,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Wrote requirement documents for the team."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Formulated",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " comprehensive BRDs for a legacy system overhaul."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Formulated"
+            },
+            {
+              "id": "p_prob",
+              "text": " comprehensive BRDs for a legacy system overhaul"
+            },
+            {
+              "id": "p_stack",
+              "text": " employing UML, Jira, and process mapping",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Formulated"
+            },
+            {
+              "id": "p_prob",
+              "text": " comprehensive BRDs for a legacy system overhaul"
+            },
+            {
+              "id": "p_stack",
+              "text": " employing UML, Jira, and process mapping"
+            },
+            {
+              "id": "p_impact",
+              "text": ", reducing enterprise waste by $100k annually.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "developing": {
@@ -4337,15 +6263,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Wrote requirement documents for the team."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Formulated",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " comprehensive BRDs for a legacy system overhaul."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Formulated"
+            },
+            {
+              "id": "p_prob",
+              "text": " comprehensive BRDs for a legacy system overhaul"
+            },
+            {
+              "id": "p_stack",
+              "text": " employing UML, Jira, and process mapping",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Formulated"
+            },
+            {
+              "id": "p_prob",
+              "text": " comprehensive BRDs for a legacy system overhaul"
+            },
+            {
+              "id": "p_stack",
+              "text": " employing UML, Jira, and process mapping"
+            },
+            {
+              "id": "p_impact",
+              "text": ", reducing enterprise waste by $100k annually.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "ready": {
@@ -4353,15 +6324,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Wrote requirement documents for the team."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Formulated",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " comprehensive BRDs for a legacy system overhaul."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Formulated"
+            },
+            {
+              "id": "p_prob",
+              "text": " comprehensive BRDs for a legacy system overhaul"
+            },
+            {
+              "id": "p_stack",
+              "text": " employing UML, Jira, and process mapping",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Formulated"
+            },
+            {
+              "id": "p_prob",
+              "text": " comprehensive BRDs for a legacy system overhaul"
+            },
+            {
+              "id": "p_stack",
+              "text": " employing UML, Jira, and process mapping"
+            },
+            {
+              "id": "p_impact",
+              "text": ", reducing enterprise waste by $100k annually.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       }
     }
@@ -4547,17 +6563,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I want a job in tech."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "Final-year [Degree] student at [University] with [X] relevant experiences. Seeking [Target Role]."
+              "id": "s_domain",
+              "text": "Specialised in intuitive user interfaces and design systems.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in intuitive user interfaces and design systems."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of improving user satisfaction scores by 40%.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in intuitive user interfaces and design systems. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of improving user satisfaction scores by 40%. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to craft exceptional digital experiences.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "developing": {
         "demoLabel": "Summary Transform",
@@ -4565,17 +6620,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I have experience in this field."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role title] with [X] years in [domain]. Track record of [top metric]. Specialised in [area]."
+              "id": "s_domain",
+              "text": "Specialised in intuitive user interfaces and design systems.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in intuitive user interfaces and design systems."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of improving user satisfaction scores by 40%.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in intuitive user interfaces and design systems. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of improving user satisfaction scores by 40%. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to craft exceptional digital experiences.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "ready": {
         "demoLabel": "Summary Transform",
@@ -4583,17 +6677,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I am senior in this area."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role] with [X] years scaling [domain]. Led [initiative] achieving [business outcome]. Now targeting [next level]."
+              "id": "s_domain",
+              "text": "Specialised in intuitive user interfaces and design systems.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in intuitive user interfaces and design systems."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of improving user satisfaction scores by 40%.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in intuitive user interfaces and design systems. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of improving user satisfaction scores by 40%. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to craft exceptional digital experiences.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       }
     },
     "header": {
@@ -4616,15 +6749,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Designed screens for the mobile app."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Prototyped",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a comprehensive design system for mobile apps."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Prototyped"
+            },
+            {
+              "id": "p_prob",
+              "text": " a comprehensive design system for mobile apps"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Figma, Principle, and User Testing",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Prototyped"
+            },
+            {
+              "id": "p_prob",
+              "text": " a comprehensive design system for mobile apps"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Figma, Principle, and User Testing"
+            },
+            {
+              "id": "p_impact",
+              "text": ", accelerating developer handoff by 50%.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with a design-specific action verb (Redesigned, Championed, Facilitated)",
-          "Reference your research method or design tool and scope",
-          "Close with a usability metric, CSAT score, or adoption rate"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "developing": {
@@ -4632,15 +6810,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Designed screens for the mobile app."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Prototyped",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a comprehensive design system for mobile apps."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Prototyped"
+            },
+            {
+              "id": "p_prob",
+              "text": " a comprehensive design system for mobile apps"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Figma, Principle, and User Testing",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Prototyped"
+            },
+            {
+              "id": "p_prob",
+              "text": " a comprehensive design system for mobile apps"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Figma, Principle, and User Testing"
+            },
+            {
+              "id": "p_impact",
+              "text": ", accelerating developer handoff by 50%.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with a design-specific action verb (Redesigned, Championed, Facilitated)",
-          "Reference your research method or design tool and scope",
-          "Close with a usability metric, CSAT score, or adoption rate"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "ready": {
@@ -4648,15 +6871,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Designed screens for the mobile app."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Prototyped",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a comprehensive design system for mobile apps."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Prototyped"
+            },
+            {
+              "id": "p_prob",
+              "text": " a comprehensive design system for mobile apps"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Figma, Principle, and User Testing",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Prototyped"
+            },
+            {
+              "id": "p_prob",
+              "text": " a comprehensive design system for mobile apps"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Figma, Principle, and User Testing"
+            },
+            {
+              "id": "p_impact",
+              "text": ", accelerating developer handoff by 50%.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with a design-specific action verb (Redesigned, Championed, Facilitated)",
-          "Reference your research method or design tool and scope",
-          "Close with a usability metric, CSAT score, or adoption rate"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       }
     }
@@ -4842,17 +7110,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I want a job in tech."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "Final-year [Degree] student at [University] with [X] relevant experiences. Seeking [Target Role]."
+              "id": "s_domain",
+              "text": "Specialised in agile delivery and risk mitigation.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in agile delivery and risk mitigation."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of delivering $5M+ tech initiatives on time and budget.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in agile delivery and risk mitigation. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of delivering $5M+ tech initiatives on time and budget. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to orchestrate complex technical projects.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "developing": {
         "demoLabel": "Summary Transform",
@@ -4860,17 +7167,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I have experience in this field."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role title] with [X] years in [domain]. Track record of [top metric]. Specialised in [area]."
+              "id": "s_domain",
+              "text": "Specialised in agile delivery and risk mitigation.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in agile delivery and risk mitigation."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of delivering $5M+ tech initiatives on time and budget.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in agile delivery and risk mitigation. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of delivering $5M+ tech initiatives on time and budget. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to orchestrate complex technical projects.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "ready": {
         "demoLabel": "Summary Transform",
@@ -4878,17 +7224,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I am senior in this area."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role] with [X] years scaling [domain]. Led [initiative] achieving [business outcome]. Now targeting [next level]."
+              "id": "s_domain",
+              "text": "Specialised in agile delivery and risk mitigation.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in agile delivery and risk mitigation."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of delivering $5M+ tech initiatives on time and budget.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in agile delivery and risk mitigation. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of delivering $5M+ tech initiatives on time and budget. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to orchestrate complex technical projects.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       }
     },
     "header": {
@@ -4911,15 +7296,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Managed a big team for a migration project."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Directed",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a cross-continent team for a major platform migration."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Directed"
+            },
+            {
+              "id": "p_prob",
+              "text": " a cross-continent team for a major platform migration"
+            },
+            {
+              "id": "p_stack",
+              "text": " applying Scrum, MS Project, and Confluence",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Directed"
+            },
+            {
+              "id": "p_prob",
+              "text": " a cross-continent team for a major platform migration"
+            },
+            {
+              "id": "p_stack",
+              "text": " applying Scrum, MS Project, and Confluence"
+            },
+            {
+              "id": "p_impact",
+              "text": ", successfully launching 2 weeks ahead of schedule.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "developing": {
@@ -4927,15 +7357,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Managed a big team for a migration project."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Directed",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a cross-continent team for a major platform migration."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Directed"
+            },
+            {
+              "id": "p_prob",
+              "text": " a cross-continent team for a major platform migration"
+            },
+            {
+              "id": "p_stack",
+              "text": " applying Scrum, MS Project, and Confluence",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Directed"
+            },
+            {
+              "id": "p_prob",
+              "text": " a cross-continent team for a major platform migration"
+            },
+            {
+              "id": "p_stack",
+              "text": " applying Scrum, MS Project, and Confluence"
+            },
+            {
+              "id": "p_impact",
+              "text": ", successfully launching 2 weeks ahead of schedule.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "ready": {
@@ -4943,15 +7418,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Managed a big team for a migration project."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Directed",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a cross-continent team for a major platform migration."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Directed"
+            },
+            {
+              "id": "p_prob",
+              "text": " a cross-continent team for a major platform migration"
+            },
+            {
+              "id": "p_stack",
+              "text": " applying Scrum, MS Project, and Confluence",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Directed"
+            },
+            {
+              "id": "p_prob",
+              "text": " a cross-continent team for a major platform migration"
+            },
+            {
+              "id": "p_stack",
+              "text": " applying Scrum, MS Project, and Confluence"
+            },
+            {
+              "id": "p_impact",
+              "text": ", successfully launching 2 weeks ahead of schedule.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       }
     }
@@ -5137,17 +7657,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I want a job in tech."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "Final-year [Degree] student at [University] with [X] relevant experiences. Seeking [Target Role]."
+              "id": "s_domain",
+              "text": "Specialised in strategic tech partnerships and pipeline growth.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in strategic tech partnerships and pipeline growth."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of closing B2B deals worth over $2M ARR.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in strategic tech partnerships and pipeline growth. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of closing B2B deals worth over $2M ARR. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to expand market footprints and revenue.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "developing": {
         "demoLabel": "Summary Transform",
@@ -5155,17 +7714,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I have experience in this field."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role title] with [X] years in [domain]. Track record of [top metric]. Specialised in [area]."
+              "id": "s_domain",
+              "text": "Specialised in strategic tech partnerships and pipeline growth.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in strategic tech partnerships and pipeline growth."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of closing B2B deals worth over $2M ARR.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in strategic tech partnerships and pipeline growth. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of closing B2B deals worth over $2M ARR. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to expand market footprints and revenue.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "ready": {
         "demoLabel": "Summary Transform",
@@ -5173,17 +7771,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I am senior in this area."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role] with [X] years scaling [domain]. Led [initiative] achieving [business outcome]. Now targeting [next level]."
+              "id": "s_domain",
+              "text": "Specialised in strategic tech partnerships and pipeline growth.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in strategic tech partnerships and pipeline growth."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of closing B2B deals worth over $2M ARR.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in strategic tech partnerships and pipeline growth. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of closing B2B deals worth over $2M ARR. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to expand market footprints and revenue.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       }
     },
     "header": {
@@ -5206,15 +7843,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Talked to companies to get them to buy."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Negotiated",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " enterprise SLA contracts with key technical vendors."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Negotiated"
+            },
+            {
+              "id": "p_prob",
+              "text": " enterprise SLA contracts with key technical vendors"
+            },
+            {
+              "id": "p_stack",
+              "text": " utilizing Salesforce, LinkedIn Sales Navigator, and outreach tools",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Negotiated"
+            },
+            {
+              "id": "p_prob",
+              "text": " enterprise SLA contracts with key technical vendors"
+            },
+            {
+              "id": "p_stack",
+              "text": " utilizing Salesforce, LinkedIn Sales Navigator, and outreach tools"
+            },
+            {
+              "id": "p_impact",
+              "text": ", securing a 15% margin increase.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "developing": {
@@ -5222,15 +7904,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Talked to companies to get them to buy."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Negotiated",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " enterprise SLA contracts with key technical vendors."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Negotiated"
+            },
+            {
+              "id": "p_prob",
+              "text": " enterprise SLA contracts with key technical vendors"
+            },
+            {
+              "id": "p_stack",
+              "text": " utilizing Salesforce, LinkedIn Sales Navigator, and outreach tools",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Negotiated"
+            },
+            {
+              "id": "p_prob",
+              "text": " enterprise SLA contracts with key technical vendors"
+            },
+            {
+              "id": "p_stack",
+              "text": " utilizing Salesforce, LinkedIn Sales Navigator, and outreach tools"
+            },
+            {
+              "id": "p_impact",
+              "text": ", securing a 15% margin increase.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "ready": {
@@ -5238,15 +7965,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Talked to companies to get them to buy."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Negotiated",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " enterprise SLA contracts with key technical vendors."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Negotiated"
+            },
+            {
+              "id": "p_prob",
+              "text": " enterprise SLA contracts with key technical vendors"
+            },
+            {
+              "id": "p_stack",
+              "text": " utilizing Salesforce, LinkedIn Sales Navigator, and outreach tools",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Negotiated"
+            },
+            {
+              "id": "p_prob",
+              "text": " enterprise SLA contracts with key technical vendors"
+            },
+            {
+              "id": "p_stack",
+              "text": " utilizing Salesforce, LinkedIn Sales Navigator, and outreach tools"
+            },
+            {
+              "id": "p_impact",
+              "text": ", securing a 15% margin increase.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       }
     }
@@ -5432,17 +8204,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I want a job in tech."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "Final-year [Degree] student at [University] with [X] relevant experiences. Seeking [Target Role]."
+              "id": "s_domain",
+              "text": "Specialised in performance marketing and digital campaigns.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in performance marketing and digital campaigns."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of driving 50M+ impressions with positive ROI.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in performance marketing and digital campaigns. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of driving 50M+ impressions with positive ROI. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to craft high-converting digital narratives.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "developing": {
         "demoLabel": "Summary Transform",
@@ -5450,17 +8261,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I have experience in this field."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role title] with [X] years in [domain]. Track record of [top metric]. Specialised in [area]."
+              "id": "s_domain",
+              "text": "Specialised in performance marketing and digital campaigns.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in performance marketing and digital campaigns."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of driving 50M+ impressions with positive ROI.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in performance marketing and digital campaigns. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of driving 50M+ impressions with positive ROI. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to craft high-converting digital narratives.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "ready": {
         "demoLabel": "Summary Transform",
@@ -5468,17 +8318,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I am senior in this area."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role] with [X] years scaling [domain]. Led [initiative] achieving [business outcome]. Now targeting [next level]."
+              "id": "s_domain",
+              "text": "Specialised in performance marketing and digital campaigns.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in performance marketing and digital campaigns."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of driving 50M+ impressions with positive ROI.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in performance marketing and digital campaigns. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of driving 50M+ impressions with positive ROI. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to craft high-converting digital narratives.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       }
     },
     "header": {
@@ -5501,15 +8390,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Did marketing for a software launch."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Executed",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " an omnichannel ad strategy for a SaaS launch."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Executed"
+            },
+            {
+              "id": "p_prob",
+              "text": " an omnichannel ad strategy for a SaaS launch"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Google Ads, HubSpot, and Google Analytics",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Executed"
+            },
+            {
+              "id": "p_prob",
+              "text": " an omnichannel ad strategy for a SaaS launch"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Google Ads, HubSpot, and Google Analytics"
+            },
+            {
+              "id": "p_impact",
+              "text": ", generating a 4x return on ad spend (ROAS).",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "developing": {
@@ -5517,15 +8451,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Did marketing for a software launch."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Executed",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " an omnichannel ad strategy for a SaaS launch."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Executed"
+            },
+            {
+              "id": "p_prob",
+              "text": " an omnichannel ad strategy for a SaaS launch"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Google Ads, HubSpot, and Google Analytics",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Executed"
+            },
+            {
+              "id": "p_prob",
+              "text": " an omnichannel ad strategy for a SaaS launch"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Google Ads, HubSpot, and Google Analytics"
+            },
+            {
+              "id": "p_impact",
+              "text": ", generating a 4x return on ad spend (ROAS).",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "ready": {
@@ -5533,15 +8512,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Did marketing for a software launch."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Executed",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " an omnichannel ad strategy for a SaaS launch."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Executed"
+            },
+            {
+              "id": "p_prob",
+              "text": " an omnichannel ad strategy for a SaaS launch"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Google Ads, HubSpot, and Google Analytics",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Executed"
+            },
+            {
+              "id": "p_prob",
+              "text": " an omnichannel ad strategy for a SaaS launch"
+            },
+            {
+              "id": "p_stack",
+              "text": " using Google Ads, HubSpot, and Google Analytics"
+            },
+            {
+              "id": "p_impact",
+              "text": ", generating a 4x return on ad spend (ROAS).",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       }
     }
@@ -5727,17 +8751,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I want a job in tech."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "Final-year [Degree] student at [University] with [X] relevant experiences. Seeking [Target Role]."
+              "id": "s_domain",
+              "text": "Specialised in operations scaling and IT automation.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in operations scaling and IT automation."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of reducing operational bottlenecks by 60%.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in operations scaling and IT automation. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of reducing operational bottlenecks by 60%. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to align technical resources with operational efficiency.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "developing": {
         "demoLabel": "Summary Transform",
@@ -5745,17 +8808,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I have experience in this field."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role title] with [X] years in [domain]. Track record of [top metric]. Specialised in [area]."
+              "id": "s_domain",
+              "text": "Specialised in operations scaling and IT automation.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in operations scaling and IT automation."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of reducing operational bottlenecks by 60%.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in operations scaling and IT automation. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of reducing operational bottlenecks by 60%. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to align technical resources with operational efficiency.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "ready": {
         "demoLabel": "Summary Transform",
@@ -5763,17 +8865,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I am senior in this area."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role] with [X] years scaling [domain]. Led [initiative] achieving [business outcome]. Now targeting [next level]."
+              "id": "s_domain",
+              "text": "Specialised in operations scaling and IT automation.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in operations scaling and IT automation."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of reducing operational bottlenecks by 60%.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in operations scaling and IT automation. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of reducing operational bottlenecks by 60%. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to align technical resources with operational efficiency.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       }
     },
     "header": {
@@ -5796,15 +8937,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Made the vendor process faster."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Overhauled",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " the internal vendor onboarding protocol."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Overhauled"
+            },
+            {
+              "id": "p_prob",
+              "text": " the internal vendor onboarding protocol"
+            },
+            {
+              "id": "p_stack",
+              "text": " by building automated RPA workflows in Zapier and Python",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Overhauled"
+            },
+            {
+              "id": "p_prob",
+              "text": " the internal vendor onboarding protocol"
+            },
+            {
+              "id": "p_stack",
+              "text": " by building automated RPA workflows in Zapier and Python"
+            },
+            {
+              "id": "p_impact",
+              "text": ", slashing processing time by 3 days per vendor.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "developing": {
@@ -5812,15 +8998,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Made the vendor process faster."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Overhauled",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " the internal vendor onboarding protocol."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Overhauled"
+            },
+            {
+              "id": "p_prob",
+              "text": " the internal vendor onboarding protocol"
+            },
+            {
+              "id": "p_stack",
+              "text": " by building automated RPA workflows in Zapier and Python",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Overhauled"
+            },
+            {
+              "id": "p_prob",
+              "text": " the internal vendor onboarding protocol"
+            },
+            {
+              "id": "p_stack",
+              "text": " by building automated RPA workflows in Zapier and Python"
+            },
+            {
+              "id": "p_impact",
+              "text": ", slashing processing time by 3 days per vendor.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "ready": {
@@ -5828,15 +9059,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Made the vendor process faster."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Overhauled",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " the internal vendor onboarding protocol."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Overhauled"
+            },
+            {
+              "id": "p_prob",
+              "text": " the internal vendor onboarding protocol"
+            },
+            {
+              "id": "p_stack",
+              "text": " by building automated RPA workflows in Zapier and Python",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Overhauled"
+            },
+            {
+              "id": "p_prob",
+              "text": " the internal vendor onboarding protocol"
+            },
+            {
+              "id": "p_stack",
+              "text": " by building automated RPA workflows in Zapier and Python"
+            },
+            {
+              "id": "p_impact",
+              "text": ", slashing processing time by 3 days per vendor.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       }
     }
@@ -6022,17 +9298,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I want a job in tech."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "Final-year [Degree] student at [University] with [X] relevant experiences. Seeking [Target Role]."
+              "id": "s_domain",
+              "text": "Specialised in high-impact initiatives and cross-functional collaboration.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in high-impact initiatives and cross-functional collaboration."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of exceeding baseline performance targets consistently.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in high-impact initiatives and cross-functional collaboration. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of exceeding baseline performance targets consistently. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to drive impactful results in a dynamic environment.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "developing": {
         "demoLabel": "Summary Transform",
@@ -6040,17 +9355,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I have experience in this field."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role title] with [X] years in [domain]. Track record of [top metric]. Specialised in [area]."
+              "id": "s_domain",
+              "text": "Specialised in high-impact initiatives and cross-functional collaboration.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in high-impact initiatives and cross-functional collaboration."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of exceeding baseline performance targets consistently.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in high-impact initiatives and cross-functional collaboration. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of exceeding baseline performance targets consistently. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to drive impactful results in a dynamic environment.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       },
       "ready": {
         "demoLabel": "Summary Transform",
@@ -6058,17 +9412,56 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
           [
             {
               "id": "s0",
-              "text": "I am senior in this area."
+              "text": "I am a hard-working team player who likes my field. I want to build things and work in a tech company."
             }
           ],
           [
             {
-              "id": "s1",
-              "text": "[Role] with [X] years scaling [domain]. Led [initiative] achieving [business outcome]. Now targeting [next level]."
+              "id": "s_domain",
+              "text": "Specialised in high-impact initiatives and cross-functional collaboration.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a hard-working team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in high-impact initiatives and cross-functional collaboration."
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of exceeding baseline performance targets consistently.",
+              "flash": "blue"
+            },
+            {
+              "id": "s_old",
+              "text": " I am a team player."
+            }
+          ],
+          [
+            {
+              "id": "s_domain",
+              "text": "Specialised in high-impact initiatives and cross-functional collaboration. "
+            },
+            {
+              "id": "s_metric",
+              "text": " Track record of exceeding baseline performance targets consistently. "
+            },
+            {
+              "id": "s_final",
+              "text": "Seeking to drive impactful results in a dynamic environment.",
+              "flash": "green"
             }
           ]
         ],
-        "checklistItems": []
+        "checklistItems": [
+          "Lead with your strongest domains (Backend, PM, Data, etc.)",
+          "Cite heavy-hitting scalability or specific contributions",
+          "Remove vague cliches and focus on hard truths"
+        ]
       }
     },
     "header": {
@@ -6091,15 +9484,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Finished a major project for the company."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Implemented",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a strategic initiative to upgrade core workflows."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Implemented"
+            },
+            {
+              "id": "p_prob",
+              "text": " a strategic initiative to upgrade core workflows"
+            },
+            {
+              "id": "p_stack",
+              "text": " utilizing modern industry-standard tools",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Implemented"
+            },
+            {
+              "id": "p_prob",
+              "text": " a strategic initiative to upgrade core workflows"
+            },
+            {
+              "id": "p_stack",
+              "text": " utilizing modern industry-standard tools"
+            },
+            {
+              "id": "p_impact",
+              "text": ", yielding measurable improvements in efficiency.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "developing": {
@@ -6107,15 +9545,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Finished a major project for the company."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Implemented",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a strategic initiative to upgrade core workflows."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Implemented"
+            },
+            {
+              "id": "p_prob",
+              "text": " a strategic initiative to upgrade core workflows"
+            },
+            {
+              "id": "p_stack",
+              "text": " utilizing modern industry-standard tools",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Implemented"
+            },
+            {
+              "id": "p_prob",
+              "text": " a strategic initiative to upgrade core workflows"
+            },
+            {
+              "id": "p_stack",
+              "text": " utilizing modern industry-standard tools"
+            },
+            {
+              "id": "p_impact",
+              "text": ", yielding measurable improvements in efficiency.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       },
       "ready": {
@@ -6123,15 +9606,60 @@ export const TRANSFORM_TEMPLATES: Record<string, any> = {
         "stages": [
           [
             {
-              "id": "p",
-              "text": "Project optimised"
+              "id": "p0",
+              "text": "Finished a major project for the company."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Implemented",
+              "flash": "blue"
+            },
+            {
+              "id": "p_prob",
+              "text": " a strategic initiative to upgrade core workflows."
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Implemented"
+            },
+            {
+              "id": "p_prob",
+              "text": " a strategic initiative to upgrade core workflows"
+            },
+            {
+              "id": "p_stack",
+              "text": " utilizing modern industry-standard tools",
+              "flash": "blue"
+            }
+          ],
+          [
+            {
+              "id": "p_verb",
+              "text": "Implemented"
+            },
+            {
+              "id": "p_prob",
+              "text": " a strategic initiative to upgrade core workflows"
+            },
+            {
+              "id": "p_stack",
+              "text": " utilizing modern industry-standard tools"
+            },
+            {
+              "id": "p_impact",
+              "text": ", yielding measurable improvements in efficiency.",
+              "flash": "green"
             }
           ]
         ],
         "checklistItems": [
-          "Open with an outcome-oriented action verb (Led, Spearheaded, Orchestrated)",
-          "Reference cross-functional scope: team size, stakeholders, timelines",
-          "Close with a commercial or engagement metric (%, $, users, NPS)"
+          "State the problem your project solved",
+          "List the exact technical stack or tools used",
+          "Include a measurable outcome (users, speed, accuracy)"
         ]
       }
     }
