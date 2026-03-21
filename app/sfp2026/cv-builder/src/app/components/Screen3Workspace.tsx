@@ -128,6 +128,20 @@ const LEVEL_LABEL: Record<DiagnosticLevel, string> = {
   ready: "Expert",
 };
 
+const EXPERIENCE_LEVEL_TAG: Record<DiagnosticLevel, string> = {
+  starter: "Intern",
+  developing: "Fresher",
+  ready: "Trainee",
+};
+
+function withExperienceLevelTag(role: string, level: DiagnosticLevel): string {
+  const clean = (role || "").trim();
+  if (!clean) return EXPERIENCE_LEVEL_TAG[level];
+  if (/(intern|fresher|trainee|junior|early-career)/i.test(clean)) return clean;
+  const withoutSeniorPrefix = clean.replace(/^(senior|sr\.?|lead|principal|staff|mid-level|mid)\s+/i, "").trim();
+  return `${withoutSeniorPrefix} ${EXPERIENCE_LEVEL_TAG[level]}`;
+}
+
 const SECTION_LABEL: Record<CVSection, string> = {
   header: "Header & Contact",
   summary: "Summary",
@@ -1807,7 +1821,7 @@ function LeftCVColumn({
                       paddingLeft: 2,
                     }}
                   >
-                    {roleData.cvSummary}
+                    {cv.summary || roleData.cvSummary}
                   </motion.p>
                 </AnimatePresence>
               </CVSectionBlock>
@@ -1898,7 +1912,7 @@ function LeftCVColumn({
                                 letterSpacing: "-0.02em",
                               }}
                             >
-                              {entry.role}
+                              {withExperienceLevelTag(entry.role, level)}
                             </span>
                             <span style={{ fontSize: 10, color: "#01001F" }}>
                               · {entry.company}
