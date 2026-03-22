@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { Code2, LayoutGrid, Briefcase, HelpCircle, ArrowRight, ChevronRight, Layers, Cpu, ChevronLeft, ArrowLeft } from "lucide-react";
 import { ProjectXLogo } from "./ProjectXLogo";
+import { useEffect, useRef, useState } from "react";
 
 // ─── PROJECT X BRAND CONSTANTS ────────────────────────────────────────────────
 const NAVY = "#010B2D";        // PJX dark navy (kept for accents only)
@@ -87,22 +88,34 @@ function PillarCard({
   selectedRole,
   onExpand,
   onSelectRole,
+  disableExpandTransition,
+  expandedBodyMinHeight,
+  onExpandedBodyHeightChange,
 }: {
   pillar: typeof PILLARS[0];
   isExpanded: boolean;
   selectedRole: string | null;
   onExpand: () => void;
   onSelectRole: (role: string) => void;
+  disableExpandTransition?: boolean;
+  expandedBodyMinHeight?: number;
+  onExpandedBodyHeightChange?: (height: number) => void;
 }) {
   const Icon = pillar.Icon;
   const ac = pillar.accent; // 'ac' for accent color
   const isActive = isExpanded;
+  const expandedBodyRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!isExpanded || !expandedBodyRef.current || !onExpandedBodyHeightChange) return;
+    onExpandedBodyHeightChange(expandedBodyRef.current.offsetHeight);
+  }, [isExpanded, selectedRole, onExpandedBodyHeightChange]);
 
   return (
     <motion.div
       layout
       onClick={onExpand}
-      transition={{ duration: 0.18 }}
+      transition={{ duration: disableExpandTransition ? 0 : 0.18 }}
       style={{
         borderRadius: 12,
         border: `1.5px solid ${isActive ? BLUE : "#E2E8F0"}`,
@@ -197,17 +210,19 @@ function PillarCard({
         {isExpanded && (
           <motion.div
             key="roles"
-            initial={{ height: 0, opacity: 0 }}
+            initial={disableExpandTransition ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+            exit={disableExpandTransition ? { height: 0, opacity: 1 } : { height: 0, opacity: 0 }}
+            transition={{ duration: disableExpandTransition ? 0 : 0.25, ease: [0.4, 0, 0.2, 1] }}
             style={{ overflow: "hidden", flex: "0 0 auto", width: "100%" }}
             onClick={(e) => e.stopPropagation()}
           >
             <div
+              ref={expandedBodyRef}
               style={{
                 padding: "0 22px 20px",
                 borderTop: `1px solid ${ac}22`,
+                minHeight: expandedBodyMinHeight,
               }}
             >
               <div
@@ -310,7 +325,7 @@ function StatusBar({ dark = false, step = 1, onBack }: { dark?: boolean; step?: 
       {/* Right: Step dots */}
       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
         <div style={{ display: "flex", gap: 4 }}>
-          {[1, 2, 3, 4].map(i => (
+          {[1, 2, 3].map(i => (
             <div key={i} style={{
               width: i === step ? 16 : 6, height: 6, borderRadius: 99,
               background: i <= step ? BLUE : BORDER,
@@ -327,7 +342,7 @@ function StatusBar({ dark = false, step = 1, onBack }: { dark?: boolean; step?: 
             fontFamily: "'Inter', sans-serif",
           }}
         >
-          {step} of 4
+          {step} of 3
         </span>
       </div>
     </div>
@@ -344,6 +359,35 @@ export function Screen1Pillars({
   onNext,
 }: Props) {
   const canProceed = selectedPillar !== null && selectedRole !== null;
+  const [suppressRowTransition, setSuppressRowTransition] = useState<number | null>(null);
+  const [row1EngineeringExpandedHeight, setRow1EngineeringExpandedHeight] = useState<number | undefined>(undefined);
+  const [row2BusinessExpandedHeight, setRow2BusinessExpandedHeight] = useState<number | undefined>(undefined);
+
+  const getRowByPillarId = (id: string | null): number | null => {
+    if (!id) return null;
+    const idx = PILLARS.findIndex((p) => p.id === id);
+    if (idx === -1) return null;
+    return Math.floor(idx / 2);
+  };
+
+  const handleExpandPillar = (nextId: string) => {
+    const currentRow = getRowByPillarId(selectedPillar);
+    const nextRow = getRowByPillarId(nextId);
+    const shouldSuppress =
+      currentRow !== null &&
+      nextRow !== null &&
+      currentRow === nextRow &&
+      selectedPillar !== nextId;
+
+    setSuppressRowTransition(shouldSuppress ? nextRow : null);
+    onSelectPillar(nextId);
+  };
+
+  useEffect(() => {
+    if (suppressRowTransition === null) return;
+    const raf = requestAnimationFrame(() => setSuppressRowTransition(null));
+    return () => cancelAnimationFrame(raf);
+  }, [selectedPillar, suppressRowTransition]);
 
   return (
     <div
@@ -401,7 +445,7 @@ export function Screen1Pillars({
             gap: 6,
           }}
         >
-          {[1, 2, 3, 4].map((s) => (
+          {[1, 2, 3].map((s) => (
             <div
               key={s}
               style={{
@@ -413,16 +457,6 @@ export function Screen1Pillars({
               }}
             />
           ))}
-          <span
-            style={{
-              fontSize: 11,
-              color: "#94a3b8",
-              fontWeight: 500,
-              marginLeft: 6,
-            }}
-          >
-            1 of 4
-          </span>
         </div>
       </div>
 
@@ -467,7 +501,7 @@ export function Screen1Pillars({
               textTransform: "uppercase",
             }}
           >
-            Step 1 of 4
+            Step 1 of 3
           </span>
         </div>
 
@@ -511,16 +545,40 @@ export function Screen1Pillars({
           alignItems: "start",
         }}
       >
-        {PILLARS.map((pillar) => (
-          <PillarCard
-            key={pillar.id}
-            pillar={pillar}
-            isExpanded={selectedPillar === pillar.id}
-            selectedRole={selectedRole}
-            onExpand={() => onSelectPillar(pillar.id)}
-            onSelectRole={onSelectRole}
-          />
-        ))}
+        {PILLARS.map((pillar, index) => {
+          const row = Math.floor(index / 2);
+          const disableExpandTransition = suppressRowTransition === row;
+          const isEngineering = pillar.id === "engineering";
+          const isProduct = pillar.id === "product";
+          const isAI = pillar.id === "ai";
+          const isBusiness = pillar.id === "business";
+
+          return (
+            <PillarCard
+              key={pillar.id}
+              pillar={pillar}
+              isExpanded={selectedPillar === pillar.id}
+              selectedRole={selectedRole}
+              onExpand={() => handleExpandPillar(pillar.id)}
+              onSelectRole={onSelectRole}
+              disableExpandTransition={disableExpandTransition}
+              expandedBodyMinHeight={
+                isProduct
+                  ? row1EngineeringExpandedHeight
+                  : isAI
+                    ? row2BusinessExpandedHeight
+                    : undefined
+              }
+              onExpandedBodyHeightChange={
+                isEngineering
+                  ? (h) => setRow1EngineeringExpandedHeight(h)
+                  : isBusiness
+                    ? (h) => setRow2BusinessExpandedHeight(h)
+                    : undefined
+              }
+            />
+          );
+        })}
       </motion.div>
 
       {/* ── CTA ── */}

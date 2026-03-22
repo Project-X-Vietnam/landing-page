@@ -725,13 +725,15 @@ function SpotlightTour({
 
 
   const HALF = Math.floor(w / 2);
+  const TOOLTIP_CARD_WIDTH = 308;
+  const TOOLTIP_GAP = 24;
   const tooltips = [
     // Step 0: Spotlight on LEFT CV panel → show tooltip card in the RIGHT side
-    { tx: HALF + 24, ty: Math.round(h * 0.28) },
+    { tx: HALF + TOOLTIP_GAP, ty: Math.round(h * 0.30) },
     // Step 1: Spotlight on RIGHT top (checklist) → show tooltip card on the LEFT side
-    { tx: 20, ty: Math.round(h * 0.28) },
+    { tx: HALF - (TOOLTIP_CARD_WIDTH + TOOLTIP_GAP), ty: Math.round(h * 0.20) },
     // Step 2: Spotlight on RIGHT bottom (AI prompt) → show tooltip card on the LEFT side
-    { tx: 20, ty: Math.round(h * 0.30) },
+    { tx: HALF - (TOOLTIP_CARD_WIDTH + TOOLTIP_GAP), ty: Math.round(h * 0.42) },
   ];
 
   if (step < 0 || step >= TOUR_CONTENT.length || !spots[step] || !tooltips[step]) {
@@ -1109,6 +1111,9 @@ function TopNav({
           style={{
             marginLeft: 6,
             padding: "2px 9px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             borderRadius: 99,
             background: "rgba(14,86,250,0.07)",
             border: "1px solid rgba(14,86,250,0.13)",
@@ -1127,8 +1132,19 @@ function TopNav({
           </span>
         </div>
       </div>
-
-      <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          {[1, 2, 3].map((s) => (
+            <div
+              key={s}
+              style={{
+                width: s === 2 ? 24 : 6,
+                height: 6,
+                borderRadius: 99,
+                background: s <= 2 ? "#0E56FA" : "#17CAFA",
+                transition: "all 0.3s",
+              }}
+            />
+          ))}
       </div>
     </div>
   );
@@ -1363,14 +1379,14 @@ function HRQuoteBubble({
       <div
         style={{
           position: 'absolute',
-          top: -10,
-          left: 36,
+          top: 36,
+          left: -10,
           width: 0,
           height: 0,
-          borderLeft: '10px solid transparent',
-          borderRight: '10px solid transparent',
-          borderBottom: '11px solid white',
-          filter: 'drop-shadow(0 -2px 1px rgba(0,0,0,0.05))'
+          borderTop: '10px solid transparent',
+          borderBottom: '10px solid transparent',
+          borderRight: '11px solid white',
+          filter: 'drop-shadow(-2px 0 1px rgba(0,0,0,0.05))'
         }}
       />
       <div

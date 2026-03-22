@@ -248,11 +248,11 @@ export function Screen4Finish({ onRestart, onBack, selectedRole }: Props) {
             marginBottom: 32,
           }}
         >
-          {[1, 2, 3, 4].map((s) => (
+          {[1, 2, 3].map((s) => (
             <div
               key={s}
               style={{
-                width: s === 4 ? 24 : 6,
+                width: s === 3 ? 24 : 6,
                 height: 6,
                 borderRadius: 99,
                 background: "#0E56FA",
