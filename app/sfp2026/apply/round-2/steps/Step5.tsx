@@ -43,7 +43,7 @@ export function Step5({ data, update }: StepProps) {
         <FormField
           label="If you don't secure an internship through PJX partners but get one elsewhere, do you still want to join SFP2026?"
           required
-          description="This helps us understand your commitment to the fellowship program itself."
+          description="This helps us understand your interest to provide invitation to SFP2026 regardless of internship outcome within PJX partners."
         >
           <OptionGrid
             options={FELLOWSHIP_COMMITMENT_OPTIONS}

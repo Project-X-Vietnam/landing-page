@@ -69,11 +69,6 @@ export function RightPanel({ currentStep, data, onExit }: RightPanelProps) {
   }, []);
 
   const ctx = STEP_CONTEXT[currentStep] || STEP_CONTEXT[0];
-  const trackLabel = data.careerTrack
-    ? data.careerTrack.includes("Engineering")
-      ? "Engineering"
-      : "Product / Business"
-    : null;
 
   return (
     <div className="relative z-10 h-full flex flex-col p-6 xl:p-8 2xl:p-10">
@@ -158,47 +153,7 @@ export function RightPanel({ currentStep, data, onExit }: RightPanelProps) {
               </motion.div>
             </AnimatePresence>
 
-            {trackLabel && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <GlassCard className="shrink-0">
-                  <div className="px-5 py-4">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-white/60 mb-2.5">
-                      Your track
-                    </p>
-                    <span className="px-2.5 py-1 rounded-full bg-white/[0.08] text-white text-[11px] font-medium border border-white/[0.12]">
-                      {trackLabel}
-                    </span>
-                  </div>
-                </GlassCard>
-              </motion.div>
-            )}
 
-            {data.techIndustries.length > 0 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <GlassCard className="shrink-0">
-                  <div className="px-5 py-4">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-white/60 mb-2.5">
-                      Industries
-                    </p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {data.techIndustries.slice(0, 4).map((ind) => (
-                        <span
-                          key={ind}
-                          className="px-2.5 py-1 rounded-full bg-white/[0.08] text-white text-[11px] font-medium border border-white/[0.12] truncate max-w-[200px]"
-                        >
-                          {ind}
-                        </span>
-                      ))}
-                      {data.techIndustries.length > 4 && (
-                        <span className="px-2.5 py-1 rounded-full text-[11px] text-white/50 bg-white/[0.04] border border-white/[0.08] font-medium">
-                          +{data.techIndustries.length - 4}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </GlassCard>
-              </motion.div>
-            )}
           </div>
         </div>
       </div>
