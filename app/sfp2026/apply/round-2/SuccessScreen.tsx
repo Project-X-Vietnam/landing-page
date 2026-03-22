@@ -42,8 +42,8 @@ const TIMELINE_STEPS = [
   },
   {
     icon: <Mail className="w-4 h-4" />,
-    title: "Company Matching",
-    desc: "Shortlisted candidates are matched with partner companies.",
+    title: "Partner Internship Application",
+    desc: "Shortlisted candidates apply to partner internship positions.",
     time: "Early April",
   },
   {

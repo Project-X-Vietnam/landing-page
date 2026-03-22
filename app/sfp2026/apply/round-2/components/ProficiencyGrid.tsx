@@ -9,10 +9,13 @@ interface ProficiencyGridProps {
   items: string[];
   ratings: Record<string, string>;
   onChange: (r: Record<string, string>) => void;
+  otherValue?: string;
 }
 
-export function ProficiencyGrid({ items, ratings, onChange }: ProficiencyGridProps) {
+export function ProficiencyGrid({ items, ratings, onChange, otherValue }: ProficiencyGridProps) {
   const rateableItems = items.filter((i) => i !== "Other");
+  const otherLabel = otherValue?.trim();
+  if (otherLabel && items.includes("Other")) rateableItems.push(otherLabel);
   if (rateableItems.length === 0) return null;
   return (
     <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-0">

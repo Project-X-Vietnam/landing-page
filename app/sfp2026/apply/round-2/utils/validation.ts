@@ -95,8 +95,6 @@ export function validateStep(step: number, data: Round2FormData): string[] {
     if (!data.startDate) errors.push("Earliest start date is required");
     if (!data.preferredDuration)
       errors.push("Preferred duration is required");
-    if (data.workArrangement.length === 0)
-      errors.push("Select at least one work arrangement");
   }
   if (step === 4) {
     if (data.improvementsAfterR1.length === 0)

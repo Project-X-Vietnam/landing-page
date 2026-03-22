@@ -155,7 +155,7 @@ export const CAREER_TRACK_OPTIONS = ["Engineering / Technical Track", "Product /
 export const PROGRAMMING_LANGUAGES = [
   "Python", "JavaScript", "TypeScript", "Java", "C", "C++", "C#", "Go",
   "Rust", "Ruby", "PHP", "Swift", "Kotlin", "Dart", "R", "MATLAB", "SQL",
-  "Scala", "Perl", "Shell/Bash", "Other",
+  "Scala", "Perl", "Shell/Bash",
 ];
 
 export const FRAMEWORKS_GROUPS = [
@@ -254,6 +254,14 @@ export const TECH_INDUSTRIES = [
   "Media & Entertainment Tech",
   "AgriTech",
   "LegalTech",
+];
+
+export const START_DATE_OPTIONS = [
+  "May 2026",
+  "June 2026",
+  "July 2026",
+  "August 2026",
+  "Flexible / Anytime",
 ];
 
 export const DURATION_OPTIONS = [

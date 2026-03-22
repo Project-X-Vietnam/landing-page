@@ -3,13 +3,19 @@
 import {
   FormField,
   OptionGrid,
-  DatePickerField,
 } from "../components";
 import {
   TECH_INDUSTRIES,
   DURATION_OPTIONS,
-  WORK_ARRANGEMENT_OPTIONS,
+  START_DATE_OPTIONS,
 } from "../data/options";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import type { StepProps } from "./types";
 
 export function Step4({ data, update }: StepProps) {
@@ -41,13 +47,23 @@ export function Step4({ data, update }: StepProps) {
         <FormField
           label="Earliest internship start date"
           required
-          description="What is the earliest date you can start an internship?"
+          description="What is the earliest month you can start?"
         >
-          <DatePickerField
+          <Select
             value={data.startDate}
-            onChange={(v) => update("startDate", v)}
-            placeholder="Select a date..."
-          />
+            onValueChange={(v) => update("startDate", v)}
+          >
+            <SelectTrigger className="w-full h-10 rounded-lg border-slate-200">
+              <SelectValue placeholder="Select month..." />
+            </SelectTrigger>
+            <SelectContent className="bg-white">
+              {START_DATE_OPTIONS.map((opt) => (
+                <SelectItem key={opt} value={opt}>
+                  {opt}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </FormField>
 
         <FormField label="Preferred internship duration" required>
@@ -60,18 +76,6 @@ export function Step4({ data, update }: StepProps) {
           />
         </FormField>
 
-        <FormField
-          label="Work arrangement preference"
-          required
-          description="Select all that apply."
-        >
-          <OptionGrid
-            options={WORK_ARRANGEMENT_OPTIONS}
-            selected={data.workArrangement}
-            onChange={(v) => update("workArrangement", v)}
-            columns={1}
-          />
-        </FormField>
       </div>
     </div>
   );
