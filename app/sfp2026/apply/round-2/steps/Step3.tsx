@@ -96,8 +96,8 @@ export function Step3({ data, update }: StepProps) {
                   />
                 </FormField>
 
-                {data.programmingLanguages.filter((l) => l !== "Other").length >
-                  0 && (
+                {(data.programmingLanguages.filter((l) => l !== "Other").length > 0 ||
+                  (data.programmingLanguages.includes("Other") && data.programmingLanguagesOther.trim())) && (
                   <FormField
                     label="Rate your proficiency in selected languages"
                     required
@@ -106,6 +106,7 @@ export function Step3({ data, update }: StepProps) {
                       items={data.programmingLanguages}
                       ratings={data.languageProficiency}
                       onChange={(r) => update("languageProficiency", r)}
+                      otherValue={data.programmingLanguagesOther}
                     />
                   </FormField>
                 )}
@@ -126,7 +127,8 @@ export function Step3({ data, update }: StepProps) {
                   />
                 </FormField>
 
-                {data.frameworks.filter((f) => f !== "Other").length > 0 && (
+                {(data.frameworks.filter((f) => f !== "Other").length > 0 ||
+                  (data.frameworks.includes("Other") && data.frameworksOther.trim())) && (
                   <FormField
                     label="Rate your proficiency in selected frameworks/tools"
                     required
@@ -135,6 +137,7 @@ export function Step3({ data, update }: StepProps) {
                       items={data.frameworks}
                       ratings={data.frameworkProficiency}
                       onChange={(r) => update("frameworkProficiency", r)}
+                      otherValue={data.frameworksOther}
                     />
                   </FormField>
                 )}
@@ -223,9 +226,8 @@ export function Step3({ data, update }: StepProps) {
                       />
                     </FormField>
 
-                    {data.programmingLanguages.filter(
-                      (l) => l !== "Other"
-                    ).length > 0 && (
+                    {(data.programmingLanguages.filter((l) => l !== "Other").length > 0 ||
+                      (data.programmingLanguages.includes("Other") && data.programmingLanguagesOther.trim())) && (
                       <FormField
                         label="Rate your proficiency in selected languages"
                         required
@@ -236,6 +238,7 @@ export function Step3({ data, update }: StepProps) {
                           onChange={(r) =>
                             update("languageProficiency", r)
                           }
+                          otherValue={data.programmingLanguagesOther}
                         />
                       </FormField>
                     )}
@@ -256,7 +259,8 @@ export function Step3({ data, update }: StepProps) {
                       />
                     </FormField>
 
-                    {data.frameworks.filter((f) => f !== "Other").length > 0 && (
+                    {(data.frameworks.filter((f) => f !== "Other").length > 0 ||
+                      (data.frameworks.includes("Other") && data.frameworksOther.trim())) && (
                       <FormField
                         label="Rate your proficiency in selected frameworks/tools"
                         required
@@ -267,6 +271,7 @@ export function Step3({ data, update }: StepProps) {
                           onChange={(r) =>
                             update("frameworkProficiency", r)
                           }
+                          otherValue={data.frameworksOther}
                         />
                       </FormField>
                     )}

@@ -28,7 +28,7 @@ export function Step1({ data, update }: StepProps) {
         Verify your identity and update your general information.
       </p>
       <div className="space-y-5">
-        <FormField label="Full Name" required={false}>
+        <FormField label="Full Name" required>
           <FormInput
             value={data.fullName}
             onChange={(e) => update("fullName", e.target.value)}

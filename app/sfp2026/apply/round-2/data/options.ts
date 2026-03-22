@@ -155,7 +155,7 @@ export const CAREER_TRACK_OPTIONS = ["Engineering / Technical Track", "Product /
 export const PROGRAMMING_LANGUAGES = [
   "Python", "JavaScript", "TypeScript", "Java", "C", "C++", "C#", "Go",
   "Rust", "Ruby", "PHP", "Swift", "Kotlin", "Dart", "R", "MATLAB", "SQL",
-  "Scala", "Perl", "Shell/Bash", "Other",
+  "Scala", "Perl", "Shell/Bash",
 ];
 
 export const FRAMEWORKS_GROUPS = [
@@ -256,6 +256,14 @@ export const TECH_INDUSTRIES = [
   "LegalTech",
 ];
 
+export const START_DATE_OPTIONS = [
+  "May 2026",
+  "June 2026",
+  "July 2026",
+  "August 2026",
+  "Flexible / Anytime",
+];
+
 export const DURATION_OPTIONS = [
   "6-8 weeks",
   "10-12 weeks",
@@ -277,11 +285,11 @@ export const IMPROVEMENTS_AFTER_R1 = [
   "Created or updated my GitHub README / portfolio website",
   "Learned a new technical skill or tool",
   "Completed a course or certification",
-  "Improved my interview preparation materials",
+  "Updated CV following Career Survival Kit from Project X Vietnam",
 ];
 
 export const FELLOWSHIP_COMMITMENT_OPTIONS = [
-  "Yes - I want to participate in SFP2026 regardless of internship placement",
-  "No - I'm only interested if I get placed through PJX partners",
-  "Maybe - Depends on my internship situation",
+  "Yes - I'm interested in SFP2026 regardless of internship outcome within PJX partners",
+  "Likely yes, but it depends on my schedule and situation",
+  "No - I'm primarily interested in the internship placement",
 ];

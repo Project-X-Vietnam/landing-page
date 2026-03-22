@@ -54,12 +54,14 @@ export function BizTrackSection({ data, update }: StepProps) {
         />
       </FormField>
 
-      {data.bizTools.filter((t) => t !== "Other").length > 0 && (
+      {(data.bizTools.filter((t) => t !== "Other").length > 0 ||
+        (data.bizTools.includes("Other") && data.bizToolsOther.trim())) && (
         <FormField label="Rate your proficiency in selected tools" required>
           <ProficiencyGrid
             items={data.bizTools}
             ratings={data.bizToolProficiency}
             onChange={(r) => update("bizToolProficiency", r)}
+            otherValue={data.bizToolsOther}
           />
         </FormField>
       )}
@@ -80,7 +82,8 @@ export function BizTrackSection({ data, update }: StepProps) {
         />
       </FormField>
 
-      {data.analyticalTools.filter((t) => t !== "Other").length > 0 && (
+      {(data.analyticalTools.filter((t) => t !== "Other").length > 0 ||
+        (data.analyticalTools.includes("Other") && data.analyticalToolsOther.trim())) && (
         <FormField
           label="Rate your proficiency in selected analytical tools"
           required
@@ -89,6 +92,7 @@ export function BizTrackSection({ data, update }: StepProps) {
             items={data.analyticalTools}
             ratings={data.analyticalToolProficiency}
             onChange={(r) => update("analyticalToolProficiency", r)}
+            otherValue={data.analyticalToolsOther}
           />
         </FormField>
       )}

@@ -33,7 +33,7 @@ export function OptionGrid({
       onChange(selected.includes(option) ? [] : [option]);
     }
   };
-  const allOptions = hasOther ? [...options, "Other"] : options;
+  const allOptions = hasOther && !options.includes("Other") ? [...options, "Other"] : options;
   const isOtherSelected = selected.includes("Other");
   const gridClass =
     columns === 1

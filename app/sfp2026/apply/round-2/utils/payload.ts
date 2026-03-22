@@ -11,12 +11,16 @@ export function preparePayload(data: Round2FormData): Record<string, string> {
 
   const flattenProficiency = (
     items: string[],
-    ratings: Record<string, string>
-  ) =>
-    items
-      .filter((i) => i !== "Other")
+    ratings: Record<string, string>,
+    otherText?: string
+  ) => {
+    const rateable = items.filter((i) => i !== "Other");
+    const otherLabel = otherText?.trim();
+    if (items.includes("Other") && otherLabel) rateable.push(otherLabel);
+    return rateable
       .map((i) => `${i}: ${ratings[i] || "N/A"}`)
       .join("; ");
+  };
 
   const portfolioStr = data.portfolioEntries
     .filter((e) => e.url.trim())
@@ -55,13 +59,13 @@ export function preparePayload(data: Round2FormData): Record<string, string> {
       ? withOther(data.programmingLanguages, data.programmingLanguagesOther)
       : "",
     languageProficiency: isEng
-      ? flattenProficiency(data.programmingLanguages, data.languageProficiency)
+      ? flattenProficiency(data.programmingLanguages, data.languageProficiency, data.programmingLanguagesOther)
       : "",
     frameworks: isEng
       ? withOther(data.frameworks, data.frameworksOther)
       : "",
     frameworkProficiency: isEng
-      ? flattenProficiency(data.frameworks, data.frameworkProficiency)
+      ? flattenProficiency(data.frameworks, data.frameworkProficiency, data.frameworksOther)
       : "",
     techDomains: isEng
       ? withOther(data.techDomains, data.techDomainsOther)
@@ -71,7 +75,7 @@ export function preparePayload(data: Round2FormData): Record<string, string> {
       ? withOther(data.bizTools, data.bizToolsOther)
       : "",
     bizToolProficiency: includeBiz
-      ? flattenProficiency(data.bizTools, data.bizToolProficiency)
+      ? flattenProficiency(data.bizTools, data.bizToolProficiency, data.bizToolsOther)
       : "",
     analyticalTools: includeBiz
       ? withOther(data.analyticalTools, data.analyticalToolsOther)
@@ -79,7 +83,8 @@ export function preparePayload(data: Round2FormData): Record<string, string> {
     analyticalToolProficiency: includeBiz
       ? flattenProficiency(
           data.analyticalTools,
-          data.analyticalToolProficiency
+          data.analyticalToolProficiency,
+          data.analyticalToolsOther
         )
       : "",
     bizDomains: includeBiz
@@ -89,7 +94,6 @@ export function preparePayload(data: Round2FormData): Record<string, string> {
     techIndustries: data.techIndustries.join(", "),
     startDate: data.startDate,
     preferredDuration: data.preferredDuration,
-    workArrangement: data.workArrangement.join(", "),
     improvementsAfterR1: withOther(
       data.improvementsAfterR1,
       data.improvementsAfterR1Other
