@@ -196,21 +196,7 @@ export default function SuccessScreen({ firstName, email }: SuccessScreenProps) 
           We&apos;ll be in touch soon.
         </motion.p>
 
-        <motion.div {...fade(0.8)} className="mb-3">
-          <GlassCard className="overflow-hidden">
-            <div className="flex items-center gap-4 px-5 py-4">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/10 flex items-center justify-center shrink-0 border border-white/[0.08]">
-                <Mail className="w-[18px] h-[18px] text-secondary" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-white/50 text-[11px] font-medium tracking-wide uppercase">Confirmation will be sent to</p>
-                <p className="text-white text-sm font-semibold truncate mt-0.5">{email}</p>
-              </div>
-            </div>
-          </GlassCard>
-        </motion.div>
-
-        <motion.div {...fade(0.95)} className="mb-8">
+        <motion.div {...fade(0.8)} className="mb-8">
           <GlassCard className="overflow-hidden">
             <div className="px-5 pt-5 pb-4">
               <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/30 mb-4">What happens next</p>
