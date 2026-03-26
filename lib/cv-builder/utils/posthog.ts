@@ -3,9 +3,10 @@ import posthog from "posthog-js";
 let initialized = false;
 
 function getPostHogConfig() {
-  const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
-  const host =
-    process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com";
+  const key = (process.env.NEXT_PUBLIC_POSTHOG_KEY || "").trim();
+  const host = (
+    process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com"
+  ).trim();
   return { key, host };
 }
 
