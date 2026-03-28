@@ -79,7 +79,7 @@ export function Step1({ data, update }: StepProps) {
         <FormField
           label="Upload updated CV"
           required
-          description="Google Drive link with view-only access. Make sure you have open permission for anyone with the link."
+          description="Kindly upload your PDF to Google Drive and provide the shareable link, ensuring view access is enabled for anyone with the link."
         >
           <FormInput
             value={data.cvLink}
