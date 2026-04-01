@@ -1,6 +1,6 @@
 import type { Round2FormData } from "./types";
 
-export const FORM_CLOSE_DEADLINE = new Date("2026-03-29T17:00:00+07:00");
+export const FORM_CLOSE_DEADLINE = new Date("2026-04-02T11:59:00+07:00");
 
 export function isFormClosed(): boolean {
   return new Date() > FORM_CLOSE_DEADLINE;
