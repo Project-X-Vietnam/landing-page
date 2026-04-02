@@ -1,0 +1,1 @@
+const fs = require('fs'); const txt = fs.readFileSync('app/sfp2026/cv-builder/src/data/cvTemplates.ts','utf8'); const m = txt.substring(txt.indexOf('export const TRANSFORM_TEMPLATES')).match(/^  \x22[^\x22]+\x22:/gm); console.log(m);
