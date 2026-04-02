@@ -11,7 +11,9 @@ function getPostHogConfig() {
 }
 
 export function initPostHog() {
-  if (initialized || typeof window === "undefined") return true;
+  if (initialized) return true;
+  // Avoid calling posthog-js on the server; capture helpers should no-op in SSR.
+  if (typeof window === "undefined") return false;
 
   const { key, host } = getPostHogConfig();
   if (!key) return false;
