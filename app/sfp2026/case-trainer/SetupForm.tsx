@@ -36,12 +36,9 @@ function FilesModal({ onClose }: { onClose: () => void }) {
     if (!nameValid || !emailValid) return;
     setStatus("loading");
 
-    // Test endpoint: "https://n8n.giangle.site/webhook-test/9748fde6-e064-4521-9af1-f3da0383bfcf"
-    const WEBHOOK_URL = "https://n8n.giangle.site/webhook/9748fde6-e064-4521-9af1-f3da0383bfcf";
+    const WEBHOOK_URL = "/api/get-files";
 
     try {
-      // Using mode: 'no-cors' because n8n webhooks don't emit CORS headers by default.
-      // This allows the browser to send an opaque request without throwing a TypeError.
       await fetch(WEBHOOK_URL, {
         method: "POST",
         mode: "no-cors",
@@ -49,8 +46,6 @@ function FilesModal({ onClose }: { onClose: () => void }) {
         body: JSON.stringify({ name, email }),
       });
 
-      // Since mode='no-cors' yields an opaque response where res.ok is always false,
-      // we assume success if no network-level exception was thrown.
       setStatus("success");
     } catch (err) {
       console.error(err);
@@ -248,6 +243,10 @@ export default function SetupForm({ onSubmit, hideStepLabel }: SetupFormProps) {
         .font-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
       `}</style>
 
+      <AnimatePresence>
+        {showFilesModal && <FilesModal onClose={() => setShowFilesModal(false)} />}
+      </AnimatePresence>
+
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -388,7 +387,7 @@ export default function SetupForm({ onSubmit, hideStepLabel }: SetupFormProps) {
             </div>
 
             {/* Submit Button */}
-            <div className="pt-4">
+            <div className="pt-4 space-y-3">
               <Button
                 type="submit"
                 disabled={submitted}
@@ -405,6 +404,15 @@ export default function SetupForm({ onSubmit, hideStepLabel }: SetupFormProps) {
                 ) : (
                   "Show My Setup Guide →"
                 )}
+              </Button>
+
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => setShowFilesModal(true)}
+                className="h-14 w-full rounded-full border border-white/5 bg-white/[0.02] text-[0.9375rem] font-bold text-white/50 hover:bg-white/5 hover:text-white transition-all"
+              >
+                Get the files
               </Button>
             </div>
           </form>
