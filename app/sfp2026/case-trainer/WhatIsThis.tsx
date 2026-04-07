@@ -37,11 +37,15 @@ const features = [
 
 export default function WhatIsThis({ onNext, hideStepLabel }: WhatIsThisProps) {
   return (
-    <section className="relative flex h-screen flex-col items-center justify-center overflow-hidden px-5 py-10 sm:px-6 lg:px-8">
+    <section className="relative flex min-h-screen flex-col items-center justify-center px-5 py-28 sm:px-6 lg:px-8">
       {/* Ambient glow */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_30%,rgba(14,86,250,0.12),transparent_60%)]" />
 
-
+      {/* Font imports for senior alignment */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&display=swap');
+        .font-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
+      `}</style>
 
       <div className="relative z-10 mx-auto w-full max-w-5xl">
         {/* Header */}
@@ -49,14 +53,16 @@ export default function WhatIsThis({ onNext, hideStepLabel }: WhatIsThisProps) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-4 text-center"
+          className="mb-14 text-center"
         >
           {!hideStepLabel && (
-            <p className="lumina-gradient-text mb-4 font-sans text-[0.6875rem] font-normal uppercase leading-[1.4] tracking-[0.2em]">
-              Step 2 of 6
-            </p>
+            <div className="mb-4">
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider backdrop-blur-md bg-white/10 text-white border border-white/20">
+                Step 2 of 6
+              </span>
+            </div>
           )}
-          <h2 className="text-[clamp(1.75rem,4vw,3.2rem)] font-medium leading-[1.1] tracking-[-0.03em] text-white">
+          <h2 className="font-jakarta text-[clamp(1.75rem,4vw,3.2rem)] font-extrabold leading-[1.1] tracking-[-0.03em] text-white">
             What is PJX Case Trainer?
           </h2>
         </motion.div>
@@ -90,7 +96,7 @@ export default function WhatIsThis({ onNext, hideStepLabel }: WhatIsThisProps) {
                 </div>
 
                 {/* Title */}
-                <h3 className="mb-3 text-[1.125rem] font-medium leading-[1.3] text-white">
+                <h3 className="font-jakarta mb-3 text-[1.125rem] font-bold leading-[1.3] text-white">
                   {feature.title}
                 </h3>
 
@@ -108,13 +114,13 @@ export default function WhatIsThis({ onNext, hideStepLabel }: WhatIsThisProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.45 }}
-          className="mt-6 flex justify-center"
+          className="mt-10 flex justify-center"
         >
           <Button
             onClick={onNext}
             size="lg"
             className={cn(
-              "lumina-primary-glow group rounded-full bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] px-10 py-7 text-[1rem] font-medium text-white transition-all hover:scale-[1.02]",
+              "lumina-primary-glow group rounded-full bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] px-10 py-7 text-[1rem] font-bold text-white transition-all hover:scale-[1.02]",
               "border-none"
             )}
           >

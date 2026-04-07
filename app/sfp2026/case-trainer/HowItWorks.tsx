@@ -51,11 +51,15 @@ const rubric = [
 
 export default function HowItWorks({ onNext, hideStepLabel }: HowItWorksProps) {
   return (
-    <section className="relative flex h-screen flex-col items-center justify-center overflow-hidden px-5 py-10 sm:px-6 lg:px-8">
+    <section className="relative flex min-h-screen flex-col items-center justify-center px-5 py-16 sm:px-6 lg:px-8">
       {/* Ambient */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,rgba(23,202,250,0.10),transparent_65%)]" />
 
-
+      {/* Font imports for senior alignment */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&display=swap');
+        .font-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
+      `}</style>
 
       <div className="relative z-10 mx-auto w-full max-w-5xl">
         {/* Header */}
@@ -63,14 +67,16 @@ export default function HowItWorks({ onNext, hideStepLabel }: HowItWorksProps) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-8 text-center"
+          className="mb-10 text-center"
         >
           {!hideStepLabel && (
-            <p className="lumina-gradient-text mb-4 font-sans text-[0.6875rem] font-normal uppercase leading-[1.4] tracking-[0.2em]">
-              Step 3 of 6
-            </p>
+            <div className="mb-4">
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider backdrop-blur-md bg-white/10 text-white border border-white/20">
+                Step 3 of 6
+              </span>
+            </div>
           )}
-          <h2 className="text-[clamp(1.75rem,4vw,3rem)] font-medium leading-[1.1] tracking-[-0.03em] text-white">
+          <h2 className="font-jakarta text-[clamp(1.75rem,4vw,3rem)] font-extrabold leading-[1.1] tracking-[-0.03em] text-white">
             How It Works
           </h2>
         </motion.div>
@@ -80,7 +86,7 @@ export default function HowItWorks({ onNext, hideStepLabel }: HowItWorksProps) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-8"
+          className="mb-10"
         >
           {/* Desktop: horizontal row */}
           <div className="hidden lg:flex lg:items-start lg:gap-0">
@@ -98,7 +104,7 @@ export default function HowItWorks({ onNext, hideStepLabel }: HowItWorksProps) {
 
                 {/* Number bubble */}
                 <div
-                  className="relative z-10 mb-2 flex h-9 w-9 items-center justify-center rounded-full border text-[0.7rem] font-medium transition-transform hover:scale-110"
+                  className="relative z-10 mb-2 flex h-9 w-9 items-center justify-center rounded-full border text-[0.7rem] font-bold transition-transform hover:scale-110"
                   style={{
                     borderColor: `${step.color}60`,
                     background: `radial-gradient(circle, ${step.color}30, transparent 80%)`,
@@ -111,7 +117,7 @@ export default function HowItWorks({ onNext, hideStepLabel }: HowItWorksProps) {
 
                 {/* Label */}
                 <p
-                  className="mb-1 text-[0.65rem] font-medium uppercase tracking-[0.2em]"
+                  className="font-jakarta mb-1 text-[0.65rem] font-bold uppercase tracking-[0.2em]"
                   style={{ color: step.color }}
                 >
                   {step.label}
@@ -136,7 +142,7 @@ export default function HowItWorks({ onNext, hideStepLabel }: HowItWorksProps) {
                 className="lumina-glass flex gap-5 rounded-2xl p-5"
               >
                 <div
-                   className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-[0.6875rem] font-medium"
+                  className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-[0.6875rem] font-bold"
                   style={{
                     borderColor: `${step.color}60`,
                     color: step.color,
@@ -147,7 +153,7 @@ export default function HowItWorks({ onNext, hideStepLabel }: HowItWorksProps) {
                 </div>
                 <div>
                   <p
-                    className="mb-1 text-[0.7rem] font-medium uppercase tracking-[0.18em]"
+                    className="font-jakarta mb-1 text-[0.7rem] font-bold uppercase tracking-[0.18em]"
                     style={{ color: step.color }}
                   >
                     {step.label}
@@ -166,10 +172,10 @@ export default function HowItWorks({ onNext, hideStepLabel }: HowItWorksProps) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="mb-8"
+          className="mb-10"
         >
           <div className="mb-4 flex items-center justify-between">
-            <p className="font-sans text-[0.7rem] font-normal uppercase leading-[1.4] tracking-[0.2em] text-[rgba(255,255,255,0.4)]">
+            <p className="font-md3-mono text-[0.7rem] font-normal uppercase leading-[1.4] tracking-[0.2em] text-[rgba(255,255,255,0.4)]">
               Evaluation Rubric
             </p>
             <div className="h-px flex-1 ml-6 bg-gradient-to-r from-white/10 to-transparent" />
@@ -177,9 +183,9 @@ export default function HowItWorks({ onNext, hideStepLabel }: HowItWorksProps) {
 
           <div className="lumina-glass overflow-hidden rounded-[20px]">
             {/* Header row */}
-            <div className="grid grid-cols-[1.5fr_0.8fr_3fr] border-b border-white/[0.08] bg-white/[0.02] px-6 py-2">
+            <div className="grid grid-cols-[1.5fr_0.8fr_3fr] border-b border-white/[0.08] bg-white/[0.02] px-6 py-3">
               {["Dimension", "Weight", "What's Assessed"].map((h) => (
-                <span key={h} className="font-sans text-[0.6rem] font-medium uppercase tracking-[0.15em] text-[rgba(255,255,255,0.4)]">
+                <span key={h} className="font-md3-mono text-[0.6rem] font-bold uppercase tracking-[0.15em] text-[rgba(255,255,255,0.4)]">
                   {h}
                 </span>
               ))}
@@ -190,14 +196,14 @@ export default function HowItWorks({ onNext, hideStepLabel }: HowItWorksProps) {
               <div
                 key={row.dimension}
                 className={cn(
-                  "grid grid-cols-[1.5fr_0.8fr_3fr] px-6 py-2.5 transition-colors hover:bg-white/[0.03]",
+                  "grid grid-cols-[1.5fr_0.8fr_3fr] px-6 py-3.5 transition-colors hover:bg-white/[0.03]",
                   index < rubric.length - 1 ? "border-b border-white/[0.06]" : ""
                 )}
               >
-                <span className="text-[0.875rem] font-medium text-white">
+                <span className="font-jakarta text-[0.875rem] font-semibold text-white">
                   {row.dimension}
                 </span>
-                <span className="lumina-gradient-text font-sans text-[0.875rem] font-medium">
+                <span className="lumina-gradient-text font-md3-mono text-[0.875rem] font-bold">
                   {row.weight}
                 </span>
                 <span className="text-[0.875rem] font-normal leading-[1.5] text-[rgba(255,255,255,0.5)]">
@@ -219,7 +225,7 @@ export default function HowItWorks({ onNext, hideStepLabel }: HowItWorksProps) {
             onClick={onNext}
             size="lg"
             className={cn(
-              "lumina-primary-glow group rounded-full bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] px-10 py-6 text-[0.9375rem] font-medium text-white transition-all hover:scale-[1.02]",
+              "lumina-primary-glow group rounded-full bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] px-10 py-6 text-[0.9375rem] font-bold text-white transition-all hover:scale-[1.02]",
               "border-none"
             )}
           >

@@ -10,6 +10,7 @@ import {
   Copy,
   Menu,
   MessageCircle,
+  User,
 } from "lucide-react";
 
 type Platform = "Claude" | "ChatGPT" | "Gemini";
