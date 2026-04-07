@@ -35,159 +35,137 @@ export default function SetupForm({ onSubmit, hideStepLabel }: SetupFormProps) {
     setPlatforms((prev) =>
       prev.includes(id)
         ? prev.length === 1
-          ? prev // keep at least one
+          ? prev
           : prev.filter((p) => p !== id)
         : [...prev, id]
     );
+  };
+
+  // ✅ Hàm download 2 file
+  const downloadSetupFiles = () => {
+    const files = [
+      { url: "/case-trainer-assets/pjx_casetrainer_casehub.json", filename: "pjx_casetrainer_casehub.json" },
+      { url: "/case-trainer-assets/pjx_casetrainer_systemprompt.xml", filename: "pjx_casetrainer_systemprompt.xml" },
+    ];
+
+    files.forEach((file, index) => {
+      setTimeout(() => {
+        const a = document.createElement("a");
+        a.href = file.url;
+        a.download = file.filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }, index * 300);
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setTouched({ name: true, email: true });
     if (!nameValid || !emailValid) return;
+
     setSubmitted(true);
-    
-    // Fire and forget — no blocking UI
+
     void fetch("https://formsubmit.co/ajax/hello@projectxvietnam.org", {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify({ name, email, platforms: platforms.join(", ") }),
-    }).catch(() => {});
+    }).catch(() => { });
 
+    downloadSetupFiles(); // ✅ Trigger download
     onSubmit(platforms);
   };
 
   return (
-    <section className="relative flex min-h-[90vh] items-center justify-center px-5 py-16 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Ambient */}
+    <section className="relative flex h-screen items-center justify-center px-5 py-8 sm:px-6 lg:px-8 overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_30%,rgba(23,202,250,0.12),transparent_60%),radial-gradient(ellipse_at_75%_65%,rgba(14,86,250,0.12),transparent_60%)]" />
-
-      {/* Font imports for senior alignment */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&display=swap');
-        .font-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
-      `}</style>
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="lumina-glass relative z-10 w-full max-w-[560px] overflow-hidden rounded-[32px] border border-white/10 p-6 sm:p-8 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]"
+        className="lumina-glass relative z-10 w-full max-w-[560px] overflow-hidden rounded-[32px] border border-white/10 p-6 sm:p-7 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]"
       >
-        {/* Inner top glow */}
         <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#17CAFA]/10 via-transparent to-transparent" />
 
         <div className="relative">
-          {/* Step label */}
           {!hideStepLabel && (
-            <div className="mb-4 flex items-center gap-3">
-              <span className="flex h-6 items-center rounded-full bg-white/5 px-3 text-[0.625rem] font-bold uppercase tracking-[0.15em] text-white/40 ring-1 ring-white/10">
+            <div className="mb-3 flex items-center gap-3">
+              <span className="flex h-6 items-center rounded-full bg-white/5 px-3 text-[0.625rem] font-medium uppercase tracking-[0.15em] text-white/40 ring-1 ring-white/10">
                 Step 4 of 6
               </span>
               <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent" />
             </div>
           )}
 
-          {/* Headline */}
-          <h2 className="font-jakarta mb-2 text-[1.75rem] font-extrabold leading-[1.1] tracking-[-0.03em] text-white">
+          <h2 className="mb-2 text-[1.75rem] font-medium leading-[1.1] tracking-[-0.03em] text-white">
             Let's Set You Up
           </h2>
-          <p className="mb-6 text-[0.875rem] font-normal leading-[1.6] text-[rgba(255,255,255,0.45)]">
-            Tell us a little about yourself so we can show you the exact setup for
-            your preferred AI tools.
+          <p className="mb-4 text-[0.875rem] leading-[1.6] text-[rgba(255,255,255,0.45)]">
+            Tell us a little about yourself so we can prepare your setup files for your preferred AI tools.
           </p>
 
-          <form onSubmit={handleSubmit} noValidate className="space-y-6">
-            {/* Name Input Group */}
+          <form onSubmit={handleSubmit} noValidate className="space-y-4">
+            {/* Name */}
             <div className="space-y-2.5">
-              <label
-                htmlFor="setup-name"
-                className="flex items-center gap-2 text-[0.75rem] font-bold uppercase tracking-[0.1em] text-white/50"
-              >
+              <label className="flex items-center gap-2 text-[0.75rem] font-medium uppercase tracking-[0.1em] text-white/50">
                 <User className="h-3.5 w-3.5" />
                 Your name
               </label>
-              <div className="relative group">
-                <input
-                  id="setup-name"
-                  type="text"
-                  placeholder="e.g. Nguyen Minh Anh"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  onBlur={() => setTouched((t) => ({ ...t, name: true }))}
-                  className={cn(
-                    "h-14 w-full rounded-2xl border bg-white/[0.03] px-5 text-[0.9375rem] font-normal text-white backdrop-blur-sm transition-all duration-300",
-                    "placeholder:text-white/20 outline-none focus:bg-white/[0.06]",
-                    nameError
-                      ? "border-red-500/50 bg-red-500/5"
-                      : "border-white/10 focus:border-[#17CAFA]/50 focus:shadow-[0_0_20px_-5px_rgba(23,202,250,0.2)]"
-                  )}
-                />
-              </div>
+              <input
+                type="text"
+                placeholder="e.g. Nguyen Minh Anh"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                onBlur={() => setTouched((t) => ({ ...t, name: true }))}
+                className={cn(
+                  "h-12 w-full rounded-2xl border bg-white/[0.03] px-5 text-white",
+                  nameError ? "border-red-500/50" : "border-white/10"
+                )}
+              />
               <AnimatePresence>
                 {nameError && (
-                  <motion.p 
-                    initial={{ opacity: 0, y: -10 }} 
-                    animate={{ opacity: 1, y: 0 }} 
-                    className="text-[0.8125rem] font-medium text-red-400"
-                  >
+                  <motion.p className="text-[0.8125rem] text-red-400">
                     Please enter your name.
                   </motion.p>
                 )}
               </AnimatePresence>
             </div>
 
-            {/* Email Input Group */}
+            {/* Email */}
             <div className="space-y-2.5">
-              <label
-                htmlFor="setup-email"
-                className="flex items-center gap-2 text-[0.75rem] font-bold uppercase tracking-[0.1em] text-white/50"
-              >
+              <label className="flex items-center gap-2 text-[0.75rem] font-medium uppercase tracking-[0.1em] text-white/50">
                 <Mail className="h-3.5 w-3.5" />
                 Contact email
               </label>
-              <div className="relative group">
-                <input
-                  id="setup-email"
-                  type="email"
-                  placeholder="e.g. minhanh@university.edu.vn"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  onBlur={() => setTouched((t) => ({ ...t, email: true }))}
-                  className={cn(
-                    "h-14 w-full rounded-2xl border bg-white/[0.03] px-5 text-[0.9375rem] font-normal text-white backdrop-blur-sm transition-all duration-300",
-                    "placeholder:text-white/20 outline-none focus:bg-white/[0.06]",
-                    emailError
-                      ? "border-red-500/50 bg-red-500/5"
-                      : "border-white/10 focus:border-[#17CAFA]/50 focus:shadow-[0_0_20px_-5px_rgba(23,202,250,0.2)]"
-                  )}
-                />
-              </div>
+              <input
+                type="email"
+                placeholder="e.g. minhanh@university.edu.vn"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                onBlur={() => setTouched((t) => ({ ...t, email: true }))}
+                className={cn(
+                  "h-12 w-full rounded-2xl border bg-white/[0.03] px-5 text-white",
+                  emailError ? "border-red-500/50" : "border-white/10"
+                )}
+              />
               <AnimatePresence>
                 {emailError && (
-                  <motion.p 
-                    initial={{ opacity: 0, y: -10 }} 
-                    animate={{ opacity: 1, y: 0 }} 
-                    className="text-[0.8125rem] font-medium text-red-400"
-                  >
+                  <motion.p className="text-[0.8125rem] text-red-400">
                     Please enter a valid email address.
                   </motion.p>
                 )}
               </AnimatePresence>
             </div>
 
-            {/* Platform Selection */}
+            {/* Platforms */}
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <label className="flex items-center gap-2 text-[0.75rem] font-bold uppercase tracking-[0.1em] text-white/50">
-                  <Laptop className="h-3.5 w-3.5" />
-                  Primary AI platform
-                </label>
-                <span className="text-[0.625rem] font-medium text-white/30 italic">
-                  Select multiple if applicable
-                </span>
-              </div>
-              <div className="flex flex-wrap gap-3">
+              <label className="flex items-center gap-2 text-[0.75rem] font-medium uppercase tracking-[0.1em] text-white/50">
+                <Laptop className="h-3.5 w-3.5" />
+                Primary AI platform
+              </label>
+              <div className="flex gap-3">
                 {PLATFORMS.map((p) => {
                   const isSelected = platforms.includes(p.id);
                   return (
@@ -196,52 +174,32 @@ export default function SetupForm({ onSubmit, hideStepLabel }: SetupFormProps) {
                       type="button"
                       onClick={() => togglePlatform(p.id)}
                       className={cn(
-                        "group relative inline-flex items-center gap-3 overflow-hidden rounded-2xl border px-6 py-3.5 transition-all duration-300",
-                        isSelected
-                          ? "border-[#17CAFA]/40 bg-[#17CAFA]/10 text-white"
-                          : "border-white/5 bg-white/[0.02] text-white/40 hover:border-white/20 hover:text-white/70"
+                        "rounded-2xl px-4 py-2 border",
+                        isSelected ? "border-[#17CAFA]" : "border-white/10"
                       )}
                     >
-                      {/* Active indicator dot */}
-                      <div className={cn(
-                        "h-1.5 w-1.5 rounded-full transition-all duration-300",
-                        isSelected ? "bg-[#17CAFA] shadow-[0_0_10px_#17CAFA]" : "bg-white/10"
-                      )} />
-                      
-                      <span className="text-[0.9375rem] font-semibold">{p.label}</span>
-                      
-                      {p.recommended && (
-                        <div className="ml-1 flex items-center gap-1 rounded-full bg-white/5 px-2 py-0.5 ring-1 ring-white/10">
-                          <Sparkles className="h-2 w-2 text-[#17CAFA]" />
-                          <span className="text-[0.55rem] font-bold uppercase tracking-wider text-[#17CAFA]/80">rec.</span>
-                        </div>
-                      )}
+                      {p.label}
                     </button>
                   );
                 })}
               </div>
             </div>
 
-            {/* Submit Button */}
-            <div className="pt-4">
-              <Button
-                type="submit"
-                disabled={submitted}
-                className={cn(
-                  "lumina-primary-glow group h-14 w-full rounded-2xl bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] text-[1rem] font-extrabold text-white transition-all hover:scale-[1.01] active:scale-[0.99]",
-                  "disabled:opacity-50 disabled:hover:scale-100 border-none"
-                )}
-              >
-                {submitted ? (
-                  <span className="flex items-center gap-2">
-                    <Check className="h-5 w-5" />
-                    Preparing Guide...
-                  </span>
-                ) : (
-                  "Show My Setup Guide →"
-                )}
-              </Button>
-            </div>
+            {/* CTA */}
+            <Button
+              type="submit"
+              disabled={submitted}
+              className="h-12 w-full rounded-2xl bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] text-white font-medium"
+            >
+              {submitted ? (
+                <span className="flex items-center gap-2">
+                  <Check className="h-5 w-5" />
+                  Preparing Files...
+                </span>
+              ) : (
+                "Get Setup Files →"
+              )}
+            </Button>
           </form>
         </div>
       </motion.div>

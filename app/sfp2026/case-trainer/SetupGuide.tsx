@@ -94,15 +94,11 @@ export default function SetupGuide({
   const activeContent = availableTabs.find((t) => t.id === activeTab) ?? availableTabs[0];
 
   return (
-    <section id="setup-guide" className="relative min-h-[90vh] px-5 py-16 sm:px-6 lg:px-8 overflow-hidden">
+    <section id="setup-guide" className="relative h-screen px-5 py-8 sm:px-6 lg:px-8 overflow-hidden">
       {/* Ambient */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_70%_20%,rgba(14,86,250,0.1),transparent_65%)]" />
 
-      {/* Font imports for senior alignment */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&display=swap');
-        .font-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
-      `}</style>
+
 
       <div className="relative z-10 mx-auto w-full max-w-4xl">
         {/* Header */}
@@ -110,16 +106,16 @@ export default function SetupGuide({
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-10 text-center"
+          className="mb-4 text-center"
         >
           {!hideStepLabel && (
-            <div className="mb-6 flex items-center justify-center gap-3">
-              <span className="flex h-6 items-center rounded-full bg-white/5 px-3 text-[0.625rem] font-bold uppercase tracking-[0.15em] text-white/40 ring-1 ring-white/10">
+            <div className="mb-4 flex items-center justify-center gap-3">
+              <span className="flex h-6 items-center rounded-full bg-white/5 px-3 text-[0.625rem] font-medium uppercase tracking-[0.15em] text-white/40 ring-1 ring-white/10">
                 Step 5 of 6
               </span>
             </div>
           )}
-          <h2 className="font-jakarta mb-2 text-[clamp(2rem,5vw,2.8rem)] font-extrabold leading-[1.1] tracking-[-0.03em] text-white">
+          <h2 className="mb-1 text-[clamp(1.75rem,4vw,2.4rem)] font-medium leading-[1.1] tracking-[-0.03em] text-white">
             Your Setup Guide
           </h2>
           <p className="mx-auto max-w-xl text-[0.9375rem] font-normal leading-[1.6] text-[rgba(255,255,255,0.45)]">
@@ -133,10 +129,10 @@ export default function SetupGuide({
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="mb-8"
+          className="mb-4"
         >
           {/* Tab bar */}
-          <div className="mb-6 flex justify-center">
+          <div className="mb-3 flex justify-center">
             <div className="inline-flex gap-2 rounded-2xl bg-white/[0.03] p-1.5 ring-1 ring-white/10 backdrop-blur-md">
               {availableTabs.map((tab) => {
                 const isActive = activeTab === tab.id;
@@ -145,7 +141,7 @@ export default function SetupGuide({
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
                     className={cn(
-                      "relative rounded-xl px-6 py-2.5 text-[0.65rem] font-bold uppercase tracking-[0.15em] transition-all duration-300 whitespace-nowrap",
+                      "relative rounded-xl px-6 py-2.5 text-[0.65rem] font-medium uppercase tracking-[0.15em] transition-all duration-300 whitespace-nowrap",
                       isActive ? "text-white" : "text-white/40 hover:text-white/70"
                     )}
                   >
@@ -175,14 +171,14 @@ export default function SetupGuide({
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.98, y: -10 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
-                className="lumina-glass flex flex-col md:flex-row gap-6 rounded-[28px] border border-white/10 p-6 sm:p-8"
+                className="lumina-glass flex flex-col md:flex-row gap-5 rounded-[28px] border border-white/10 p-5 sm:p-6"
               >
                 <div className="flex-1">
                   <div className="mb-6 flex items-center gap-4">
                     <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#17CAFA]/10 ring-1 ring-[#17CAFA]/20">
                       <Laptop className="h-4.5 w-4.5 text-[#17CAFA]" />
                     </div>
-                    <h3 className="font-jakarta text-[1.125rem] font-extrabold text-white">
+                    <h3 className="text-[1.125rem] font-medium text-white">
                       {activeContent.title}
                     </h3>
                   </div>
@@ -190,10 +186,10 @@ export default function SetupGuide({
                   <div className="space-y-4">
                     {activeContent.steps.map((step, index) => (
                       <div key={index} className="group flex gap-4">
-                        <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/5 text-[0.6rem] font-bold text-[#17CAFA] ring-1 ring-white/10 transition-all group-hover:bg-[#17CAFA]/20 group-hover:ring-[#17CAFA]/30">
+                        <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/5 text-[0.6rem] font-medium text-[#17CAFA] ring-1 ring-white/10 transition-all group-hover:bg-[#17CAFA]/20 group-hover:ring-[#17CAFA]/30">
                           {index + 1}
                         </div>
-                        <p className="text-[0.875rem] font-medium leading-[1.6] text-[rgba(255,255,255,0.6)]">
+                        <p className="text-[0.8125rem] font-medium leading-[1.5] text-[rgba(255,255,255,0.6)]">
                           {step}
                         </p>
                       </div>
@@ -205,7 +201,7 @@ export default function SetupGuide({
                    <div className="rounded-2xl bg-[#17CAFA]/5 border border-[#17CAFA]/20 p-5 backdrop-blur-sm">
                       <div className="mb-3 flex items-center gap-2">
                          <Lightbulb className="h-3.5 w-3.5 text-[#17CAFA]" />
-                         <span className="text-[0.6rem] font-bold uppercase tracking-widest text-[#17CAFA]">Pro Tip</span>
+                         <span className="text-[0.6rem] font-medium uppercase tracking-widest text-[#17CAFA]">Pro Tip</span>
                       </div>
                       <p className="text-[0.75rem] font-medium leading-[1.6] text-[rgba(255,255,255,0.5)] italic">
                         "{activeContent.tip}"
@@ -228,7 +224,7 @@ export default function SetupGuide({
            >
              <AlertTriangle className="h-5 w-5 shrink-0 text-amber-500/80" strokeWidth={1.5} />
              <p className="text-[0.8125rem] font-medium leading-[1.65] text-[rgba(255,255,255,0.45)]">
-               <span className="font-bold text-amber-500/90 uppercase tracking-tighter mr-2">Mandatory:</span>{" "}
+               <span className="font-medium text-amber-500/90 uppercase tracking-tighter mr-2">Mandatory:</span>{" "}
                Do not alter the system prompts. Modification breaks the
                underlying step-tracking logic and automated evaluation rubric.
              </p>
@@ -239,10 +235,10 @@ export default function SetupGuide({
              initial={{ opacity: 0, y: 20 }}
              whileInView={{ opacity: 1, y: 0 }}
              viewport={{ once: true }}
-             className="mt-4"
+             className="mt-2"
            >
              <div className="mb-4 flex items-center justify-between">
-               <p className="font-md3-mono text-[0.65rem] font-normal uppercase leading-[1.4] tracking-[0.2em] text-[rgba(255,255,255,0.4)]">
+               <p className="font-sans text-[0.65rem] font-normal uppercase leading-[1.4] tracking-[0.2em] text-[rgba(255,255,255,0.4)]">
                  Difficulty Progression
                </p>
                <div className="h-px flex-1 ml-6 bg-gradient-to-r from-white/10 to-transparent" />
@@ -258,12 +254,12 @@ export default function SetupGuide({
                      style={{ background: `radial-gradient(circle, ${d.color}, transparent 70%)` }}
                    />
                    <p
-                     className="mb-0.5 font-md3-mono text-[0.55rem] font-bold uppercase tracking-[0.2em]"
+                     className="mb-0.5 font-sans text-[0.55rem] font-medium uppercase tracking-[0.2em]"
                      style={{ color: d.color }}
                    >
                      {d.range}
                    </p>
-                   <h4 className="font-jakarta mb-1 text-[1rem] font-extrabold text-white">
+                   <h4 className="mb-1 text-[1rem] font-medium text-white">
                      {d.level}
                    </h4>
                    <p className="text-[0.75rem] font-medium leading-[1.5] text-[rgba(255,255,255,0.4)]">
@@ -281,13 +277,13 @@ export default function SetupGuide({
            whileInView={{ opacity: 1, y: 0 }}
            viewport={{ once: true }}
            transition={{ delay: 0.2 }}
-           className="mt-10 flex justify-center"
+           className="mt-4 flex justify-center"
         >
           <Button
             onClick={onNext}
             size="lg"
             className={cn(
-              "lumina-primary-glow group rounded-full bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] px-10 py-6 text-[0.9375rem] font-bold text-white transition-all hover:scale-[1.02]",
+              "lumina-primary-glow group rounded-full bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] px-10 py-5 text-[0.9375rem] font-medium text-white transition-all hover:scale-[1.02]",
               "border-none"
             )}
           >

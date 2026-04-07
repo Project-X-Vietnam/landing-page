@@ -121,7 +121,7 @@ function HighlightBrackets({ text }: { text: string }) {
     <>
       {parts.map((part, i) =>
         /^\[[^\]]+\]$/.test(part) ? (
-          <span key={i} className="text-[#17CAFA] font-bold">
+          <span key={i} className="text-[#17CAFA] font-medium">
             {part}
           </span>
         ) : (
@@ -144,12 +144,12 @@ function PromptCardItem({ card }: { card: PromptCard }) {
   };
 
   return (
-    <div className="lumina-glass group relative flex flex-col rounded-3xl border border-white/5 p-8 transition-all hover:border-white/20 hover:bg-white/[0.04]">
+    <div className="lumina-glass group relative flex flex-col rounded-3xl border border-white/5 p-4 transition-all hover:border-white/20 hover:bg-white/[0.04]">
       {/* Label and Badge */}
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Terminal className="h-3.5 w-3.5 text-white/30" />
-          <span className="font-md3-mono text-[0.65rem] font-bold uppercase tracking-[0.2em] text-white/40">
+          <span className="font-sans text-[0.65rem] font-medium uppercase tracking-[0.2em] text-white/40">
             {card.label}
           </span>
         </div>
@@ -168,8 +168,8 @@ function PromptCardItem({ card }: { card: PromptCard }) {
       </div>
 
       {/* Prompt Block */}
-      <div className="relative mb-6 rounded-2xl bg-black/20 p-6 ring-1 ring-white/5">
-        <pre className="whitespace-pre-wrap font-md3-mono text-[0.9375rem] font-medium leading-[1.6] text-white/90">
+      <div className="relative mb-4 rounded-2xl bg-black/20 p-5 ring-1 ring-white/5">
+        <pre className="whitespace-pre-wrap font-sans text-[0.875rem] font-medium leading-[1.5] text-white/90">
           <code>
             <HighlightBrackets text={card.prompt} />
           </code>
@@ -189,7 +189,7 @@ function PromptCardItem({ card }: { card: PromptCard }) {
         {card.note && (
           <div className="flex items-center gap-2 px-1">
             <Zap className="h-3 w-3 text-amber-400" />
-            <p className="text-[0.75rem] font-bold text-amber-500/80 uppercase tracking-tighter">
+            <p className="text-[0.75rem] font-medium text-amber-500/80 uppercase tracking-tighter">
               {card.note}
             </p>
           </div>
@@ -204,15 +204,11 @@ export default function SamplePrompts({ hideStepLabel }: { hideStepLabel?: boole
   const phase = phases.find((p) => p.id === activePhase) ?? phases[0];
 
   return (
-    <section id="sample-prompts" className="relative min-h-[90vh] px-5 py-16 sm:px-6 lg:px-8 overflow-hidden">
+    <section id="sample-prompts" className="relative h-screen px-5 py-6 sm:px-6 lg:px-8 overflow-hidden">
       {/* Ambient */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_60%,rgba(23,202,250,0.08),transparent_60%)]" />
 
-      {/* Font imports for senior alignment */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&display=swap');
-        .font-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
-      `}</style>
+
 
       <div className="relative z-10 mx-auto w-full max-w-5xl">
         {/* Header */}
@@ -220,16 +216,16 @@ export default function SamplePrompts({ hideStepLabel }: { hideStepLabel?: boole
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-10 text-center"
+          className="mb-4 text-center"
         >
           {!hideStepLabel && (
             <div className="mb-4 flex items-center justify-center gap-3">
-              <span className="flex h-6 items-center rounded-full bg-white/5 px-3 text-[0.625rem] font-bold uppercase tracking-[0.15em] text-white/40 ring-1 ring-white/10">
+              <span className="flex h-6 items-center rounded-full bg-white/5 px-3 text-[0.625rem] font-medium uppercase tracking-[0.15em] text-white/40 ring-1 ring-white/10">
                 Step 6 of 6
               </span>
             </div>
           )}
-          <h2 className="font-jakarta mb-2 text-[clamp(1.8rem,5vw,2.8rem)] font-extrabold leading-[1.1] tracking-[-0.03em] text-white">
+          <h2 className="mb-2 text-[clamp(1.8rem,5vw,2.8rem)] font-medium leading-[1.1] tracking-[-0.03em] text-white">
             Sample Prompts
           </h2>
           <p className="mx-auto max-w-xl text-[0.9375rem] font-normal leading-[1.6] text-[rgba(255,255,255,0.45)]">
@@ -243,7 +239,7 @@ export default function SamplePrompts({ hideStepLabel }: { hideStepLabel?: boole
            initial={{ opacity: 0, y: 30 }}
            animate={{ opacity: 1, y: 0 }}
            transition={{ duration: 0.5, delay: 0.1 }}
-           className="mb-8 flex justify-center"
+           className="mb-4 flex justify-center"
         >
           <div className="inline-flex gap-2 rounded-2xl bg-white/[0.03] p-1.5 ring-1 ring-white/10 backdrop-blur-md">
             {phases.map((p) => {
@@ -253,7 +249,7 @@ export default function SamplePrompts({ hideStepLabel }: { hideStepLabel?: boole
                   key={p.id}
                   onClick={() => setActivePhase(p.id)}
                   className={cn(
-                    "relative rounded-xl px-6 py-2.5 text-[0.65rem] font-bold uppercase tracking-[0.2em] transition-all duration-300",
+                    "relative rounded-xl px-6 py-2.5 text-[0.65rem] font-medium uppercase tracking-[0.2em] transition-all duration-300",
                     isActive ? "text-white" : "text-white/40 hover:text-white/70"
                   )}
                 >
@@ -279,14 +275,14 @@ export default function SamplePrompts({ hideStepLabel }: { hideStepLabel?: boole
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.98, y: -15 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="space-y-8"
+            className="space-y-3"
           >
             {/* Phase info */}
             <div className="mx-auto max-w-2xl text-center">
-              <span className="lumina-gradient-text mb-2 inline-block font-md3-mono text-[0.65rem] font-bold uppercase tracking-[0.25em]">
+              <span className="lumina-gradient-text mb-2 inline-block font-sans text-[0.65rem] font-medium uppercase tracking-[0.25em]">
                 {phase.phaseLabel}
               </span>
-              <h3 className="font-jakarta mb-3 text-[1.25rem] font-extrabold leading-[1.1] text-white">
+              <h3 className="mb-3 text-[1.25rem] font-medium leading-[1.1] text-white">
                 {phase.title}
               </h3>
               <p className="text-[0.875rem] font-medium leading-[1.6] text-[rgba(255,255,255,0.4)]">
@@ -312,7 +308,7 @@ export default function SamplePrompts({ hideStepLabel }: { hideStepLabel?: boole
            whileInView={{ opacity: 1, y: 0 }}
            viewport={{ once: true }}
            transition={{ delay: 0.4 }}
-           className="mt-12 flex flex-col items-center gap-8 border-t border-white/5 pt-10"
+           className="mt-2 flex flex-col items-center gap-6 border-t border-white/5 pt-2"
         >
            <div className="text-center">
              <p className="mb-6 text-[0.8125rem] font-medium text-white/40">
@@ -323,7 +319,7 @@ export default function SamplePrompts({ hideStepLabel }: { hideStepLabel?: boole
                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                  size="lg"
                  className={cn(
-                   "lumina-primary-glow group rounded-full bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] px-10 py-6 text-[0.9375rem] font-black text-white transition-all hover:scale-[1.05] active:scale-[0.95]",
+                   "lumina-primary-glow group rounded-full bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] px-10 py-5 text-[0.9375rem] font-medium text-white transition-all hover:scale-[1.05] active:scale-[0.95]",
                    "border-none"
                  )}
                >
@@ -334,7 +330,7 @@ export default function SamplePrompts({ hideStepLabel }: { hideStepLabel?: boole
                <Link 
                  href="/sfp2026"
                  className={cn(
-                   "group flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-10 py-6 text-[0.9375rem] font-bold text-white/80 transition-all hover:bg-white/10 hover:border-white/20 active:scale-[0.98]",
+                   "group flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-10 py-5 text-[0.9375rem] font-medium text-white/80 transition-all hover:bg-white/10 hover:border-white/20 active:scale-[0.98]",
                    "ring-1 ring-white/5 shadow-[0_0_20px_-5px_rgba(255,255,255,0.05)]"
                  )}
                >
