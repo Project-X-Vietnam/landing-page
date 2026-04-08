@@ -6,6 +6,7 @@ import { Check, Copy, Terminal, Zap, ArrowRight, Info } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import StepProgress from "./StepProgress";
 
 type PromptCard = {
   id: string;
@@ -13,6 +14,7 @@ type PromptCard = {
   prompt: string;
   helper?: string;
   note?: string;
+  roleCard?: boolean;
 };
 
 type Phase = {
@@ -22,9 +24,40 @@ type Phase = {
   title: string;
   description: string;
   cards: PromptCard[];
+  postNote?: string;
+  secondaryPhase?: {
+    phaseLabel: string;
+    title: string;
+    description: string;
+    cards: PromptCard[];
+  };
 };
 
 const phases: Phase[] = [
+  {
+    id: "role-setup",
+    tabLabel: "ROLE SETUP",
+    phaseLabel: "PHASE 0",
+    title: "Activate Your Coach",
+    description:
+      "Paste this into your AI platform's system/instructions field before starting any session. This is the most important step — it defines how the AI will behave.",
+    cards: [
+      {
+        id: "role-description",
+        label: "ROLE DESCRIPTION",
+        roleCard: true,
+        prompt: `You are PJX Case Trainer, a structured case interview coach built by PJX. Your job is to help candidates from PM/PO, BA/DA, DS, SWE, and AI/ML roles practice case interviews through guided, step-by-step coaching sessions.
+
+You have been given two inputs: a system prompt and a Case Hub file. The system prompt defines all rules, steps, and behaviors you must follow exactly. The Case Hub is the only source of cases you may use — you must never invent, paraphrase, or generate any case not present as a row in that file.
+
+Before every session, you will run a pre-session setup to collect the user's job description or preferences, select the most relevant case from the Case Hub, and confirm their interaction mode. Once the session starts, you will coach the user through five structured thinking steps — Define, Decompose, Hypothesize, Analyze, and Recommend — using only Socratic questions. You do not give answers, but you are welcomed to give users hints referring to data supporting points and domain knowledge if they do not understand. After all five steps are complete, you will produce a scored evaluation debrief based solely on what the user actually said during the session. You will also have a system prompt assisted you uploaded alongside with case hub, so please refer to it.
+
+Follow the system prompt precisely. Do not improvise behavior not described in it. When in doubt, re-read the relevant rule before responding.`,
+      },
+    ],
+    postNote:
+      "Do not modify this text. Copy it exactly and paste into Project Instructions (Claude), Instructions (Gemini), or the GPT Instructions field (ChatGPT).",
+  },
   {
     id: "start",
     tabLabel: "START",
@@ -46,9 +79,9 @@ const phases: Phase[] = [
     id: "coach",
     tabLabel: "COACH",
     phaseLabel: "PHASE 2",
-    title: "Coaching Logic",
+    title: "During the Coaching Session",
     description:
-      "Signal readiness to advance between steps. The coach only moves when you explicitly confirm completion.",
+      "The AI acts as your coach. Use these prompts to move through the session and request data.",
     cards: [
       {
         id: "start-approach",
@@ -66,9 +99,9 @@ const phases: Phase[] = [
         id: "request-data",
         label: "REQUEST DATA",
         prompt:
-          "I have completed my initial [Decomposition/Framework] and identified my key hypotheses. Do you have any specific [Data Points] or [Metric Trends] available for this [Domain] scenario?",
+          "I have completed my initial [Decomposition/Framework] and identified my key hypotheses. To move into the Analyze step, do you have any specific [Data Points/Exhibits] or [Metric Trends] available for this [Domain] scenario that I should evaluate?",
         helper:
-          "Replace [Framework] with your method · [Data Points] with the data type · [Domain] with case domain",
+          "Replace [Domain] with your case domain (e.g. Fintech, Edtech)",
       },
     ],
   },
@@ -76,40 +109,83 @@ const phases: Phase[] = [
     id: "evaluate",
     tabLabel: "EVALUATE",
     phaseLabel: "PHASE 3",
-    title: "Requesting Evaluation",
+    title: "Requesting Your Evaluation",
     description:
-      "Once you finish your recommendation, use this phrase to trigger the Evaluator mode.",
+      "Once you've completed your recommendation, trigger the Evaluator to get your 5-dimension score breakdown.",
     cards: [
       {
         id: "final-submission",
         label: "FINAL SUBMISSION",
         prompt:
           "I have completed my recommendation and final synthesis. Please end the coaching session and trigger the Evaluator to provide my 5-dimension score.",
-        note: "Swap in Prompt B according to Step 5 instructions before sending this.",
       },
     ],
+    secondaryPhase: {
+      phaseLabel: "PHASE 4",
+      title: "After Your Scores",
+      description:
+        "Use these prompts to go deeper on specific dimensions or get career advice based on your performance.",
+      cards: [
+        {
+          id: "deep-dive",
+          label: "DEEP DIVE ON A DIMENSION",
+          prompt:
+            "My score for [Dimension] was low. Can you explain what I missed in this specific [Domain] case?",
+          helper:
+            "Replace [Dimension] with Problem Framing, Structure, Logic & Evidence, Insight, or Communication",
+        },
+        {
+          id: "framework-check",
+          label: "FRAMEWORK CHECK",
+          prompt:
+            "What would a strong response look like for the [Step] step of this problem? Which framework would have been most effective?",
+          helper:
+            "Replace [Step] with Define, Decompose, Hypothesize, Analyze, or Recommend",
+        },
+        {
+          id: "career-advice",
+          label: "CAREER ADVICE",
+          prompt:
+            "Based on my performance in this [Role] case, what technical or business domain areas should I study more for a real interview?",
+        },
+      ],
+    },
   },
   {
-    id: "review",
-    tabLabel: "REVIEW",
-    phaseLabel: "PHASE 4",
-    title: "Learning & Debrief",
+    id: "retry",
+    tabLabel: "RETRY",
+    phaseLabel: "PHASE 5",
+    title: "Retry or Start Fresh",
     description:
-      "Understand exactly what you missed and what a 'Strong' response would have looked like.",
+      "Use these to close the loop — change style, adjust difficulty, or move to a new case.",
     cards: [
       {
-        id: "deep-dive",
-        label: "DEEP DIVE ON A DIMENSION",
+        id: "retry-style",
+        label: "RETRY — CHANGE STYLE",
         prompt:
-          "My score for [Dimension] was low ([Weight]%). Can you explain what non-obvious observations I missed in this [Domain] case?",
+          "I want to retry this exact case. Please reset the session, but this time act as a [Style] interviewer to test my communication under stress.",
         helper:
-          "Replace [Dimension] with rubric label · [Weight] with score % · [Domain] with case domain",
+          "Replace [Style] with tough, encouraging, fast-paced, or silent (minimal hints)",
       },
       {
-        id: "framework-check",
-        label: "FRAMEWORK CHECK",
+        id: "retry-difficulty",
+        label: "RETRY — CHANGE DIFFICULTY",
         prompt:
-          "What would a 'Strong Response' look like for the Structure step? Which framework (RICE, CIRCLES) would be more effective?",
+          "I want to retry this exact case at [Difficulty] level.",
+        helper:
+          "Replace [Difficulty] with Beginner, Intermediate, or Advanced",
+      },
+      {
+        id: "adjust-difficulty",
+        label: "ADJUST DIFFICULTY",
+        prompt:
+          "I found this case [manageable / too difficult]. Can we try an [easier / more advanced] version of this same scenario?",
+      },
+      {
+        id: "new-session",
+        label: "START A NEW SESSION",
+        prompt:
+          "Session complete. Take me back to the Case Hub so I can select a different domain for my next practice.",
       },
     ],
   },
@@ -121,7 +197,7 @@ function HighlightBrackets({ text }: { text: string }) {
     <>
       {parts.map((part, i) =>
         /^\[[^\]]+\]$/.test(part) ? (
-          <span key={i} className="text-[#17CAFA] font-bold">
+          <span key={i} className="text-[#17CAFA] font-medium">
             {part}
           </span>
         ) : (
@@ -144,17 +220,30 @@ function PromptCardItem({ card }: { card: PromptCard }) {
   };
 
   return (
-    <div className="lumina-glass group relative flex flex-col rounded-3xl border border-white/5 p-8 transition-all hover:border-white/20 hover:bg-white/[0.04]">
+    <div
+      className={cn(
+        "lumina-glass group relative flex flex-col rounded-3xl border border-white/5 p-4 transition-all hover:border-white/20 hover:bg-white/[0.04]",
+        card.roleCard && "rounded-[14px] border-2 border-[rgba(37,99,235,0.40)] bg-[rgba(37,99,235,0.08)] p-6 hover:border-[rgba(37,99,235,0.55)]"
+      )}
+    >
       {/* Label and Badge */}
-      <div className="mb-6 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Terminal className="h-3.5 w-3.5 text-white/30" />
-          <span className="font-md3-mono text-[0.65rem] font-bold uppercase tracking-[0.2em] text-white/40">
-            {card.label}
+      <div className="mb-4 flex items-center justify-between">
+        {card.roleCard ? (
+          <span className="inline-flex rounded bg-[#2563EB] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.1em] text-white">
+            ROLE DESCRIPTION - PASTE FIRST
           </span>
-        </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            <Terminal className="h-3.5 w-3.5 text-white/30" />
+            <span className="font-sans text-[0.72rem] font-medium uppercase tracking-[0.16em] text-white/40">
+              {card.label}
+            </span>
+          </div>
+        )}
         <button
+          type="button"
           onClick={handleCopy}
+          aria-label={`Copy ${card.label.toLowerCase()} prompt`}
           className={cn(
             "flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300",
             copied 
@@ -168,20 +257,20 @@ function PromptCardItem({ card }: { card: PromptCard }) {
       </div>
 
       {/* Prompt Block */}
-      <div className="relative mb-6 rounded-2xl bg-black/20 p-6 ring-1 ring-white/5">
-        <pre className="whitespace-pre-wrap font-md3-mono text-[0.9375rem] font-medium leading-[1.6] text-white/90">
+      <div className={cn("relative mb-4 rounded-2xl bg-black/20 p-5 ring-1 ring-white/5", card.roleCard && "bg-black/10")}>
+        <pre className="whitespace-pre-wrap font-sans text-[0.9375rem] font-medium leading-[1.5] text-white/90">
           <code>
             <HighlightBrackets text={card.prompt} />
           </code>
         </pre>
       </div>
 
-      {/* Helper / Footer */}
+        {/* Helper / Footer */}
       <div className="mt-auto flex flex-col gap-3">
         {card.helper && (
           <div className="flex gap-3 bg-white/[0.02] p-4 rounded-xl ring-1 ring-white/5">
             <Info className="h-4 w-4 shrink-0 text-white/20 mt-0.5" />
-            <p className="text-[0.8125rem] font-medium leading-[1.6] text-white/40 italic">
+            <p className="text-[0.875rem] font-medium leading-[1.6] text-white/40 italic">
               <HighlightBrackets text={card.helper} />
             </p>
           </div>
@@ -189,7 +278,7 @@ function PromptCardItem({ card }: { card: PromptCard }) {
         {card.note && (
           <div className="flex items-center gap-2 px-1">
             <Zap className="h-3 w-3 text-amber-400" />
-            <p className="text-[0.75rem] font-bold text-amber-500/80 uppercase tracking-tighter">
+            <p className="text-[0.8125rem] font-medium text-amber-500/80 uppercase tracking-tighter">
               {card.note}
             </p>
           </div>
@@ -199,20 +288,24 @@ function PromptCardItem({ card }: { card: PromptCard }) {
   );
 }
 
-export default function SamplePrompts({ hideStepLabel }: { hideStepLabel?: boolean }) {
-  const [activePhase, setActivePhase] = useState("start");
+interface SamplePromptsProps {
+  hideStepLabel?: boolean;
+  onBack: () => void;
+  currentStep: number;
+  onNavigate: (step: number, direct?: boolean) => void;
+  onRestart: () => void;
+}
+
+export default function SamplePrompts({ hideStepLabel, onBack, currentStep, onNavigate, onRestart }: SamplePromptsProps) {
+  const [activePhase, setActivePhase] = useState("role-setup");
   const phase = phases.find((p) => p.id === activePhase) ?? phases[0];
 
   return (
-    <section id="sample-prompts" className="relative min-h-[90vh] px-5 py-16 sm:px-6 lg:px-8 overflow-hidden">
+    <section id="sample-prompts" className="relative min-h-screen overflow-hidden px-5 pb-6 pt-28 sm:px-6 lg:px-8">
       {/* Ambient */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_60%,rgba(23,202,250,0.08),transparent_60%)]" />
 
-      {/* Font imports for senior alignment */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&display=swap');
-        .font-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
-      `}</style>
+
 
       <div className="relative z-10 mx-auto w-full max-w-5xl">
         {/* Header */}
@@ -220,19 +313,20 @@ export default function SamplePrompts({ hideStepLabel }: { hideStepLabel?: boole
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-10 text-center"
+          className="mb-4 text-center"
         >
+          <StepProgress currentStep={currentStep} onNavigate={onNavigate} />
           {!hideStepLabel && (
             <div className="mb-4 flex items-center justify-center gap-3">
-              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider backdrop-blur-md bg-white/10 text-white border border-white/20">
+              <span className="flex h-6 items-center rounded-full bg-white/5 px-3 text-[0.6875rem] font-medium uppercase tracking-[0.12em] text-white/40 ring-1 ring-white/10">
                 Step 6 of 6
               </span>
             </div>
           )}
-          <h2 className="font-jakarta mb-2 text-[clamp(1.8rem,5vw,2.8rem)] font-extrabold leading-[1.1] tracking-[-0.03em] text-white">
+          <h2 className="mb-2 text-[clamp(1.8rem,5vw,2.8rem)] font-medium leading-[1.1] tracking-[-0.03em] text-white">
             Sample Prompts
           </h2>
-          <p className="mx-auto max-w-xl text-[0.9375rem] font-normal leading-[1.6] text-[rgba(255,255,255,0.45)]">
+          <p className="mx-auto max-w-xl text-[1rem] font-normal leading-[1.6] text-[rgba(255,255,255,0.45)]">
             Copy these specialized prompts into your coaching session to guide the 
             AI through each phase of the case structure.
           </p>
@@ -243,7 +337,7 @@ export default function SamplePrompts({ hideStepLabel }: { hideStepLabel?: boole
            initial={{ opacity: 0, y: 30 }}
            animate={{ opacity: 1, y: 0 }}
            transition={{ duration: 0.5, delay: 0.1 }}
-           className="mb-8 flex justify-center"
+           className="mb-4 flex justify-center"
         >
           <div className="inline-flex gap-2 rounded-2xl bg-white/[0.03] p-1.5 ring-1 ring-white/10 backdrop-blur-md">
             {phases.map((p) => {
@@ -251,9 +345,10 @@ export default function SamplePrompts({ hideStepLabel }: { hideStepLabel?: boole
               return (
                 <button
                   key={p.id}
+                  type="button"
                   onClick={() => setActivePhase(p.id)}
                   className={cn(
-                    "relative rounded-xl px-6 py-2.5 text-[0.65rem] font-bold uppercase tracking-[0.2em] transition-all duration-300",
+                    "relative rounded-xl px-6 py-2.5 text-[0.72rem] font-medium uppercase tracking-[0.16em] transition-all duration-300",
                     isActive ? "text-white" : "text-white/40 hover:text-white/70"
                   )}
                 >
@@ -279,17 +374,17 @@ export default function SamplePrompts({ hideStepLabel }: { hideStepLabel?: boole
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.98, y: -15 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="space-y-8"
+            className="space-y-3"
           >
             {/* Phase info */}
             <div className="mx-auto max-w-2xl text-center">
-              <span className="lumina-gradient-text mb-2 inline-block font-md3-mono text-[0.65rem] font-bold uppercase tracking-[0.25em]">
+              <span className="lumina-gradient-text mb-2 inline-block font-sans text-[0.72rem] font-medium uppercase tracking-[0.2em]">
                 {phase.phaseLabel}
               </span>
-              <h3 className="font-jakarta mb-3 text-[1.25rem] font-extrabold leading-[1.1] text-white">
+              <h3 className="mb-3 text-[1.25rem] font-medium leading-[1.1] text-white">
                 {phase.title}
               </h3>
-              <p className="text-[0.875rem] font-medium leading-[1.6] text-[rgba(255,255,255,0.4)]">
+              <p className="text-[0.9375rem] font-medium leading-[1.6] text-[rgba(255,255,255,0.4)]">
                 {phase.description}
               </p>
             </div>
@@ -303,6 +398,33 @@ export default function SamplePrompts({ hideStepLabel }: { hideStepLabel?: boole
                 <PromptCardItem key={card.id} card={card} />
               ))}
             </div>
+
+            {phase.postNote && (
+              <p className="mx-auto max-w-3xl text-center text-[13px] text-[rgba(255,255,255,0.40)]">
+                {phase.postNote}
+              </p>
+            )}
+
+            {phase.secondaryPhase && (
+              <div className="pt-2">
+                <div className="mx-auto max-w-2xl border-t border-white/10 pt-5 text-center">
+                  <span className="lumina-gradient-text mb-2 inline-block font-sans text-[0.72rem] font-medium uppercase tracking-[0.2em]">
+                    {phase.secondaryPhase.phaseLabel}
+                  </span>
+                  <h3 className="mb-3 text-[1.25rem] font-medium leading-[1.1] text-white">
+                    {phase.secondaryPhase.title}
+                  </h3>
+                  <p className="text-[0.9375rem] font-medium leading-[1.6] text-[rgba(255,255,255,0.4)]">
+                    {phase.secondaryPhase.description}
+                  </p>
+                </div>
+                <div className="mt-4 grid gap-6 md:grid-cols-2">
+                  {phase.secondaryPhase.cards.map((card) => (
+                    <PromptCardItem key={card.id} card={card} />
+                  ))}
+                </div>
+              </div>
+            )}
           </motion.div>
         </AnimatePresence>
 
@@ -312,18 +434,25 @@ export default function SamplePrompts({ hideStepLabel }: { hideStepLabel?: boole
            whileInView={{ opacity: 1, y: 0 }}
            viewport={{ once: true }}
            transition={{ delay: 0.4 }}
-           className="mt-12 flex flex-col items-center gap-8 border-t border-white/5 pt-10"
+           className="mt-2 flex flex-col items-center gap-6 border-t border-white/5 pt-2"
         >
            <div className="text-center">
-             <p className="mb-6 text-[0.8125rem] font-medium text-white/40">
+             <p className="mb-6 text-[0.875rem] font-medium text-white/40">
                Ready to sharpen your architectural edge?
              </p>
              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+               <button
+                 type="button"
+                 onClick={onBack}
+                 className="w-full rounded-full border border-white/25 px-6 py-3 text-[15px] font-normal text-white/65 transition-colors hover:border-white/50 hover:text-white/90 sm:w-[260px]"
+               >
+                 ← Back
+               </button>
                <Button
-                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                 onClick={onRestart}
                  size="lg"
                  className={cn(
-                   "lumina-primary-glow group rounded-full bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] px-10 py-6 text-[0.9375rem] font-black text-white transition-all hover:scale-[1.05] active:scale-[0.95]",
+                   "lumina-primary-glow group h-12 w-full rounded-full bg-[#1D4ED8] px-8 text-[0.9375rem] font-medium text-white transition-all hover:scale-[1.05] hover:bg-[#1E40AF] active:scale-[0.95] active:bg-[#1E3A8A] sm:w-[260px]",
                    "border-none"
                  )}
                >
@@ -334,7 +463,7 @@ export default function SamplePrompts({ hideStepLabel }: { hideStepLabel?: boole
                <Link 
                  href="/sfp2026"
                  className={cn(
-                   "group flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-10 py-6 text-[0.9375rem] font-bold text-white/80 transition-all hover:bg-white/10 hover:border-white/20 active:scale-[0.98]",
+                   "group flex h-12 w-full items-center justify-center rounded-full border border-white/10 bg-white/5 px-8 text-[0.9375rem] font-medium text-white/80 transition-all hover:bg-white/10 hover:border-white/20 active:scale-[0.98] sm:w-[260px]",
                    "ring-1 ring-white/5 shadow-[0_0_20px_-5px_rgba(255,255,255,0.05)]"
                  )}
                >

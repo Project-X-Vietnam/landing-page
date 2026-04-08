@@ -37,34 +37,48 @@ export default function CaseTrainerPage() {
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(1);
   const [selectedPlatforms, setSelectedPlatforms] = useState<Platform[]>([]);
+  const [filesReady, setFilesReady] = useState(false);
   const [isDirectNav, setIsDirectNav] = useState(false);
 
   const goTo = (target: number, direct = false) => {
     setDirection(target > step ? 1 : -1);
     setStep(target);
     setIsDirectNav(direct);
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo({ top: 0, behavior: "auto" });
   };
 
   const next = () => goTo(step + 1, false);
+  const prev = () => goTo(Math.max(1, step - 1), false);
+  const restartWizard = () => {
+    setDirection(-1);
+    setSelectedPlatforms([]);
+    setFilesReady(false);
+    setIsDirectNav(false);
+    setStep(1);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const renderStep = () => {
     const commonProps = { hideStepLabel: isDirectNav };
 
     switch (step) {
       case 1:
-        return <Hero key="step-1" onNext={next} {...commonProps} />;
+        return <Hero key="step-1" onNext={next} currentStep={step} onNavigate={goTo} {...commonProps} />;
       case 2:
-        return <WhatIsThis key="step-2" onNext={next} {...commonProps} />;
+        return <WhatIsThis key="step-2" onNext={next} onBack={prev} currentStep={step} onNavigate={goTo} {...commonProps} />;
       case 3:
-        return <HowItWorks key="step-3" onNext={next} {...commonProps} />;
+        return <HowItWorks key="step-3" onNext={next} onBack={prev} currentStep={step} onNavigate={goTo} {...commonProps} />;
       case 4:
         return (
           <SetupForm
             key="step-4"
             {...commonProps}
+            onBack={prev}
+            currentStep={step}
+            onNavigate={goTo}
             onSubmit={(platforms) => {
               setSelectedPlatforms(platforms);
+              setFilesReady(true);
               next();
             }}
           />
@@ -74,19 +88,23 @@ export default function CaseTrainerPage() {
           <SetupGuide
             key="step-5"
             {...commonProps}
+            onBack={prev}
+            currentStep={step}
+            onNavigate={goTo}
+            filesReadyFromFlow={filesReady}
             selectedPlatforms={selectedPlatforms}
             onNext={next}
           />
         );
       case 6:
-        return <SamplePrompts key="step-6" {...commonProps} />;
+        return <SamplePrompts key="step-6" {...commonProps} onBack={prev} currentStep={step} onNavigate={goTo} onRestart={restartWizard} />;
       default:
-        return <Hero key="step-1" onNext={next} {...commonProps} />;
+        return <Hero key="step-1" onNext={next} currentStep={step} onNavigate={goTo} {...commonProps} />;
     }
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#01001F]">
+    <div className="relative min-h-screen overflow-x-hidden bg-[#01001F]">
       {/* Background grid */}
       <div id="bg-grid" className="pointer-events-none fixed inset-0 z-0" />
 

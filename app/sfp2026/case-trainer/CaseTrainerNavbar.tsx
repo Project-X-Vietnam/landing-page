@@ -45,7 +45,7 @@ export default function CaseTrainerNavbar({
         <button
           type="button"
           onClick={() => onNavigate(5, true)}
-          className={`rounded-full px-4 py-2 font-sans text-xs font-normal uppercase leading-[1.4] tracking-[0.14em] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#17CAFA] focus-visible:ring-offset-2 focus-visible:ring-offset-[#01001F] ${
+          className={`rounded-full px-4 py-2 font-sans text-sm font-normal uppercase leading-[1.4] tracking-[0.12em] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#17CAFA] focus-visible:ring-offset-2 focus-visible:ring-offset-[#01001F] ${
             currentStep === 5
               ? "bg-[rgba(23,202,250,0.12)] text-white"
               : "text-white/50 hover:bg-white/5 hover:text-white/80"
@@ -56,7 +56,7 @@ export default function CaseTrainerNavbar({
         <button
           type="button"
           onClick={() => onNavigate(6, true)}
-          className={`rounded-full px-4 py-2 font-sans text-xs font-normal uppercase leading-[1.4] tracking-[0.14em] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#17CAFA] focus-visible:ring-offset-2 focus-visible:ring-offset-[#01001F] ${
+          className={`rounded-full px-4 py-2 font-sans text-sm font-normal uppercase leading-[1.4] tracking-[0.12em] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#17CAFA] focus-visible:ring-offset-2 focus-visible:ring-offset-[#01001F] ${
             currentStep === 6
               ? "bg-[rgba(23,202,250,0.12)] text-white"
               : "text-white/50 hover:bg-white/5 hover:text-white/80"
