@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, Copy, Terminal, Zap, ArrowRight, Info } from "lucide-react";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import StepProgress from "./StepProgress";
@@ -55,8 +54,6 @@ Before every session, you will run a pre-session setup to collect the user's job
 Follow the system prompt precisely. Do not improvise behavior not described in it. When in doubt, re-read the relevant rule before responding.`,
       },
     ],
-    postNote:
-      "Do not modify this text. Copy it exactly and paste into Project Instructions (Claude), Instructions (Gemini), or the GPT Instructions field (ChatGPT).",
   },
   {
     id: "start",
@@ -326,10 +323,6 @@ export default function SamplePrompts({ hideStepLabel, onBack, currentStep, onNa
           <h2 className="mb-2 text-[clamp(1.8rem,5vw,2.8rem)] font-medium leading-[1.1] tracking-[-0.03em] text-white">
             Sample Prompts
           </h2>
-          <p className="mx-auto max-w-xl text-[1rem] font-normal leading-[1.6] text-[rgba(255,255,255,0.45)]">
-            Copy these specialized prompts into your coaching session to guide the 
-            AI through each phase of the case structure.
-          </p>
         </motion.div>
 
         {/* Phase Tabs */}
@@ -384,9 +377,6 @@ export default function SamplePrompts({ hideStepLabel, onBack, currentStep, onNa
               <h3 className="mb-3 text-[1.25rem] font-medium leading-[1.1] text-white">
                 {phase.title}
               </h3>
-              <p className="text-[0.9375rem] font-medium leading-[1.6] text-[rgba(255,255,255,0.4)]">
-                {phase.description}
-              </p>
             </div>
 
             {/* Cards grid */}
@@ -414,9 +404,6 @@ export default function SamplePrompts({ hideStepLabel, onBack, currentStep, onNa
                   <h3 className="mb-3 text-[1.25rem] font-medium leading-[1.1] text-white">
                     {phase.secondaryPhase.title}
                   </h3>
-                  <p className="text-[0.9375rem] font-medium leading-[1.6] text-[rgba(255,255,255,0.4)]">
-                    {phase.secondaryPhase.description}
-                  </p>
                 </div>
                 <div className="mt-4 grid gap-6 md:grid-cols-2">
                   {phase.secondaryPhase.cards.map((card) => (
@@ -437,9 +424,6 @@ export default function SamplePrompts({ hideStepLabel, onBack, currentStep, onNa
            className="mt-2 flex flex-col items-center gap-6 border-t border-white/5 pt-2"
         >
            <div className="text-center">
-             <p className="mb-6 text-[0.875rem] font-medium text-white/40">
-               Ready to sharpen your architectural edge?
-             </p>
              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                <button
                  type="button"
@@ -456,19 +440,9 @@ export default function SamplePrompts({ hideStepLabel, onBack, currentStep, onNa
                    "border-none"
                  )}
                >
-                 RESTART WIZARD
+                 Return to Home
                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                </Button>
-               
-               <Link 
-                 href="/sfp2026"
-                 className={cn(
-                   "group flex h-12 w-full items-center justify-center rounded-full border border-white/10 bg-white/5 px-8 text-[0.9375rem] font-medium text-white/80 transition-all hover:bg-white/10 hover:border-white/20 active:scale-[0.98] sm:w-[260px]",
-                   "ring-1 ring-white/5 shadow-[0_0_20px_-5px_rgba(255,255,255,0.05)]"
-                 )}
-               >
-                 RETURN TO HOME
-               </Link>
              </div>
            </div>
         </motion.div>

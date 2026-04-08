@@ -72,10 +72,15 @@ export default function SetupForm({ onSubmit, onBack, currentStep, onNavigate, h
 
     setSubmitted(true);
 
-    void fetch("https://formsubmit.co/ajax/hello@projectxvietnam.org", {
+    void fetch("https://n8n.giangle.site/webhook/9748fde6-e064-4521-9af1-f3da0383bfcf", {
       method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ name, email, platforms: platforms.join(", ") }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name,
+        email,
+        platforms: platforms.join(", "),
+        submittedAt: new Date().toISOString(),
+      }),
     }).catch(() => { });
 
     downloadSetupFiles(); // ✅ Trigger download

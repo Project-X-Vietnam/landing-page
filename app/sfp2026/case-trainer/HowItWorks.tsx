@@ -104,6 +104,12 @@ export default function HowItWorks({ onNext, onBack, currentStep, onNavigate, hi
                 </p>
               </motion.div>
             ))}
+
+            <p className="mt-6 text-[14px] leading-[1.6] text-[rgba(255,255,255,0.4)]">
+              Two AI modes power each session — Prompt A coaches you through the
+              5 steps without giving answers. Prompt B evaluates your full
+              transcript after.
+            </p>
           </div>
 
           {/* Right column: sticky scoring card */}
@@ -161,22 +167,17 @@ export default function HowItWorks({ onNext, onBack, currentStep, onNavigate, hi
               <div className="my-3.5 border-t border-white/10" />
 
               <p className="text-center text-[12px] italic leading-[1.5] text-[rgba(255,255,255,0.28)]">
-                Scores are for practice reference only and do not reflect official PJX assessment outcomes.
+                Scores are for practice reference only and do not reflect real interview outcomes.
               </p>
             </div>
           </div>
         </motion.div>
 
-        {/* Footer */}
-        <p className="mx-auto mt-12 max-w-[560px] text-center text-[14px] leading-[1.6] text-[rgba(255,255,255,0.4)]">
-          Two AI modes power each session — Prompt A coaches you through the 5 steps without giving answers. Prompt B evaluates your full transcript after.
-        </p>
-
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.5 }}
-          className="mt-8 flex justify-center"
+          className="mt-6 flex justify-center"
         >
           <div className="flex items-center justify-center gap-4">
             <button type="button" onClick={onBack} className="text-[16px] font-semibold text-white/80 transition-colors hover:text-white">

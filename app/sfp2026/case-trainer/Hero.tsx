@@ -43,26 +43,22 @@ export default function Hero({ onNext, currentStep, onNavigate, hideStepLabel }:
         >
           <StepProgress currentStep={currentStep} onNavigate={onNavigate} />
 
-          {/* Eyebrow */}
-          <p className="mx-auto mb-10 inline-flex rounded-full border border-white/20 px-4 py-1.5 text-[13px] font-normal text-white/60">
-            A coach that asks before it answers.
-          </p>
-
           {/* Headline */}
-          <h1 className="mb-6 text-[40px] font-bold leading-[1.05] tracking-[-0.04em] text-white md:text-[56px] lg:text-[76px]">
+          <h1 className="mb-6 text-[32px] font-bold leading-[1.05] tracking-[-0.04em] text-white md:text-[42px] lg:text-[52px] xl:text-[62px]">
             <span className="block text-white">Most candidates fail</span>
             <span
-              className="block bg-gradient-to-r from-[#60A5FA] via-[#93C5FD] to-[#60A5FA] bg-clip-text text-transparent"
+              className="block whitespace-nowrap bg-gradient-to-r from-[#60A5FA] via-[#93C5FD] to-[#60A5FA] bg-clip-text text-transparent"
               style={{ backgroundSize: "200% auto", animation: "gradient-x 4s ease infinite" }}
             >
               not from lack of knowledge.
             </span>
+            <span className="block text-white italic">but from unstructured thinking</span>
           </h1>
 
           {/* Subheadline */}
-          <p className="mx-auto mb-9 max-w-[480px] text-[19px] font-normal leading-[1.6] tracking-[0.01em] text-[rgba(255,255,255,0.6)]">
-            PJX trains the skill interviewers actually test — structured thinking
-            under pressure.
+          <p className="mx-auto mb-9 max-w-[600px] text-center text-[19px] font-normal leading-[1.65] tracking-[0.01em] text-[rgba(255,255,255,0.6)] break-normal whitespace-normal">
+            Project X - Case Trainer is an AI coach that trains you to structure
+            thinking through real interview scenarios and score you on it.
           </p>
 
           {/* CTA */}
