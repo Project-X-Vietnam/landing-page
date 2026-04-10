@@ -1,6 +1,19 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  env: {
+    // Backward compatible mapping:
+    // - root project uses VITE_POSTHOG_* (Vite)
+    // - this repo uses NEXT_PUBLIC_POSTHOG_* (Next client)
+    NEXT_PUBLIC_POSTHOG_KEY:
+      process.env.NEXT_PUBLIC_POSTHOG_KEY ||
+      process.env.VITE_POSTHOG_KEY ||
+      "",
+    NEXT_PUBLIC_POSTHOG_HOST:
+      process.env.NEXT_PUBLIC_POSTHOG_HOST ||
+      process.env.VITE_POSTHOG_HOST ||
+      "https://us.i.posthog.com",
+  },
   typescript: {
     ignoreBuildErrors: true,
   },

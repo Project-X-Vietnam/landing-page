@@ -7,25 +7,18 @@ export const FUNNEL_EVENTS = {
   ROLE_SELECTED: "funnel_role_selected",
   WORKSPACE_VIEWED: "funnel_workspace_viewed",
   WORKSPACE_COMPLETED: "funnel_workspace_completed",
-  /** @deprecated kept for backward compat — use WORKSPACE_COMPLETED */
-  BULLET_GENERATED: "funnel_workspace_completed",
+  BULLET_GENERATED: "funnel_bullet_generated",
   FINISH_VIEWED: "funnel_finish_viewed",
   RESTART_CLICKED: "funnel_restart_clicked",
-
-  // Screen 3 — workspace micro-funnel
   SECTION_CLICKED: "funnel_section_clicked",
   CHECKLIST_TOGGLED: "funnel_checklist_toggled",
   PROGRESS_MILESTONE: "funnel_progress_milestone",
   PROMPT_UNLOCKED: "funnel_prompt_unlocked",
   TOUR_COMPLETED: "funnel_tour_completed",
   WORKSPACE_BACK: "funnel_workspace_back",
-
-  // Screen 4 — finish actions
   MASTER_PROMPT_COPIED: "funnel_master_prompt_copied",
   BACK_TO_EDIT: "funnel_back_to_edit",
 } as const;
-
-// ── Screen 0 ──────────────────────────────────────────────────────
 
 export function trackFunnelLandingViewed() {
   capturePostHogEvent(FUNNEL_EVENTS.LANDING_VIEWED);
@@ -35,8 +28,6 @@ export function trackFunnelStartClicked() {
   capturePostHogEvent(FUNNEL_EVENTS.START_CLICKED);
 }
 
-// ── Screen 1 ──────────────────────────────────────────────────────
-
 export function trackFunnelPillarSelected(pillar: string) {
   capturePostHogEvent(FUNNEL_EVENTS.PILLAR_SELECTED, { pillar });
 }
@@ -45,69 +36,88 @@ export function trackFunnelRoleSelected(role: string) {
   capturePostHogEvent(FUNNEL_EVENTS.ROLE_SELECTED, { role });
 }
 
-// ── Screen 3 — macro ─────────────────────────────────────────────
-
 export function trackFunnelWorkspaceViewed(role: string | null) {
   capturePostHogEvent(FUNNEL_EVENTS.WORKSPACE_VIEWED, { role: role ?? "unknown" });
 }
 
-export function trackFunnelWorkspaceCompleted(role: string | null, level: string) {
-  capturePostHogEvent(FUNNEL_EVENTS.WORKSPACE_COMPLETED, {
+export function trackFunnelWorkspaceCompleted(
+  role: string | null,
+  level: string,
+) {
+  const props = { role: role ?? "unknown", level };
+  capturePostHogEvent(FUNNEL_EVENTS.WORKSPACE_COMPLETED, props);
+  // Backward compatibility: older/newer dashboards may key off either event name.
+  capturePostHogEvent(FUNNEL_EVENTS.BULLET_GENERATED, props);
+}
+
+export function trackFunnelFinishViewed(role: string | null, level: string) {
+  capturePostHogEvent(FUNNEL_EVENTS.FINISH_VIEWED, {
     role: role ?? "unknown",
     level,
   });
 }
 
-/** @deprecated Use trackFunnelWorkspaceCompleted */
-export const trackFunnelBulletGenerated = trackFunnelWorkspaceCompleted;
-
-// ── Screen 3 — micro-funnel ──────────────────────────────────────
+export function trackFunnelRestartClicked(role: string | null) {
+  capturePostHogEvent(FUNNEL_EVENTS.RESTART_CLICKED, { role: role ?? "unknown" });
+}
 
 export function trackFunnelSectionClicked(
   section: string,
-  role: string | null,
-  previousSection?: string,
+  role?: string | null,
+  previousSection?: string | null,
 ) {
-  capturePostHogEvent(FUNNEL_EVENTS.SECTION_CLICKED, {
-    section,
-    role: role ?? "unknown",
-    ...(previousSection && { previous_section: previousSection }),
-  });
+  const props: Record<string, unknown> = { section };
+  if (role !== undefined) props.role = role ?? "unknown";
+  if (previousSection !== undefined) props.previous_section = previousSection;
+  capturePostHogEvent(FUNNEL_EVENTS.SECTION_CLICKED, props);
 }
 
 export function trackFunnelChecklistToggled(
   section: string,
-  stepIndex: number,
-  progress: string,
-  role: string | null,
+  itemIndex: number,
+  progressOrChecked: string | boolean,
+  role?: string | null,
 ) {
-  capturePostHogEvent(FUNNEL_EVENTS.CHECKLIST_TOGGLED, {
-    section,
-    step_index: stepIndex,
-    progress,
-    role: role ?? "unknown",
-  });
+  // In our UI we only trigger this helper when a checkbox flips from false -> true,
+  // so when callers pass progress string we can infer `checked: true`.
+  const props: Record<string, unknown> = { section, item_index: itemIndex };
+
+  if (typeof progressOrChecked === "boolean") {
+    props.checked = progressOrChecked;
+  } else {
+    props.checked = true;
+    props.progress = progressOrChecked;
+  }
+
+  if (role !== undefined) props.role = role ?? "unknown";
+
+  capturePostHogEvent(FUNNEL_EVENTS.CHECKLIST_TOGGLED, props);
 }
 
 export function trackFunnelProgressMilestone(
   milestone: number,
-  role: string | null,
-  sectionsCompleted: string[],
+  role?: string | null,
+  sectionsCompleted?: readonly string[],
 ) {
-  capturePostHogEvent(FUNNEL_EVENTS.PROGRESS_MILESTONE, {
+  const props: Record<string, unknown> = {
+    completed_count: milestone,
     milestone,
-    role: role ?? "unknown",
-    sections_completed: sectionsCompleted,
-  });
+  };
+  if (role !== undefined) props.role = role ?? "unknown";
+  if (sectionsCompleted !== undefined) {
+    props.sections_completed = sectionsCompleted;
+  }
+  capturePostHogEvent(FUNNEL_EVENTS.PROGRESS_MILESTONE, props);
 }
 
 export function trackFunnelPromptUnlocked(role: string | null) {
-  capturePostHogEvent(FUNNEL_EVENTS.PROMPT_UNLOCKED, {
-    role: role ?? "unknown",
-  });
+  capturePostHogEvent(FUNNEL_EVENTS.PROMPT_UNLOCKED, { role: role ?? "unknown" });
 }
 
-export function trackFunnelTourCompleted(completedSteps: number, skipped: boolean) {
+export function trackFunnelTourCompleted(
+  completedSteps: number,
+  skipped: boolean,
+) {
   capturePostHogEvent(FUNNEL_EVENTS.TOUR_COMPLETED, {
     completed_steps: completedSteps,
     skipped,
@@ -115,24 +125,15 @@ export function trackFunnelTourCompleted(completedSteps: number, skipped: boolea
 }
 
 export function trackFunnelWorkspaceBack(
-  role: string | null,
-  progress: string,
-  activeSection: string,
+  role?: string | null,
+  progress?: string | null,
+  activeSection?: string | null,
 ) {
-  capturePostHogEvent(FUNNEL_EVENTS.WORKSPACE_BACK, {
-    role: role ?? "unknown",
-    progress,
-    active_section: activeSection,
-  });
-}
-
-// ── Screen 4 ──────────────────────────────────────────────────────
-
-export function trackFunnelFinishViewed(role: string | null, level: string) {
-  capturePostHogEvent(FUNNEL_EVENTS.FINISH_VIEWED, {
-    role: role ?? "unknown",
-    level,
-  });
+  const props: Record<string, unknown> = {};
+  if (role !== undefined) props.role = role ?? "unknown";
+  if (progress !== undefined) props.progress = progress;
+  if (activeSection !== undefined) props.active_section = activeSection;
+  capturePostHogEvent(FUNNEL_EVENTS.WORKSPACE_BACK, props);
 }
 
 export function trackFunnelMasterPromptCopied(role: string | null) {
@@ -142,11 +143,5 @@ export function trackFunnelMasterPromptCopied(role: string | null) {
 }
 
 export function trackFunnelBackToEdit(role: string | null) {
-  capturePostHogEvent(FUNNEL_EVENTS.BACK_TO_EDIT, {
-    role: role ?? "unknown",
-  });
-}
-
-export function trackFunnelRestartClicked(role: string | null) {
-  capturePostHogEvent(FUNNEL_EVENTS.RESTART_CLICKED, { role: role ?? "unknown" });
+  capturePostHogEvent(FUNNEL_EVENTS.BACK_TO_EDIT, { role: role ?? "unknown" });
 }
