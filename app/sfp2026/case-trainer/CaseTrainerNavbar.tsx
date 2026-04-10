@@ -33,8 +33,7 @@ export default function CaseTrainerNavbar({
           priority
         />
         <span className="hidden items-center gap-1.5 sm:flex">
-          <span className="h-3.5 w-px rounded-full bg-white/20" />
-          <span className="font-sans text-[0.65rem] font-normal uppercase leading-[1.4] tracking-[0.18em] text-white/40">
+          <span className="font-sans text-[0.65rem] uppercase font-medium tracking-[0.18em] text-white/60">
             Case Trainer
           </span>
         </span>
@@ -45,10 +44,10 @@ export default function CaseTrainerNavbar({
         <button
           type="button"
           onClick={() => onNavigate(5, true)}
-          className={`rounded-full px-4 py-2 font-sans text-sm font-normal uppercase leading-[1.4] tracking-[0.12em] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#17CAFA] focus-visible:ring-offset-2 focus-visible:ring-offset-[#01001F] ${
+          className={`rounded-full px-4 py-2 font-sans text-xs font-normal transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#17CAFA] focus-visible:ring-offset-2 focus-visible:ring-offset-[#01001F] ${
             currentStep === 5
               ? "bg-[rgba(23,202,250,0.12)] text-white"
-              : "text-white/50 hover:bg-white/5 hover:text-white/80"
+              : "text-white/70 hover:bg-white/5 hover:text-white/80"
           }`}
         >
           Setup Guide
@@ -56,10 +55,10 @@ export default function CaseTrainerNavbar({
         <button
           type="button"
           onClick={() => onNavigate(6, true)}
-          className={`rounded-full px-4 py-2 font-sans text-sm font-normal uppercase leading-[1.4] tracking-[0.12em] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#17CAFA] focus-visible:ring-offset-2 focus-visible:ring-offset-[#01001F] ${
+          className={`rounded-full px-4 py-2 font-sans text-xs font-normal transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#17CAFA] focus-visible:ring-offset-2 focus-visible:ring-offset-[#01001F] ${
             currentStep === 6
               ? "bg-[rgba(23,202,250,0.12)] text-white"
-              : "text-white/50 hover:bg-white/5 hover:text-white/80"
+              : "text-white/70 hover:bg-white/5 hover:text-white/80"
           }`}
         >
           Sample Prompts

@@ -68,7 +68,7 @@ export default function WhatIsThis({ onNext, onBack, currentStep, onNavigate, hi
             Stop memorising. Start thinking.
           </h2>
           <p className="mx-auto mt-4 max-w-[560px] text-[1.125rem] font-normal leading-[1.65] text-[rgba(255,255,255,0.6)]">
-            Project X - Case Trainer is an AI coach that puts you through real
+            Project X Case Trainer is an AI coach that puts you through real
             interview scenarios — and trains your thinking, not your memory.
           </p>
         </motion.div>
@@ -135,11 +135,11 @@ export default function WhatIsThis({ onNext, onBack, currentStep, onNavigate, hi
               onClick={onNext}
               size="lg"
               className={cn(
-                "lumina-primary-glow group rounded-full bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] px-8 py-3.5 text-[1rem] font-medium text-white transition-all hover:scale-[1.02]",
+                "lumina-primary-glow group rounded-full bg-gradient-to-r from-[#0E56FA] to-[#17CAFA] px-7 py-6 text-[1rem] font-medium text-white transition-all hover:scale-[1.02]",
                 "border-none"
               )}
             >
-              See How It Works
+              See how it works
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Button>
           </div>
