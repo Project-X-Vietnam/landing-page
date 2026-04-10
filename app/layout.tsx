@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { Inter_Tight } from "next/font/google";
 import "./globals.css";
-import CursorGlow from "@/components/CursorGlow";
 import { Toaster } from "sonner";
+
+const interTight = Inter_Tight({
+  subsets: ["latin", "vietnamese"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-inter-tight",
+  display: "swap",
+});
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
@@ -60,7 +67,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className={`scroll-smooth ${interTight.variable}`}>
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -72,9 +79,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className="bg-[#01001F] text-foreground antialiased font-primary">
-        <div id="bg-grid" aria-hidden="true" />
-        <CursorGlow />
+      <body className="bg-white text-foreground antialiased font-primary">
         {children}
         <Toaster position="top-center" richColors />
         {GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}

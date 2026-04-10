@@ -57,7 +57,7 @@ export default function Hero({ onNext, currentStep, onNavigate, hideStepLabel }:
 
           {/* Subheadline */}
           <p className="mx-auto mb-9 max-w-[600px] text-center text-[19px] font-normal leading-[1.65] tracking-[0.01em] text-[rgba(255,255,255,0.6)] break-normal whitespace-normal">
-            Project X - Case Trainer is an AI coach that trains you to structure
+            Project X Case Trainer is an AI coach that trains you to structure
             thinking through real interview scenarios and score you on it.
           </p>
 
@@ -66,17 +66,17 @@ export default function Hero({ onNext, currentStep, onNavigate, hideStepLabel }:
             onClick={onNext}
             size="lg"
             className={cn(
-              "lumina-primary-glow group rounded-full bg-[#1D4ED8] px-9 py-[14px] text-[16px] font-medium text-white transition-all hover:scale-[1.02] hover:bg-[#1E40AF] active:scale-[0.98] active:bg-[#1E3A8A]",
+              "lumina-primary-glow group rounded-full bg-[#1D4ED8] px-7 py-6 text-[16px] font-medium text-white transition-all hover:scale-[1.02] hover:bg-[#1E40AF] active:scale-[0.98] active:bg-[#1E3A8A]",
               "border-none hover:shadow-[0_0_30px_rgba(23,202,250,0.4)]"
             )}
           >
             Explore The Product
-            <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
           </Button>
 
           {/* Trust line */}
           <p className="mt-[18px] text-[13px] font-normal text-[rgba(255,255,255,0.38)]">
-            Works with Claude · Gemini · ChatGPT · No setup fee
+            Works with Claude · Gemini · ChatGPT
           </p>
         </motion.div>
       </div>

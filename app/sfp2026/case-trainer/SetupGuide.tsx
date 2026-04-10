@@ -411,12 +411,12 @@ export default function SetupGuide({
             onClick={onNext}
             size="lg"
             className={cn(
-              "lumina-primary-glow group rounded-full bg-[#1D4ED8] px-10 py-5 text-[0.9375rem] font-medium text-white transition-all hover:scale-[1.02] hover:bg-[#1E40AF] active:bg-[#1E3A8A]",
+              "lumina-primary-glow group rounded-full bg-[#1D4ED8] px-7 py-6 text-[0.9375rem] font-medium text-white transition-all hover:scale-[1.02] hover:bg-[#1E40AF] active:bg-[#1E3A8A]",
               "border-none"
             )}
           >
             See Sample Prompts
-            <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
           </Button>
         </motion.div>
       </div>
