@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { type ReactNode, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
@@ -34,7 +34,8 @@ interface SetupGuideProps {
 
 type Step = {
   name: string;
-  text: string;
+  text: ReactNode;
+  substeps?: string[];
   gifSrc: string;
 };
 
@@ -54,55 +55,57 @@ const ALL_TABS: TabContent[] = [
     recommended: true,
     steps: [
       {
-        name: "Download your files",
-        text: "Your two files — the System Prompt and Case Hub — are already in your downloads folder. You'll need both in the next steps.",
-        gifSrc: "/images/setup/claude1.gif",
+        name: "Create a Project",
+        text: (
+          <>
+            Go to <strong>Claude.ai</strong>, open <strong>Projects</strong>,
+            and create a <strong>New Project</strong> named{" "}
+            <strong>PJX Case Trainer</strong>.
+          </>
+        ),
+        substeps: [
+          "Open the left sidebar and click Projects.",
+          "Click New Project.",
+          "Enter the exact project name: PJX Case Trainer.",
+        ],
+        gifSrc: "/case-trainer-assets/claude/claude%201.gif",
       },
       {
-        name: "Create a new project",
-        text: 'Go to claude.ai → Projects → New Project. Name it exactly: PJX Case Trainer.',
-        gifSrc: "/images/setup/claude2.gif",
+        name: "Upload the files",
+        text: (
+          <>
+            In <strong>Files</strong>, upload both required files:{" "}
+            <strong>pjx_casetrainer_systemprompt.xml</strong> and{" "}
+            <strong>pjx_casetrainer_casehub.json</strong>.
+          </>
+        ),
+        substeps: [
+          "Open your project and find the Files section.",
+          "Click the + upload button.",
+          "Upload both prerequisite files from your device.",
+        ],
+        gifSrc: "/case-trainer-assets/claude/claude%202.gif",
       },
       {
-        name: "Upload both files",
-        text: "Inside your project, find the Files section. Click + and upload the System Prompt and Case Hub files you downloaded.",
-        gifSrc: "/images/setup/claude3.gif",
+        name: "Set project instructions",
+        text: (
+          <>
+            In <strong>Instructions</strong>, paste your{" "}
+            <strong>Role Description</strong> from{" "}
+            <strong>Sample Prompts</strong>, then click <strong>Save</strong>.
+          </>
+        ),
+        substeps: [
+          "Open the Instructions section in your Claude project.",
+          "Paste the Role Description from this webpage.",
+          "Click Save, then start your first chat.",
+        ],
+        gifSrc: "/case-trainer-assets/claude/claude%203.gif",
       },
       {
-        name: "Paste your instructions",
-        text: "Open the Instructions section in the project. Paste the Role Instructions you received from the PJX team, then click Save.",
+        name: "Start your first session",
+        text: "You're all set. Start the first chat and enjoy solving cases with your case trainer.",
         gifSrc: "/images/setup/claude4.gif",
-      },
-      {
-        name: "Start your first session",
-        text: "Open a new chat inside the project. Your coach is ready — start with any case prompt.",
-        gifSrc: "/images/setup/claude6.gif",
-      },
-    ],
-  },
-  {
-    id: "chatgpt",
-    label: "ChatGPT",
-    steps: [
-      {
-        name: "Download your files",
-        text: "Your two files are already in your downloads folder. Find them before moving to the next step.",
-        gifSrc: "/images/setup/chatgpt1.gif",
-      },
-      {
-        name: "Create a new project",
-        text: "Go to chatgpt.com → Projects in the left sidebar → name it PJX Case Trainer → Create project.",
-        gifSrc: "/images/setup/chatgpt2.gif",
-      },
-      {
-        name: "Upload your files",
-        text: "Click into your project. Under the chat bar, click Sources → upload both files from your downloads folder.",
-        gifSrc: "/images/setup/chatgpt3.gif",
-      },
-      {
-        name: "Start your first session",
-        text: "You're all set. Start a new chat inside the project to begin.",
-        gifSrc: "/images/setup/chatgpt4.gif",
       },
     ],
   },
@@ -111,29 +114,121 @@ const ALL_TABS: TabContent[] = [
     label: "Gemini",
     steps: [
       {
-        name: "Download your files",
-        text: "Your two files are already in your downloads folder. Find them before moving to the next step.",
-        gifSrc: "/images/setup/gem1.gif",
-      },
-      {
         name: "Create a Gem",
-        text: "Go to gemini.google.com → Gems in the sidebar → + New Gem → name it PJX Case Trainer.",
-        gifSrc: "/images/setup/gem2.gif",
+        text: (
+          <>
+            Go to <strong>gemini.google.com</strong>, open{" "}
+            <strong>Gems</strong>, create a <strong>New Gem</strong>, and name
+            it <strong>PJX Case Trainer</strong>.
+          </>
+        ),
+        substeps: [
+          "Open Gems from the sidebar.",
+          "Click + New Gem.",
+          "Set the Gem name to PJX Case Trainer.",
+        ],
+        gifSrc: "/case-trainer-assets/gemini/gem%201.gif",
       },
       {
-        name: "Add your instructions",
-        text: "In the Instructions box, paste the Role Instructions you received from the PJX team.",
-        gifSrc: "/images/setup/gem3.gif",
+        name: "Add instructions",
+        text: (
+          <>
+            In the <strong>Instructions</strong> box, paste your{" "}
+            <strong>Role Description</strong> from{" "}
+            <strong>Sample Prompts</strong>.
+          </>
+        ),
+        substeps: [
+          "Find the Instructions section in your Gem settings.",
+          "Copy Role Description from this webpage.",
+          "Paste it into the Instructions box.",
+        ],
+        gifSrc: "/case-trainer-assets/gemini/gem%202.gif",
       },
       {
-        name: "Upload your files",
-        text: "Scroll to the Knowledge section → click + → upload both files from your downloads folder.",
-        gifSrc: "/images/setup/gem4.gif",
+        name: "Add knowledge",
+        text: (
+          <>
+            In <strong>Knowledge</strong>, upload{" "}
+            <strong>pjx_casetrainer_systemprompt.xml</strong> and{" "}
+            <strong>pjx_casetrainer_casehub.json</strong>.
+          </>
+        ),
+        substeps: [
+          "Scroll to the Knowledge section.",
+          "Click the + button.",
+          "Upload both prerequisite files.",
+        ],
+        gifSrc: "/case-trainer-assets/gemini/gem%203.gif",
       },
       {
-        name: "Start your first session",
-        text: "Click Save to finish creating the Gem. Open it and start your first chat.",
-        gifSrc: "/images/setup/gem5.gif",
+        name: "Start a session",
+        text: (
+          <>
+            Click <strong>Save</strong> to finish setup, then start your first
+            chat session in the Gem.
+          </>
+        ),
+        substeps: [
+          "Click Save.",
+          "Open the Gem you created.",
+          "Start your first case chat.",
+        ],
+        gifSrc: "/case-trainer-assets/gemini/gem%204.gif",
+      },
+    ],
+  },
+  {
+    id: "chatgpt",
+    label: "ChatGPT",
+    steps: [
+      {
+        name: "Create a Project",
+        text: (
+          <>
+            Go to <strong>chatgpt.com</strong>, open{" "}
+            <strong>Projects</strong>, and create a project named{" "}
+            <strong>PJX Case Trainer</strong>.
+          </>
+        ),
+        substeps: [
+          "Click Projects in the left sidebar.",
+          "Enter the project name: PJX Case Trainer.",
+          "Click Create project.",
+        ],
+        gifSrc: "/case-trainer-assets/chatgpt/chatgpt%201.gif",
+      },
+      {
+        name: "Upload files",
+        text: (
+          <>
+            Open your project, go to <strong>Sources</strong>, and upload{" "}
+            <strong>pjx_casetrainer_systemprompt.xml</strong> and{" "}
+            <strong>pjx_casetrainer_casehub.json</strong>.
+          </>
+        ),
+        substeps: [
+          "Enter the project you just created.",
+          "Under the chat bar, click Sources.",
+          "Upload both prerequisite files.",
+        ],
+        gifSrc: "/case-trainer-assets/chatgpt/chat%20gpt%202.gif",
+      },
+      {
+        name: "Start a session",
+        text: (
+          <>
+            Paste your <strong>Role Description</strong> from{" "}
+            <strong>Sample Prompts</strong> into chat and begin your first
+            case session.
+          </>
+        ),
+        substeps: [
+          "Copy the Role Description from this webpage.",
+          "Paste it into your project chat.",
+          "Start your first case practice chat.",
+        ],
+        gifSrc: "/case-trainer-assets/chatgpt/chatgpt%203.gif",
       },
     ],
   },
@@ -203,11 +298,14 @@ export default function SetupGuide({
             </div>
           )}
           <h2 className="mb-2 text-[clamp(1.75rem,4vw,2.4rem)] font-medium leading-[1.1] tracking-[-0.03em] text-white">
-            Set Up Your Coach
+            Setup Guide
           </h2>
-          <p className="mx-auto max-w-[520px] text-[16px] leading-[1.7] text-white/45">
-            Follow the steps below to get your AI coach running in a few
-            minutes.
+          <p className="mx-auto max-w-[760px] text-[15px] leading-[1.7] text-white/55">
+            Coverage scope: Fintech, Edtech, Proptech, Enterprise Operations
+            (B2B SaaS), Cybersecurity.
+            <br />
+            Roles: PM/PO, BA/DA, DS, SWE, AI/ML. Primary focus: PM/PO and
+            {" \u00A0"}BA/DA.
           </p>
         </motion.div>
 
@@ -219,37 +317,33 @@ export default function SetupGuide({
           className="mb-6"
         >
           {isFilesReady ? (
-            <div className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-[13px] text-white">
+            <div className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-[15px] text-white">
               <Check className="h-4 w-4 shrink-0 text-[#22c55e]" />
-              Both files are ready in your downloads folder.
+              Prerequisites ready: pjx_casetrainer_systemprompt.xml,
+              pjx_casetrainer_casehub.json, and your Role Description from
+              Sample Prompts.
             </div>
           ) : (
-            <div className="flex flex-wrap items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-[13px]">
-              <span className="text-white/55">You need two files:</span>
-              <a
-                href="/case-trainer-assets/pjx_casetrainer_systemprompt.xml"
-                download="pjx_casetrainer_systemprompt.xml"
-                className="inline-flex items-center rounded-md border border-[rgba(37,99,235,0.30)] bg-[rgba(37,99,235,0.15)] px-3 py-1 text-[12px] font-medium text-[#4A9EFF] transition-colors hover:bg-[rgba(37,99,235,0.25)]"
-              >
-                ↓ System Prompt
-              </a>
-              <a
-                href="/case-trainer-assets/pjx_casetrainer_casehub.json"
-                download="pjx_casetrainer_casehub.json"
-                className="inline-flex items-center rounded-md border border-[rgba(37,99,235,0.30)] bg-[rgba(37,99,235,0.15)] px-3 py-1 text-[12px] font-medium text-[#4A9EFF] transition-colors hover:bg-[rgba(37,99,235,0.25)]"
-              >
-                ↓ Case Hub
-              </a>
-              <span className="text-white/35">
-                ·{" "}
-                <a
-                  href="mailto:hello@projectxvietnam.org?subject=Request%20Role%20Instructions%20for%20PJX%20Case%20Trainer"
-                  className="text-white/55 underline-offset-2 hover:underline"
+            <div className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-[15px]">
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                <span className="text-white/55">Prerequisites:</span>
+                <span className="inline-flex items-center rounded-md border border-[rgba(37,99,235,0.30)] bg-[rgba(37,99,235,0.15)] px-3 py-1 text-[13px] font-medium text-[#4A9EFF]">
+                  ↓ pjx_casetrainer_systemprompt.xml
+                </span>
+                <span className="inline-flex items-center rounded-md border border-[rgba(37,99,235,0.30)] bg-[rgba(37,99,235,0.15)] px-3 py-1 text-[13px] font-medium text-[#4A9EFF]">
+                  ↓ pjx_casetrainer_casehub.json
+                </span>
+              </div>
+              <div className="mt-2 flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => onNavigate(6, true)}
+                  className="text-white/70 transition-colors hover:text-white"
                 >
-                  Get Role Instructions
-                </a>{" "}
-                from PJX team
-              </span>
+                  Get <strong>Role Description</strong> from the Sample Prompts
+                  section
+                </button>
+              </div>
             </div>
           )}
         </motion.div>
@@ -261,7 +355,7 @@ export default function SetupGuide({
           transition={{ duration: 0.5, delay: 0.12 }}
         >
           <div className="mb-4 flex justify-center">
-            <div className="inline-flex gap-1.5 rounded-2xl bg-white/[0.03] p-1.5 ring-1 ring-white/10 backdrop-blur-md">
+            <div className="inline-flex gap-2 rounded-2xl border border-[#2A4EC9]/50 bg-[rgba(6,16,70,0.78)] p-1.5 shadow-[0_12px_35px_rgba(14,86,250,0.25)] ring-1 ring-[#5BA8FF]/25 backdrop-blur-md">
               {availableTabs.map((tab) => {
                 const isActive = activeTab === tab.id;
                 return (
@@ -270,16 +364,16 @@ export default function SetupGuide({
                     type="button"
                     onClick={() => handleTabChange(tab.id)}
                     className={cn(
-                      "relative rounded-xl px-5 py-2 text-[0.72rem] font-medium uppercase tracking-[0.12em] transition-all duration-300 whitespace-nowrap",
+                      "relative rounded-xl px-5 py-2.5 text-[0.82rem] font-semibold uppercase tracking-[0.12em] transition-all duration-300 whitespace-nowrap",
                       isActive
                         ? "text-white"
-                        : "text-white/40 hover:text-white/70"
+                        : "border border-transparent bg-white/[0.02] text-white/70 hover:border-white/20 hover:bg-white/[0.06] hover:text-white"
                     )}
                   >
                     {isActive && (
                       <motion.div
                         layoutId="active-tab-indicator"
-                        className="absolute inset-0 rounded-xl bg-white/[0.06] ring-1 ring-white/10"
+                        className="absolute inset-0 rounded-xl border border-[#76C6FF]/70 bg-[linear-gradient(180deg,rgba(56,120,255,0.44),rgba(31,75,192,0.55))] shadow-[0_0_0_1px_rgba(255,255,255,0.16),0_8px_24px_rgba(30,130,255,0.35)]"
                         transition={{
                           type: "spring",
                           bounce: 0.2,
@@ -328,17 +422,24 @@ export default function SetupGuide({
                 </div>
 
                 {/* Text + navigation */}
-                <div className="px-6 py-5">
+                <div className="px-7 py-6 sm:px-8 sm:py-7">
                   {/* Step name */}
-                  <p className="mb-1 text-[0.7rem] font-medium uppercase tracking-[0.1em] text-white/35">
+                  <p className="mb-1.5 text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[#7FC7FF]">
                     Step {activeStep + 1} of {steps.length}
                   </p>
-                  <h3 className="mb-2 text-[1.05rem] font-medium text-white">
+                  <h3 className="mb-3 text-[1.35rem] font-semibold leading-[1.25] text-white sm:text-[1.45rem]">
                     {step.name}
                   </h3>
-                  <p className="mb-5 text-[14.5px] leading-[1.7] text-white/60">
+                  <p className="mb-4 text-[17px] leading-[1.75] text-white/85 sm:text-[18px]">
                     {step.text}
                   </p>
+                  {step.substeps && step.substeps.length > 0 && (
+                    <ul className="mb-6 list-disc space-y-2.5 pl-6 text-[15px] leading-[1.7] text-white/75 marker:text-[#7FC7FF] sm:text-[16px]">
+                      {step.substeps.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  )}
 
                   {/* Step dots + prev/next */}
                   <div className="flex items-center justify-between">

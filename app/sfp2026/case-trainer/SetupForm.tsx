@@ -29,6 +29,7 @@ export default function SetupForm({ onSubmit, onBack, currentStep, onNavigate, h
   const [platforms, setPlatforms] = useState<Platform[]>(["claude"]);
   const [touched, setTouched] = useState({ name: false, email: false });
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const nameValid = name.trim().length > 0;
@@ -46,44 +47,58 @@ export default function SetupForm({ onSubmit, onBack, currentStep, onNavigate, h
     );
   };
 
-  // Download setup assets in sequence to reduce popup blocking.
+  // Start both downloads directly from the submit interaction.
   const downloadSetupFiles = () => {
     const files = [
-      { url: "/case-trainer-assets/pjx_casetrainer_casehub.json", filename: "pjx_casetrainer_casehub.json" },
-      { url: "/case-trainer-assets/pjx_casetrainer_systemprompt.xml", filename: "pjx_casetrainer_systemprompt.xml" },
+      { url: "/case-trainer-assets/components/pjx_casetrainer_casehub.json", filename: "pjx_casetrainer_casehub.json" },
+      { url: "/case-trainer-assets/components/pjx_casetrainer_systemprompt.xml", filename: "pjx_casetrainer_systemprompt.xml" },
     ];
 
-    files.forEach((file, index) => {
-      setTimeout(() => {
-        const a = document.createElement("a");
-        a.href = file.url;
-        a.download = file.filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      }, index * 300);
+    files.forEach((file) => {
+      const a = document.createElement("a");
+      a.href = file.url;
+      a.download = file.filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setTouched({ name: true, email: true });
+    setSubmitError("");
     if (!nameValid || !emailValid) return;
 
     setSubmitted(true);
+    downloadSetupFiles();
 
-    void fetch("https://n8n.giangle.site/webhook/9748fde6-e064-4521-9af1-f3da0383bfcf", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name,
-        email,
-        platforms: platforms.join(", "),
-        submittedAt: new Date().toISOString(),
-      }),
-    }).catch(() => { });
+    try {
+      const response = await fetch("/api/case-trainer/setup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim().toLowerCase(),
+          platforms,
+          platformLabels: platforms.join(", "),
+          submittedAt: new Date().toISOString(),
+          source: "case-trainer-setup-form",
+        }),
+      });
 
-    downloadSetupFiles(); // ✅ Trigger download
+      if (!response.ok) {
+        throw new Error(`Webhook responded with ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Failed to send setup form to n8n webhook:", error);
+      setSubmitError(
+        "We could not send your info right now. Please try again in a moment."
+      );
+      setSubmitted(false);
+      return;
+    }
+
     onSubmit(platforms);
   };
 
@@ -240,6 +255,18 @@ export default function SetupForm({ onSubmit, onBack, currentStep, onNavigate, h
                 )}
               </Button>
             </div>
+            <AnimatePresence>
+              {submitError && (
+                <motion.p
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  className="text-[0.875rem] text-red-400"
+                >
+                  {submitError}
+                </motion.p>
+              )}
+            </AnimatePresence>
           </form>
         </div>
       </motion.div>
