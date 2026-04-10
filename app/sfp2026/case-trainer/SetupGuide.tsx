@@ -63,11 +63,6 @@ const ALL_TABS: TabContent[] = [
             <strong>PJX Case Trainer</strong>.
           </>
         ),
-        substeps: [
-          "Open the left sidebar and click Projects.",
-          "Click New Project.",
-          "Enter the exact project name: PJX Case Trainer.",
-        ],
         gifSrc: "/case-trainer-assets/claude/claude%201.gif",
       },
       {
@@ -79,11 +74,6 @@ const ALL_TABS: TabContent[] = [
             <strong>pjx_casetrainer_casehub.json</strong>.
           </>
         ),
-        substeps: [
-          "Open your project and find the Files section.",
-          "Click the + upload button.",
-          "Upload both prerequisite files from your device.",
-        ],
         gifSrc: "/case-trainer-assets/claude/claude%202.gif",
       },
       {
@@ -95,17 +85,7 @@ const ALL_TABS: TabContent[] = [
             <strong>Sample Prompts</strong>, then click <strong>Save</strong>.
           </>
         ),
-        substeps: [
-          "Open the Instructions section in your Claude project.",
-          "Paste the Role Description from this webpage.",
-          "Click Save, then start your first chat.",
-        ],
         gifSrc: "/case-trainer-assets/claude/claude%203.gif",
-      },
-      {
-        name: "Start your first session",
-        text: "You're all set. Start the first chat and enjoy solving cases with your case trainer.",
-        gifSrc: "/images/setup/claude4.gif",
       },
     ],
   },
@@ -122,11 +102,6 @@ const ALL_TABS: TabContent[] = [
             it <strong>PJX Case Trainer</strong>.
           </>
         ),
-        substeps: [
-          "Open Gems from the sidebar.",
-          "Click + New Gem.",
-          "Set the Gem name to PJX Case Trainer.",
-        ],
         gifSrc: "/case-trainer-assets/gemini/gem%201.gif",
       },
       {
@@ -138,11 +113,6 @@ const ALL_TABS: TabContent[] = [
             <strong>Sample Prompts</strong>.
           </>
         ),
-        substeps: [
-          "Find the Instructions section in your Gem settings.",
-          "Copy Role Description from this webpage.",
-          "Paste it into the Instructions box.",
-        ],
         gifSrc: "/case-trainer-assets/gemini/gem%202.gif",
       },
       {
@@ -154,11 +124,6 @@ const ALL_TABS: TabContent[] = [
             <strong>pjx_casetrainer_casehub.json</strong>.
           </>
         ),
-        substeps: [
-          "Scroll to the Knowledge section.",
-          "Click the + button.",
-          "Upload both prerequisite files.",
-        ],
         gifSrc: "/case-trainer-assets/gemini/gem%203.gif",
       },
       {
@@ -169,11 +134,6 @@ const ALL_TABS: TabContent[] = [
             chat session in the Gem.
           </>
         ),
-        substeps: [
-          "Click Save.",
-          "Open the Gem you created.",
-          "Start your first case chat.",
-        ],
         gifSrc: "/case-trainer-assets/gemini/gem%204.gif",
       },
     ],
@@ -191,11 +151,6 @@ const ALL_TABS: TabContent[] = [
             <strong>PJX Case Trainer</strong>.
           </>
         ),
-        substeps: [
-          "Click Projects in the left sidebar.",
-          "Enter the project name: PJX Case Trainer.",
-          "Click Create project.",
-        ],
         gifSrc: "/case-trainer-assets/chatgpt/chatgpt%201.gif",
       },
       {
@@ -207,11 +162,6 @@ const ALL_TABS: TabContent[] = [
             <strong>pjx_casetrainer_casehub.json</strong>.
           </>
         ),
-        substeps: [
-          "Enter the project you just created.",
-          "Under the chat bar, click Sources.",
-          "Upload both prerequisite files.",
-        ],
         gifSrc: "/case-trainer-assets/chatgpt/chat%20gpt%202.gif",
       },
       {
@@ -223,11 +173,6 @@ const ALL_TABS: TabContent[] = [
             case session.
           </>
         ),
-        substeps: [
-          "Copy the Role Description from this webpage.",
-          "Paste it into your project chat.",
-          "Start your first case practice chat.",
-        ],
         gifSrc: "/case-trainer-assets/chatgpt/chatgpt%203.gif",
       },
     ],
@@ -317,11 +262,33 @@ export default function SetupGuide({
           className="mb-6"
         >
           {isFilesReady ? (
-            <div className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-[15px] text-white">
-              <Check className="h-4 w-4 shrink-0 text-[#22c55e]" />
-              Prerequisites ready: pjx_casetrainer_systemprompt.xml,
-              pjx_casetrainer_casehub.json, and your Role Description from
-              Sample Prompts.
+            <div className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white">
+              <div className="flex items-start gap-3">
+                <div className="mt-0.5 rounded-full bg-[#22c55e]/15 p-1.5 ring-1 ring-[#22c55e]/35">
+                  <Check className="h-4 w-4 shrink-0 text-[#22c55e]" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[13px] font-semibold uppercase tracking-[0.08em] text-white/80">
+                    Prerequisites ready
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <span className="inline-flex rounded-md border border-white/15 bg-white/[0.06] px-2.5 py-1 text-[12px] font-medium text-white/90">
+                      <code className="font-mono">pjx_casetrainer_systemprompt.xml</code>
+                    </span>
+                    <span className="inline-flex rounded-md border border-white/15 bg-white/[0.06] px-2.5 py-1 text-[12px] font-medium text-white/90">
+                      <code className="font-mono">pjx_casetrainer_casehub.json</code>
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => onNavigate(6, true)}
+                    className="mt-2 inline-flex text-left text-[13px] text-white/75 transition-colors hover:text-white"
+                  >
+                    <strong className="font-semibold text-white">Role Description</strong>
+                    <span className="ml-1">from Sample Prompts</span>
+                  </button>
+                </div>
+              </div>
             </div>
           ) : (
             <div className="rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-[15px]">
