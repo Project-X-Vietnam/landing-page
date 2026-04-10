@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Landing Page
 
-## Getting Started
+Huong dan nhanh de chay local va mo dung trang.
 
-First, run the development server:
+## Yeu cau
 
-```bash
+- Node.js LTS (khuyen nghi 20.x hoac moi hon)
+- npm (di kem Node.js)
+
+## Chay local (Windows PowerShell)
+
+```powershell
+cd D:\Projects\landing-page
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Mo trinh duyet:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Trang chu: [http://localhost:3000](http://localhost:3000)
+- Case Trainer: [http://localhost:3000/sfp2026/case-trainer](http://localhost:3000/sfp2026/case-trainer)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Chia se cho nguoi khac de tu chay
 
-## Learn More
+1. Cai Node.js LTS.
+2. Clone source code.
+3. Chay cac lenh:
 
-To learn more about Next.js, take a look at the following resources:
+```powershell
+cd landing-page
+npm install
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. Mo `http://localhost:3000/sfp2026/case-trainer`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Luu y
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Neu sua `next.config.ts`, hay tat va chay lai `npm run dev` de config moi co hieu luc.
+- Neu thay giao dien cu, thu hard refresh (`Ctrl + F5`) hoac mo tab an danh.
