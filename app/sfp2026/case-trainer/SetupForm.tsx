@@ -6,15 +6,12 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Check, Sparkles, User, Mail, Laptop } from "lucide-react";
-import { type Platform } from "./page";
-import StepProgress from "./StepProgress";
+import type { Platform } from "./types";
+import { BACK_BUTTON, CARD_SURFACE, CTA_BLUE_BUTTON } from "./constants";
 
 interface SetupFormProps {
   onSubmit: (platforms: Platform[]) => void;
   onBack: () => void;
-  currentStep: number;
-  onNavigate: (step: number, direct?: boolean) => void;
-  hideStepLabel?: boolean;
 }
 
 const PLATFORMS: { id: Platform; label: string; logo: string; recommended?: boolean }[] = [
@@ -23,7 +20,7 @@ const PLATFORMS: { id: Platform; label: string; logo: string; recommended?: bool
   { id: "gemini", label: "Gemini", logo: "/images/logos/gemini-logo.png" },
 ];
 
-export default function SetupForm({ onSubmit, onBack, currentStep, onNavigate, hideStepLabel }: SetupFormProps) {
+export default function SetupForm({ onSubmit, onBack }: SetupFormProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [platforms, setPlatforms] = useState<Platform[]>(["claude"]);
@@ -103,28 +100,14 @@ export default function SetupForm({ onSubmit, onBack, currentStep, onNavigate, h
   };
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-5 pb-8 pt-28 sm:px-6 lg:px-8">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_30%,rgba(23,202,250,0.12),transparent_60%),radial-gradient(ellipse_at_75%_65%,rgba(14,86,250,0.12),transparent_60%)]" />
-
+    <section className="relative flex h-full items-center justify-center overflow-hidden px-5 pb-8 pt-15 sm:px-6 lg:px-8">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="lumina-glass relative z-10 w-full max-w-[560px] overflow-hidden rounded-[32px] border border-white/10 p-6 sm:p-7 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]"
+        className={cn(CARD_SURFACE, "relative z-10 w-full max-w-[560px] overflow-hidden rounded-[32px] p-6 sm:p-7")}
       >
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#17CAFA]/10 via-transparent to-transparent" />
-
         <div className="relative">
-          <StepProgress currentStep={currentStep} onNavigate={onNavigate} />
-          {!hideStepLabel && (
-            <div className="mb-3 flex items-center gap-3">
-              <span className="flex h-6 items-center rounded-full bg-white/5 px-3 text-[0.6875rem] font-medium uppercase tracking-[0.12em] text-white/40 ring-1 ring-white/10">
-                Step 4 of 6
-              </span>
-              <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent" />
-            </div>
-          )}
-
           <h2 className="mb-2 text-[1.75rem] font-medium leading-[1.1] tracking-[-0.03em] text-white">
             Let's Set You Up
           </h2>
@@ -146,12 +129,12 @@ export default function SetupForm({ onSubmit, onBack, currentStep, onNavigate, h
                 onChange={(e) => setName(e.target.value)}
                 onBlur={() => setTouched((t) => ({ ...t, name: true }))}
                 className={cn(
-                  "h-12 w-full rounded-2xl border px-5 text-white placeholder:text-white/30 outline-none transition-colors duration-200",
+                  "h-12 w-full rounded-2xl border px-5 text-white placeholder:text-white/30 outline-none transition-colors duration-200 bg-transparent",
                   nameError
-                    ? "border-red-500/50 bg-white/[0.03]"
+                    ? "border-red-500/50"
                     : nameValid
-                    ? "border-white bg-white/[0.08]"
-                    : "border-white/10 bg-white/[0.03]"
+                    ? "border-white"
+                    : "border-white/10"
                 )}
               />
               <AnimatePresence>
@@ -176,12 +159,12 @@ export default function SetupForm({ onSubmit, onBack, currentStep, onNavigate, h
                 onChange={(e) => setEmail(e.target.value)}
                 onBlur={() => setTouched((t) => ({ ...t, email: true }))}
                 className={cn(
-                  "h-12 w-full rounded-2xl border px-5 text-white placeholder:text-white/30 outline-none transition-colors duration-200",
+                  "h-12 w-full rounded-2xl border px-5 text-white placeholder:text-white/30 outline-none transition-colors duration-200 bg-transparent",
                   emailError
-                    ? "border-red-500/50 bg-white/[0.03]"
+                    ? "border-red-500/50"
                     : emailValid
-                    ? "border-white bg-white/[0.08]"
-                    : "border-white/10 bg-white/[0.03]"
+                    ? "border-white"
+                    : "border-white/10"
                 )}
               />
               <AnimatePresence>
@@ -210,8 +193,8 @@ export default function SetupForm({ onSubmit, onBack, currentStep, onNavigate, h
                       className={cn(
                         "flex flex-1 flex-col items-center gap-2.5 rounded-2xl px-4 py-4 border transition-all duration-200 cursor-pointer",
                         isSelected
-                          ? "border-white bg-white/10 shadow-[0_0_16px_rgba(255,255,255,0.1)]"
-                          : "border-white/20 bg-white/[0.03] hover:border-white/40 hover:bg-white/[0.06]"
+                          ? "border-white"
+                          : "border-white/20 hover:border-white/40"
                       )}
                     >
                       <Image
@@ -236,14 +219,14 @@ export default function SetupForm({ onSubmit, onBack, currentStep, onNavigate, h
               <button
                 type="button"
                 onClick={onBack}
-                className="rounded-full border border-white/25 px-6 py-3 text-[15px] font-normal text-white/65 transition-colors hover:border-white/50 hover:text-white/90"
+                className={BACK_BUTTON}
               >
                 ← Back
               </button>
               <Button
                 type="submit"
                 disabled={submitted}
-                className="h-12 flex-1 rounded-2xl bg-[#1D4ED8] text-white font-medium transition-colors hover:bg-[#1E40AF] active:bg-[#1E3A8A]"
+                className={cn(CTA_BLUE_BUTTON, "h-12 flex-1")}
               >
                 {submitted ? (
                   <span className="flex items-center gap-2">
