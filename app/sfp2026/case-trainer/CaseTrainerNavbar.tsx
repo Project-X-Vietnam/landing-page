@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { type Platform } from "./page";
 
 interface CaseTrainerNavbarProps {
   currentStep: number;
@@ -14,10 +13,8 @@ export default function CaseTrainerNavbar({
   onNavigate,
 }: CaseTrainerNavbarProps) {
   return (
-    <nav className="fixed left-0 right-0 top-0 z-50 flex items-center justify-between px-6 py-4 md:px-10">
-      {/* Glass background layer */}
-      <div className="pointer-events-none absolute inset-0 border-b border-white/[0.07] bg-[#01001F]/80 backdrop-blur-xl" />
-
+    <nav className="sticky top-0 z-50 flex items-center justify-between px-6 py-2.5 md:px-10 md:py-3">
+      <div className="absolute inset-0 -z-10 rounded-b-[14px] border border-white/10 bg-transparent backdrop-blur-sm" />
       {/* Logo */}
       <Link 
         href="/sfp2026/case-trainer" 
@@ -27,26 +24,26 @@ export default function CaseTrainerNavbar({
         <Image
           src="/preview_icon.png"
           alt="Project X Vietnam"
-          width={120}
-          height={32}
-          className="h-8 w-auto brightness-0 invert"
+          width={100}
+          height={40}
+          className="h-12 w-auto brightness-0 invert"
           priority
         />
-        <span className="hidden items-center gap-1.5 sm:flex">
-          <span className="font-sans text-[0.65rem] uppercase font-medium tracking-[0.18em] text-white/60">
+        <span className="hidden items-center sm:flex">
+          <span className="font-sans text-sm uppercase font-medium tracking-[0.15em] text-white/80">
             Case Trainer
           </span>
         </span>
       </Link>
 
       {/* Nav links */}
-      <div className="relative z-10 flex items-center gap-1">
+      <div className="relative z-10 flex items-center gap-2 md:gap-3">
         <button
           type="button"
           onClick={() => onNavigate(5, true)}
-          className={`rounded-full px-4 py-2 font-sans text-xs font-normal transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#17CAFA] focus-visible:ring-offset-2 focus-visible:ring-offset-[#01001F] ${
+          className={`rounded-full px-4 py-1.5 font-sans text-sm font-normal transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#17CAFA] focus-visible:ring-offset-2 focus-visible:ring-offset-[#01001F] ${
             currentStep === 5
-              ? "bg-[rgba(23,202,250,0.12)] text-white"
+              ? "bg-primary/60 text-white"
               : "text-white/70 hover:bg-white/5 hover:text-white/80"
           }`}
         >
@@ -55,9 +52,9 @@ export default function CaseTrainerNavbar({
         <button
           type="button"
           onClick={() => onNavigate(6, true)}
-          className={`rounded-full px-4 py-2 font-sans text-xs font-normal transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#17CAFA] focus-visible:ring-offset-2 focus-visible:ring-offset-[#01001F] ${
+          className={`rounded-full px-4 py-1.5 font-sans text-sm font-normal transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#17CAFA] focus-visible:ring-offset-2 focus-visible:ring-offset-[#01001F] ${
             currentStep === 6
-              ? "bg-[rgba(23,202,250,0.12)] text-white"
+              ? "bg-primary/60 text-white"
               : "text-white/70 hover:bg-white/5 hover:text-white/80"
           }`}
         >

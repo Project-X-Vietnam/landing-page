@@ -2,15 +2,15 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import StepProgress from "./StepProgress";
+import { BACK_BUTTON, CARD_SURFACE, CTA_BLUE_BUTTON } from "./constants";
 
 interface HowItWorksProps {
   onNext: () => void;
   onBack: () => void;
-  currentStep: number;
-  onNavigate: (step: number, direct?: boolean) => void;
-  hideStepLabel?: boolean;
+  hideTitle?: boolean;
 }
+
+const TITLE_CLASS = "text-[clamp(1.75rem,4vw,3rem)] font-medium leading-[1.1] tracking-[-0.03em] text-white";
 
 const steps = [
   {
@@ -48,31 +48,11 @@ const rubric = [
   { dimension: "Communication", weight: 15 },
 ];
 
-export default function HowItWorks({ onNext, onBack, currentStep, onNavigate, hideStepLabel }: HowItWorksProps) {
+export default function HowItWorks({ onNext, onBack, hideTitle }: HowItWorksProps) {
   return (
-    <section className="relative min-h-screen overflow-hidden px-5 py-20 sm:px-6 lg:px-8">
-      {/* Ambient */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,rgba(23,202,250,0.10),transparent_65%)]" />
-
+    <section className="relative h-full overflow-hidden px-5 pb-20 pt-20 sm:px-6 lg:px-8">
       <div className="relative z-10 mx-auto w-full max-w-[960px]">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-14 text-center"
-        >
-          <StepProgress currentStep={currentStep} onNavigate={onNavigate} />
-          {!hideStepLabel && (
-            <p className="lumina-gradient-text mb-4 font-sans text-[0.75rem] font-normal uppercase leading-[1.4] tracking-[0.2em]">
-              Step 3 of 6
-            </p>
-          )}
-          <h2 className="text-[clamp(1.75rem,4vw,3rem)] font-medium leading-[1.1] tracking-[-0.03em] text-white">
-            Your thinking, coached step by step.
-          </h2>
-        </motion.div>
-
         {/* Main content: 2-column sticky layout */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -114,7 +94,7 @@ export default function HowItWorks({ onNext, onBack, currentStep, onNavigate, hi
 
           {/* Right column: sticky scoring card */}
           <div className="md:sticky md:top-20 md:self-start">
-            <div className="rounded-[14px] border border-white/10 bg-white/[0.04] p-6">
+            <div className={cn(CARD_SURFACE, "rounded-[14px] p-6") }>
               <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[rgba(255,255,255,0.45)]">
                 How You&apos;re Scored
               </p>
@@ -180,14 +160,15 @@ export default function HowItWorks({ onNext, onBack, currentStep, onNavigate, hi
           className="mt-6 flex justify-center"
         >
           <div className="flex items-center justify-center gap-4">
-            <button type="button" onClick={onBack} className="text-[16px] font-semibold text-white/80 transition-colors hover:text-white">
+            <button type="button" onClick={onBack} className={BACK_BUTTON}>
               ← Back
             </button>
             <Button
               onClick={onNext}
               size="lg"
               className={cn(
-                "lumina-primary-glow group h-[60px] rounded-full bg-[#1D4ED8] px-14 text-[16px] font-medium text-white transition-all hover:scale-[1.03] hover:bg-[#1E40AF] active:bg-[#1E3A8A]",
+                CTA_BLUE_BUTTON,
+                "px-7 py-6 text-[0.9375rem]",
                 "border border-white/45 shadow-[0_0_0_1px_rgba(255,255,255,0.28),0_0_38px_rgba(29,78,216,0.62)]"
               )}
             >

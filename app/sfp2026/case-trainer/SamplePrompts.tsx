@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, Copy, Terminal, Zap, ArrowRight, Info } from "lucide-react";
+import { Check, Copy, Terminal, Zap, ArrowRight, Info, ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import StepProgress from "./StepProgress";
+import { BACK_BUTTON, CARD_SURFACE, CTA_BLUE_BUTTON } from "./constants";
 
 type PromptCard = {
   id: string;
@@ -207,6 +207,9 @@ function HighlightBrackets({ text }: { text: string }) {
 
 function PromptCardItem({ card }: { card: PromptCard }) {
   const [copied, setCopied] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [canExpand, setCanExpand] = useState(false);
+  const promptContentRef = useRef<HTMLDivElement | null>(null);
 
   const handleCopy = async () => {
     try {
@@ -216,11 +219,24 @@ function PromptCardItem({ card }: { card: PromptCard }) {
     } catch {}
   };
 
+  useEffect(() => {
+    const checkOverflow = () => {
+      const el = promptContentRef.current;
+      if (!el) return;
+      setCanExpand(el.scrollHeight > el.clientHeight + 1);
+    };
+
+    checkOverflow();
+    window.addEventListener("resize", checkOverflow);
+    return () => window.removeEventListener("resize", checkOverflow);
+  }, [card.prompt, card.roleCard]);
+
   return (
     <div
       className={cn(
-        "lumina-glass group relative flex flex-col rounded-3xl border border-white/5 p-4 transition-all hover:border-white/20 hover:bg-white/[0.04]",
-        card.roleCard && "rounded-[14px] border-2 border-[rgba(37,99,235,0.40)] bg-[rgba(37,99,235,0.08)] p-6 hover:border-[rgba(37,99,235,0.55)]"
+      CARD_SURFACE,
+      "group relative flex flex-col rounded-3xl p-4 transition-all hover:border-white/20",
+      card.roleCard && "rounded-[14px] border-2 border-[rgba(37,99,235,0.40)] p-6 hover:border-[rgba(37,99,235,0.55)]"
       )}
     >
       {/* Label and Badge */}
@@ -245,7 +261,7 @@ function PromptCardItem({ card }: { card: PromptCard }) {
             "flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300",
             copied 
               ? "bg-[#17CAFA]/20 text-[#17CAFA] ring-1 ring-[#17CAFA]/40" 
-              : "bg-white/5 text-white/40 hover:bg-white/10 ring-1 ring-white/10 hover:text-white"
+              : "bg-transparent text-white/40 hover:bg-transparent ring-1 ring-white/10 hover:text-white"
           )}
           title="Copy Prompt"
         >
@@ -254,12 +270,34 @@ function PromptCardItem({ card }: { card: PromptCard }) {
       </div>
 
       {/* Prompt Block */}
-      <div className={cn("relative mb-4 rounded-2xl bg-black/20 p-5 ring-1 ring-white/5", card.roleCard && "bg-black/10")}>
-        <pre className="whitespace-pre-wrap font-sans text-[0.9375rem] font-medium leading-[1.5] text-white/90">
-          <code>
-            <HighlightBrackets text={card.prompt} />
-          </code>
-        </pre>
+      <div className={cn(CARD_SURFACE, "relative mb-4 rounded-2xl p-5")}>
+        <div
+          ref={promptContentRef}
+          className={cn(
+            "overflow-y-auto pr-1 transition-[height] duration-300 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
+            expanded
+              ? "h-[360px] sm:h-[420px]"
+              : card.roleCard
+              ? "h-[180px] sm:h-[220px]"
+              : "h-[110px]"
+          )}
+        >
+          <pre className="whitespace-pre-wrap font-sans text-[0.9375rem] font-medium leading-[1.5] text-white/90">
+            <code>
+              <HighlightBrackets text={card.prompt} />
+            </code>
+          </pre>
+        </div>
+        {canExpand && (
+          <button
+            type="button"
+            onClick={() => setExpanded((v) => !v)}
+            className="mt-3 inline-flex items-center gap-1.5 text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-white/60 transition-colors hover:text-white"
+          >
+            {expanded ? "Collapse" : "Expand"}
+            {expanded ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
+          </button>
+        )}
       </div>
 
         {/* Helper / Footer */}
@@ -286,53 +324,27 @@ function PromptCardItem({ card }: { card: PromptCard }) {
 }
 
 interface SamplePromptsProps {
-  hideStepLabel?: boolean;
   onBack: () => void;
-  currentStep: number;
-  onNavigate: (step: number, direct?: boolean) => void;
   onRestart: () => void;
+  hideTitle?: boolean;
 }
 
-export default function SamplePrompts({ hideStepLabel, onBack, currentStep, onNavigate, onRestart }: SamplePromptsProps) {
+export default function SamplePrompts({ onBack, onRestart, hideTitle }: SamplePromptsProps) {
   const [activePhase, setActivePhase] = useState("role-setup");
   const phase = phases.find((p) => p.id === activePhase) ?? phases[0];
 
   return (
-    <section id="sample-prompts" className="relative min-h-screen overflow-hidden px-5 pb-6 pt-28 sm:px-6 lg:px-8">
-      {/* Ambient */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_60%,rgba(23,202,250,0.08),transparent_60%)]" />
-
-
-
-      <div className="relative z-10 mx-auto w-full max-w-5xl">
+    <section id="sample-prompts" className="relative flex h-[calc(100dvh-220px)] min-h-0 flex-col overflow-hidden px-5 pb-6 pt-16 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto flex min-h-0 w-[860px] max-w-full flex-1 flex-col px-1 sm:px-2">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-4 text-center"
-        >
-          <StepProgress currentStep={currentStep} onNavigate={onNavigate} />
-          {!hideStepLabel && (
-            <div className="mb-4 flex items-center justify-center gap-3">
-              <span className="flex h-6 items-center rounded-full bg-white/5 px-3 text-[0.6875rem] font-medium uppercase tracking-[0.12em] text-white/40 ring-1 ring-white/10">
-                Step 6 of 6
-              </span>
-            </div>
-          )}
-          <h2 className="mb-2 text-[clamp(1.8rem,5vw,2.8rem)] font-medium leading-[1.1] tracking-[-0.03em] text-white">
-            Sample Prompts
-          </h2>
-        </motion.div>
-
         {/* Phase Tabs */}
         <motion.div
            initial={{ opacity: 0, y: 30 }}
            animate={{ opacity: 1, y: 0 }}
            transition={{ duration: 0.5, delay: 0.1 }}
-           className="mb-4 flex justify-center"
+            className="mb-3 flex shrink-0 justify-center"
         >
-          <div className="inline-flex gap-2 rounded-2xl bg-white/[0.03] p-1.5 ring-1 ring-white/10 backdrop-blur-md">
+          <div className={cn(CARD_SURFACE, "inline-flex gap-5 rounded-xl px-5 py-2") }>
             {phases.map((p) => {
               const isActive = activePhase === p.id;
               return (
@@ -341,15 +353,17 @@ export default function SamplePrompts({ hideStepLabel, onBack, currentStep, onNa
                   type="button"
                   onClick={() => setActivePhase(p.id)}
                   className={cn(
-                    "relative rounded-xl px-6 py-2.5 text-[0.72rem] font-medium uppercase tracking-[0.16em] transition-all duration-300",
-                    isActive ? "text-white" : "text-white/40 hover:text-white/70"
+                    "relative rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] transition-all duration-300 whitespace-nowrap",
+                    isActive
+                      ? "text-white"
+                      : "border border-transparent bg-transparent text-white/70 hover:border-white/20 hover:text-white"
                   )}
                 >
                   {isActive && (
                     <motion.div
                       layoutId="active-phase-indicator"
-                      className="absolute inset-0 rounded-xl bg-white/[0.05] ring-1 ring-white/10 shadow-[0_0_20px_-5px_rgba(23,202,250,0.2)]"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      className="absolute inset-0 rounded-xl border border-[#76C6FF]/70 bg-transparent shadow-none"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
                     />
                   )}
                   <span className="relative z-10">{p.tabLabel}</span>
@@ -359,22 +373,23 @@ export default function SamplePrompts({ hideStepLabel, onBack, currentStep, onNa
           </div>
         </motion.div>
 
-        {/* Phase Content */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activePhase}
-            initial={{ opacity: 0, scale: 0.98, y: 15 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.98, y: -15 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="space-y-3"
-          >
+        <div className="h-[clamp(260px,55vh,700px)] shrink-0 overflow-y-auto pr-3">
+          {/* Phase Content */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activePhase}
+              initial={{ opacity: 0, scale: 0.98, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.98, y: -15 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="space-y-4 pb-3"
+            >
             {/* Phase info */}
             <div className="mx-auto max-w-2xl text-center">
-              <span className="lumina-gradient-text mb-2 inline-block font-sans text-[0.72rem] font-medium uppercase tracking-[0.2em]">
+              <span className=" text-secondary mb-1 inline-block font-sans text-xs font-medium uppercase tracking-[0.18em]">
                 {phase.phaseLabel}
               </span>
-              <h3 className="mb-3 text-[1.25rem] font-medium leading-[1.1] text-white">
+              <h3 className="mb-2 text-[1.35rem] font-medium leading-[1.1] text-white">
                 {phase.title}
               </h3>
             </div>
@@ -412,8 +427,9 @@ export default function SamplePrompts({ hideStepLabel, onBack, currentStep, onNa
                 </div>
               </div>
             )}
-          </motion.div>
-        </AnimatePresence>
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
         {/* Final Actions */}
         <motion.div
@@ -421,30 +437,26 @@ export default function SamplePrompts({ hideStepLabel, onBack, currentStep, onNa
            whileInView={{ opacity: 1, y: 0 }}
            viewport={{ once: true }}
            transition={{ delay: 0.4 }}
-           className="mt-2 flex flex-col items-center gap-6 border-t border-white/5 pt-2"
+            className="flex shrink-0 items-center justify-center gap-4 pb-4 pt-4"
         >
-           <div className="text-center">
-             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-               <button
-                 type="button"
-                 onClick={onBack}
-                 className="w-full rounded-full border border-white/25 px-6 py-3 text-[15px] font-normal text-white/65 transition-colors hover:border-white/50 hover:text-white/90 sm:w-[260px]"
-               >
-                 ← Back
-               </button>
-               <Button
-                 onClick={onRestart}
-                 size="lg"
-                 className={cn(
-                   "lumina-primary-glow group h-12 w-full rounded-full bg-[#1D4ED8] px-8 text-[0.9375rem] font-medium text-white transition-all hover:scale-[1.05] hover:bg-[#1E40AF] active:scale-[0.95] active:bg-[#1E3A8A] sm:w-[260px]",
-                   "border-none"
-                 )}
-               >
-                 Return to Home
-                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-               </Button>
-             </div>
-           </div>
+          <button
+            type="button"
+            onClick={onBack}
+            className={BACK_BUTTON}
+          >
+            ← Back
+          </button>
+          <Button
+            onClick={onRestart}
+            size="lg"
+            className={cn(
+              CTA_BLUE_BUTTON,
+              "px-7 py-6 text-[0.9375rem]"
+            )}
+          >
+            Return to Home
+            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+          </Button>
         </motion.div>
       </div>
     </section>
