@@ -8,6 +8,7 @@ import Image from "next/image";
 import { Check, Sparkles, User, Mail, Laptop } from "lucide-react";
 import type { Platform } from "./types";
 import { BACK_BUTTON, CARD_SURFACE, CTA_BLUE_BUTTON } from "./constants";
+import { sendGAEvent } from "@next/third-parties/google";
 
 interface SetupFormProps {
   onSubmit: (platforms: Platform[]) => void;
@@ -68,6 +69,14 @@ export default function SetupForm({ onSubmit, onBack }: SetupFormProps) {
     if (!nameValid || !emailValid) return;
 
     setSubmitted(true);
+    sendGAEvent({
+      event: "case_trainer_download_clicked",
+      value: {
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        platforms,
+      },
+    });
     downloadSetupFiles();
 
     try {

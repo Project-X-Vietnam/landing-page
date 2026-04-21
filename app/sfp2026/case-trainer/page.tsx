@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { sendGAEvent } from "@next/third-parties/google";
 
 import CaseTrainerNavbar from "./CaseTrainerNavbar";
 import Hero from "./Hero";
@@ -44,6 +45,10 @@ export default function CaseTrainerPage() {
   const [step, setStep] = useState(1);
   const [selectedPlatforms, setSelectedPlatforms] = useState<Platform[]>([]);
   const [filesReady, setFilesReady] = useState(false);
+
+  useEffect(() => {
+    sendGAEvent({ event: "case_trainer_viewed" });
+  }, []);
 
   const goTo = (target: number, direct = false) => {
     setStep(target);
