@@ -6,7 +6,7 @@ const isDev = process.env.NODE_ENV !== "production";
 
 export const trackEvent = (
   eventName: string,
-  properties?: Record<string, unknown>,
+  properties?: Record<string, string | number | boolean | null | undefined>,
 ) => {
   capturePostHogEvent(eventName, properties);
 

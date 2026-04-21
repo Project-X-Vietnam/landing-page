@@ -66,7 +66,7 @@ export function trackFunnelSectionClicked(
   role?: string | null,
   previousSection?: string | null,
 ) {
-  const props: Record<string, unknown> = { section };
+  const props: Record<string, any> = { section };
   if (role !== undefined) props.role = role ?? "unknown";
   if (previousSection !== undefined) props.previous_section = previousSection;
   capturePostHogEvent(FUNNEL_EVENTS.SECTION_CLICKED, props);
@@ -80,7 +80,7 @@ export function trackFunnelChecklistToggled(
 ) {
   // In our UI we only trigger this helper when a checkbox flips from false -> true,
   // so when callers pass progress string we can infer `checked: true`.
-  const props: Record<string, unknown> = { section, item_index: itemIndex };
+  const props: Record<string, any> = { section, item_index: itemIndex };
 
   if (typeof progressOrChecked === "boolean") {
     props.checked = progressOrChecked;
@@ -99,7 +99,7 @@ export function trackFunnelProgressMilestone(
   role?: string | null,
   sectionsCompleted?: readonly string[],
 ) {
-  const props: Record<string, unknown> = {
+  const props: Record<string, any> = {
     completed_count: milestone,
     milestone,
   };
@@ -129,7 +129,7 @@ export function trackFunnelWorkspaceBack(
   progress?: string | null,
   activeSection?: string | null,
 ) {
-  const props: Record<string, unknown> = {};
+  const props: Record<string, any> = {};
   if (role !== undefined) props.role = role ?? "unknown";
   if (progress !== undefined) props.progress = progress;
   if (activeSection !== undefined) props.active_section = activeSection;

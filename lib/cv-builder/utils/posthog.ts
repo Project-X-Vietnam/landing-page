@@ -30,7 +30,7 @@ export function initPostHog() {
 
 export function capturePostHogEvent(
   event: string,
-  properties?: Record<string, unknown>,
+  properties?: Record<string, any>,
 ) {
   if (!initialized && !initPostHog()) return;
   posthog.capture(event, properties);
