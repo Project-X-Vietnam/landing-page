@@ -578,50 +578,50 @@ export default function HomePage() {
           {isDark ? (
             <>
               <div className="absolute inset-0 bg-[#020818]" />
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(14,86,250,0.15)_0%,_transparent_70%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(249,115,22,0.15)_0%,_transparent_70%)]" />
               <GradientOrb
                 className="w-[600px] h-[600px] -top-40 -right-40 opacity-40"
-                color="rgba(14, 86, 250, 0.3)"
+                color="rgba(249, 115, 22, 0.3)"
                 delay={0}
               />
               <GradientOrb
                 className="w-[400px] h-[400px] bottom-20 -left-20 opacity-30"
-                color="rgba(0, 209, 255, 0.2)"
+                color="rgba(251, 191, 36, 0.2)"
                 delay={5}
               />
               <div
                 className="absolute inset-0 opacity-20"
                 style={{
-                  backgroundImage: `linear-gradient(to right, rgba(14,86,250,0.3) 1px, transparent 1px),
-                                   linear-gradient(to bottom, rgba(14,86,250,0.3) 1px, transparent 1px)`,
+                  backgroundImage: `linear-gradient(to right, rgba(249,115,22,0.3) 1px, transparent 1px),
+                                   linear-gradient(to bottom, rgba(249,115,22,0.3) 1px, transparent 1px)`,
                   backgroundSize: "60px 60px",
                 }}
               />
-              <div className="absolute top-20 left-20 w-32 h-32 rounded-full border border-primary/20" />
-              <div className="absolute top-24 left-24 w-24 h-24 rounded-full border border-primary/30" />
-              <div className="absolute bottom-32 right-20 w-40 h-40 rounded-full border border-cyan-500/20" />
-              <div className="absolute bottom-36 right-24 w-32 h-32 rounded-full border border-cyan-500/30" />
-              <div className="absolute bottom-20 left-16 w-6 h-6 rounded-full bg-primary/30 border-2 border-primary/50" />
-              <div className="absolute top-32 right-32 w-4 h-4 rounded-full bg-cyan-400/30 border-2 border-cyan-400/50" />
+              <div className="absolute top-20 left-20 w-32 h-32 rounded-full border border-orange-500/20" />
+              <div className="absolute top-24 left-24 w-24 h-24 rounded-full border border-orange-500/30" />
+              <div className="absolute bottom-32 right-20 w-40 h-40 rounded-full border border-amber-500/20" />
+              <div className="absolute bottom-36 right-24 w-32 h-32 rounded-full border border-amber-500/30" />
+              <div className="absolute bottom-20 left-16 w-6 h-6 rounded-full bg-orange-500/30 border-2 border-orange-500/50" />
+              <div className="absolute top-32 right-32 w-4 h-4 rounded-full bg-amber-400/30 border-2 border-amber-400/50" />
             </>
           ) : (
             <>
-              <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-primary/5" />
+              <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-orange-500/5" />
               <GradientOrb
                 className="w-[600px] h-[600px] -top-40 -right-40"
-                color="linear-gradient(135deg, rgba(14, 86, 250, 0.15) 0%, rgba(0, 209, 255, 0.1) 100%)"
+                color="linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(251, 191, 36, 0.1) 100%)"
                 delay={0}
               />
               <GradientOrb
                 className="w-[500px] h-[500px] top-1/3 -left-40"
-                color="linear-gradient(135deg, rgba(0, 209, 255, 0.1) 0%, rgba(14, 86, 250, 0.08) 100%)"
+                color="linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(249, 115, 22, 0.08) 100%)"
                 delay={3}
               />
               <div
                 className="absolute inset-0 opacity-[0.03]"
                 style={{
-                  backgroundImage: `linear-gradient(to right, #0E56FA 1px, transparent 1px),
-                                   linear-gradient(to bottom, #0E56FA 1px, transparent 1px)`,
+                  backgroundImage: `linear-gradient(to right, #F97316 1px, transparent 1px),
+                                   linear-gradient(to bottom, #F97316 1px, transparent 1px)`,
                   backgroundSize: "60px 60px",
                 }}
               />
@@ -642,16 +642,16 @@ export default function HomePage() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className={`inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full border backdrop-blur-sm mb-8 max-w-full ${
                 isDark
-                  ? "bg-primary/10 border-primary/30"
-                  : "bg-gradient-to-r from-primary/5 via-pxv-cyan/5 to-primary/5 border-primary/15"
+                  ? "bg-orange-500/10 border-orange-500/30"
+                  : "bg-gradient-to-r from-orange-500/5 via-amber-400/5 to-orange-500/5 border-orange-500/15"
               }`}
             >
               <span className="relative flex h-2 w-2 flex-shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-500 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
               </span>
               <span className={`text-sm font-medium ${
-                isDark ? "text-primary" : "text-primary"
+                isDark ? "text-orange-500" : "text-orange-600"
               }`}>
                 Summer Fellowship Program 2026 — Recruitment Now Open
               </span>
@@ -668,7 +668,7 @@ export default function HomePage() {
             >
               <span className="block">Move Forward</span>
               <span className="block mt-2">
-                <span className="bg-gradient-to-r from-primary via-pxv-cyan to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient-x">
+                <span className="bg-gradient-to-r from-orange-500 via-amber-400 to-orange-500 bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient-x">
                   The Next Generation
                 </span>
               </span>
@@ -699,7 +699,7 @@ export default function HomePage() {
                 <Link href="/sfp2026">
                   <Button
                     size="lg"
-                    className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg shadow-primary/25 hover:shadow-xl transition-all hover:scale-[1.02]"
+                    className="bg-orange-500 hover:bg-orange-500/90 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg shadow-orange-500/25 hover:shadow-xl transition-all hover:scale-[1.02]"
                   >
                     Apply for SFP 2026
                     <svg
@@ -793,7 +793,7 @@ export default function HomePage() {
             <motion.div
               animate={{ opacity: [1, 0.3, 1], y: [0, 8, 0] }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-              className="w-1.5 h-1.5 rounded-full bg-primary"
+              className="w-1.5 h-1.5 rounded-full bg-orange-500"
             />
           </motion.div>
         </motion.div>
