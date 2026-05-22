@@ -1,0 +1,28 @@
+services:
+  web:
+    image: node:22-bookworm
+    working_dir: /workspace
+    network_mode: host
+    volumes:
+      - .:/workspace
+    environment:
+      IS_ALLOY: ${IS_ALLOY:-false}
+      HOST: 0.0.0.0
+      PORT: "3000"
+      NEXT_TELEMETRY_DISABLED: "1"
+      NODE_ENV: development
+    command:
+      - bash
+      - -lc
+      - |
+        set -e
+        if [ -f .alloy/populate-env.sh ]; then
+          bash .alloy/populate-env.sh
+        fi
+        if [ ! -d node_modules ]; then
+          echo "Installing dependencies..."
+          # Existing lockfile is stale (missing entries for current package.json),
+          # so prefer a plain install without rewriting it on the host.
+          npm install --no-audit --no-fund --no-package-lock
+        fi
+        exec npx next dev --hostname 0.0.0.0 --port 3000
