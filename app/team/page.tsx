@@ -369,7 +369,7 @@ export default function TeamPage() {
       </section>
 
       {/* ========== FILTER TABS ========== */}
-      <section className="sticky top-[65px] z-40 border-b border-[#dbe5f6] bg-[#fbfcff]/82 py-8 backdrop-blur-xl">
+      <section className="border-b border-[#dbe5f6] bg-[#fbfcff]/82 py-8 backdrop-blur-xl">
         <div className="mx-auto max-w-[1510px] px-4 sm:px-6 lg:px-8">
           <div className="flex justify-center">
             <nav
