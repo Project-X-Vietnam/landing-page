@@ -9,11 +9,11 @@ import {
   Users,
   Building2,
   Check,
-  Linkedin,
   Mail,
   Globe,
   ArrowRight,
 } from "lucide-react";
+import LinkedInIcon from "@/components/icons/LinkedInIcon";
 import SiteNav from "@/components/SiteNav";
 import SiteFooter from "@/components/SiteFooter";
 import Reveal from "@/components/Reveal";
@@ -477,7 +477,7 @@ export default function AboutPage() {
                         rel="noopener noreferrer"
                         className="rounded-[12px] bg-[#edf6ff] p-2 text-[#52617b] transition-colors hover:bg-[#0E56FA]/10 hover:text-[#0E56FA]"
                       >
-                        <Linkedin className="h-4 w-4" />
+                        <LinkedInIcon className="h-4 w-4" />
                       </a>
                       <a
                         href={`mailto:${member.email}`}
