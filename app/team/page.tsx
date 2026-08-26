@@ -424,9 +424,15 @@ export default function TeamPage() {
                 </h2>
               </Reveal>
 
-              <div className="grid gap-6 md:grid-cols-3">
+              {/* flex + justify-center so a partially filled last row stays centered */}
+              <div className="flex flex-wrap justify-center gap-x-6 gap-y-10">
                 {filteredLeadership.map((member, i) => (
-                  <TeamMemberCard key={`${member.name}-${member.cohort}`} member={member} index={i} />
+                  <div
+                    key={`${member.name}-${member.cohort}`}
+                    className="w-full sm:w-[calc(50%_-_0.75rem)] md:w-[calc(33.333%_-_1rem)] lg:w-[calc(25%_-_1.125rem)]"
+                  >
+                    <TeamMemberCard member={member} index={i} />
+                  </div>
                 ))}
               </div>
             </div>
@@ -496,10 +502,15 @@ export default function TeamPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+              className="flex flex-wrap justify-center gap-x-6 gap-y-10"
             >
               {filteredMembers.map((member, i) => (
-                <TeamMemberCard key={`${member.name}-${member.cohort}`} member={member} index={i} />
+                <div
+                  key={`${member.name}-${member.cohort}`}
+                  className="w-full sm:w-[calc(50%_-_0.75rem)] md:w-[calc(33.333%_-_1rem)] lg:w-[calc(25%_-_1.125rem)] xl:w-[calc(20%_-_1.2rem)]"
+                >
+                  <TeamMemberCard member={member} index={i} />
+                </div>
               ))}
             </motion.div>
           </AnimatePresence>
